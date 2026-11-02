@@ -1,0 +1,6 @@
+{
+  "name": "Portal de Gestão Operacional & Obras",
+  "description": "Sistema integrado e desktop para gestão de obras, georreferenciamento de projetos com SLA, acompanhamento de carteira e programação operacional (Angra dos Reis & Magé).",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
