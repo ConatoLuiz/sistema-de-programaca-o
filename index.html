@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal de Gestão Operacional & Obras</title>
     
-    <!-- FAVICON DA ABA DO NAVEGADOR (LOGO LOBO VERDE) -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2305140e' stroke='%2300ff66' stroke-width='4'/%3E%3Cpath d='M25 80 C 45 40, 55 20, 75 25 C 60 45, 45 60, 80 75 C 60 78, 40 76, 25 80 Z' fill='%2300ff66'/%3E%3Ctext x='50' y='64' font-size='42' font-family='Arial Black, sans-serif' font-weight='900' fill='%23ffffff' text-anchor='middle'%3EL%3C/text%3E%3C/svg%3E" />
+    <!-- FAVICON DA ABA DO NAVEGADOR COM A LOGO REAL DO LOBO VERDE -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3CradialGradient id='g' cx='50%25' cy='50%25' r='50%25'%3E%3Cstop offset='0%25' stop-color='%2300ff66' stop-opacity='0.4'/%3E%3Cstop offset='100%25' stop-color='%23020b07'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='22' fill='%23020b07' stroke='%2300ff66' stroke-width='3'/%3E%3Ccircle cx='50' cy='50' r='42' fill='url(%23g)'/%3E%3Cpath d='M25 78 C 35 45, 50 25, 78 28 C 65 42, 58 56, 75 72 C 58 74, 42 72, 25 78 Z' fill='%2300ff66'/%3E%3Cpath d='M30 35 C 34 25, 45 28, 44 38 C 42 52, 28 66, 26 72 C 24 76, 30 78, 38 78 C 50 78, 68 70, 78 62 C 68 72, 48 80, 34 80 C 20 80, 16 70, 18 60 C 22 48, 34 38, 30 35 Z' fill='%23ffffff'/%3E%3C/svg%3E" />
 
-    <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -16,16 +16,15 @@
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     
-    <!-- Font Awesome Icons 6.5.1 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <!-- FONT AWESOME COM CARREGAMENTO REFORÇADO (SEM ÍCONES QUEBRADOS) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- BOOTSTRAP ICONS COMO BACKUP DE SEGURANÇA -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
     <!-- SheetJS -->
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
     <style>
-        /* ========================================================
-           DESIGN SYSTEM - NEON GREEN & ENTERPRISE GLASS
-           ======================================================== */
         :root {
             --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
             --font-mono: 'JetBrains Mono', monospace;
@@ -111,17 +110,21 @@
             --shadow-float: 0 20px 45px rgba(0, 0, 0, 0.85);
         }
 
-        *, *::before, *::after {
-            margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-sans);
-        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-sans); }
 
         body {
-            background-color: var(--bg-base);
-            color: var(--text-main);
-            padding: 12px 18px;
-            min-height: 100vh;
-            overflow-x: hidden;
+            background-color: var(--bg-base); color: var(--text-main);
+            padding: 12px 18px; min-height: 100vh; overflow-x: hidden;
             transition: background-color 0.25s ease, color 0.25s ease;
+        }
+
+        /* EVITA ÍCONES VIRAREM RETÂNGULOS BRANCOS [] */
+        i.fa, i.fas, i.fa-solid, i.fa-regular {
+            display: inline-block;
+            font-style: normal;
+            font-variant: normal;
+            text-rendering: auto;
+            line-height: 1;
         }
 
         ::-webkit-scrollbar { width: 7px; height: 7px; }
@@ -129,7 +132,7 @@
         ::-webkit-scrollbar-thumb { background: var(--text-muted); opacity: 0.35; border-radius: var(--radius-pill); }
         ::-webkit-scrollbar-thumb:hover { background: var(--brand-accent); }
 
-        /* HEADER & LOGO */
+        /* HEADER */
         header {
             display: flex; justify-content: space-between; align-items: center;
             background: var(--bg-glass); backdrop-filter: blur(14px);
@@ -138,35 +141,28 @@
             box-shadow: var(--shadow-sm); position: sticky; top: 8px; z-index: 2500;
             gap: 12px; flex-wrap: wrap;
         }
+        .brand-container { display: flex; align-items: center; gap: 14px; }
 
-        .brand-container { display: flex; align-items: center; gap: 12px; }
-
+        /* LOGO OFICIAL ESTILIZADA FIEL À IMAGEM 2 */
         .brand-logo-frame {
-            width: 44px; height: 44px; border-radius: 12px;
-            background: radial-gradient(circle, #0e3728 0%, #030d09 100%);
+            width: 46px; height: 46px; border-radius: 12px;
+            background: radial-gradient(circle, #062b1d 0%, #010604 100%);
             border: 2px solid var(--brand-neon);
-            box-shadow: 0 0 14px rgba(0, 255, 102, 0.45);
+            box-shadow: 0 0 16px rgba(0, 255, 102, 0.45);
             display: flex; align-items: center; justify-content: center;
-            position: relative; overflow: hidden; flex-shrink: 0;
+            overflow: hidden; flex-shrink: 0; position: relative;
         }
-
-        .brand-logo-svg { width: 100%; height: 100%; }
 
         .brand-text-group { display: flex; flex-direction: column; }
-        .brand-title {
-            font-size: 1.05rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.3px;
-        }
+        .brand-title { font-size: 1.05rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.3px; }
         .brand-subtitle { font-size: 0.73rem; font-weight: 500; color: var(--text-muted); }
 
         .header-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-
         .select-contract-master {
             background: var(--bg-surface); border: 1.5px solid var(--brand-accent);
             color: var(--text-main); padding: 7px 12px; border-radius: var(--radius-md);
             font-size: 0.82rem; font-weight: 700; cursor: pointer; outline: none; transition: var(--transition);
         }
-        .select-contract-master:focus { box-shadow: 0 0 0 3px var(--brand-soft); }
-
         .btn-modern-primary {
             background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-accent) 100%);
             color: #FFFFFF; border: none; padding: 7px 14px; border-radius: var(--radius-md);
@@ -174,19 +170,15 @@
             align-items: center; gap: 7px; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.25);
             transition: var(--transition);
         }
-        .btn-modern-primary:hover {
-            transform: translateY(-1px); box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35); filter: brightness(1.08);
-        }
-
+        .btn-modern-primary:hover { transform: translateY(-1px); filter: brightness(1.08); }
         .btn-theme-toggle {
             background: var(--bg-surface); border: 1.5px solid var(--border-light);
             color: var(--text-main); padding: 7px 12px; border-radius: var(--radius-md);
             font-size: 0.82rem; font-weight: 600; cursor: pointer; display: inline-flex;
             align-items: center; gap: 7px; transition: var(--transition);
         }
-        .btn-theme-toggle:hover { border-color: var(--brand-accent); color: var(--brand-accent); }
 
-        /* NAVEGAÇÃO DE ABAS */
+        /* TABS */
         .tabs-nav {
             display: flex; gap: 6px; margin-bottom: 12px; background: var(--bg-surface);
             padding: 5px; border-radius: var(--radius-lg); border: 1px solid var(--border-light);
@@ -198,22 +190,19 @@
             display: inline-flex; align-items: center; gap: 8px; transition: var(--transition);
             border-radius: var(--radius-md); white-space: nowrap;
         }
-        .tab-nav-item i { font-size: 0.95rem; }
-        .tab-nav-item:hover { color: var(--brand-accent); background: var(--brand-soft); }
         .tab-nav-item.active {
             color: #FFFFFF; background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-accent) 100%);
             box-shadow: 0 3px 10px rgba(16, 185, 129, 0.28); font-weight: 700;
         }
         #tab-carteira, #tab-prog, #tab-fontes { display: none; }
 
-        /* ABA 1: MAPA */
+        /* MAPA */
         .map-container {
             position: relative; width: 100%; height: calc(85vh - 70px);
             border-radius: var(--radius-lg); border: 1px solid var(--border-light);
             overflow: hidden; box-shadow: var(--shadow-md);
         }
         #map { height: 100%; width: 100%; min-height: 480px; }
-
         .floating-sla-panel {
             position: absolute; top: 16px; right: 16px; width: 230px;
             background: var(--bg-glass); backdrop-filter: blur(14px);
@@ -265,7 +254,7 @@
         .badge-violada { background: var(--status-red-bg); color: var(--status-red); border: 1px solid var(--status-red); padding: 4px; border-radius: 4px; font-weight: 700; margin-top: 6px; display: block; font-size: 0.74rem; text-align: center; }
         .badge-alerta { background: var(--status-amber-bg); color: var(--status-amber); border: 1px solid var(--status-amber); padding: 4px; border-radius: 4px; font-weight: 700; margin-top: 6px; display: block; font-size: 0.74rem; text-align: center; }
 
-        /* ABA 2: CARTEIRA DE PROJETOS */
+        /* CARTEIRA & TOOLBAR */
         .cart-glass-toolbar {
             display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 10px;
             background: var(--bg-surface); padding: 9px 12px; border-radius: var(--radius-md);
@@ -273,7 +262,7 @@
         }
         .cart-search-box {
             background: var(--bg-base); border: 1.5px solid var(--border-light); color: var(--text-main);
-            padding: 7px 11px; border-radius: var(--radius-sm); font-size: 0.8rem; min-width: 200px; outline: none; transition: var(--transition);
+            padding: 7px 11px; border-radius: var(--radius-sm); font-size: 0.8rem; min-width: 170px; outline: none; transition: var(--transition);
         }
         .cart-search-box:focus { border-color: var(--brand-accent); background: var(--bg-surface); }
         .cart-badge-chip {
@@ -300,13 +289,15 @@
             position: sticky; top: 0; background: var(--bg-surface-elevated); color: var(--text-muted);
             font-size: 0.69rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.4px;
             text-align: left; padding: 9px 12px; border-bottom: 1.5px solid var(--border-light); white-space: nowrap; z-index: 2;
+            cursor: pointer; user-select: none;
         }
+        table.cart-table th:hover { color: var(--brand-accent); }
         table.cart-table td { padding: 9px 12px; border-bottom: 1px solid var(--border-subtle); white-space: nowrap; color: var(--text-main); }
         table.cart-table tbody tr:hover td { background: var(--brand-soft); }
         .cart-empty { padding: 40px; text-align: center; color: var(--text-muted); }
 
         /* ========================================================
-           PROGRAMAÇÃO DE OBRAS: SUB-ABAS, SEMANA, HISTÓRICO
+           PROGRAMAÇÃO DE OBRAS
            ======================================================== */
         #tab-prog .sub {
             display: flex; gap: 4px; border-bottom: 2px solid var(--border-light); margin-bottom: 12px;
@@ -320,7 +311,6 @@
             color: var(--brand-primary); border-color: var(--brand-primary); font-weight: 700; background: var(--brand-soft);
         }
 
-        /* SEMANA (7 DIAS) */
         #tab-prog .week {
             display: grid; grid-template-columns: repeat(7, minmax(130px, 1fr)); gap: 8px; overflow-x: auto;
         }
@@ -338,7 +328,7 @@
         }
         #tab-prog .ev:hover { background: var(--brand-soft); transform: translateX(2px); }
 
-        /* HISTÓRICO: MODELO DA IMAGEM 1 */
+        /* FILTROS DA PROGRAMAÇÃO LIMPOS E COM FILTRO DE DATAS */
         .prog-filter-panel {
             background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: var(--radius-md);
             padding: 12px 14px; margin-bottom: 12px; box-shadow: var(--shadow-xs); display: flex; flex-direction: column; gap: 10px;
@@ -356,35 +346,22 @@
             overflow: auto; max-height: 65vh; box-shadow: var(--shadow-sm);
         }
         table.table-prog-operacional {
-            width: 100%; border-collapse: separate; border-spacing: 0; font-size: 0.76rem;
+            width: 100%; border-collapse: separate; border-spacing: 0; font-size: 0.78rem;
         }
         table.table-prog-operacional th {
             position: sticky; top: 0; background: var(--bg-surface-elevated); color: var(--text-secondary);
-            font-size: 0.68rem; font-weight: 800; text-transform: capitalize; padding: 9px 10px;
+            font-size: 0.69rem; font-weight: 800; text-transform: uppercase; padding: 10px 11px;
             border-bottom: 1.5px solid var(--border-light); border-right: 1px solid var(--border-subtle);
-            white-space: nowrap; z-index: 5; user-select: none;
+            white-space: nowrap; z-index: 5; user-select: none; cursor: pointer;
         }
+        table.table-prog-operacional th:hover { color: var(--brand-accent); }
         table.table-prog-operacional td {
-            padding: 7px 10px; border-bottom: 1px solid var(--border-subtle); border-right: 1px solid var(--border-subtle);
+            padding: 8px 11px; border-bottom: 1px solid var(--border-subtle); border-right: 1px solid var(--border-subtle);
             white-space: nowrap; color: var(--text-main); vertical-align: middle;
         }
         table.table-prog-operacional tbody tr:hover td { background: var(--brand-soft); }
         
         .id-cell { font-family: var(--font-mono); font-weight: 800; color: var(--brand-primary); }
-
-        .badge-op {
-            display: inline-flex; align-items: center; justify-content: center; padding: 2px 8px;
-            border-radius: var(--radius-pill); font-size: 0.72rem; font-weight: 700; border: 1px solid transparent; white-space: nowrap;
-        }
-        .badge-op-green { background: #DCFCE7; color: #15803D; border-color: #86EFAC; }
-        .badge-op-blue { background: #E0F2FE; color: #0369A1; border-color: #BAE6FD; }
-        .badge-op-amber { background: #FEF3C7; color: #B45309; border-color: #FCD34D; }
-        .badge-op-gray { background: #F1F5F9; color: #64748B; border-color: #CBD5E1; }
-        
-        body.dark-mode .badge-op-green { background: rgba(52, 211, 153, 0.15); color: #34D399; border-color: rgba(52, 211, 153, 0.3); }
-        body.dark-mode .badge-op-blue { background: rgba(56, 189, 248, 0.15); color: #38BDF8; border-color: rgba(56, 189, 248, 0.3); }
-        body.dark-mode .badge-op-amber { background: rgba(251, 191, 36, 0.15); color: #FBBF24; border-color: rgba(251, 191, 36, 0.3); }
-        body.dark-mode .badge-op-gray { background: rgba(148, 163, 184, 0.15); color: #94A3B8; border-color: rgba(148, 163, 184, 0.3); }
 
         /* DASHBOARD PROGRAMAÇÃO */
         .chart-columns-container {
@@ -449,7 +426,6 @@
         .insights li { background: var(--card-subtle); border-left: 3px solid var(--brand-accent); padding: 6px 10px; border-radius: var(--radius-sm); }
         .insights li.alerta { border-left-color: var(--status-red); background: var(--status-red-bg); }
 
-        /* DIALOG DE DETALHES */
         #dlg {
             border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 18px;
             max-width: 720px; width: 92%; background: var(--bg-surface); color: var(--text-main);
@@ -464,7 +440,6 @@
         .spec-item dt { color: var(--text-muted); font-size: 9px; font-weight: 800; text-transform: uppercase; }
         .spec-item dd { color: var(--text-main); font-weight: 600; margin-top: 2px; word-break: break-word; }
 
-        /* PAGINAÇÃO */
         .pagination-bar {
             display: flex; justify-content: space-between; align-items: center; padding: 7px 12px;
             background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: var(--radius-md);
@@ -477,7 +452,6 @@
         .pagination-bar button:hover:not(:disabled) { border-color: var(--brand-accent); background: var(--brand-soft); color: var(--brand-primary); }
         .pagination-bar button:disabled { opacity: 0.4; cursor: not-allowed; }
 
-        /* FONTES CARD */
         .card-fonte { background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 18px; box-shadow: var(--shadow-xs); }
         .input-link-fonte {
             width: 100%; background: var(--bg-base); border: 1.5px solid var(--border-light); color: var(--text-main);
@@ -485,7 +459,6 @@
         }
         .status-badge-fonte { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: var(--radius-pill); }
 
-        /* CHAT FLUTUANTE */
         #chat-widget-root {
             position: fixed; bottom: 20px; right: 20px; z-index: 4000;
             display: flex; flex-direction: column; align-items: flex-end;
@@ -522,16 +495,35 @@
 <body>
 
     <div id="app-container">
-        <!-- HEADER COM NOVA LOGO -->
+        <!-- HEADER COM LOGO FIEL DO LOBO E "L" NEON -->
         <header>
             <div class="brand-container">
                 <div class="brand-logo-frame">
-                    <svg class="brand-logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M18 78C30 40 45 15 78 22C62 38 52 58 82 72C60 76 42 74 18 78Z" fill="#00FF66" opacity="0.9"/>
-                        <path d="M30 65C38 35 50 25 70 28C55 42 48 55 72 68C55 70 42 68 30 65Z" fill="#032616"/>
-                        <path d="M42 28L48 42L40 44L44 54L34 52" stroke="#00FF66" stroke-width="2" stroke-linecap="round"/>
-                        <path d="M32 32C35 24 44 26 44 35C44 48 30 62 28 68C26 73 30 76 38 76C48 76 68 70 78 64C72 70 54 78 36 78C22 78 18 70 20 62C24 50 38 38 32 32Z" fill="#FFFFFF"/>
-                        <circle cx="62" cy="38" r="2.5" fill="#00FF66"/>
+                    <svg viewBox="0 0 100 100" style="width:100%;height:100%;" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <radialGradient id="neonGlow" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" stop-color="#00FF66" stop-opacity="0.6"/>
+                                <stop offset="100%" stop-color="#020B07" stop-opacity="1"/>
+                            </radialGradient>
+                            <linearGradient id="silverMet" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#FFFFFF"/>
+                                <stop offset="50%" stop-color="#B0BCC7"/>
+                                <stop offset="100%" stop-color="#FFFFFF"/>
+                            </linearGradient>
+                        </defs>
+                        <!-- Fundo e Aura Neon -->
+                        <rect width="100" height="100" fill="url(#neonGlow)"/>
+                        <circle cx="50" cy="50" r="44" stroke="#00FF66" stroke-width="2.5" fill="none"/>
+                        
+                        <!-- Cabeça do Lobo Prateado com Crina Neon -->
+                        <path d="M24 76 C 36 42, 52 24, 78 28 C 64 42, 58 56, 75 72 C 58 74, 40 72, 24 76 Z" fill="#00FF66"/>
+                        <path d="M30 68 C 40 40, 52 28, 70 32 C 60 44, 52 56, 68 68 C 52 69, 40 68, 30 68 Z" fill="#1E293B"/>
+                        <path d="M48 34 L 56 46 L 46 48 L 52 58 L 40 56" stroke="#00FF66" stroke-width="2" stroke-linecap="round"/>
+                        <circle cx="64" cy="40" r="2.8" fill="#00FF66"/>
+                        
+                        <!-- Letra 'L' Tridimensional Metálica com Fita Verde -->
+                        <path d="M28 34 C 32 24, 44 26, 42 38 C 40 54, 25 68, 24 74 C 22 78, 28 80, 38 80 C 52 80, 72 72, 82 62 C 70 74, 48 83, 34 83 C 18 83, 14 72, 16 62 C 20 48, 32 38, 28 34 Z" fill="#00FF66" opacity="0.85"/>
+                        <path d="M30 35 C 34 25, 45 28, 44 38 C 42 52, 28 66, 26 72 C 24 76, 30 78, 38 78 C 50 78, 68 70, 78 62 C 68 72, 48 80, 34 80 C 20 80, 16 70, 18 60 C 22 48, 34 38, 30 35 Z" fill="url(#silverMet)"/>
                     </svg>
                 </div>
                 <div class="brand-text-group">
@@ -550,13 +542,13 @@
                     <i class="fa-solid fa-arrows-rotate"></i> Atualizar Planilhas
                 </button>
 
-                <button class="btn-theme-toggle" id="btn-theme-toggle" onclick="toggleTheme()" title="Alternar entre tema Claro e Escuro">
+                <button class="btn-theme-toggle" id="btn-theme-toggle" onclick="toggleTheme()" title="Alternar tema">
                     <i class="fa-solid fa-moon" id="theme-icon"></i> <span id="theme-label">Escuro</span>
                 </button>
             </div>
         </header>
 
-        <!-- NAVEGAÇÃO DE ABAS COM ÍCONES RESTAURADOS -->
+        <!-- NAVEGAÇÃO DE ABAS -->
         <div class="tabs-nav">
             <button class="tab-nav-item active" id="tabbtn-mapa" onclick="trocarAba('mapa')"><i class="fa-solid fa-map-location-dot"></i> Mapa Georreferenciado</button>
             <button class="tab-nav-item" id="tabbtn-carteira" onclick="trocarAba('carteira')"><i class="fa-solid fa-table-list"></i> Carteira de Projetos</button>
@@ -609,6 +601,16 @@
                     <i class="fa-solid fa-chart-pie"></i> Ver Dashboard da Carteira
                 </button>
                 <input type="text" class="cart-search-box" id="cart-search" placeholder="Pesquisar por projeto, SOB, parceira..." oninput="renderCarteira()">
+                
+                <!-- ORDENAÇÃO DE DATAS NA CARTEIRA -->
+                <select class="cart-search-box" id="f-cart-ordem-data" onchange="renderCarteira()">
+                    <option value="">Ordenar: Padrão</option>
+                    <option value="prazo_asc">Prazo Limite: Mais próximos</option>
+                    <option value="prazo_desc">Prazo Limite: Mais distantes</option>
+                    <option value="pacote_desc">Pacote: Mais Recentes</option>
+                    <option value="pacote_asc">Pacote: Mais Antigos</option>
+                </select>
+
                 <span class="cart-badge-chip"><i class="fa-solid fa-layer-group"></i> <span id="cart-total">0</span> projetos</span>
                 <span class="cart-badge-chip" style="color:var(--status-red);"><span class="sinal-indicator" style="background:var(--status-red);"></span> <span id="cart-red">0</span></span>
                 <span class="cart-badge-chip" style="color:var(--status-amber);"><span class="sinal-indicator" style="background:var(--status-amber);"></span> <span id="cart-yellow">0</span></span>
@@ -619,11 +621,11 @@
             <div class="etapa-chips-container" id="etapa-chips"></div>
 
             <div class="cart-glass-toolbar" style="margin-top:-4px; margin-bottom:12px;">
-                <select class="cart-search-box" style="min-width:140px;" id="f-base" onchange="renderCarteira()"><option value="">BASE: Todas</option></select>
-                <select class="cart-search-box" style="min-width:140px;" id="f-tipo" onchange="renderCarteira()"><option value="">TIPO: Todos</option></select>
-                <select class="cart-search-box" style="min-width:140px;" id="f-parceira" onchange="renderCarteira()"><option value="">PARCEIRA: Todas</option></select>
-                <select class="cart-search-box" style="min-width:140px;" id="f-prioridade" onchange="renderCarteira()"><option value="">PRIORIDADE: Todas</option></select>
-                <select class="cart-search-box" style="min-width:140px;" id="f-sinal" onchange="renderCarteira()">
+                <select class="cart-search-box" style="min-width:130px;" id="f-base" onchange="renderCarteira()"><option value="">BASE: Todas</option></select>
+                <select class="cart-search-box" style="min-width:130px;" id="f-tipo" onchange="renderCarteira()"><option value="">TIPO: Todos</option></select>
+                <select class="cart-search-box" style="min-width:130px;" id="f-parceira" onchange="renderCarteira()"><option value="">PARCEIRA: Todas</option></select>
+                <select class="cart-search-box" style="min-width:130px;" id="f-prioridade" onchange="renderCarteira()"><option value="">PRIORIDADE: Todas</option></select>
+                <select class="cart-search-box" style="min-width:130px;" id="f-sinal" onchange="renderCarteira()">
                     <option value="">SINAL: Todos</option>
                     <option value="vermelho">🔴 Vermelho (≤ 5d)</option>
                     <option value="amarelo">🟡 Amarelo (6-15d)</option>
@@ -642,13 +644,12 @@
             </div>
         </div>
 
-        <!-- ABA 3: PROGRAMAÇÃO DE OBRAS (ESTRUTURA COMPLETA MANTIDA) -->
+        <!-- ABA 3: PROGRAMAÇÃO DE OBRAS (DASHBOARD, SEMANA E HISTÓRICO COM MESCLAGEM DA CARTEIRA) -->
         <div id="tab-prog">
             <div class="cart-glass-toolbar" style="justify-content:space-between;">
                 <span id="st" style="font-size:0.85rem; font-weight:700;"></span>
             </div>
             
-            <!-- SUB-ABAS ORIGINAIS: DASHBOARD, SEMANA, HISTÓRICO -->
             <div class="sub" id="sub-prog-nav">
                 <button data-t="dash" class="on"><i class="fa-solid fa-chart-simple"></i> Dashboard</button>
                 <button data-t="week"><i class="fa-solid fa-calendar-week"></i> Semana (7 Dias)</button>
@@ -766,7 +767,7 @@
             return str;
         }
 
-        /* LINKS ATUALIZADOS - INCLUINDO NOVA PLANILHA DE MAGÉ */
+        /* LINKS ATIVOS E TESTADOS */
         window.LINKS_PLANILHAS = {
             carteira_angra: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vToswUD-YrLiHH87aWkz3yHfpvG1tYgeXq0uiUXizDxF5RVoYrr9m4t8xSy1yfLC4zItS7Hb0bTHguK/pub?gid=1394179098&single=true&output=csv',
             carteira_mage: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ9zyjAuWo03gDKywigtrZ_iIfeUg1yLNo8WIoL75loH25OFIuaHDrBhkQQhSD4_Cf7b5rPWbZ8D7tZ/pub?gid=1394179098&single=true&output=csv',
@@ -775,7 +776,7 @@
         };
 
         try {
-            const saved = localStorage.getItem('app_links_v12_restored');
+            const saved = localStorage.getItem('app_links_v13_restored');
             if (saved) Object.assign(window.LINKS_PLANILHAS, JSON.parse(saved));
         } catch(e) {}
 
@@ -945,6 +946,7 @@
             processarEPlotarProjetos();
             renderCarteira();
             renderDashboard();
+            if (window.PROG) window.PROG.atualizarCruzamentoCarteira();
         }
 
         function trocarAba(aba) {
@@ -975,12 +977,12 @@
 
         /* CARTEIRA DE PROJETOS */
         const COLUNAS_CARTEIRA = [
-            { titulo: 'PACOTE', nomes: ['PACOTE', 'DATA PACOTE', 'RECEBIMENTO'] },
+            { titulo: 'PACOTE', nomes: ['PACOTE', 'DATA PACOTE', 'RECEBIMENTO'], campoData: true },
             { titulo: 'BASE', nomes: ['BASE', 'MUNICIPIO'] },
             { titulo: 'TIPO', nomes: ['TIPO', 'TIPO DE SERVICO'] },
             { titulo: 'PROJETO', nomes: ['PROJETO', 'CODIGO', 'OBRA', 'SOB'] },
             { titulo: 'PARCEIRA', nomes: ['PARCEIRA', 'EMPRESA'] },
-            { titulo: 'PRAZO LIMITE', nomes: ['DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE', 'LIMITE EXECUCAO'], data: true },
+            { titulo: 'PRAZO LIMITE', nomes: ['DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE', 'LIMITE EXECUCAO'], data: true, campoData: true },
             { titulo: 'PRIORIDADE', nomes: ['PRIORIDADE'] },
             { titulo: 'ETAPA', nomes: ['ETAPA', 'STATUS', 'FASE', 'SITUACAO', 'INFO STATUS'] }
         ];
@@ -1021,7 +1023,7 @@
         }
 
         function limparFiltrosCarteira() {
-            ['f-base', 'f-tipo', 'f-parceira', 'f-prioridade', 'f-sinal', 'cart-search'].forEach(id => {
+            ['f-base', 'f-tipo', 'f-parceira', 'f-prioridade', 'f-sinal', 'cart-search', 'f-cart-ordem-data'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.value = '';
             });
@@ -1041,13 +1043,14 @@
             const tbody = document.getElementById('cart-tbody');
             if (!thead || !tbody) return;
 
-            thead.innerHTML = COLUNAS_CARTEIRA.map(c => `<th>${c.titulo}</th>`).join('');
+            thead.innerHTML = COLUNAS_CARTEIRA.map(c => `<th>${c.titulo} <i class="fa-solid fa-sort" style="font-size:10px;opacity:0.6;"></i></th>`).join('');
             const q = (document.getElementById('cart-search').value || '').toLowerCase();
             const fBase = document.getElementById('f-base').value;
             const fTipo = document.getElementById('f-tipo').value;
             const fParceira = document.getElementById('f-parceira').value;
             const fPrio = document.getElementById('f-prioridade').value;
             const fSinal = document.getElementById('f-sinal').value;
+            const ordemData = document.getElementById('f-cart-ordem-data').value;
 
             let contagem = {};
             listaDadosGlobal.forEach(i => { const e = obterValorEtapa(i); contagem[e] = (contagem[e] || 0) + 1; });
@@ -1059,7 +1062,7 @@
             });
             document.getElementById('etapa-chips').innerHTML = chips;
 
-            const filtrados = listaDadosGlobal.filter(i => {
+            let filtrados = listaDadosGlobal.filter(i => {
                 const etapa = obterValorEtapa(i);
                 if (etapasChip.size && !etapasChip.has(etapa)) return false;
                 if (fBase && formatarValorGenerico(buscarCampoFlexivel(i, 'BASE', 'MUNICIPIO')) !== fBase) return false;
@@ -1073,6 +1076,21 @@
                 if (q && !Object.values(i).join(' ').toLowerCase().includes(q)) return false;
                 return true;
             });
+
+            // ORDENAÇÃO DE DATAS DA CARTEIRA
+            if (ordemData === 'prazo_asc' || ordemData === 'prazo_desc') {
+                filtrados.sort((a, b) => {
+                    const da = paraData(buscarCampoFlexivel(a, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE', 'LIMITE EXECUCAO')) || new Date(2099, 0, 1);
+                    const db = paraData(buscarCampoFlexivel(b, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE', 'LIMITE EXECUCAO')) || new Date(2099, 0, 1);
+                    return ordemData === 'prazo_asc' ? da - db : db - da;
+                });
+            } else if (ordemData === 'pacote_desc' || ordemData === 'pacote_asc') {
+                filtrados.sort((a, b) => {
+                    const da = paraData(buscarCampoFlexivel(a, 'PACOTE', 'DATA PACOTE', 'RECEBIMENTO')) || new Date(1970, 0, 1);
+                    const db = paraData(buscarCampoFlexivel(b, 'PACOTE', 'DATA PACOTE', 'RECEBIMENTO')) || new Date(1970, 0, 1);
+                    return ordemData === 'pacote_desc' ? db - da : da - db;
+                });
+            }
 
             document.getElementById('cart-total').innerText = filtrados.length;
             let cR = 0, cY = 0, cG = 0;
@@ -1105,7 +1123,7 @@
             }).join('');
         }
 
-        /* MAPA: MARCADORES */
+        /* MAPA */
         function construirCoresEtapas() {
             mapaCoresEtapas = {};
             const unicas = new Set();
@@ -1416,7 +1434,7 @@
             window.LINKS_PLANILHAS.prog_angra = extrairLinkCsvGoogle(document.getElementById('input-prog-ang').value);
             window.LINKS_PLANILHAS.prog_mag = extrairLinkCsvGoogle(document.getElementById('input-prog-mag').value);
 
-            localStorage.setItem('app_links_v12_restored', JSON.stringify(window.LINKS_PLANILHAS));
+            localStorage.setItem('app_links_v13_restored', JSON.stringify(window.LINKS_PLANILHAS));
             alert('Links salvos e aplicados com sucesso!');
             preencherInputsFontes();
             sincronizarTudoOnline();
@@ -1455,7 +1473,7 @@
         sincronizarTudoOnline();
     </script>
 
-    <!-- PROGRAMAÇÃO DE OBRAS: DASHBOARD ORIGINAL, SEMANA (7 DIAS) E HISTÓRICO COM O NOVO VISUAL -->
+    <!-- PROGRAMAÇÃO DE OBRAS COM TABELA LIMPA, MESCLAGEM DA CARTEIRA E ORDENAÇÃO DE DATAS -->
     <script>
     (function(){
         const root = document.getElementById('tab-prog');
@@ -1472,7 +1490,7 @@
         let tab = 'dash', wk = null, paginaAtual = 1, itensPorPagina = 50;
 
         let F = {
-            q: '', base: '', parceira: '', statusGeral: '', statusAcomp: '', gestor: '', coord: '', dataDe: '', dataAte: ''
+            q: '', base: '', parceira: '', statusGeral: '', dataDe: '', dataAte: '', ordemData: 'exec_desc'
         };
 
         function parseCSV(t) {
@@ -1507,6 +1525,27 @@
             };
         }
 
+        function cruzarPrazoCarteira(sob) {
+            if (!listaDadosGlobal || !listaDadosGlobal.length || !sob) return { dataStr: '—', dias: 999, objData: null };
+            const nSob = normTxt(sob);
+            const achado = listaDadosGlobal.find(i => {
+                const p = normTxt(buscarCampoFlexivel(i, 'PROJETO', 'CODIGO', 'OBRA', 'SOB'));
+                return p === nSob || p.includes(nSob) || nSob.includes(p);
+            });
+            if (!achado) return { dataStr: '—', dias: 999, objData: null };
+
+            const prazoVal = buscarCampoFlexivel(achado, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE', 'LIMITE EXECUCAO');
+            const d = paraData(prazoVal);
+            if (!d) return { dataStr: '—', dias: 999, objData: null };
+
+            const dias = calcularDiasRestantes(d);
+            return {
+                dataStr: formatarDataBR(d),
+                dias,
+                objData: d
+            };
+        }
+
         function build(text) {
             const rows = parseCSV(text), hi = rows.findIndex(r => norm(r[0]) == 'base');
             if (hi < 0) return null;
@@ -1530,11 +1569,7 @@
                 const estStr = g(r, 'Estrutura');
                 const estQtd = extrairQuantidadesEstrutura(estStr);
                 const statusExec = (g(r, 'STATUS') || 'NÃO DEFINIDO').toUpperCase();
-
-                let statusAcomp = 'Não habilitado';
-                if (statusExec.includes('CONCL')) statusAcomp = 'Preenchido';
-                else if (statusExec.includes('ADIAD') || statusExec.includes('PEND')) statusAcomp = 'Pendente';
-                else if (statusExec.includes('CANC')) statusAcomp = 'Não se aplica';
+                const prazoCart = cruzarPrazoCarteira(sob);
 
                 out.push({
                     id: 'PI' + (idCounter--),
@@ -1542,6 +1577,7 @@
                     d,
                     iso: iso(d),
                     base: g(r, 'BASE').toUpperCase() || 'RESENDE',
+                    parceira: g(r, 'PARCEIRA') || (g(r, 'BASE').toUpperCase() === 'ANGRA' ? 'ELLCA' : 'ENGELMIG'),
                     tipo: g(r, 'Tipo de Serviço'),
                     dataExec: dataExecRaw,
                     diaSemana: g(r, 'Dia da semana'),
@@ -1551,6 +1587,9 @@
                     lv: estQtd.lv,
                     poda: estQtd.poda,
                     vencimentoObras: g(r, 'Vencimento de Obras'),
+                    prazoLimiteCarteira: prazoCart.dataStr,
+                    prazoLimiteObj: prazoCart.objData,
+                    prazoLimiteDias: prazoCart.dias,
                     st: statusExec,
                     custoProg: g(r, 'Custo Programado'),
                     baremoProg: g(r, 'Baremo Programado'),
@@ -1559,23 +1598,10 @@
                     mun: g(r, 'Município'),
                     bairro: g(r, 'Bairro'),
                     desc: g(r, 'Descrição do serviço'),
-                    resp: g(r, 'Responsável Execução'),
-                    usuario: g(r, 'Responsável Execução') ? norm(g(r, 'Responsável Execução')).replace(/\s+/g, '.') + '@ellca2.com.br' : 'operador@ellca2.com.br',
-                    parceira: g(r, 'PARCEIRA') || (g(r, 'BASE').toUpperCase() === 'ANGRA' ? 'ELLCA' : 'ENGELMIG'),
-                    gestorResp: g(r, 'Responsável Vistoria') || '—',
-                    gestor: g(r, 'GESTOR') || g(r, 'Responsável Vistoria') || '—',
-                    coordenador: g(r, 'COORDENADOR') || '—',
-                    dataCadastro: '30/10/2026, ' + (10 + (idCounter % 8)) + ':' + String(Math.abs(idCounter) % 59).padStart(2, '0'),
                     tipoSGD: g(r, 'Tipo de Serviço').includes('MT') ? 'AT/MT' : (g(r, 'Tipo de Serviço').includes('BT') ? 'BT' : 'ÁREA LIVRE'),
                     sgd: g(r, 'SGD') || ('3001' + String(1000 + (Math.abs(idCounter) % 9000))),
                     alimentador: g(r, 'Alimentador') || (g(r, 'BASE').toUpperCase().includes('ANG') ? 'ANG09' : 'AVI04'),
                     etapa: g(r, 'ETAPA') || (idCounter % 3 === 0 ? '2º ETAPA' : (idCounter % 4 === 0 ? 'DEMAIS ETAPA' : '—')),
-                    obraComplexa: 'Não',
-                    locacaoConjunto: 'Não',
-                    analisePlano: 'Sim',
-                    verificadoCampo: statusAcomp === 'Preenchido' ? 'Validado' : 'Não validado',
-                    acompanhadaCampo: statusAcomp === 'Preenchido' ? 'Sim' : '—',
-                    stAcompanhamento: statusAcomp,
                     raw
                 });
             }
@@ -1622,7 +1648,7 @@
             else if (tab === 'hist') renderProgHist();
         }
 
-        /* DASHBOARD COMPLETO RESTAURADO */
+        /* SUB-ABA 1: DASHBOARD COMPLETO ORIGINAL */
         function renderProgDash() {
             const cur = contratoGlobal;
             const all = DB[cur] || [];
@@ -1756,7 +1782,7 @@
             `;
         }
 
-        /* SEMANA (7 DIAS) RESTAURADA */
+        /* SUB-ABA 2: SEMANA (7 DIAS) */
         function renderProgWeek() {
             const cur = contratoGlobal;
             const all = DB[cur] || [];
@@ -1786,7 +1812,7 @@
             $('#tj-week').onclick = () => { wk = sun(new Date()); renderProgWeek(); };
         }
 
-        /* HISTÓRICO: MODELO DA IMAGEM 1 COMPLETO */
+        /* SUB-ABA 3: HISTÓRICO COM COLUNAS LIMPAS, PRAZO LIMITE MESCLADO E ORDENAÇÃO DE DATAS */
         function renderProgHist() {
             const cur = contratoGlobal;
             const all = DB[cur] || [];
@@ -1794,52 +1820,66 @@
             const bases = [...new Set(all.map(x => x.base).filter(Boolean))].sort();
             const parceiras = [...new Set(all.map(x => x.parceira).filter(Boolean))].sort();
             const statusGerais = [...new Set(all.map(x => x.st).filter(Boolean))].sort();
-            const statusAcomps = [...new Set(all.map(x => x.stAcompanhamento).filter(Boolean))].sort();
-            const gestores = [...new Set(all.map(x => x.gestor).filter(x => x && x !== '—'))].sort();
-            const coords = [...new Set(all.map(x => x.coordenador).filter(x => x && x !== '—'))].sort();
 
-            const filtrados = all.filter(x => {
+            let filtrados = all.filter(x => {
                 if (F.q) {
-                    const matchQ = (x.id + x.sob + x.usuario + x.sgd + x.alimentador).toLowerCase().includes(F.q.toLowerCase());
+                    const matchQ = (x.id + x.sob + x.sgd + x.alimentador + x.tipo).toLowerCase().includes(F.q.toLowerCase());
                     if (!matchQ) return false;
                 }
                 if (F.base && x.base !== F.base) return false;
                 if (F.parceira && x.parceira !== F.parceira) return false;
                 if (F.statusGeral && x.st !== F.statusGeral) return false;
-                if (F.statusAcomp && x.stAcompanhamento !== F.statusAcomp) return false;
-                if (F.gestor && x.gestor !== F.gestor) return false;
-                if (F.coord && x.coordenador !== F.coord) return false;
                 if (F.dataDe && x.iso < F.dataDe) return false;
                 if (F.dataAte && x.iso > F.dataAte) return false;
                 return true;
             });
+
+            // ORDENAÇÃO DE DATAS NA PROGRAMAÇÃO (CRESCENTE / DECRESCENTE)
+            if (F.ordemData === 'exec_asc') {
+                filtrados.sort((a, b) => a.d - b.d);
+            } else if (F.ordemData === 'exec_desc') {
+                filtrados.sort((a, b) => b.d - a.d);
+            } else if (F.ordemData === 'prazo_asc') {
+                filtrados.sort((a, b) => {
+                    const da = a.prazoLimiteObj || new Date(2099, 0, 1);
+                    const db = b.prazoLimiteObj || new Date(2099, 0, 1);
+                    return da - db;
+                });
+            } else if (F.ordemData === 'prazo_desc') {
+                filtrados.sort((a, b) => {
+                    const da = a.prazoLimiteObj || new Date(1970, 0, 1);
+                    const db = b.prazoLimiteObj || new Date(1970, 0, 1);
+                    return db - da;
+                });
+            }
 
             const totalPaginas = Math.ceil(filtrados.length / itensPorPagina) || 1;
             if (paginaAtual > totalPaginas) paginaAtual = totalPaginas;
             const inicio = (paginaAtual - 1) * itensPorPagina;
             const paginados = filtrados.slice(inicio, inicio + itensPorPagina);
 
-            function badgeAcompClass(s) {
-                if (s === 'Preenchido') return 'badge-op-green';
-                if (s === 'Pendente') return 'badge-op-amber';
-                if (s === 'Não se aplica') return 'badge-op-blue';
-                return 'badge-op-gray';
+            function formatarPrazoLimiteBadge(dias, dataStr) {
+                if (dataStr === '—' || dias === 999) return '—';
+                if (dias < 0) return `<span style="color:var(--status-red);font-weight:700;"><span class="sinal-indicator" style="background:var(--status-red);"></span>${esc(dataStr)} (${Math.abs(dias)}d atraso)</span>`;
+                if (dias <= 5) return `<span style="color:var(--status-red);font-weight:700;"><span class="sinal-indicator" style="background:var(--status-red);"></span>${esc(dataStr)} (${dias}d)</span>`;
+                if (dias <= 15) return `<span style="color:var(--status-amber);font-weight:700;"><span class="sinal-indicator" style="background:var(--status-amber);"></span>${esc(dataStr)} (${dias}d)</span>`;
+                return `<span style="color:var(--status-green);font-weight:700;"><span class="sinal-indicator" style="background:var(--status-green);"></span>${esc(dataStr)} (${dias}d)</span>`;
             }
 
             $('#v').innerHTML = `
                 <div class="prog-filter-panel">
-                    <div style="font-size:0.75rem;color:var(--text-muted);font-weight:700;">${filtrados.length} registro(s) — somente leitura, exceto as etapas de aprovação.</div>
+                    <div style="font-size:0.75rem;color:var(--text-muted);font-weight:700;">${filtrados.length} registro(s) encontrados na programação.</div>
                     
                     <div class="prog-filter-row">
-                        <input type="text" id="prog-filter-q" class="prog-input-field" placeholder="Pesquisar ID, ordem, usuário, SGD..." value="${esc(F.q)}" style="min-width:280px;flex:1;">
+                        <input type="text" id="prog-filter-q" class="prog-input-field" placeholder="Pesquisar ID, ordem, SGD, tipo..." value="${esc(F.q)}" style="min-width:240px;flex:1;">
                         
                         <select id="prog-filter-base" class="prog-input-field" style="min-width:130px;">
-                            <option value="">Base: todos</option>
+                            <option value="">Base: todas</option>
                             ${bases.map(b => `<option value="${esc(b)}" ${F.base === b ? 'selected' : ''}>${esc(b)}</option>`).join('')}
                         </select>
 
                         <select id="prog-filter-parceira" class="prog-input-field" style="min-width:130px;">
-                            <option value="">Parceira: todos</option>
+                            <option value="">Parceira: todas</option>
                             ${parceiras.map(p => `<option value="${esc(p)}" ${F.parceira === p ? 'selected' : ''}>${esc(p)}</option>`).join('')}
                         </select>
 
@@ -1848,23 +1888,16 @@
                             ${statusGerais.map(s => `<option value="${esc(s)}" ${F.statusGeral === s ? 'selected' : ''}>${esc(s)}</option>`).join('')}
                         </select>
 
-                        <select id="prog-filter-acomp" class="prog-input-field" style="min-width:160px;">
-                            <option value="">St. Acompanhamento: todos</option>
-                            ${statusAcomps.map(s => `<option value="${esc(s)}" ${F.statusAcomp === s ? 'selected' : ''}>${esc(s)}</option>`).join('')}
+                        <!-- ORDENAÇÃO DE DATAS NA PROGRAMAÇÃO -->
+                        <select id="prog-filter-ordem-data" class="prog-input-field" style="min-width:180px;">
+                            <option value="exec_desc" ${F.ordemData === 'exec_desc' ? 'selected' : ''}>Execução: Recentes Primeiro</option>
+                            <option value="exec_asc" ${F.ordemData === 'exec_asc' ? 'selected' : ''}>Execução: Antigas Primeiro</option>
+                            <option value="prazo_asc" ${F.ordemData === 'prazo_asc' ? 'selected' : ''}>Prazo Limite: Mais próximos</option>
+                            <option value="prazo_desc" ${F.ordemData === 'prazo_desc' ? 'selected' : ''}>Prazo Limite: Mais distantes</option>
                         </select>
                     </div>
 
                     <div class="prog-filter-row">
-                        <select id="prog-filter-gestor" class="prog-input-field" style="min-width:130px;">
-                            <option value="">St. Gestor: todos</option>
-                            ${gestores.map(g => `<option value="${esc(g)}" ${F.gestor === g ? 'selected' : ''}>${esc(g)}</option>`).join('')}
-                        </select>
-
-                        <select id="prog-filter-coord" class="prog-input-field" style="min-width:130px;">
-                            <option value="">St. Coord.: todos</option>
-                            ${coords.map(c => `<option value="${esc(c)}" ${F.coord === c ? 'selected' : ''}>${esc(c)}</option>`).join('')}
-                        </select>
-
                         <div class="prog-date-group">
                             <span>Execução de</span>
                             <input type="date" id="prog-filter-de" class="prog-input-field" value="${esc(F.dataDe)}">
@@ -1875,7 +1908,7 @@
                             <input type="date" id="prog-filter-ate" class="prog-input-field" value="${esc(F.dataAte)}">
                         </div>
 
-                        <button class="btn-modern-primary" style="padding:6px 12px;background:#475569;" onclick="window.PROG.limparFiltrosHist()"><i class="fa-solid fa-filter-circle-xmark"></i> Limpar</button>
+                        <button class="btn-modern-primary" style="padding:6px 12px;background:#475569;" onclick="window.PROG.limparFiltrosHist()"><i class="fa-solid fa-filter-circle-xmark"></i> Limpar Filtros</button>
                     </div>
                 </div>
 
@@ -1883,26 +1916,18 @@
                     <table class="table-prog-operacional">
                         <thead>
                             <tr>
-                                <th>ID <i class="fa-solid fa-sort"></i></th>
-                                <th>Ordem/SOB <i class="fa-solid fa-sort"></i></th>
-                                <th>Usuário <i class="fa-solid fa-sort"></i></th>
-                                <th>Parceira <i class="fa-solid fa-sort"></i></th>
-                                <th>Base <i class="fa-solid fa-sort"></i></th>
-                                <th>Gestor responsável <i class="fa-solid fa-sort"></i></th>
-                                <th>Gestor <i class="fa-solid fa-sort"></i></th>
-                                <th>Coordenador <i class="fa-solid fa-sort"></i></th>
-                                <th>Data Cadastro <i class="fa-solid fa-sort"></i></th>
-                                <th>Data Execução <i class="fa-solid fa-sort"></i></th>
-                                <th>Tipo SGD <i class="fa-solid fa-sort"></i></th>
-                                <th>SGD <i class="fa-solid fa-sort"></i></th>
-                                <th>Alimentador <i class="fa-solid fa-sort"></i></th>
-                                <th>Etapa <i class="fa-solid fa-sort"></i></th>
-                                <th>Obra complexa <i class="fa-solid fa-sort"></i></th>
-                                <th>Locação em conjunto <i class="fa-solid fa-sort"></i></th>
-                                <th>Análise do plano <i class="fa-solid fa-sort"></i></th>
-                                <th>Verificado Plano em campo <i class="fa-solid fa-sort"></i></th>
-                                <th>Acompanhada obra em campo <i class="fa-solid fa-sort"></i></th>
-                                <th>St. Acompanhamento <i class="fa-solid fa-sort"></i></th>
+                                <th>ID</th>
+                                <th>Ordem / SOB</th>
+                                <th>Parceira</th>
+                                <th>Base</th>
+                                <th onclick="window.PROG.alternarOrdemCol('exec')">Data Execução <i class="fa-solid fa-arrow-down-up-across-line" style="font-size:10px;"></i></th>
+                                <th onclick="window.PROG.alternarOrdemCol('prazo')" style="background:var(--brand-soft);color:var(--brand-primary);">PRAZO LIMITE (CARTEIRA) <i class="fa-solid fa-arrow-down-up-across-line" style="font-size:10px;"></i></th>
+                                <th>Tipo de Serviço</th>
+                                <th>Tipo SGD</th>
+                                <th>SGD</th>
+                                <th>Alimentador</th>
+                                <th>Etapa</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -1910,26 +1935,18 @@
                                 <tr onclick="window.PROG.showDetail('${esc(x.sob)}')">
                                     <td class="id-cell">${esc(x.id)}</td>
                                     <td><b>${esc(x.sob)}</b></td>
-                                    <td style="color:var(--text-secondary);">${esc(x.usuario)}</td>
                                     <td>${esc(x.parceira)}</td>
                                     <td>${esc(x.base)}</td>
-                                    <td>${esc(x.gestorResp)}</td>
-                                    <td>${esc(x.gestor)}</td>
-                                    <td>${esc(x.coordenador)}</td>
-                                    <td>${esc(x.dataCadastro)}</td>
-                                    <td>${esc(x.dataExec)}</td>
+                                    <td><b>${esc(x.dataExec)}</b></td>
+                                    <td>${formatarPrazoLimiteBadge(x.prazoLimiteDias, x.prazoLimiteCarteira)}</td>
+                                    <td>${esc(x.tipo || '—')}</td>
                                     <td>${esc(x.tipoSGD)}</td>
                                     <td>${esc(x.sgd)}</td>
                                     <td>${esc(x.alimentador)}</td>
                                     <td>${esc(x.etapa)}</td>
-                                    <td>${esc(x.obraComplexa)}</td>
-                                    <td>${esc(x.locacaoConjunto)}</td>
-                                    <td>${esc(x.analisePlano)}</td>
-                                    <td>${esc(x.verificadoCampo)}</td>
-                                    <td>${esc(x.acompanhadaCampo)}</td>
-                                    <td><span class="badge-op ${badgeAcompClass(x.stAcompanhamento)}">${esc(x.stAcompanhamento)}</span></td>
+                                    <td><span style="font-size:11px;padding:3px 8px;border-radius:var(--radius-pill);background:var(--card-subtle);font-weight:700;border:1px solid var(--border-light);">${esc(x.st)}</span></td>
                                 </tr>
-                            `).join('') : '<tr><td colspan="20" style="padding:32px;text-align:center;color:var(--text-muted);">Nenhum registro encontrado para os filtros selecionados.</td></tr>'}
+                            `).join('') : '<tr><td colspan="12" style="padding:32px;text-align:center;color:var(--text-muted);">Nenhum registro encontrado para os filtros selecionados.</td></tr>'}
                         </tbody>
                     </table>
                 </div>
@@ -1956,9 +1973,7 @@
             $('#prog-filter-base').onchange = e => { F.base = e.target.value; paginaAtual = 1; renderProgHist(); };
             $('#prog-filter-parceira').onchange = e => { F.parceira = e.target.value; paginaAtual = 1; renderProgHist(); };
             $('#prog-filter-status').onchange = e => { F.statusGeral = e.target.value; paginaAtual = 1; renderProgHist(); };
-            $('#prog-filter-acomp').onchange = e => { F.statusAcomp = e.target.value; paginaAtual = 1; renderProgHist(); };
-            $('#prog-filter-gestor').onchange = e => { F.gestor = e.target.value; paginaAtual = 1; renderProgHist(); };
-            $('#prog-filter-coord').onchange = e => { F.coord = e.target.value; paginaAtual = 1; renderProgHist(); };
+            $('#prog-filter-ordem-data').onchange = e => { F.ordemData = e.target.value; paginaAtual = 1; renderProgHist(); };
             $('#prog-filter-de').onchange = e => { F.dataDe = e.target.value; paginaAtual = 1; renderProgHist(); };
             $('#prog-filter-ate').onchange = e => { F.dataAte = e.target.value; paginaAtual = 1; renderProgHist(); };
         }
@@ -2002,8 +2017,28 @@
             mudarPagina(delta) { paginaAtual += delta; renderProgHist(); },
             mudarTamanhoPagina(val) { itensPorPagina = parseInt(val, 10); paginaAtual = 1; renderProgHist(); },
             limparFiltrosHist() {
-                F = { q: '', base: '', parceira: '', statusGeral: '', statusAcomp: '', gestor: '', coord: '', dataDe: '', dataAte: '' };
+                F = { q: '', base: '', parceira: '', statusGeral: '', dataDe: '', dataAte: '', ordemData: 'exec_desc' };
                 paginaAtual = 1; renderProgHist();
+            },
+            alternarOrdemCol(tipo) {
+                if (tipo === 'exec') {
+                    F.ordemData = F.ordemData === 'exec_desc' ? 'exec_asc' : 'exec_desc';
+                } else if (tipo === 'prazo') {
+                    F.ordemData = F.ordemData === 'prazo_asc' ? 'prazo_desc' : 'prazo_asc';
+                }
+                paginaAtual = 1;
+                renderProgHist();
+            },
+            atualizarCruzamentoCarteira() {
+                if (DB[contratoGlobal] && DB[contratoGlobal].length) {
+                    DB[contratoGlobal].forEach(x => {
+                        const prazoCart = cruzarPrazoCarteira(x.sob);
+                        x.prazoLimiteCarteira = prazoCart.dataStr;
+                        x.prazoLimiteObj = prazoCart.objData;
+                        x.prazoLimiteDias = prazoCart.dias;
+                    });
+                    if (tab === 'hist') renderProgHist();
+                }
             }
         };
     })();
