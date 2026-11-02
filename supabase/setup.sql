@@ -74,7 +74,7 @@ create policy req_apagar  on access_requests for delete to authenticated using (
 
 -- 4) DADOS INICIAIS ------------------------------------------------------
 insert into profiles (email, nome, role)
-values (lower('SEU_EMAIL_AQUI'), 'Administrador', 'admin')
+values (lower('contato.luiztiago@yahoo.com'), 'Administrador', 'admin')
 on conflict (email) do nothing;
 
 insert into config (chave, valor) values
