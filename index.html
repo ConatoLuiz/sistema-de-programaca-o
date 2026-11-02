@@ -1,11 +1,3 @@
-Aqui está o arquivo **`index.html` completo e atualizado**.
-
-As seguintes melhorias foram aplicadas no código:
-1. O campo de login agora aceita **`admin`** diretamente (tipo `text` em vez de exigir formato de e-mail).
-2. A função `APP.entrar()` converte automaticamente qualquer entrada como `admin` para `admin@admin.com`, autenticando diretamente no Supabase com a senha `admin`.
-3. Todo o sistema (Mapa Leaflet, Carteira, Dashboards dinâmicos, Programação de Obras, Janela flutuante e Painel de Configuração) está preservado e pronto para uso.
-
-```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -1462,8 +1454,8 @@ As seguintes melhorias foram aplicadas no código:
     (function(){
         const root=document.getElementById('tab-prog'),$=s=>root.querySelector(s);
         const DEF={
-            angra:'https://docs.google.com/spreadsheets/d/e/2PACX-1vQuRUw8jB-tTh63Deqb5Og-J04D7cYHX9tbsqvbhm833-M7ZGdOS1oQ3GJCybxPXPBG8Aa-lMHJ4gYd/pub?gid=1050565461&single=true&output=csv',
-            mage:'https://docs.google.com/spreadsheets/d/e/2PACX-1vTpotM4mC5w2KmbYn-xkPEMCOpZu9T6EO0i3IGVlEADdNxfBbgpYzD0IrMna0F64w/pub?gid=1401348365&single=true&output=csv'
+            angra:'https://docs.google.com/spreadsheets/d/e/2PACX-1vQuRUw8jB-tTh63Deqb5Og-J04D7cYHX9tbsqvbhm833-M7ZGdOS1oQ3GJCybxPXPBG8Aa-lMHJ4gYd/pubhtml?gid=1050565461&single=true&widget=true&headers=false',
+            mage:'https://docs.google.com/spreadsheets/d/e/2PACX-1vTpotM4mC5w2KmbYn-xkPEMCOpZu9T6EO0i3IGVlEADdNxfBbgpYzD0IrMna0F64w/pubhtml?gid=1401348365&single=true&widget=true&headers=false'
         };
         const U=()=>{const u={...DEF},c=(window.CFG&&window.CFG.urls)||{};for(const k in c)if(c[k])u[k]=c[k];return u};
         const START=()=>(window.CFG&&window.CFG.start)||'2026-11-01',since=a=>a.filter(x=>x.iso>=START());
@@ -1744,9 +1736,11 @@ As seguintes melhorias foram aplicadas no código:
             const c=$('tab-config');
             if(A.role!='admin'){ c.innerHTML='<div class="cfc">Acesso restrito ao administrador.</div>'; return; }
             const W=window.CFG,D=PROG.defaults();
-            let h=`<div class="cfc"><h3>Links de consulta (planilhas publicadas em CSV)</h3>${A.online?'':'<p class="warn">Modo local: sem banco de dados, esta configuração fica salva só neste navegador e qualquer pessoa com o arquivo consegue alterá-la.</p>'}
-            <label>Contrato Angra dos Reis<input id="c-ang" value="${esc(W.urls.angra||D.angra)}"></label><label>Contrato Magé<input id="c-mag" value="${esc(W.urls.mage||D.mage)}"></label>
-            <label>Programação considerada a partir de<input type="date" id="c-ini" value="${esc(W.start)}"></label><button class="p" onclick="APP.salvarCfg()">Salvar configuração</button> <span id="c-msg"></span></div>`;
+            let h=`<div class="cfc"><h3>Links de consulta (planilhas publicadas em modo incorporar)</h3>${A.online?'':'<p class="warn">Modo local: sem banco de dados, esta configuração fica salva só neste navegador e qualquer pessoa com o arquivo consegue alterá-la.</p>'}
+            <label>Programação Obras Angra<input id="c-ang" value="${esc(W.urls.angra||D.angra)}"></label><label>Programação Obras Magé<input id="c-mag" value="${esc(W.urls.mage||D.mage)}"></label>
+            <label>Carteira de Projetos Angra<input id="c-carteira-ang" value="${esc(W.urls.carteira_angra || 'https://docs.google.com/spreadsheets/d/e/2PACX-1vToswUD-YrLiHH87aWkz3yHfpvG1tYgeXq0uiUXizDxF5RVoYrr9m4t8xSy1yfLC4zItS7Hb0bTHguK/pubhtml?gid=1394179098&amp;single=true&amp;widget=true&amp;headers=false')}"></label>
+            <label>Carteira de Projetos Magé<input id="c-carteira-mag" value="${esc(W.urls.carteira_mage || '')}"></label>
+            <label>Considerar programação a partir de<input type="date" id="c-ini" value="${esc(W.start)}"></label><button class="p" onclick="APP.salvarCfg()">Salvar configuração</button> <span id="c-msg"></span></div>`;
             
             if(A.online){
                 const[{data:ps},{data:rq}]=await Promise.all([A.sb.from('profiles').select('*').order('email'),A.sb.from('access_requests').select('*').order('criado_em',{ascending:false})]);
@@ -1760,9 +1754,9 @@ As seguintes melhorias foram aplicadas no código:
         };
 
         A.salvarCfg=async()=>{
-            const g=id=>$(id).value.trim(),u1=g('c-ang'),u2=g('c-mag'),ini=g('c-ini'),ok=u=>!u||/^https:\/\/docs\.google\.com\/spreadsheets\//.test(u);
-            if(!ok(u1)||!ok(u2)) return alerta('Os links precisam começar com https://docs.google.com/spreadsheets/');
-            const o={url_angra:u1,url_mage:u2,data_inicial:ini||'2026-11-01'};
+            const g=id=>$(id).value.trim(),u1=g('c-ang'),u2=g('c-mag'),u3=g('c-carteira-ang'),u4=g('c-carteira-mag'),ini=g('c-ini'),ok=u=>!u||/^https:\/\/docs\.google\.com\/spreadsheets\//.test(u);
+            if(!ok(u1)||!ok(u2)||!ok(u3)) return alerta('Os links precisam começar com https://docs.google.com/spreadsheets/');
+            const o={url_angra:u1,url_mage:u2,url_carteira_angra:u3,url_carteira_mage:u4,data_inicial:ini||'2026-11-01'};
             if(A.online){
                 const{error}=await A.sb.from('config').upsert(Object.entries(o).map(([chave,valor])=>({chave,valor,atualizado_por:A.email})),{onConflict:'chave'});
                 if(error) return alerta('Erro ao salvar: '+error.message);
