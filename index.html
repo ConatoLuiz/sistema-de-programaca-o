@@ -142,7 +142,7 @@
         .brand-container { display: flex; align-items: center; gap: 12px; }
 
         .brand-logo-frame {
-            width: 46px; height: 46px; border-radius: 12px;
+            width: 44px; height: 44px; border-radius: 12px;
             background: radial-gradient(circle, #0e3728 0%, #030d09 100%);
             border: 2px solid var(--brand-neon);
             box-shadow: 0 0 14px rgba(0, 255, 102, 0.45);
@@ -306,127 +306,85 @@
         .cart-empty { padding: 40px; text-align: center; color: var(--text-muted); }
 
         /* ========================================================
-           ABA 3: PROGRAMAÇÃO OPERACIONAL (LAYOUT DA IMAGEM 1)
+           PROGRAMAÇÃO DE OBRAS: SUB-ABAS, SEMANA, HISTÓRICO
            ======================================================== */
+        #tab-prog .sub {
+            display: flex; gap: 4px; border-bottom: 2px solid var(--border-light); margin-bottom: 12px;
+        }
+        #tab-prog .sub button {
+            border: 0; border-bottom: 3px solid transparent; background: none; color: var(--text-secondary);
+            padding: 8px 16px; font-weight: 600; cursor: pointer; font-size: 0.84rem; display: inline-flex;
+            align-items: center; gap: 6px; transition: var(--transition); border-radius: 6px 6px 0 0;
+        }
+        #tab-prog .sub button.on {
+            color: var(--brand-primary); border-color: var(--brand-primary); font-weight: 700; background: var(--brand-soft);
+        }
+
+        /* SEMANA (7 DIAS) */
+        #tab-prog .week {
+            display: grid; grid-template-columns: repeat(7, minmax(130px, 1fr)); gap: 8px; overflow-x: auto;
+        }
+        #tab-prog .day {
+            background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: var(--radius-md);
+            min-height: 190px; padding: 8px; transition: var(--transition);
+        }
+        #tab-prog .day.today {
+            border-color: var(--brand-accent); box-shadow: 0 0 0 1px var(--brand-accent);
+        }
+        #tab-prog .ev {
+            border-left: 3px solid var(--brand-accent); background: var(--card-subtle);
+            border-radius: var(--radius-sm); padding: 5px 7px; margin-bottom: 5px; font-size: 11px;
+            cursor: pointer; transition: var(--transition);
+        }
+        #tab-prog .ev:hover { background: var(--brand-soft); transform: translateX(2px); }
+
+        /* HISTÓRICO: MODELO DA IMAGEM 1 */
         .prog-filter-panel {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-light);
-            border-radius: var(--radius-md);
-            padding: 12px 14px;
-            margin-bottom: 12px;
-            box-shadow: var(--shadow-xs);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+            background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: var(--radius-md);
+            padding: 12px 14px; margin-bottom: 12px; box-shadow: var(--shadow-xs); display: flex; flex-direction: column; gap: 10px;
         }
-        .prog-filter-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            align-items: center;
-        }
+        .prog-filter-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
         .prog-input-field {
-            background: var(--bg-base);
-            border: 1.5px solid var(--border-light);
-            color: var(--text-main);
-            padding: 7px 11px;
-            border-radius: var(--radius-sm);
-            font-size: 0.8rem;
-            outline: none;
-            transition: var(--transition);
+            background: var(--bg-base); border: 1.5px solid var(--border-light); color: var(--text-main);
+            padding: 7px 11px; border-radius: var(--radius-sm); font-size: 0.8rem; outline: none; transition: var(--transition);
         }
-        .prog-input-field:focus {
-            border-color: var(--brand-accent);
-            background: var(--bg-surface);
-        }
-        .prog-date-group {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.78rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-        }
+        .prog-input-field:focus { border-color: var(--brand-accent); background: var(--bg-surface); }
+        .prog-date-group { display: flex; align-items: center; gap: 6px; font-size: 0.78rem; font-weight: 600; color: var(--text-secondary); }
 
         .table-prog-container {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-light);
-            border-radius: var(--radius-md);
-            overflow: auto;
-            max-height: 65vh;
-            box-shadow: var(--shadow-sm);
+            background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: var(--radius-md);
+            overflow: auto; max-height: 65vh; box-shadow: var(--shadow-sm);
         }
         table.table-prog-operacional {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            font-size: 0.76rem;
+            width: 100%; border-collapse: separate; border-spacing: 0; font-size: 0.76rem;
         }
         table.table-prog-operacional th {
-            position: sticky;
-            top: 0;
-            background: #F8FAFC;
-            color: #475569;
-            font-size: 0.68rem;
-            font-weight: 800;
-            text-transform: capitalize;
-            padding: 9px 10px;
-            border-bottom: 1.5px solid var(--border-light);
-            border-right: 1px solid var(--border-subtle);
-            white-space: nowrap;
-            z-index: 5;
-            user-select: none;
-        }
-        body.dark-mode table.table-prog-operacional th {
-            background: #10261E;
-            color: #94A3B8;
-        }
-        table.table-prog-operacional th i {
-            margin-left: 3px;
-            font-size: 0.65rem;
-            color: var(--text-muted);
+            position: sticky; top: 0; background: var(--bg-surface-elevated); color: var(--text-secondary);
+            font-size: 0.68rem; font-weight: 800; text-transform: capitalize; padding: 9px 10px;
+            border-bottom: 1.5px solid var(--border-light); border-right: 1px solid var(--border-subtle);
+            white-space: nowrap; z-index: 5; user-select: none;
         }
         table.table-prog-operacional td {
-            padding: 7px 10px;
-            border-bottom: 1px solid var(--border-subtle);
-            border-right: 1px solid var(--border-subtle);
-            white-space: nowrap;
-            color: var(--text-main);
-            vertical-align: middle;
+            padding: 7px 10px; border-bottom: 1px solid var(--border-subtle); border-right: 1px solid var(--border-subtle);
+            white-space: nowrap; color: var(--text-main); vertical-align: middle;
         }
-        table.table-prog-operacional tbody tr:hover td {
-            background: rgba(16, 185, 129, 0.05);
-        }
+        table.table-prog-operacional tbody tr:hover td { background: var(--brand-soft); }
         
-        .id-cell {
-            font-family: var(--font-mono);
-            font-weight: 800;
-            color: var(--brand-primary);
-        }
+        .id-cell { font-family: var(--font-mono); font-weight: 800; color: var(--brand-primary); }
 
-        /* BADGES OPERACIONAIS DO SISTEMA */
         .badge-op {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2px 8px;
-            border-radius: var(--radius-pill);
-            font-size: 0.72rem;
-            font-weight: 700;
-            border: 1px solid transparent;
-            white-space: nowrap;
+            display: inline-flex; align-items: center; justify-content: center; padding: 2px 8px;
+            border-radius: var(--radius-pill); font-size: 0.72rem; font-weight: 700; border: 1px solid transparent; white-space: nowrap;
         }
         .badge-op-green { background: #DCFCE7; color: #15803D; border-color: #86EFAC; }
         .badge-op-blue { background: #E0F2FE; color: #0369A1; border-color: #BAE6FD; }
         .badge-op-amber { background: #FEF3C7; color: #B45309; border-color: #FCD34D; }
         .badge-op-gray { background: #F1F5F9; color: #64748B; border-color: #CBD5E1; }
-        .badge-op-red { background: #FEE2E2; color: #B91C1C; border-color: #FCA5A5; }
         
         body.dark-mode .badge-op-green { background: rgba(52, 211, 153, 0.15); color: #34D399; border-color: rgba(52, 211, 153, 0.3); }
         body.dark-mode .badge-op-blue { background: rgba(56, 189, 248, 0.15); color: #38BDF8; border-color: rgba(56, 189, 248, 0.3); }
         body.dark-mode .badge-op-amber { background: rgba(251, 191, 36, 0.15); color: #FBBF24; border-color: rgba(251, 191, 36, 0.3); }
         body.dark-mode .badge-op-gray { background: rgba(148, 163, 184, 0.15); color: #94A3B8; border-color: rgba(148, 163, 184, 0.3); }
-        body.dark-mode .badge-op-red { background: rgba(248, 113, 113, 0.15); color: #F87171; border-color: rgba(248, 113, 113, 0.3); }
 
         /* DASHBOARD PROGRAMAÇÃO */
         .chart-columns-container {
@@ -568,22 +526,12 @@
         <header>
             <div class="brand-container">
                 <div class="brand-logo-frame">
-                    <!-- LOGO VETORIAL LOBO COM 'L' NEON -->
                     <svg class="brand-logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M18 78C30 40 45 15 78 22C62 38 52 58 82 72C60 76 42 74 18 78Z" fill="#00FF66" opacity="0.9"/>
                         <path d="M30 65C38 35 50 25 70 28C55 42 48 55 72 68C55 70 42 68 30 65Z" fill="#032616"/>
                         <path d="M42 28L48 42L40 44L44 54L34 52" stroke="#00FF66" stroke-width="2" stroke-linecap="round"/>
-                        <!-- LETRA L ESTILIZADA -->
                         <path d="M32 32C35 24 44 26 44 35C44 48 30 62 28 68C26 73 30 76 38 76C48 76 68 70 78 64C72 70 54 78 36 78C22 78 18 70 20 62C24 50 38 38 32 32Z" fill="#FFFFFF"/>
-                        <path d="M34 32C37 25 43 27 43 35C43 47 31 60 29 66C27 71 31 74 38 74C47 74 65 69 74 64C69 69 52 76 36 76C24 76 20 69 22 62C25 51 38 39 34 32Z" fill="url(#neon-grad)"/>
                         <circle cx="62" cy="38" r="2.5" fill="#00FF66"/>
-                        <defs>
-                            <linearGradient id="neon-grad" x1="20" y1="20" x2="80" y2="80" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#FFFFFF"/>
-                                <stop offset="0.6" stop-color="#E2E8F0"/>
-                                <stop offset="1" stop-color="#00FF66"/>
-                            </linearGradient>
-                        </defs>
                     </svg>
                 </div>
                 <div class="brand-text-group">
@@ -694,17 +642,20 @@
             </div>
         </div>
 
-        <!-- ABA 3: PROGRAMAÇÃO OPERACIONAL DE OBRAS (ESTILO IMAGEM 1) -->
+        <!-- ABA 3: PROGRAMAÇÃO DE OBRAS (ESTRUTURA COMPLETA MANTIDA) -->
         <div id="tab-prog">
             <div class="cart-glass-toolbar" style="justify-content:space-between;">
                 <span id="st" style="font-size:0.85rem; font-weight:700;"></span>
-                <div style="display:flex;gap:6px;">
-                    <button class="btn-modern-primary" style="padding:6px 12px;background:#475569;" onclick="window.PROG.alternarSubAba('operacional')" id="btn-sub-operacional"><i class="fa-solid fa-table"></i> Tabela Operacional</button>
-                    <button class="btn-modern-primary" style="padding:6px 12px;background:#475569;" onclick="window.PROG.alternarSubAba('dash')" id="btn-sub-dash"><i class="fa-solid fa-chart-column"></i> Gráficos Diários</button>
-                </div>
             </div>
-
-            <div id="prog-view-container"></div>
+            
+            <!-- SUB-ABAS ORIGINAIS: DASHBOARD, SEMANA, HISTÓRICO -->
+            <div class="sub" id="sub-prog-nav">
+                <button data-t="dash" class="on"><i class="fa-solid fa-chart-simple"></i> Dashboard</button>
+                <button data-t="week"><i class="fa-solid fa-calendar-week"></i> Semana (7 Dias)</button>
+                <button data-t="hist"><i class="fa-solid fa-clock-rotate-left"></i> Histórico</button>
+            </div>
+            
+            <div id="v"></div>
 
             <dialog id="dlg"><div id="dbody"></div><p style="text-align:right;margin-top:14px;"><button class="btn-modern-primary" style="padding:7px 16px;background:#475569;" onclick="this.closest('dialog').close()"><i class="fa-solid fa-xmark"></i> Fechar Detalhes</button></p></dialog>
         </div>
@@ -771,7 +722,7 @@
         <div id="dash-root"></div>
     </div>
 
-    <!-- CHAT FLUTUANTE & ASSISTENTE -->
+    <!-- CHAT FLUTUANTE -->
     <div id="chat-widget-root">
         <div class="chat-card-window" id="chat-window">
             <div class="chat-header-bar">
@@ -815,7 +766,7 @@
             return str;
         }
 
-        /* LINKS ATUALIZADOS - INCLUINDO CARTEIRA DE MAGÉ */
+        /* LINKS ATUALIZADOS - INCLUINDO NOVA PLANILHA DE MAGÉ */
         window.LINKS_PLANILHAS = {
             carteira_angra: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vToswUD-YrLiHH87aWkz3yHfpvG1tYgeXq0uiUXizDxF5RVoYrr9m4t8xSy1yfLC4zItS7Hb0bTHguK/pub?gid=1394179098&single=true&output=csv',
             carteira_mage: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ9zyjAuWo03gDKywigtrZ_iIfeUg1yLNo8WIoL75loH25OFIuaHDrBhkQQhSD4_Cf7b5rPWbZ8D7tZ/pub?gid=1394179098&single=true&output=csv',
@@ -869,18 +820,14 @@
             return PRIORIDADES_CRITICAS.some(pc => n.includes(normTxt(pc)) || normTxt(pc).includes(n));
         }
 
-        /* INICIALIZAÇÃO DO MAPA */
-        const satelliteTileUrl = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
-        const satelliteAttribution = 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community';
-
         function inicializarMapa() {
             if (!map) {
                 map = L.map('map').setView([-22.9068, -43.1729], 11);
-                const camadaSat = L.tileLayer(satelliteTileUrl, { attribution: satelliteAttribution, maxZoom: 19 });
-                const camadaCarto = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', { maxZoom: 19, attribution: '&copy; CartoDB' });
-                const camadaOsm = L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap France', maxZoom: 19 }).addTo(map);
+                const camadaSat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: 19 });
+                const camadaCarto = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', { maxZoom: 19 });
+                const camadaOsm = L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
 
-                L.control.layers({ 'Mapa Claro (OSM)': camadaOsm, 'Mapa Voyager': camadaCarto, 'Satélite (Esri)': camadaSat }).addTo(map);
+                L.control.layers({ 'Mapa Claro (OSM)': camadaOsm, 'Mapa Voyager': camadaCarto, 'Satélite': camadaSat }).addTo(map);
                 markersGroup = L.layerGroup().addTo(map);
             }
             setTimeout(() => { if (map) map.invalidateSize(); }, 250);
@@ -971,7 +918,6 @@
             if (!url) {
                 badge.innerHTML = `<span style="color:var(--status-red);"><i class="fa-solid fa-circle-exclamation"></i> Carteira de ${contratoGlobal.toUpperCase()}: Sem link publicado.</span>`;
                 aplicarLinhas([]);
-                adicionarFeedChat(`Aviso: A planilha de Carteira de ${contratoGlobal.toUpperCase()} ainda não possui link publicado.`, 'alert');
                 return;
             }
 
@@ -986,8 +932,6 @@
 
                 badge.innerHTML = `<span style="color:var(--status-green);"><i class="fa-solid fa-circle-check"></i> ${contratoGlobal.toUpperCase()} Conectado (${rows.length} obras)</span>`;
                 aplicarLinhas(rows);
-                
-                adicionarFeedChat(`Carteira (${contratoGlobal.toUpperCase()}): <b>${rows.length} obras</b> carregadas com sucesso.`, 'success');
             } catch(e) {
                 badge.innerHTML = `<span style="color:var(--status-red);"><i class="fa-solid fa-triangle-exclamation"></i> Falha ao ler planilha de ${contratoGlobal.toUpperCase()}</span>`;
                 aplicarLinhas([]);
@@ -1161,7 +1105,7 @@
             }).join('');
         }
 
-        /* MAPA: PROCESSAMENTO */
+        /* MAPA: MARCADORES */
         function construirCoresEtapas() {
             mapaCoresEtapas = {};
             const unicas = new Set();
@@ -1205,14 +1149,13 @@
                 
                 let latRaw = buscarCampoFlexivel(item, 'LATITUDE', 'LAT', 'LAT_OBRA', 'LATITUDE OBRA');
                 let lngRaw = buscarCampoFlexivel(item, 'LONGITUDE', 'LNG', 'LONG', 'LONG_OBRA', 'LONGITUDE OBRA');
-                
                 if (typeof latRaw === 'string') latRaw = latRaw.replace(',', '.').trim();
                 if (typeof lngRaw === 'string') lngRaw = lngRaw.replace(',', '.').trim();
                 const lat = parseFloat(latRaw), lng = parseFloat(lngRaw);
 
                 if (isNaN(lat) || isNaN(lng) || lat === 0 || lng === 0) return;
 
-                const dataLimiteValor = buscarCampoFlexivel(item, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE', 'LIMITE EXECUCAO', 'PRAZO LIMITE');
+                const dataLimiteValor = buscarCampoFlexivel(item, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE', 'LIMITE EXECUCAO');
                 const diasRestantes = calcularDiasRestantes(dataLimiteValor);
 
                 if (diasRestantes <= 0) cViolada++;
@@ -1285,9 +1228,7 @@
             document.getElementById('count-total').innerText = cTotal;
 
             if (bounds.length > 0) {
-                try {
-                    map.fitBounds(bounds, { padding: [50, 50], maxZoom: 15 });
-                } catch(e) {}
+                try { map.fitBounds(bounds, { padding: [50, 50], maxZoom: 15 }); } catch(e) {}
             }
         }
 
@@ -1337,9 +1278,7 @@
 
             const tiposAbertosMap = contar(A, i => campoTxt(i, 'TIPO', 'TIPO DE SERVICO') || 'SEM TIPO');
             let tipoPillsHtml = '<div class="tipo-pills-wrap">';
-            tiposAbertosMap.forEach((qtd, tp) => {
-                tipoPillsHtml += `<span class="tipo-pill">${esc(tp)}: ${qtd}</span>`;
-            });
+            tiposAbertosMap.forEach((qtd, tp) => { tipoPillsHtml += `<span class="tipo-pill">${esc(tp)}: ${qtd}</span>`; });
             tipoPillsHtml += '</div>';
 
             const ehClienteCritico = i => {
@@ -1483,10 +1422,7 @@
             sincronizarTudoOnline();
         }
 
-        /* CHAT FLUTUANTE */
-        function toggleChatWindow() {
-            document.getElementById('chat-window').classList.toggle('open');
-        }
+        function toggleChatWindow() { document.getElementById('chat-window').classList.toggle('open'); }
 
         function adicionarFeedChat(texto, tipo = '') {
             const c = document.getElementById('chat-messages');
@@ -1519,31 +1455,24 @@
         sincronizarTudoOnline();
     </script>
 
-    <!-- PROGRAMAÇÃO DE OBRAS: ADAPTADA COM O NOVO LAYOUT DA IMAGEM 1 -->
+    <!-- PROGRAMAÇÃO DE OBRAS: DASHBOARD ORIGINAL, SEMANA (7 DIAS) E HISTÓRICO COM O NOVO VISUAL -->
     <script>
     (function(){
         const root = document.getElementById('tab-prog');
+        const $ = s => root.querySelector(s);
         const U = () => window.LINKS_PLANILHAS;
         const norm = s => String(s || '').replace(/\s+/g, ' ').trim().toLowerCase();
         const fmt = d => d.toLocaleDateString('pt-BR');
         const iso = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+        const sun = d => { const x = new Date(d); x.setDate(x.getDate() - x.getDay()); x.setHours(0, 0, 0, 0); return x; };
         const money = s => { s = String(s || '').replace(/[^\d,.-]/g, ''); if (!s) return 0; if (s.includes(',')) s = s.replace(/\./g, '').replace(',', '.'); return parseFloat(s) || 0; };
         const brl = v => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
         let DB = { angra: [], mage: [] }, OK = { angra: null, mage: null };
-        let modoVisualizacao = 'operacional'; // 'operacional' | 'dash'
-        let paginaAtual = 1, itensPorPagina = 50;
+        let tab = 'dash', wk = null, paginaAtual = 1, itensPorPagina = 50;
 
         let F = {
-            q: '',
-            base: '',
-            parceira: '',
-            statusGeral: '',
-            statusAcomp: '',
-            gestor: '',
-            coord: '',
-            dataDe: '',
-            dataAte: ''
+            q: '', base: '', parceira: '', statusGeral: '', statusAcomp: '', gestor: '', coord: '', dataDe: '', dataAte: ''
         };
 
         function parseCSV(t) {
@@ -1600,9 +1529,8 @@
 
                 const estStr = g(r, 'Estrutura');
                 const estQtd = extrairQuantidadesEstrutura(estStr);
-
-                // Campos correspondentes à imagem 1
                 const statusExec = (g(r, 'STATUS') || 'NÃO DEFINIDO').toUpperCase();
+
                 let statusAcomp = 'Não habilitado';
                 if (statusExec.includes('CONCL')) statusAcomp = 'Preenchido';
                 else if (statusExec.includes('ADIAD') || statusExec.includes('PEND')) statusAcomp = 'Pendente';
@@ -1613,42 +1541,54 @@
                     sob,
                     d,
                     iso: iso(d),
+                    base: g(r, 'BASE').toUpperCase() || 'RESENDE',
+                    tipo: g(r, 'Tipo de Serviço'),
+                    dataExec: dataExecRaw,
+                    diaSemana: g(r, 'Dia da semana'),
+                    prioridade: g(r, 'PRIORIDADE'),
+                    mk: estQtd.mk,
+                    cesto: estQtd.cesto,
+                    lv: estQtd.lv,
+                    poda: estQtd.poda,
+                    vencimentoObras: g(r, 'Vencimento de Obras'),
+                    st: statusExec,
+                    custoProg: g(r, 'Custo Programado'),
+                    baremoProg: g(r, 'Baremo Programado'),
+                    valorExec: g(r, 'Valor Executado'),
+                    complProg: g(r, 'Complemento Programado'),
+                    mun: g(r, 'Município'),
+                    bairro: g(r, 'Bairro'),
+                    desc: g(r, 'Descrição do serviço'),
+                    resp: g(r, 'Responsável Execução'),
                     usuario: g(r, 'Responsável Execução') ? norm(g(r, 'Responsável Execução')).replace(/\s+/g, '.') + '@ellca2.com.br' : 'operador@ellca2.com.br',
                     parceira: g(r, 'PARCEIRA') || (g(r, 'BASE').toUpperCase() === 'ANGRA' ? 'ELLCA' : 'ENGELMIG'),
-                    base: g(r, 'BASE').toUpperCase() || 'RESENDE',
                     gestorResp: g(r, 'Responsável Vistoria') || '—',
                     gestor: g(r, 'GESTOR') || g(r, 'Responsável Vistoria') || '—',
                     coordenador: g(r, 'COORDENADOR') || '—',
-                    dataCadastro: '30/10/2026, ' + (10 + (idCounter % 8)) + ':' + String(idCounter % 59).padStart(2, '0'),
-                    dataExec: dataExecRaw,
+                    dataCadastro: '30/10/2026, ' + (10 + (idCounter % 8)) + ':' + String(Math.abs(idCounter) % 59).padStart(2, '0'),
                     tipoSGD: g(r, 'Tipo de Serviço').includes('MT') ? 'AT/MT' : (g(r, 'Tipo de Serviço').includes('BT') ? 'BT' : 'ÁREA LIVRE'),
-                    sgd: g(r, 'SGD') || ('3001' + String(1000 + (idCounter % 9000))),
+                    sgd: g(r, 'SGD') || ('3001' + String(1000 + (Math.abs(idCounter) % 9000))),
                     alimentador: g(r, 'Alimentador') || (g(r, 'BASE').toUpperCase().includes('ANG') ? 'ANG09' : 'AVI04'),
-                    etapa: g(r, 'ETAPA') || (idCounter % 3 === 0 ? '2º ETAPA' : (idCounter % 4 === 0 ? 'DEMAIN ETAPA' : '—')),
+                    etapa: g(r, 'ETAPA') || (idCounter % 3 === 0 ? '2º ETAPA' : (idCounter % 4 === 0 ? 'DEMAIS ETAPA' : '—')),
                     obraComplexa: 'Não',
                     locacaoConjunto: 'Não',
                     analisePlano: 'Sim',
                     verificadoCampo: statusAcomp === 'Preenchido' ? 'Validado' : 'Não validado',
                     acompanhadaCampo: statusAcomp === 'Preenchido' ? 'Sim' : '—',
                     stAcompanhamento: statusAcomp,
-                    stGeral: statusExec,
-                    custoProg: g(r, 'Custo Programado'),
-                    baremoProg: g(r, 'Baremo Programado'),
-                    mk: estQtd.mk,
-                    cesto: estQtd.cesto,
-                    lv: estQtd.lv,
-                    poda: estQtd.poda,
                     raw
                 });
             }
             return out;
         }
 
+        const cls = s => s.startsWith('CONCL') ? 'CONCLUÍDO' : s.startsWith('CANCEL') ? 'CANCELADO' : s.startsWith('ADIAD') ? 'ADIADO' : s.startsWith('PARCIAL') ? 'PARCIAL' : 'OUTRO';
+
         async function sync(k) {
             const u = U()['prog_' + k];
             if (!u) {
                 OK[k] = false;
-                render();
+                renderHead();
                 return;
             }
             try {
@@ -1661,33 +1601,199 @@
             } catch (e) {
                 OK[k] = false;
             }
-            render();
+            renderHead(); renderView();
         }
 
-        function render() {
+        function renderHead() {
+            const cur = contratoGlobal;
+            const n = (DB[cur] || []).length;
+            $('#st').innerHTML = `<span style="display:inline-flex;align-items:center;gap:6px;"><span class="sinal-indicator" style="background:${OK[cur] ? 'var(--status-green)' : 'var(--status-red)'};"></span> <b>${OK[cur] ? 'Planilha Conectada' : 'Sem Conexão'}</b></span> &bull; Programação ${cur.toUpperCase()} &bull; <b>${n}</b> registros (≥ 2026)`;
+        }
+
+        function renderView() {
+            renderHead();
+            const cur = contratoGlobal;
+            if (!DB[cur] || !DB[cur].length) {
+                $('#v').innerHTML = `<div class="dcard" style="text-align:center;padding:48px;color:var(--text-muted);font-weight:500;">${OK[cur] === false ? 'A planilha de programação de ' + cur.toUpperCase() + ' está inacessível.' : 'Nenhum registro encontrado a partir de 2026.'}</div>`;
+                return;
+            }
+            if (tab === 'dash') renderProgDash();
+            else if (tab === 'week') renderProgWeek();
+            else if (tab === 'hist') renderProgHist();
+        }
+
+        /* DASHBOARD COMPLETO RESTAURADO */
+        function renderProgDash() {
             const cur = contratoGlobal;
             const all = DB[cur] || [];
 
-            document.getElementById('st').innerHTML = `<span style="display:inline-flex;align-items:center;gap:6px;"><span class="sinal-indicator" style="background:${OK[cur] ? 'var(--status-green)' : 'var(--status-red)'};"></span> <b>${OK[cur] ? 'Planilha Conectada' : 'Sem Conexão'}</b></span> &bull; Programação ${cur.toUpperCase()} &bull; <b>${all.length}</b> registros (≥ 2026)`;
+            const porDia = {};
+            let totalCusto = 0, totalBaremo = 0, totalMK = 0, totalCesto = 0, totalLV = 0, totalPoda = 0;
 
-            const container = document.getElementById('prog-view-container');
-            if (!all.length) {
-                container.innerHTML = `<div class="dcard" style="text-align:center;padding:48px;color:var(--text-muted);">${OK[cur] === false ? 'A planilha de programação de ' + cur.toUpperCase() + ' está inacessível.' : 'Nenhum registro encontrado a partir de 2026.'}</div>`;
-                return;
-            }
+            all.forEach(x => {
+                const k = x.iso;
+                if (!porDia[k]) porDia[k] = { total: 0, status: {}, mk: 0, cesto: 0, lv: 0, poda: 0, custo: 0, baremo: 0 };
+                porDia[k].total++;
+                const c = cls(x.st);
+                porDia[k].status[c] = (porDia[k].status[c] || 0) + 1;
+                porDia[k].mk += x.mk;
+                porDia[k].cesto += x.cesto;
+                porDia[k].lv += x.lv;
+                porDia[k].poda += x.poda;
+                const cp = money(x.custoProg);
+                const bp = money(x.baremoProg);
+                porDia[k].custo += cp;
+                porDia[k].baremo += bp;
 
-            if (modoVisualizacao === 'operacional') {
-                renderTabelaOperacional(all, container);
-            } else {
-                renderGraficosProg(all, container);
-            }
+                totalCusto += cp; totalBaremo += bp;
+                totalMK += x.mk; totalCesto += x.cesto; totalLV += x.lv; totalPoda += x.poda;
+            });
+
+            const diasOrdenados = Object.keys(porDia).sort();
+            const ultimosDias = diasOrdenados.slice(-14);
+
+            const maxQtd = Math.max(1, ...ultimosDias.map(d => porDia[d].total));
+            const colunasStatusHtml = `<div class="chart-columns-container">${ultimosDias.map(d => {
+                const o = porDia[d];
+                return `<div class="col-item-prog" title="${d}: ${o.total} obras">
+                    <b style="font-size:10px;color:var(--text-main);font-family:var(--font-mono);">${o.total}</b>
+                    <div class="bar-stack" style="height:${(o.total/maxQtd)*110}px;">
+                        <div style="height:${((o.status['CONCLUÍDO']||0)/o.total)*100}%;background:var(--status-green);"></div>
+                        <div style="height:${((o.status['PARCIAL']||0)/o.total)*100}%;background:var(--status-blue);"></div>
+                        <div style="height:${((o.status['ADIADO']||0)/o.total)*100}%;background:var(--status-amber);"></div>
+                        <div style="height:${((o.status['CANCELADO']||0)/o.total)*100}%;background:var(--status-red);"></div>
+                    </div>
+                    <span class="label-date">${d.slice(8)}/${d.slice(5,7)}</span>
+                </div>`;
+            }).join('')}</div>`;
+
+            const maxRec = Math.max(1, ...ultimosDias.map(d => porDia[d].mk + porDia[d].cesto + porDia[d].lv + porDia[d].poda));
+            const colunasRecursosHtml = `<div class="chart-columns-container">${ultimosDias.map(d => {
+                const o = porDia[d];
+                const sum = o.mk + o.cesto + o.lv + o.poda;
+                return `<div class="col-item-prog" title="${d} - MK: ${o.mk}, Cesto: ${o.cesto}, LV: ${o.lv}, Poda: ${o.poda}">
+                    <b style="font-size:10px;color:var(--text-main);font-family:var(--font-mono);">${sum}</b>
+                    <div class="bar-stack" style="height:${sum ? (sum/maxRec)*110 : 2}px;">
+                        <div style="height:${sum ? (o.mk/sum)*100 : 0}%;background:#047857;" title="MK: ${o.mk}"></div>
+                        <div style="height:${sum ? (o.cesto/sum)*100 : 0}%;background:#10B981;" title="Cesto: ${o.cesto}"></div>
+                        <div style="height:${sum ? (o.lv/sum)*100 : 0}%;background:#3B82F6;" title="Linha Viva: ${o.lv}"></div>
+                        <div style="height:${sum ? (o.poda/sum)*100 : 0}%;background:#EAB308;" title="Poda: ${o.poda}"></div>
+                    </div>
+                    <span class="label-date">${d.slice(8)}/${d.slice(5,7)}</span>
+                </div>`;
+            }).join('')}</div>`;
+
+            const maxCusto = Math.max(1, ...ultimosDias.map(d => Math.max(porDia[d].custo, porDia[d].baremo)));
+            const colunasCustosHtml = `<div class="chart-columns-container">${ultimosDias.map(d => {
+                const o = porDia[d];
+                const hCusto = (o.custo / maxCusto) * 110;
+                const hBaremo = (o.baremo / maxCusto) * 110;
+                return `<div class="col-item-prog" title="${d} - Custo: ${brl(o.custo)} | Baremo: ${brl(o.baremo)}">
+                    <div class="bar-dual">
+                        <div class="bar-single" style="height:${Math.max(2, hCusto)}px;background:#059669;" title="Custo: ${brl(o.custo)}"></div>
+                        <div class="bar-single" style="height:${Math.max(2, hBaremo)}px;background:#34D399;" title="Baremo: ${brl(o.baremo)}"></div>
+                    </div>
+                    <span class="label-date">${d.slice(8)}/${d.slice(5,7)}</span>
+                </div>`;
+            }).join('')}</div>`;
+
+            const concluidas = all.filter(x => cls(x.st) === 'CONCLUÍDO').length;
+            const canceladas = all.filter(x => cls(x.st) === 'CANCELADO').length;
+            const adiadas = all.filter(x => cls(x.st) === 'ADIADO').length;
+
+            $('#v').innerHTML = `
+                <div class="kpis-grid" style="grid-template-columns:repeat(6,1fr);margin-bottom:14px;">
+                    <div class="kpi"><b>${all.length}</b><span>Total Programadas</span></div>
+                    <div class="kpi" style="border-left-color:var(--status-green);"><b>${brl(totalCusto)}</b><span>Custo Total Prog.</span></div>
+                    <div class="kpi" style="border-left-color:var(--brand-accent);"><b>${brl(totalBaremo)}</b><span>Baremo Programado</span></div>
+                    <div class="kpi" style="border-left-color:#047857;"><b>${totalMK}</b><span>Total MK</span></div>
+                    <div class="kpi" style="border-left-color:#10B981;"><b>${totalCesto}</b><span>Total Cesto</span></div>
+                    <div class="kpi" style="border-left-color:#3B82F6;"><b>${totalLV}</b><span>Total Linha Viva</span></div>
+                </div>
+
+                <div class="dgrid">
+                    <div class="ditem dcard" style="--span:6;">
+                        <div class="dh"><h4><i class="fa-solid fa-chart-column"></i> Obras Diárias por Status</h4></div>
+                        <div style="font-size:11px;margin-bottom:6px;display:flex;gap:10px;font-weight:600;">
+                            <span style="color:var(--status-green);">■ Concluído</span>
+                            <span style="color:var(--status-blue);">■ Parcial</span>
+                            <span style="color:var(--status-amber);">■ Adiado</span>
+                            <span style="color:var(--status-red);">■ Cancelado</span>
+                        </div>
+                        ${colunasStatusHtml}
+                    </div>
+
+                    <div class="ditem dcard" style="--span:6;">
+                        <div class="dh"><h4><i class="fa-solid fa-truck-pickup"></i> Recursos Diários (MK, Cesto, Linha Viva e Poda)</h4></div>
+                        <div style="font-size:11px;margin-bottom:6px;display:flex;gap:10px;font-weight:600;">
+                            <span style="color:#047857;">■ MK (${totalMK})</span>
+                            <span style="color:#10B981;">■ Cesto (${totalCesto})</span>
+                            <span style="color:#3B82F6;">■ Linha Viva (${totalLV})</span>
+                            <span style="color:#EAB308;">■ Poda (${totalPoda})</span>
+                        </div>
+                        ${colunasRecursosHtml}
+                    </div>
+
+                    <div class="ditem dcard" style="--span:6;">
+                        <div class="dh"><h4><i class="fa-solid fa-money-bill-trend-up"></i> Custo Programado vs Baremo por Dia</h4></div>
+                        <div style="font-size:11px;margin-bottom:6px;display:flex;gap:10px;font-weight:600;">
+                            <span style="color:#059669;">■ Custo Programado</span>
+                            <span style="color:#34D399;">■ Baremo Programado</span>
+                        </div>
+                        ${colunasCustosHtml}
+                    </div>
+
+                    <div class="ditem dcard" style="--span:6;">
+                        <div class="dh"><h4><i class="fa-solid fa-lightbulb" style="color:var(--brand-accent);"></i> Análise Operacional da Programação</h4></div>
+                        <ul class="insights">
+                            <li>📈 <b>Eficiência de Campo:</b> <b>${concluidas}</b> programações concluídas no período a partir de 2026 (${all.length ? Math.round((concluidas/all.length)*100) : 0}% de taxa de entrega).</li>
+                            <li class="${canceladas > 0 ? 'alerta' : ''}">⚠️ <b>Desvios:</b> <b>${canceladas}</b> cancelamentos e <b>${adiadas}</b> adiamentos registrados na planilha.</li>
+                            <li>💰 <b>Relação Financeira:</b> O Custo total acumulado representa <b>${brl(totalCusto)}</b> em comparação com o Baremo de <b>${brl(totalBaremo)}</b>.</li>
+                            <li>🚜 <b>Demanda de Equipes:</b> A estrutura <b>MK</b> responde pelo maior volume de frentes de trabalho com <b>${totalMK}</b> alocações.</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
         }
 
-        /* RENDERIZAÇÃO DA TABELA CONFORME IMAGEM 1 */
-        function renderTabelaOperacional(all, container) {
+        /* SEMANA (7 DIAS) RESTAURADA */
+        function renderProgWeek() {
+            const cur = contratoGlobal;
+            const all = DB[cur] || [];
+            if (!wk) wk = sun(new Date());
+            const days = [...Array(7)].map((_, i) => { const d = new Date(wk); d.setDate(d.getDate() + i); return d; });
+            const td = iso(new Date());
+
+            $('#v').innerHTML = `
+                <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;">
+                    <button class="btn-modern-primary" style="padding:6px 12px;background:#475569;" id="pv-week"><i class="fa-solid fa-chevron-left"></i> Anterior</button>
+                    <button class="btn-modern-primary" style="padding:6px 12px;background:#475569;" id="tj-week"><i class="fa-solid fa-calendar-day"></i> Hoje</button>
+                    <button class="btn-modern-primary" style="padding:6px 12px;background:#475569;" id="nx-week">Próxima <i class="fa-solid fa-chevron-right"></i></button>
+                    <b style="font-size:13px;color:var(--text-main);margin-left:8px;">${fmt(wk)} a ${fmt(days[6])}</b>
+                </div>
+                <div class="week">
+                    ${days.map(d => {
+                        const k = iso(d), it = all.filter(x => x.iso == k);
+                        return `<div class="day ${k == td ? 'today' : ''}">
+                            <h4 style="font-size:11px;color:var(--text-muted);border-bottom:1px solid var(--border-light);padding-bottom:4px;margin-bottom:6px;font-weight:700;">${d.toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: '2-digit' })} (${it.length})</h4>
+                            ${it.map(x => `<div class="ev" onclick="window.PROG.showDetail('${esc(x.sob)}')"><b>${esc(x.sob)}</b><br><small style="color:var(--text-secondary);">${esc(x.mun || x.base)}</small></div>`).join('') || '<small style="color:var(--text-muted);">Sem registros</small>'}
+                        </div>`;
+                    }).join('')}
+                </div>
+            `;
+            $('#pv-week').onclick = () => { wk = new Date(wk); wk.setDate(wk.getDate() - 7); renderProgWeek(); };
+            $('#nx-week').onclick = () => { wk = new Date(wk); wk.setDate(wk.getDate() + 7); renderProgWeek(); };
+            $('#tj-week').onclick = () => { wk = sun(new Date()); renderProgWeek(); };
+        }
+
+        /* HISTÓRICO: MODELO DA IMAGEM 1 COMPLETO */
+        function renderProgHist() {
+            const cur = contratoGlobal;
+            const all = DB[cur] || [];
+
             const bases = [...new Set(all.map(x => x.base).filter(Boolean))].sort();
             const parceiras = [...new Set(all.map(x => x.parceira).filter(Boolean))].sort();
-            const statusGerais = [...new Set(all.map(x => x.stGeral).filter(Boolean))].sort();
+            const statusGerais = [...new Set(all.map(x => x.st).filter(Boolean))].sort();
             const statusAcomps = [...new Set(all.map(x => x.stAcompanhamento).filter(Boolean))].sort();
             const gestores = [...new Set(all.map(x => x.gestor).filter(x => x && x !== '—'))].sort();
             const coords = [...new Set(all.map(x => x.coordenador).filter(x => x && x !== '—'))].sort();
@@ -1699,7 +1805,7 @@
                 }
                 if (F.base && x.base !== F.base) return false;
                 if (F.parceira && x.parceira !== F.parceira) return false;
-                if (F.statusGeral && x.stGeral !== F.statusGeral) return false;
+                if (F.statusGeral && x.st !== F.statusGeral) return false;
                 if (F.statusAcomp && x.stAcompanhamento !== F.statusAcomp) return false;
                 if (F.gestor && x.gestor !== F.gestor) return false;
                 if (F.coord && x.coordenador !== F.coord) return false;
@@ -1720,9 +1826,10 @@
                 return 'badge-op-gray';
             }
 
-            container.innerHTML = `
+            $('#v').innerHTML = `
                 <div class="prog-filter-panel">
                     <div style="font-size:0.75rem;color:var(--text-muted);font-weight:700;">${filtrados.length} registro(s) — somente leitura, exceto as etapas de aprovação.</div>
+                    
                     <div class="prog-filter-row">
                         <input type="text" id="prog-filter-q" class="prog-input-field" placeholder="Pesquisar ID, ordem, usuário, SGD..." value="${esc(F.q)}" style="min-width:280px;flex:1;">
                         
@@ -1768,7 +1875,7 @@
                             <input type="date" id="prog-filter-ate" class="prog-input-field" value="${esc(F.dataAte)}">
                         </div>
 
-                        <button class="btn-modern-primary" style="padding:6px 12px;background:#475569;" onclick="window.PROG.limparFiltros()"><i class="fa-solid fa-filter-circle-xmark"></i> Limpar</button>
+                        <button class="btn-modern-primary" style="padding:6px 12px;background:#475569;" onclick="window.PROG.limparFiltrosHist()"><i class="fa-solid fa-filter-circle-xmark"></i> Limpar</button>
                     </div>
                 </div>
 
@@ -1800,7 +1907,7 @@
                         </thead>
                         <tbody>
                             ${paginados.length ? paginados.map(x => `
-                                <tr onclick="window.PROG.detalhar('${esc(x.sob)}')">
+                                <tr onclick="window.PROG.showDetail('${esc(x.sob)}')">
                                     <td class="id-cell">${esc(x.id)}</td>
                                     <td><b>${esc(x.sob)}</b></td>
                                     <td style="color:var(--text-secondary);">${esc(x.usuario)}</td>
@@ -1845,63 +1952,26 @@
                 </div>
             `;
 
-            // EVENTOS DE FILTROS
-            document.getElementById('prog-filter-q').oninput = e => { F.q = e.target.value; paginaAtual = 1; renderTabelaOperacional(all, container); };
-            document.getElementById('prog-filter-base').onchange = e => { F.base = e.target.value; paginaAtual = 1; renderTabelaOperacional(all, container); };
-            document.getElementById('prog-filter-parceira').onchange = e => { F.parceira = e.target.value; paginaAtual = 1; renderTabelaOperacional(all, container); };
-            document.getElementById('prog-filter-status').onchange = e => { F.statusGeral = e.target.value; paginaAtual = 1; renderTabelaOperacional(all, container); };
-            document.getElementById('prog-filter-acomp').onchange = e => { F.statusAcomp = e.target.value; paginaAtual = 1; renderTabelaOperacional(all, container); };
-            document.getElementById('prog-filter-gestor').onchange = e => { F.gestor = e.target.value; paginaAtual = 1; renderTabelaOperacional(all, container); };
-            document.getElementById('prog-filter-coord').onchange = e => { F.coord = e.target.value; paginaAtual = 1; renderTabelaOperacional(all, container); };
-            document.getElementById('prog-filter-de').onchange = e => { F.dataDe = e.target.value; paginaAtual = 1; renderTabelaOperacional(all, container); };
-            document.getElementById('prog-filter-ate').onchange = e => { F.dataAte = e.target.value; paginaAtual = 1; renderTabelaOperacional(all, container); };
+            $('#prog-filter-q').oninput = e => { F.q = e.target.value; paginaAtual = 1; renderProgHist(); };
+            $('#prog-filter-base').onchange = e => { F.base = e.target.value; paginaAtual = 1; renderProgHist(); };
+            $('#prog-filter-parceira').onchange = e => { F.parceira = e.target.value; paginaAtual = 1; renderProgHist(); };
+            $('#prog-filter-status').onchange = e => { F.statusGeral = e.target.value; paginaAtual = 1; renderProgHist(); };
+            $('#prog-filter-acomp').onchange = e => { F.statusAcomp = e.target.value; paginaAtual = 1; renderProgHist(); };
+            $('#prog-filter-gestor').onchange = e => { F.gestor = e.target.value; paginaAtual = 1; renderProgHist(); };
+            $('#prog-filter-coord').onchange = e => { F.coord = e.target.value; paginaAtual = 1; renderProgHist(); };
+            $('#prog-filter-de').onchange = e => { F.dataDe = e.target.value; paginaAtual = 1; renderProgHist(); };
+            $('#prog-filter-ate').onchange = e => { F.dataAte = e.target.value; paginaAtual = 1; renderProgHist(); };
         }
 
-        /* RENDERIZAÇÃO DOS GRÁFICOS DIÁRIOS */
-        function renderGraficosProg(all, container) {
-            const porDia = {};
-            all.forEach(x => {
-                const k = x.iso;
-                if (!porDia[k]) porDia[k] = { total: 0, concl: 0, parc: 0, cancel: 0 };
-                porDia[k].total++;
-                if (x.stAcompanhamento === 'Preenchido') porDia[k].concl++;
-                else if (x.stAcompanhamento === 'Pendente') porDia[k].parc++;
-                else porDia[k].cancel++;
-            });
-
-            const diasOrdenados = Object.keys(porDia).sort().slice(-14);
-            const maxQtd = Math.max(1, ...diasOrdenados.map(d => porDia[d].total));
-
-            container.innerHTML = `
-                <div class="dcard">
-                    <div class="dh"><h4><i class="fa-solid fa-chart-column"></i> Obras Diárias Programadas</h4></div>
-                    <div class="chart-columns-container">
-                        ${diasOrdenados.map(d => {
-                            const o = porDia[d];
-                            return `<div class="col-item-prog" title="${d}: ${o.total} obras">
-                                <b style="font-size:10px;color:var(--text-main);">${o.total}</b>
-                                <div class="bar-stack" style="height:${(o.total/maxQtd)*110}px;">
-                                    <div style="height:${(o.concl/o.total)*100}%;background:var(--status-green);"></div>
-                                    <div style="height:${(o.parc/o.total)*100}%;background:var(--status-amber);"></div>
-                                    <div style="height:${(o.cancel/o.total)*100}%;background:var(--status-red);"></div>
-                                </div>
-                                <span class="label-date">${d.slice(8)}/${d.slice(5,7)}</span>
-                            </div>`;
-                        }).join('')}
-                    </div>
-                </div>
-            `;
-        }
-
-        function detalhar(sob) {
+        function detail(sob) {
             const cur = contratoGlobal;
             const item = (DB[cur] || []).find(x => x.sob === sob);
             if (!item) return;
-            document.getElementById('dbody').innerHTML = `
+            $('#dbody').innerHTML = `
                 <div style="border-bottom:2px solid var(--brand-accent);padding-bottom:8px;margin-bottom:10px;">
                     <h3 style="color:var(--text-main);font-size:15px;font-weight:800;display:flex;justify-content:space-between;align-items:center;">
                         <span>SOB: <b>${esc(item.sob)}</b> (${esc(item.base)})</span>
-                        <span style="font-size:11px;background:var(--brand-soft);color:var(--brand-primary);padding:3px 10px;border-radius:var(--radius-pill);font-weight:700;">${esc(item.stAcompanhamento)}</span>
+                        <span style="font-size:11px;background:var(--brand-soft);color:var(--brand-primary);padding:3px 10px;border-radius:var(--radius-pill);font-weight:700;">${esc(item.st)}</span>
                     </h3>
                 </div>
                 <div class="compact-spec-grid">
@@ -1913,24 +1983,27 @@
                     `).join('')}
                 </div>
             `;
-            document.getElementById('dlg').showModal();
+            $('#dlg').showModal();
         }
+
+        $('#sub-prog-nav').onclick = e => {
+            const btn = e.target.closest('button');
+            if (btn && btn.dataset.t) {
+                tab = btn.dataset.t;
+                root.querySelectorAll('#sub-prog-nav button').forEach(b => b.classList.toggle('on', b.dataset.t == tab));
+                renderView();
+            }
+        };
 
         window.PROG = {
             setContrato(c) { paginaAtual = 1; sync(c); },
             show() { sync(contratoGlobal); },
-            detalhar,
-            alternarSubAba(modo) {
-                modoVisualizacao = modo;
-                document.getElementById('btn-sub-operacional').style.background = modo === 'operacional' ? 'var(--brand-primary)' : '#475569';
-                document.getElementById('btn-sub-dash').style.background = modo === 'dash' ? 'var(--brand-primary)' : '#475569';
-                render();
-            },
-            mudarPagina(d) { paginaAtual += d; render(); },
-            mudarTamanhoPagina(v) { itensPorPagina = parseInt(v, 10); paginaAtual = 1; render(); },
-            limparFiltros() {
+            showDetail: detail,
+            mudarPagina(delta) { paginaAtual += delta; renderProgHist(); },
+            mudarTamanhoPagina(val) { itensPorPagina = parseInt(val, 10); paginaAtual = 1; renderProgHist(); },
+            limparFiltrosHist() {
                 F = { q: '', base: '', parceira: '', statusGeral: '', statusAcomp: '', gestor: '', coord: '', dataDe: '', dataAte: '' };
-                paginaAtual = 1; render();
+                paginaAtual = 1; renderProgHist();
             }
         };
     })();
