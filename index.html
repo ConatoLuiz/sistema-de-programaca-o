@@ -4,20 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal de Gestão Operacional & Obras</title>
-    <!-- Google Fonts: Plus Jakarta Sans -->
+    
+    <!-- FAVICON DA ABA DO NAVEGADOR (LOGO LOBO VERDE) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2305140e' stroke='%2300ff66' stroke-width='4'/%3E%3Cpath d='M25 80 C 45 40, 55 20, 75 25 C 60 45, 45 60, 80 75 C 60 78, 40 76, 25 80 Z' fill='%2300ff66'/%3E%3Ctext x='50' y='64' font-size='42' font-family='Arial Black, sans-serif' font-weight='900' fill='%23ffffff' text-anchor='middle'%3EL%3C/text%3E%3C/svg%3E" />
+
+    <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <!-- Font Awesome Pro Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Font Awesome Icons 6.5.1 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    
     <!-- SheetJS -->
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
     <style>
         /* ========================================================
-           DESIGN SYSTEM PREMIUM - TEMA ESMERALDA & VIDRO
+           DESIGN SYSTEM - NEON GREEN & ENTERPRISE GLASS
            ======================================================== */
         :root {
             --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
@@ -26,1190 +33,559 @@
             --bg-base: #F8FAFC;
             --bg-surface: #FFFFFF;
             --bg-surface-elevated: #FFFFFF;
-            --bg-glass: rgba(255, 255, 255, 0.88);
-            --bg-glass-heavy: rgba(255, 255, 255, 0.95);
+            --bg-glass: rgba(255, 255, 255, 0.94);
 
-            --brand-primary: #047857;
+            --brand-primary: #059669;
             --brand-primary-light: #10B981;
             --brand-primary-dark: #064E3B;
-            --brand-accent: #059669;
+            --brand-neon: #00FF66;
+            --brand-accent: #10B981;
             --brand-soft: #ECFDF5;
             --brand-border: #A7F3D0;
 
             --border-light: #E2E8F0;
             --border-subtle: #F1F5F9;
-            --border-focus: #10B981;
 
             --text-main: #0F172A;
             --text-secondary: #475569;
             --text-muted: #64748B;
-            --text-inverse: #FFFFFF;
 
             --card-subtle: #F8FAFC;
             --card-hover: #F1F5F9;
 
             --status-green: #10B981;
-            --status-green-bg: #ECFDF5;
-            --status-amber: #F59E0B;
-            --status-amber-bg: #FFFBEB;
+            --status-green-bg: #DCFCE7;
+            --status-amber: #D97706;
+            --status-amber-bg: #FEF3C7;
             --status-red: #EF4444;
-            --status-red-bg: #FEF2F2;
+            --status-red-bg: #FEE2E2;
             --status-blue: #0284C7;
-            --status-blue-bg: #F0F9FF;
+            --status-blue-bg: #E0F2FE;
 
-            --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
-            --shadow-sm: 0 2px 8px -2px rgba(15, 23, 42, 0.06), 0 1px 4px -1px rgba(15, 23, 42, 0.04);
-            --shadow-md: 0 8px 20px -4px rgba(15, 23, 42, 0.08), 0 4px 8px -2px rgba(15, 23, 42, 0.04);
-            --shadow-lg: 0 18px 32px -6px rgba(15, 23, 42, 0.12), 0 8px 16px -4px rgba(15, 23, 42, 0.06);
-            --shadow-float: 0 24px 48px -12px rgba(15, 23, 42, 0.18);
+            --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.05);
+            --shadow-sm: 0 2px 8px -2px rgba(15, 23, 42, 0.06);
+            --shadow-md: 0 8px 20px -4px rgba(15, 23, 42, 0.08);
+            --shadow-float: 0 20px 40px -10px rgba(15, 23, 42, 0.18);
 
             --radius-sm: 6px;
             --radius-md: 10px;
-            --radius-lg: 16px;
+            --radius-lg: 14px;
             --radius-pill: 9999px;
-            --transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+            --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         body.dark-mode {
-            --bg-base: #081210;
-            --bg-surface: #0E1D19;
-            --bg-surface-elevated: #142822;
-            --bg-glass: rgba(14, 29, 25, 0.88);
-            --bg-glass-heavy: rgba(14, 29, 25, 0.95);
+            --bg-base: #06110D;
+            --bg-surface: #0C1E17;
+            --bg-surface-elevated: #122B22;
+            --bg-glass: rgba(12, 30, 23, 0.94);
 
             --brand-primary: #10B981;
             --brand-primary-light: #34D399;
             --brand-primary-dark: #059669;
-            --brand-accent: #34D399;
-            --brand-soft: rgba(16, 185, 129, 0.12);
-            --brand-border: #134E3C;
+            --brand-soft: rgba(16, 185, 129, 0.14);
+            --brand-border: #184434;
 
-            --border-light: #1A362E;
-            --border-subtle: #132A24;
-            --border-focus: #34D399;
+            --border-light: #18382D;
+            --border-subtle: #132D24;
 
             --text-main: #F8FAFC;
             --text-secondary: #CBD5E1;
             --text-muted: #64748B;
-            --text-inverse: #0F172A;
 
-            --card-subtle: #0B1814;
-            --card-hover: #162E27;
+            --card-subtle: #081712;
+            --card-hover: #132D24;
 
             --status-green: #34D399;
-            --status-green-bg: rgba(52, 211, 153, 0.14);
+            --status-green-bg: rgba(52, 211, 153, 0.15);
             --status-amber: #FBBF24;
-            --status-amber-bg: rgba(251, 191, 36, 0.14);
+            --status-amber-bg: rgba(251, 191, 36, 0.15);
             --status-red: #F87171;
-            --status-red-bg: rgba(248, 113, 113, 0.14);
+            --status-red-bg: rgba(248, 113, 113, 0.15);
             --status-blue: #38BDF8;
-            --status-blue-bg: rgba(56, 189, 248, 0.14);
+            --status-blue-bg: rgba(56, 189, 248, 0.15);
 
-            --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
-            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.35);
-            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5);
-            --shadow-lg: 0 16px 36px rgba(0, 0, 0, 0.65);
-            --shadow-float: 0 24px 50px rgba(0, 0, 0, 0.8);
+            --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.5);
+            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.4);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.6);
+            --shadow-float: 0 20px 45px rgba(0, 0, 0, 0.85);
         }
 
-        /* RESET & BASE */
         *, *::before, *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: var(--font-sans);
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+            margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-sans);
         }
 
         body {
             background-color: var(--bg-base);
             color: var(--text-main);
-            padding: 14px 20px;
+            padding: 12px 18px;
             min-height: 100vh;
             overflow-x: hidden;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            transition: background-color 0.25s ease, color 0.25s ease;
         }
 
-        /* SCROLLBAR CUSTOMIZADA */
         ::-webkit-scrollbar { width: 7px; height: 7px; }
         ::-webkit-scrollbar-track { background: var(--card-subtle); border-radius: var(--radius-pill); }
-        ::-webkit-scrollbar-thumb { background: var(--text-muted); opacity: 0.3; border-radius: var(--radius-pill); }
+        ::-webkit-scrollbar-thumb { background: var(--text-muted); opacity: 0.35; border-radius: var(--radius-pill); }
         ::-webkit-scrollbar-thumb:hover { background: var(--brand-accent); }
 
-        /* HEADER ELEGANTE */
+        /* HEADER & LOGO */
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: var(--bg-glass);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            border: 1px solid var(--border-light);
-            padding: 12px 20px;
-            border-radius: var(--radius-lg);
-            margin-bottom: 14px;
-            box-shadow: var(--shadow-sm);
-            position: sticky;
-            top: 10px;
-            z-index: 2500;
-            gap: 16px;
-            transition: var(--transition);
+            display: flex; justify-content: space-between; align-items: center;
+            background: var(--bg-glass); backdrop-filter: blur(14px);
+            border: 1px solid var(--border-light); border-top: 3.5px solid var(--brand-primary);
+            padding: 10px 18px; border-radius: var(--radius-lg); margin-bottom: 12px;
+            box-shadow: var(--shadow-sm); position: sticky; top: 8px; z-index: 2500;
+            gap: 12px; flex-wrap: wrap;
         }
 
-        .brand-container {
-            display: flex;
-            align-items: center;
-            gap: 12px;
+        .brand-container { display: flex; align-items: center; gap: 12px; }
+
+        .brand-logo-frame {
+            width: 46px; height: 46px; border-radius: 12px;
+            background: radial-gradient(circle, #0e3728 0%, #030d09 100%);
+            border: 2px solid var(--brand-neon);
+            box-shadow: 0 0 14px rgba(0, 255, 102, 0.45);
+            display: flex; align-items: center; justify-content: center;
+            position: relative; overflow: hidden; flex-shrink: 0;
         }
 
-        .brand-icon-box {
-            width: 40px;
-            height: 40px;
-            border-radius: var(--radius-md);
-            background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-primary-light) 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #FFFFFF;
-            font-size: 1.15rem;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-            flex-shrink: 0;
-        }
+        .brand-logo-svg { width: 100%; height: 100%; }
 
-        .brand-text-group {
-            display: flex;
-            flex-direction: column;
-        }
-
+        .brand-text-group { display: flex; flex-direction: column; }
         .brand-title {
-            font-size: 1.05rem;
-            font-weight: 800;
-            letter-spacing: -0.4px;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-size: 1.05rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.3px;
         }
+        .brand-subtitle { font-size: 0.73rem; font-weight: 500; color: var(--text-muted); }
 
-        .brand-subtitle {
-            font-size: 0.72rem;
-            font-weight: 500;
-            color: var(--text-muted);
-            letter-spacing: 0.2px;
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
+        .header-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 
         .select-contract-master {
-            appearance: none;
-            background: var(--bg-surface);
-            border: 1.5px solid var(--border-light);
-            color: var(--text-main);
-            padding: 8px 36px 8px 14px;
-            border-radius: var(--radius-md);
-            font-size: 0.82rem;
-            font-weight: 700;
-            cursor: pointer;
-            outline: none;
-            transition: var(--transition);
-            background-image: url("data:image/svg://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%2364748B'%3E%3Cpath fill-rule='evenodd' d='M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.25 4.25a.75.75 0 01-1.06 0L5.21 8.27a.75.75 0 01.02-1.06z' clip-rule='evenodd' /%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 10px center;
-            background-size: 18px;
-            box-shadow: var(--shadow-xs);
+            background: var(--bg-surface); border: 1.5px solid var(--brand-accent);
+            color: var(--text-main); padding: 7px 12px; border-radius: var(--radius-md);
+            font-size: 0.82rem; font-weight: 700; cursor: pointer; outline: none; transition: var(--transition);
         }
-        .select-contract-master:hover, .select-contract-master:focus {
-            border-color: var(--brand-accent);
-            box-shadow: 0 0 0 3px var(--brand-soft);
-        }
+        .select-contract-master:focus { box-shadow: 0 0 0 3px var(--brand-soft); }
 
         .btn-modern-primary {
             background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-accent) 100%);
-            color: #FFFFFF;
-            border: none;
-            padding: 8px 16px;
-            border-radius: var(--radius-md);
-            font-size: 0.82rem;
-            font-weight: 600;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 3px 10px rgba(16, 185, 129, 0.25);
+            color: #FFFFFF; border: none; padding: 7px 14px; border-radius: var(--radius-md);
+            font-size: 0.82rem; font-weight: 600; cursor: pointer; display: inline-flex;
+            align-items: center; gap: 7px; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.25);
             transition: var(--transition);
         }
         .btn-modern-primary:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35);
-            filter: brightness(1.05);
-        }
-        .btn-modern-primary:active {
-            transform: translateY(0);
+            transform: translateY(-1px); box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35); filter: brightness(1.08);
         }
 
         .btn-theme-toggle {
-            background: var(--bg-surface);
-            border: 1.5px solid var(--border-light);
-            color: var(--text-main);
-            padding: 8px 14px;
-            border-radius: var(--radius-md);
-            font-size: 0.82rem;
-            font-weight: 600;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: var(--transition);
-            box-shadow: var(--shadow-xs);
+            background: var(--bg-surface); border: 1.5px solid var(--border-light);
+            color: var(--text-main); padding: 7px 12px; border-radius: var(--radius-md);
+            font-size: 0.82rem; font-weight: 600; cursor: pointer; display: inline-flex;
+            align-items: center; gap: 7px; transition: var(--transition);
         }
-        .btn-theme-toggle:hover {
-            background: var(--card-hover);
-            border-color: var(--brand-accent);
-            color: var(--brand-accent);
-        }
+        .btn-theme-toggle:hover { border-color: var(--brand-accent); color: var(--brand-accent); }
 
-        /* NAVEGAÇÃO ENTRE ABAS */
+        /* NAVEGAÇÃO DE ABAS */
         .tabs-nav {
-            display: flex;
-            gap: 6px;
-            margin-bottom: 14px;
-            background: var(--bg-surface);
-            padding: 6px;
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--border-light);
-            box-shadow: var(--shadow-xs);
-            overflow-x: auto;
+            display: flex; gap: 6px; margin-bottom: 12px; background: var(--bg-surface);
+            padding: 5px; border-radius: var(--radius-lg); border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-xs); overflow-x: auto;
         }
-
         .tab-nav-item {
-            background: transparent;
-            border: none;
-            color: var(--text-secondary);
-            padding: 8px 18px;
-            font-weight: 600;
-            font-size: 0.82rem;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: var(--transition);
-            border-radius: var(--radius-md);
-            white-space: nowrap;
+            background: transparent; border: none; color: var(--text-secondary);
+            padding: 8px 16px; font-weight: 600; font-size: 0.82rem; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 8px; transition: var(--transition);
+            border-radius: var(--radius-md); white-space: nowrap;
         }
-        .tab-nav-item i { font-size: 0.95rem; opacity: 0.8; }
-        .tab-nav-item:hover {
-            color: var(--brand-accent);
-            background: var(--brand-soft);
-        }
+        .tab-nav-item i { font-size: 0.95rem; }
+        .tab-nav-item:hover { color: var(--brand-accent); background: var(--brand-soft); }
         .tab-nav-item.active {
-            color: #FFFFFF;
-            background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-accent) 100%);
-            box-shadow: 0 3px 10px rgba(16, 185, 129, 0.28);
-            font-weight: 700;
+            color: #FFFFFF; background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-accent) 100%);
+            box-shadow: 0 3px 10px rgba(16, 185, 129, 0.28); font-weight: 700;
         }
-        .tab-nav-item.active i { opacity: 1; }
-
         #tab-carteira, #tab-prog, #tab-fontes { display: none; }
 
-        /* ========================================================
-           MAPA COM CARDS DE VIDRO FLUTUANTES
-           ======================================================== */
+        /* ABA 1: MAPA */
         .map-container {
-            position: relative;
-            width: 100%;
-            height: calc(85vh - 70px);
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--border-light);
-            overflow: hidden;
-            box-shadow: var(--shadow-md);
+            position: relative; width: 100%; height: calc(85vh - 70px);
+            border-radius: var(--radius-lg); border: 1px solid var(--border-light);
+            overflow: hidden; box-shadow: var(--shadow-md);
         }
-        #map { height: 100%; width: 100%; min-height: 500px; }
+        #map { height: 100%; width: 100%; min-height: 480px; }
 
         .floating-sla-panel {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            width: 230px;
-            background: var(--bg-glass-heavy);
-            backdrop-filter: blur(16px);
-            border: 1px solid var(--border-light);
-            border-radius: var(--radius-md);
-            padding: 12px 14px;
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
+            position: absolute; top: 16px; right: 16px; width: 230px;
+            background: var(--bg-glass); backdrop-filter: blur(14px);
+            border: 1px solid var(--border-light); border-radius: var(--radius-md);
+            padding: 10px 14px; z-index: 1000; display: flex; flex-direction: column; gap: 5px;
             box-shadow: var(--shadow-lg);
-            animation: fadeIn 0.3s ease;
         }
-
         .floating-sla-title {
-            font-size: 0.72rem;
-            color: var(--text-muted);
-            border-bottom: 1px solid var(--border-light);
-            padding-bottom: 6px;
-            margin-bottom: 2px;
-            text-transform: uppercase;
-            letter-spacing: 0.6px;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            gap: 6px;
+            font-size: 0.72rem; color: var(--text-muted); border-bottom: 1px solid var(--border-light);
+            padding-bottom: 5px; margin-bottom: 2px; text-transform: uppercase; font-weight: 800;
+            letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px;
         }
-
         .sla-mini-card {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.79rem;
-            font-weight: 600;
-            cursor: pointer;
-            padding: 6px 10px;
-            border-radius: var(--radius-sm);
-            transition: var(--transition);
-            border: 1px solid transparent;
+            display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem;
+            font-weight: 600; cursor: pointer; padding: 5px 8px; border-radius: var(--radius-sm);
+            transition: var(--transition); border: 1px solid transparent;
         }
-        .sla-mini-card:hover {
-            background: var(--card-hover);
-        }
-        .sla-mini-card.active {
-            background: var(--brand-soft);
-            border-color: var(--brand-border);
-        }
-        .sla-mini-val {
-            font-family: var(--font-mono);
-            font-weight: 700;
-            font-size: 0.88rem;
-        }
+        .sla-mini-card:hover { background: var(--card-hover); }
+        .sla-mini-card.active { background: var(--brand-soft); border-color: var(--brand-border); }
+        .sla-mini-val { font-family: var(--font-mono); font-weight: 700; font-size: 0.88rem; }
 
         .floating-legend-panel {
-            position: absolute;
-            bottom: 24px;
-            left: 16px;
-            width: 210px;
-            background: var(--bg-glass-heavy);
-            backdrop-filter: blur(16px);
+            position: absolute; bottom: 20px; left: 16px; width: 210px;
+            background: var(--bg-glass); backdrop-filter: blur(14px);
+            border: 1px solid var(--border-light); border-radius: var(--radius-md);
+            padding: 10px 14px; z-index: 1000; box-shadow: var(--shadow-lg);
+            max-height: 220px; overflow-y: auto;
+        }
+        .legend-title {
+            font-size: 0.72rem; color: var(--text-muted); border-bottom: 1px solid var(--border-light);
+            padding-bottom: 5px; margin-bottom: 6px; text-transform: uppercase; font-weight: 800;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.76rem; font-weight: 600; margin-bottom: 5px; }
+        .legend-color-dot { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid #FFF; flex-shrink: 0; }
+
+        .leaflet-popup-content-wrapper { background: var(--bg-surface-elevated) !important; color: var(--text-main) !important; border: 1px solid var(--border-light); border-radius: var(--radius-md); box-shadow: var(--shadow-float); }
+        .leaflet-popup-tip { background: var(--bg-surface-elevated) !important; }
+        .popup-card { font-size: 0.82rem; line-height: 1.45; padding: 6px; min-width: 250px; }
+        .popup-card h3 { font-size: 0.9rem; font-weight: 800; color: var(--brand-primary); border-bottom: 1px solid var(--border-light); padding-bottom: 5px; margin-bottom: 6px; }
+        .popup-item { margin-bottom: 3px; color: var(--text-secondary); font-size: 0.76rem; }
+        .popup-item strong { color: var(--text-main); font-weight: 700; }
+        .btn-maps-link {
+            display: flex; align-items: center; justify-content: center; gap: 6px;
+            background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-accent) 100%);
+            color: #FFFFFF !important; text-decoration: none; font-weight: 600; font-size: 0.75rem;
+            padding: 7px 10px; border-radius: var(--radius-sm); margin-top: 8px; transition: var(--transition);
+        }
+        .badge-violada { background: var(--status-red-bg); color: var(--status-red); border: 1px solid var(--status-red); padding: 4px; border-radius: 4px; font-weight: 700; margin-top: 6px; display: block; font-size: 0.74rem; text-align: center; }
+        .badge-alerta { background: var(--status-amber-bg); color: var(--status-amber); border: 1px solid var(--status-amber); padding: 4px; border-radius: 4px; font-weight: 700; margin-top: 6px; display: block; font-size: 0.74rem; text-align: center; }
+
+        /* ABA 2: CARTEIRA DE PROJETOS */
+        .cart-glass-toolbar {
+            display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 10px;
+            background: var(--bg-surface); padding: 9px 12px; border-radius: var(--radius-md);
+            border: 1px solid var(--border-light); box-shadow: var(--shadow-xs);
+        }
+        .cart-search-box {
+            background: var(--bg-base); border: 1.5px solid var(--border-light); color: var(--text-main);
+            padding: 7px 11px; border-radius: var(--radius-sm); font-size: 0.8rem; min-width: 200px; outline: none; transition: var(--transition);
+        }
+        .cart-search-box:focus { border-color: var(--brand-accent); background: var(--bg-surface); }
+        .cart-badge-chip {
+            display: inline-flex; align-items: center; gap: 6px; background: var(--card-subtle);
+            border: 1px solid var(--border-light); border-radius: var(--radius-pill);
+            padding: 4px 9px; font-size: 0.74rem; font-weight: 700; color: var(--text-secondary);
+        }
+        .sinal-indicator { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+
+        .etapa-chips-container { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+        .etapa-chip-btn {
+            display: inline-flex; align-items: center; gap: 6px; background: var(--bg-surface); border: 1px solid var(--border-light);
+            border-radius: var(--radius-pill); padding: 4px 10px; font-size: 0.74rem; font-weight: 700; cursor: pointer;
+            color: var(--text-secondary); transition: var(--transition);
+        }
+        .etapa-chip-btn.active { background: var(--brand-soft); border-color: var(--brand-border); color: var(--brand-primary); }
+
+        .cart-table-panel {
+            background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: var(--radius-md);
+            max-height: 72vh; overflow: auto; box-shadow: var(--shadow-xs);
+        }
+        table.cart-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 0.79rem; }
+        table.cart-table th {
+            position: sticky; top: 0; background: var(--bg-surface-elevated); color: var(--text-muted);
+            font-size: 0.69rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.4px;
+            text-align: left; padding: 9px 12px; border-bottom: 1.5px solid var(--border-light); white-space: nowrap; z-index: 2;
+        }
+        table.cart-table td { padding: 9px 12px; border-bottom: 1px solid var(--border-subtle); white-space: nowrap; color: var(--text-main); }
+        table.cart-table tbody tr:hover td { background: var(--brand-soft); }
+        .cart-empty { padding: 40px; text-align: center; color: var(--text-muted); }
+
+        /* ========================================================
+           ABA 3: PROGRAMAÇÃO OPERACIONAL (LAYOUT DA IMAGEM 1)
+           ======================================================== */
+        .prog-filter-panel {
+            background: var(--bg-surface);
             border: 1px solid var(--border-light);
             border-radius: var(--radius-md);
             padding: 12px 14px;
-            z-index: 1000;
-            box-shadow: var(--shadow-lg);
-            max-height: 230px;
-            overflow-y: auto;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .legend-title {
-            font-size: 0.72rem;
-            color: var(--text-muted);
-            border-bottom: 1px solid var(--border-light);
-            padding-bottom: 6px;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.6px;
-            font-weight: 800;
+            margin-bottom: 12px;
+            box-shadow: var(--shadow-xs);
             display: flex;
-            align-items: center;
-            gap: 6px;
+            flex-direction: column;
+            gap: 10px;
         }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.76rem;
-            font-weight: 600;
-            margin-bottom: 6px;
-            color: var(--text-main);
-        }
-        .legend-color-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            border: 2px solid #FFF;
-            box-shadow: 0 0 4px rgba(0,0,0,0.25);
-            flex-shrink: 0;
-        }
-
-        /* POPUP CUSTOMIZADO DO MAPA */
-        .leaflet-popup-content-wrapper {
-            background: var(--bg-surface-elevated) !important;
-            color: var(--text-main) !important;
-            border: 1px solid var(--border-light);
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-float);
-            padding: 4px;
-        }
-        .leaflet-popup-tip { background: var(--bg-surface-elevated) !important; }
-        .popup-card {
-            font-size: 0.83rem;
-            line-height: 1.5;
-            padding: 8px;
-            min-width: 250px;
-        }
-        .popup-card h3 {
-            font-size: 0.92rem;
-            font-weight: 800;
-            color: var(--brand-primary);
-            border-bottom: 1px solid var(--border-light);
-            padding-bottom: 6px;
-            margin-bottom: 8px;
-            letter-spacing: -0.2px;
-        }
-        .popup-item {
-            margin-bottom: 4px;
-            color: var(--text-secondary);
-            font-size: 0.78rem;
-        }
-        .popup-item strong {
-            color: var(--text-main);
-            font-weight: 700;
-        }
-        .btn-maps-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-accent) 100%);
-            color: #FFFFFF !important;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.76rem;
-            padding: 8px 12px;
-            border-radius: var(--radius-sm);
-            margin-top: 10px;
-            transition: var(--transition);
-            box-shadow: 0 2px 6px rgba(16, 185, 129, 0.25);
-        }
-        .btn-maps-link:hover {
-            filter: brightness(1.1);
-            transform: translateY(-1px);
-        }
-
-        .badge-violada {
-            background: var(--status-red-bg);
-            color: var(--status-red);
-            border: 1px solid var(--status-red);
-            padding: 4px 8px;
-            border-radius: var(--radius-sm);
-            font-weight: 700;
-            margin-top: 8px;
-            display: block;
-            font-size: 0.76rem;
-            text-align: center;
-        }
-        .badge-alerta {
-            background: var(--status-amber-bg);
-            color: var(--status-amber);
-            border: 1px solid var(--status-amber);
-            padding: 4px 8px;
-            border-radius: var(--radius-sm);
-            font-weight: 700;
-            margin-top: 8px;
-            display: block;
-            font-size: 0.76rem;
-            text-align: center;
-        }
-
-        /* ========================================================
-           CARTEIRA DE PROJETOS & TABELAS REFINADAS
-           ======================================================== */
-        .cart-glass-toolbar {
+        .prog-filter-row {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
             align-items: center;
-            margin-bottom: 12px;
-            background: var(--bg-surface);
-            padding: 10px 14px;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--border-light);
-            box-shadow: var(--shadow-xs);
         }
-
-        .cart-search-box {
+        .prog-input-field {
             background: var(--bg-base);
             border: 1.5px solid var(--border-light);
             color: var(--text-main);
-            padding: 8px 12px;
+            padding: 7px 11px;
             border-radius: var(--radius-sm);
-            font-size: 0.82rem;
-            min-width: 220px;
+            font-size: 0.8rem;
             outline: none;
             transition: var(--transition);
         }
-        .cart-search-box:focus {
-            border-color: var(--border-focus);
-            background: var(--bg-surface);
-            box-shadow: 0 0 0 3px var(--brand-soft);
-        }
-
-        .cart-badge-chip {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: var(--card-subtle);
-            border: 1px solid var(--border-light);
-            border-radius: var(--radius-pill);
-            padding: 4px 10px;
-            font-size: 0.74rem;
-            font-weight: 700;
-            color: var(--text-secondary);
-        }
-        .sinal-indicator {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            display: inline-block;
-        }
-
-        .etapa-chips-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-bottom: 12px;
-        }
-
-        .etapa-chip-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: var(--bg-surface);
-            border: 1px solid var(--border-light);
-            border-radius: var(--radius-pill);
-            padding: 5px 12px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            cursor: pointer;
-            color: var(--text-secondary);
-            transition: var(--transition);
-            box-shadow: var(--shadow-xs);
-        }
-        .etapa-chip-btn:hover {
+        .prog-input-field:focus {
             border-color: var(--brand-accent);
-            transform: translateY(-1px);
+            background: var(--bg-surface);
         }
-        .etapa-chip-btn.active {
-            background: var(--brand-soft);
-            border-color: var(--brand-border);
-            color: var(--brand-primary);
+        .prog-date-group {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--text-secondary);
         }
 
-        .cart-table-panel {
+        .table-prog-container {
             background: var(--bg-surface);
             border: 1px solid var(--border-light);
             border-radius: var(--radius-md);
-            max-height: 72vh;
             overflow: auto;
+            max-height: 65vh;
             box-shadow: var(--shadow-sm);
         }
-
-        table.cart-table {
+        table.table-prog-operacional {
             width: 100%;
             border-collapse: separate;
             border-spacing: 0;
-            font-size: 0.8rem;
+            font-size: 0.76rem;
         }
-
-        table.cart-table th {
+        table.table-prog-operacional th {
             position: sticky;
             top: 0;
-            background: var(--bg-surface-elevated);
-            color: var(--text-muted);
-            font-size: 0.7rem;
+            background: #F8FAFC;
+            color: #475569;
+            font-size: 0.68rem;
             font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.6px;
-            text-align: left;
-            padding: 10px 14px;
+            text-transform: capitalize;
+            padding: 9px 10px;
             border-bottom: 1.5px solid var(--border-light);
+            border-right: 1px solid var(--border-subtle);
             white-space: nowrap;
-            z-index: 2;
+            z-index: 5;
+            user-select: none;
         }
-
-        table.cart-table td {
-            padding: 10px 14px;
-            border-bottom: 1px solid var(--border-subtle);
-            white-space: nowrap;
-            color: var(--text-main);
-            transition: background 0.15s;
+        body.dark-mode table.table-prog-operacional th {
+            background: #10261E;
+            color: #94A3B8;
         }
-
-        table.cart-table tbody tr {
-            cursor: pointer;
-        }
-        table.cart-table tbody tr:hover td {
-            background: var(--brand-soft);
-        }
-        .cart-empty {
-            padding: 48px;
-            text-align: center;
+        table.table-prog-operacional th i {
+            margin-left: 3px;
+            font-size: 0.65rem;
             color: var(--text-muted);
-            font-weight: 500;
         }
-
-        table.table-center th, table.table-center td { text-align: center !important; }
-
-        /* ========================================================
-           MODAIS FULLSCREEN & POPUPS MODERNOS
-           ======================================================== */
-        #modal-dash-fullscreen {
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 4500;
-            background: var(--bg-base);
-            overflow-y: auto;
-            padding: 24px;
-            animation: fadeIn 0.25s ease;
-        }
-
-        .dash-modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: var(--bg-glass);
-            backdrop-filter: blur(14px);
-            border: 1px solid var(--border-light);
-            padding: 12px 20px;
-            border-radius: var(--radius-lg);
-            margin-bottom: 18px;
-            box-shadow: var(--shadow-sm);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .dash-modal-title {
-            font-size: 1.15rem;
-            font-weight: 800;
+        table.table-prog-operacional td {
+            padding: 7px 10px;
+            border-bottom: 1px solid var(--border-subtle);
+            border-right: 1px solid var(--border-subtle);
+            white-space: nowrap;
             color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            vertical-align: middle;
+        }
+        table.table-prog-operacional tbody tr:hover td {
+            background: rgba(16, 185, 129, 0.05);
+        }
+        
+        .id-cell {
+            font-family: var(--font-mono);
+            font-weight: 800;
+            color: var(--brand-primary);
         }
 
-        /* KPIS GRID AVANÇADO */
-        .kpis-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 10px;
-            margin-bottom: 14px;
+        /* BADGES OPERACIONAIS DO SISTEMA */
+        .badge-op {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2px 8px;
+            border-radius: var(--radius-pill);
+            font-size: 0.72rem;
+            font-weight: 700;
+            border: 1px solid transparent;
+            white-space: nowrap;
         }
+        .badge-op-green { background: #DCFCE7; color: #15803D; border-color: #86EFAC; }
+        .badge-op-blue { background: #E0F2FE; color: #0369A1; border-color: #BAE6FD; }
+        .badge-op-amber { background: #FEF3C7; color: #B45309; border-color: #FCD34D; }
+        .badge-op-gray { background: #F1F5F9; color: #64748B; border-color: #CBD5E1; }
+        .badge-op-red { background: #FEE2E2; color: #B91C1C; border-color: #FCA5A5; }
+        
+        body.dark-mode .badge-op-green { background: rgba(52, 211, 153, 0.15); color: #34D399; border-color: rgba(52, 211, 153, 0.3); }
+        body.dark-mode .badge-op-blue { background: rgba(56, 189, 248, 0.15); color: #38BDF8; border-color: rgba(56, 189, 248, 0.3); }
+        body.dark-mode .badge-op-amber { background: rgba(251, 191, 36, 0.15); color: #FBBF24; border-color: rgba(251, 191, 36, 0.3); }
+        body.dark-mode .badge-op-gray { background: rgba(148, 163, 184, 0.15); color: #94A3B8; border-color: rgba(148, 163, 184, 0.3); }
+        body.dark-mode .badge-op-red { background: rgba(248, 113, 113, 0.15); color: #F87171; border-color: rgba(248, 113, 113, 0.3); }
+
+        /* DASHBOARD PROGRAMAÇÃO */
+        .chart-columns-container {
+            display: flex; align-items: flex-end; gap: 8px; height: 160px;
+            padding: 14px 6px 4px 6px; overflow-x: auto; border-bottom: 1.5px solid var(--border-light);
+        }
+        .col-item-prog {
+            flex: 1; min-width: 44px; display: flex; flex-direction: column;
+            justify-content: flex-end; align-items: center; height: 100%; font-size: 10px; text-align: center;
+        }
+        .col-item-prog .bar-stack {
+            width: 22px; display: flex; flex-direction: column-reverse; border-radius: 4px 4px 0 0;
+            overflow: hidden; background: var(--card-subtle);
+        }
+        .col-item-prog .bar-dual { display: flex; gap: 3px; align-items: flex-end; height: 120px; }
+        .col-item-prog .bar-single { width: 10px; border-radius: 3px 3px 0 0; min-height: 2px; }
+        .col-item-prog .label-date { margin-top: 6px; color: var(--text-muted); font-weight: 700; }
+
+        /* MODAIS */
+        #modal-dash-fullscreen {
+            display: none; position: fixed; inset: 0; z-index: 4500;
+            background: var(--bg-base); overflow-y: auto; padding: 20px;
+        }
+        .dash-modal-header {
+            display: flex; justify-content: space-between; align-items: center;
+            background: var(--bg-glass); border: 1px solid var(--border-light);
+            padding: 12px 18px; border-radius: var(--radius-lg); margin-bottom: 16px;
+            box-shadow: var(--shadow-sm); position: sticky; top: 0; z-index: 100;
+        }
+        .dash-modal-title { font-size: 1.1rem; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+
+        .kpis-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-bottom: 12px; }
         @media (max-width: 1400px) { .kpis-grid { grid-template-columns: repeat(4, 1fr); } }
         @media (max-width: 900px) { .kpis-grid { grid-template-columns: repeat(2, 1fr); } }
 
         .kpi {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-light);
-            border-radius: var(--radius-md);
-            padding: 12px 14px;
-            border-left: 4px solid var(--brand-accent);
-            box-shadow: var(--shadow-xs);
-            transition: var(--transition);
+            background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: var(--radius-md);
+            padding: 10px 12px; border-left: 4px solid var(--brand-accent); box-shadow: var(--shadow-xs);
         }
-        .kpi:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-        .kpi b {
-            display: block;
-            font-size: 1.4rem;
-            font-family: var(--font-mono);
-            color: var(--text-main);
-            font-weight: 800;
-            letter-spacing: -0.5px;
-        }
-        .kpi span {
-            font-size: 0.68rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            font-weight: 700;
-            letter-spacing: 0.4px;
-        }
+        .kpi b { display: block; font-size: 1.35rem; font-family: var(--font-mono); font-weight: 800; }
+        .kpi span { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; }
 
-        .tipo-pills-wrap {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 4px;
-            margin-top: 6px;
-        }
-        .tipo-pill {
-            font-size: 9px;
-            font-weight: 700;
-            padding: 2px 6px;
-            background: var(--brand-soft);
-            color: var(--brand-primary);
-            border-radius: var(--radius-pill);
-            border: 1px solid var(--brand-border);
-        }
+        .tipo-pills-wrap { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 4px; }
+        .tipo-pill { font-size: 9px; font-weight: 700; padding: 2px 5px; background: var(--brand-soft); color: var(--brand-primary); border-radius: var(--radius-pill); border: 1px solid var(--brand-border); }
 
-        .dgrid {
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            gap: 12px;
-        }
+        .dgrid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 10px; }
         .ditem { grid-column: span var(--span, 6); min-width: 0; }
-        .dcard {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-light);
-            border-radius: var(--radius-md);
-            padding: 16px;
-            box-shadow: var(--shadow-xs);
-        }
-        .dh {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            border-bottom: 1px solid var(--border-subtle);
-            padding-bottom: 8px;
-        }
-        .dh h4 {
-            font-size: 0.78rem;
-            color: var(--text-main);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+        .dcard { background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 14px; box-shadow: var(--shadow-xs); }
+        .dh { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .dh h4 { font-size: 0.75rem; text-transform: uppercase; font-weight: 800; display: flex; align-items: center; gap: 6px; }
 
-        .dbar {
-            display: grid;
-            grid-template-columns: 130px 1fr 40px;
-            gap: 10px;
-            align-items: center;
-            font-size: 0.76rem;
-            margin-bottom: 7px;
-        }
-        .dbar > span {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            color: var(--text-secondary);
-            font-weight: 600;
-        }
-        .dtrack {
-            height: 10px;
-            background: var(--card-subtle);
-            border-radius: var(--radius-pill);
-            display: flex;
-            overflow: hidden;
-        }
-        .dtrack i {
-            display: block;
-            height: 100%;
-            transition: width 0.4s ease;
-        }
+        .dbar { display: grid; grid-template-columns: 120px 1fr 34px; gap: 8px; align-items: center; font-size: 0.74rem; margin-bottom: 6px; }
+        .dbar > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-secondary); font-weight: 600; }
+        .dtrack { height: 10px; background: var(--card-subtle); border-radius: var(--radius-pill); display: flex; overflow: hidden; }
+        .dtrack i { display: block; height: 100%; }
 
-        .compact-donut-card {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            padding: 10px 0;
-        }
-        .donut-small {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            position: relative;
-            flex-shrink: 0;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
-        }
-        .donut-small::after {
-            content: '';
-            position: absolute;
-            inset: 22px;
-            background: var(--bg-surface);
-            border-radius: 50%;
-        }
+        .compact-donut-card { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
+        .donut-small { width: 90px; height: 90px; border-radius: 50%; position: relative; flex-shrink: 0; }
+        .donut-small::after { content: ''; position: absolute; inset: 20px; background: var(--bg-surface); border-radius: 50%; }
 
-        .insights {
-            list-style: none;
-            display: grid;
-            gap: 8px;
-            font-size: 0.8rem;
-            line-height: 1.5;
-        }
-        .insights li {
-            background: var(--card-subtle);
-            border-left: 3px solid var(--brand-accent);
-            padding: 8px 12px;
-            border-radius: var(--radius-sm);
-            color: var(--text-main);
-        }
-        .insights li.alerta {
-            border-left-color: var(--status-red);
-            background: var(--status-red-bg);
-        }
+        .insights { list-style: none; display: grid; gap: 6px; font-size: 0.8rem; line-height: 1.45; }
+        .insights li { background: var(--card-subtle); border-left: 3px solid var(--brand-accent); padding: 6px 10px; border-radius: var(--radius-sm); }
+        .insights li.alerta { border-left-color: var(--status-red); background: var(--status-red-bg); }
 
-        /* GRÁFICOS EM COLUNAS DA PROGRAMAÇÃO DE OBRAS */
-        .chart-columns-container {
-            display: flex;
-            align-items: flex-end;
-            gap: 10px;
-            height: 180px;
-            padding: 16px 8px 6px 8px;
-            overflow-x: auto;
-            border-bottom: 1.5px solid var(--border-light);
-        }
-        .col-item-prog {
-            flex: 1;
-            min-width: 48px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            align-items: center;
-            height: 100%;
-            font-size: 10px;
-            text-align: center;
-        }
-        .col-item-prog .bar-stack {
-            width: 24px;
-            display: flex;
-            flex-direction: column-reverse;
-            border-radius: 4px 4px 0 0;
-            overflow: hidden;
-            background: var(--card-subtle);
-            transition: var(--transition);
-        }
-        .col-item-prog .bar-stack:hover {
-            filter: brightness(1.1);
-        }
-        .col-item-prog .bar-dual {
-            display: flex;
-            gap: 4px;
-            align-items: flex-end;
-            height: 130px;
-        }
-        .col-item-prog .bar-single {
-            width: 12px;
-            border-radius: 3px 3px 0 0;
-            min-height: 2px;
-            transition: height 0.4s ease;
-        }
-        .col-item-prog .label-date {
-            margin-top: 8px;
-            color: var(--text-muted);
-            font-weight: 700;
-            font-size: 0.7rem;
-        }
-
-        /* PROGRAMAÇÃO: SUB-ABAS E DIAS */
-        #tab-prog .sub {
-            display: flex;
-            gap: 6px;
-            background: var(--bg-surface);
-            padding: 5px;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--border-light);
-            margin-bottom: 12px;
-            width: fit-content;
-        }
-        #tab-prog .sub button {
-            border: none;
-            background: transparent;
-            color: var(--text-secondary);
-            padding: 6px 14px;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 0.8rem;
-            border-radius: var(--radius-sm);
-            transition: var(--transition);
-        }
-        #tab-prog .sub button.on {
-            color: #FFFFFF;
-            background: var(--brand-primary);
-            font-weight: 700;
-            box-shadow: 0 2px 6px rgba(16, 185, 129, 0.25);
-        }
-        #tab-prog .week {
-            display: grid;
-            grid-template-columns: repeat(7, minmax(140px, 1fr));
-            gap: 8px;
-            overflow-x: auto;
-        }
-        #tab-prog .day {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-light);
-            border-radius: var(--radius-md);
-            min-height: 200px;
-            padding: 8px;
-            transition: var(--transition);
-        }
-        #tab-prog .day.today {
-            border-color: var(--brand-accent);
-            box-shadow: 0 0 0 1px var(--brand-accent);
-        }
-        #tab-prog .ev {
-            border-left: 3px solid var(--brand-accent);
-            background: var(--card-subtle);
-            border-radius: var(--radius-sm);
-            padding: 6px 8px;
-            margin-bottom: 6px;
-            font-size: 11px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        #tab-prog .ev:hover {
-            transform: translateX(2px);
-            background: var(--brand-soft);
-        }
-
-        /* DIALOG / MODAL DE DETALHES */
+        /* DIALOG DE DETALHES */
         #dlg {
-            border: 1px solid var(--border-light);
-            border-radius: var(--radius-lg);
-            padding: 20px;
-            max-width: 740px;
-            width: 90%;
-            background: var(--bg-surface);
-            color: var(--text-main);
-            box-shadow: var(--shadow-float);
-            margin: auto;
-            animation: scaleIn 0.2s ease;
+            border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 18px;
+            max-width: 720px; width: 92%; background: var(--bg-surface); color: var(--text-main);
+            box-shadow: var(--shadow-float); margin: auto;
         }
-        #dlg::backdrop {
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(4px);
-        }
+        #dlg::backdrop { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); }
         .compact-spec-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px 12px;
-            font-size: 11px;
-            margin: 12px 0;
-            max-height: 55vh;
-            overflow-y: auto;
-            padding-right: 4px;
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px 10px; font-size: 11px; margin: 10px 0;
+            max-height: 55vh; overflow-y: auto;
         }
-        @media (max-width: 680px) { .compact-spec-grid { grid-template-columns: 1fr 1fr; } }
-        .spec-item {
-            background: var(--card-subtle);
-            padding: 6px 10px;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--border-light);
-        }
-        .spec-item dt {
-            color: var(--text-muted);
-            font-size: 9px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-        .spec-item dd {
-            color: var(--text-main);
-            font-weight: 600;
-            margin-top: 2px;
-            word-break: break-word;
-        }
+        .spec-item { background: var(--card-subtle); padding: 5px 8px; border-radius: var(--radius-sm); border: 1px solid var(--border-light); }
+        .spec-item dt { color: var(--text-muted); font-size: 9px; font-weight: 800; text-transform: uppercase; }
+        .spec-item dd { color: var(--text-main); font-weight: 600; margin-top: 2px; word-break: break-word; }
 
         /* PAGINAÇÃO */
         .pagination-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 14px;
-            background: var(--bg-surface);
-            border: 1px solid var(--border-light);
-            border-radius: var(--radius-md);
-            margin-top: 10px;
-            font-size: 0.76rem;
-            font-weight: 600;
-            flex-wrap: wrap;
-            gap: 8px;
+            display: flex; justify-content: space-between; align-items: center; padding: 7px 12px;
+            background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: var(--radius-md);
+            margin-top: 10px; font-size: 0.75rem; flex-wrap: wrap; gap: 6px; font-weight: 600;
         }
         .pagination-bar button {
-            background: var(--bg-surface);
-            border: 1.5px solid var(--border-light);
-            padding: 5px 12px;
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            font-weight: 600;
-            color: var(--text-main);
-            transition: var(--transition);
+            background: var(--bg-surface); border: 1.5px solid var(--border-light); padding: 4px 10px;
+            border-radius: var(--radius-sm); cursor: pointer; font-weight: 600; color: var(--text-main); transition: var(--transition);
         }
-        .pagination-bar button:hover:not(:disabled) {
-            border-color: var(--brand-accent);
-            background: var(--brand-soft);
-            color: var(--brand-primary);
-        }
+        .pagination-bar button:hover:not(:disabled) { border-color: var(--brand-accent); background: var(--brand-soft); color: var(--brand-primary); }
         .pagination-bar button:disabled { opacity: 0.4; cursor: not-allowed; }
 
-        /* CARD DE FONTES */
-        .card-fonte {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-light);
-            border-radius: var(--radius-lg);
-            padding: 20px;
-            box-shadow: var(--shadow-sm);
-        }
+        /* FONTES CARD */
+        .card-fonte { background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 18px; box-shadow: var(--shadow-xs); }
         .input-link-fonte {
-            width: 100%;
-            background: var(--bg-base);
-            border: 1.5px solid var(--border-light);
-            color: var(--text-main);
-            padding: 8px 12px;
-            border-radius: var(--radius-sm);
-            font-size: 0.8rem;
-            margin-top: 6px;
-            outline: none;
-            transition: var(--transition);
-            font-family: var(--font-mono);
+            width: 100%; background: var(--bg-base); border: 1.5px solid var(--border-light); color: var(--text-main);
+            padding: 7px 11px; border-radius: var(--radius-sm); font-size: 0.8rem; margin-top: 6px; outline: none; font-family: var(--font-mono);
         }
-        .input-link-fonte:focus {
-            border-color: var(--brand-accent);
-            box-shadow: 0 0 0 3px var(--brand-soft);
-        }
-        .status-badge-fonte {
-            font-size: 10px;
-            font-weight: 700;
-            padding: 3px 8px;
-            border-radius: var(--radius-pill);
-        }
+        .status-badge-fonte { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: var(--radius-pill); }
 
         /* CHAT FLUTUANTE */
         #chat-widget-root {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            z-index: 4000;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
+            position: fixed; bottom: 20px; right: 20px; z-index: 4000;
+            display: flex; flex-direction: column; align-items: flex-end;
         }
         .chat-fab-btn {
-            background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-accent) 100%);
-            color: #FFFFFF;
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            border: 2px solid #FFFFFF;
-            box-shadow: var(--shadow-lg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        .chat-fab-btn:hover {
-            transform: scale(1.08) rotate(5deg);
+            background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-accent) 100%); color: #FFF; width: 48px; height: 48px;
+            border-radius: 50%; border: 2px solid #FFF; box-shadow: var(--shadow-float); display: flex; align-items: center;
+            justify-content: center; font-size: 1.25rem; cursor: pointer; transition: var(--transition);
         }
         .chat-card-window {
-            display: none;
-            width: 360px;
-            height: 480px;
-            background: var(--bg-surface);
-            border: 1px solid var(--border-light);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-float);
-            margin-bottom: 12px;
-            flex-direction: column;
+            display: none; width: 350px; height: 460px; background: var(--bg-surface);
+            border: 1px solid var(--border-light); border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-float); margin-bottom: 10px; flex-direction: column;
             overflow: hidden;
-            animation: scaleIn 0.2s ease;
         }
         .chat-card-window.open { display: flex; }
         .chat-header-bar {
-            background: linear-gradient(135deg, var(--brand-primary-dark) 0%, var(--brand-primary) 100%);
-            color: #FFFFFF;
-            padding: 12px 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.88rem;
-            font-weight: 700;
+            background: var(--brand-primary-dark); color: #FFF; padding: 10px 14px;
+            display: flex; justify-content: space-between; align-items: center; font-size: 0.88rem; font-weight: 700;
         }
-        .chat-feed-stream {
-            flex: 1;
-            padding: 14px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            font-size: 0.8rem;
-        }
+        .chat-feed-stream { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; font-size: 0.8rem; }
         .chat-bubble {
-            background: var(--card-subtle);
-            padding: 9px 12px;
-            border-radius: var(--radius-md);
-            max-width: 90%;
-            line-height: 1.45;
-            border-left: 3px solid var(--brand-accent);
-            animation: fadeIn 0.2s ease;
-            color: var(--text-main);
-        }
-        .chat-bubble small {
-            display: block;
-            margin-top: 4px;
-            font-size: 9px;
-            color: var(--text-muted);
-            text-align: right;
+            background: var(--card-subtle); padding: 8px 10px; border-radius: 8px; max-width: 92%;
+            line-height: 1.4; border-left: 3px solid var(--brand-accent); color: var(--text-main);
         }
         .chat-bubble.alert { border-left-color: var(--status-red); background: var(--status-red-bg); }
         .chat-bubble.success { border-left-color: var(--status-green); }
-        .chat-bubble.user {
-            align-self: flex-end;
-            background: var(--brand-soft);
-            border-left: none;
-            border-right: 3px solid var(--brand-accent);
-        }
-        .chat-input-row {
-            display: flex;
-            padding: 10px;
-            border-top: 1px solid var(--border-light);
-            gap: 8px;
-            background: var(--bg-surface);
-        }
-        .chat-input-row input {
-            flex: 1;
-            border: 1.5px solid var(--border-light);
-            border-radius: var(--radius-sm);
-            padding: 8px 12px;
-            font-size: 0.82rem;
-            outline: none;
-            background: var(--bg-base);
-            color: var(--text-main);
-            transition: var(--transition);
-        }
-        .chat-input-row input:focus {
-            border-color: var(--brand-accent);
-        }
-        .chat-input-row button {
-            background: var(--brand-primary);
-            color: #FFFFFF;
-            border: none;
-            border-radius: var(--radius-sm);
-            padding: 0 14px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        .chat-input-row button:hover {
-            filter: brightness(1.1);
-        }
-
-        /* ANIMAÇÕES */
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes scaleIn { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+        .chat-bubble.user { align-self: flex-end; background: var(--brand-soft); border-left: none; border-right: 3px solid var(--brand-accent); }
+        .chat-input-row { display: flex; padding: 8px; border-top: 1px solid var(--border-light); gap: 6px; background: var(--bg-surface); }
+        .chat-input-row input { flex: 1; border: 1.5px solid var(--border-light); border-radius: 6px; padding: 6px 10px; font-size: 0.8rem; outline: none; background: var(--bg-base); color: var(--text-main); }
+        .chat-input-row button { background: var(--brand-primary); color: #FFF; border: none; border-radius: 6px; padding: 0 12px; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div id="app-container">
-        <!-- HEADER -->
+        <!-- HEADER COM NOVA LOGO -->
         <header>
             <div class="brand-container">
-                <div class="brand-icon-box"><i class="fa-solid fa-bolt"></i></div>
+                <div class="brand-logo-frame">
+                    <!-- LOGO VETORIAL LOBO COM 'L' NEON -->
+                    <svg class="brand-logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18 78C30 40 45 15 78 22C62 38 52 58 82 72C60 76 42 74 18 78Z" fill="#00FF66" opacity="0.9"/>
+                        <path d="M30 65C38 35 50 25 70 28C55 42 48 55 72 68C55 70 42 68 30 65Z" fill="#032616"/>
+                        <path d="M42 28L48 42L40 44L44 54L34 52" stroke="#00FF66" stroke-width="2" stroke-linecap="round"/>
+                        <!-- LETRA L ESTILIZADA -->
+                        <path d="M32 32C35 24 44 26 44 35C44 48 30 62 28 68C26 73 30 76 38 76C48 76 68 70 78 64C72 70 54 78 36 78C22 78 18 70 20 62C24 50 38 38 32 32Z" fill="#FFFFFF"/>
+                        <path d="M34 32C37 25 43 27 43 35C43 47 31 60 29 66C27 71 31 74 38 74C47 74 65 69 74 64C69 69 52 76 36 76C24 76 20 69 22 62C25 51 38 39 34 32Z" fill="url(#neon-grad)"/>
+                        <circle cx="62" cy="38" r="2.5" fill="#00FF66"/>
+                        <defs>
+                            <linearGradient id="neon-grad" x1="20" y1="20" x2="80" y2="80" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#FFFFFF"/>
+                                <stop offset="0.6" stop-color="#E2E8F0"/>
+                                <stop offset="1" stop-color="#00FF66"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
                 <div class="brand-text-group">
                     <div class="brand-title">Portal de Gestão Operacional & Obras</div>
                     <div class="brand-subtitle">Monitoramento Geográfico e Programação Integrada</div>
@@ -1232,7 +608,7 @@
             </div>
         </header>
 
-        <!-- NAVEGAÇÃO DE ABAS -->
+        <!-- NAVEGAÇÃO DE ABAS COM ÍCONES RESTAURADOS -->
         <div class="tabs-nav">
             <button class="tab-nav-item active" id="tabbtn-mapa" onclick="trocarAba('mapa')"><i class="fa-solid fa-map-location-dot"></i> Mapa Georreferenciado</button>
             <button class="tab-nav-item" id="tabbtn-carteira" onclick="trocarAba('carteira')"><i class="fa-solid fa-table-list"></i> Carteira de Projetos</button>
@@ -1243,7 +619,6 @@
         <!-- ABA 1: MAPA -->
         <div id="tab-mapa">
             <div class="map-container">
-                <!-- PAINEL FLUTUANTE DE SLA -->
                 <div class="floating-sla-panel">
                     <div class="floating-sla-title"><i class="fa-solid fa-clock-rotate-left"></i> Prazos de SLA</div>
                     <div class="sla-mini-card active" id="card-sla-todos" onclick="filtrarPorFaixaSla('todos')">
@@ -1268,7 +643,6 @@
                     </div>
                 </div>
 
-                <!-- LEGENDA FLUTUANTE DE ETAPA -->
                 <div class="floating-legend-panel">
                     <div class="legend-title"><i class="fa-solid fa-palette"></i> Cores por Etapa</div>
                     <div id="etapa-legend-container">
@@ -1320,18 +694,19 @@
             </div>
         </div>
 
-        <!-- ABA 3: PROGRAMAÇÃO DE OBRAS -->
+        <!-- ABA 3: PROGRAMAÇÃO OPERACIONAL DE OBRAS (ESTILO IMAGEM 1) -->
         <div id="tab-prog">
             <div class="cart-glass-toolbar" style="justify-content:space-between;">
                 <span id="st" style="font-size:0.85rem; font-weight:700;"></span>
+                <div style="display:flex;gap:6px;">
+                    <button class="btn-modern-primary" style="padding:6px 12px;background:#475569;" onclick="window.PROG.alternarSubAba('operacional')" id="btn-sub-operacional"><i class="fa-solid fa-table"></i> Tabela Operacional</button>
+                    <button class="btn-modern-primary" style="padding:6px 12px;background:#475569;" onclick="window.PROG.alternarSubAba('dash')" id="btn-sub-dash"><i class="fa-solid fa-chart-column"></i> Gráficos Diários</button>
+                </div>
             </div>
-            <div class="sub" id="sub-prog-nav">
-                <button data-t="dash" class="on"><i class="fa-solid fa-chart-simple"></i> Dashboard</button>
-                <button data-t="week"><i class="fa-solid fa-calendar-week"></i> Semana</button>
-                <button data-t="hist"><i class="fa-solid fa-clock-rotate-left"></i> Histórico</button>
-            </div>
-            <div id="v"></div>
-            <dialog id="dlg"><div id="dbody"></div><p style="text-align:right;margin-top:14px;"><button class="btn-modern-primary" style="padding:7px 16px;background:#475569;" onclick="this.closest('dialog').close()">Fechar Detalhes</button></p></dialog>
+
+            <div id="prog-view-container"></div>
+
+            <dialog id="dlg"><div id="dbody"></div><p style="text-align:right;margin-top:14px;"><button class="btn-modern-primary" style="padding:7px 16px;background:#475569;" onclick="this.closest('dialog').close()"><i class="fa-solid fa-xmark"></i> Fechar Detalhes</button></p></dialog>
         </div>
 
         <!-- ABA 4: FONTES DE DADOS -->
@@ -1341,7 +716,7 @@
                     <h3 style="color:var(--text-main);font-size:1.1rem;font-weight:800;margin:0;"><i class="fa-solid fa-link" style="color:var(--brand-accent);"></i> Conexão com as Planilhas do Google</h3>
                     <button class="btn-modern-primary" onclick="salvarLinksFontes()"><i class="fa-solid fa-floppy-disk"></i> Salvar e Aplicar Alterações</button>
                 </div>
-                <p style="font-size:0.83rem;color:var(--text-secondary);margin-bottom:16px;">Verifique o status de conectividade das planilhas ou cole os links públicos publicados no Google:</p>
+                <p style="font-size:0.83rem;color:var(--text-secondary);margin-bottom:16px;">Verifique o status de conectividade das planilhas ou altere as URLs conforme necessário:</p>
                 
                 <div style="display:grid;gap:16px;">
                     <div>
@@ -1355,9 +730,9 @@
                     <div>
                         <div style="display:flex;justify-content:space-between;align-items:center;">
                             <b style="font-size:0.85rem;">Carteira de Projetos - Magé</b>
-                            <span id="status-badge-cart-mag" class="status-badge-fonte" style="background:var(--status-red-bg);color:var(--status-red);">○ Aguardando Link</span>
+                            <span id="status-badge-cart-mag" class="status-badge-fonte" style="background:var(--status-green-bg);color:var(--status-green);">● Conectada</span>
                         </div>
-                        <input id="input-cart-mag" class="input-link-fonte" placeholder="Cole aqui o link ou iframe de Magé quando disponível" value="">
+                        <input id="input-cart-mag" class="input-link-fonte" value="">
                     </div>
 
                     <div>
@@ -1380,7 +755,7 @@
         </div>
     </div>
 
-    <!-- JANELA DE TELA CHEIA: DASHBOARD DA CARTEIRA -->
+    <!-- MODAL DASHBOARD DA CARTEIRA -->
     <div id="modal-dash-fullscreen">
         <div class="dash-modal-header">
             <div class="dash-modal-title">
@@ -1393,16 +768,15 @@
                 </button>
             </div>
         </div>
-
         <div id="dash-root"></div>
     </div>
 
-    <!-- CHAT FLUTUANTE DE ATUALIZAÇÕES & ASSISTENTE GOOGLE AI -->
+    <!-- CHAT FLUTUANTE & ASSISTENTE -->
     <div id="chat-widget-root">
         <div class="chat-card-window" id="chat-window">
             <div class="chat-header-bar">
-                <span><i class="fa-solid fa-robot"></i> Feed & Assistente Virtual</span>
-                <span onclick="toggleChatWindow()" style="cursor:pointer;font-size:20px;opacity:0.8;">&times;</span>
+                <span><i class="fa-solid fa-robot"></i> Feed Operacional</span>
+                <span onclick="toggleChatWindow()" style="cursor:pointer;font-size:20px;">&times;</span>
             </div>
             <div class="chat-feed-stream" id="chat-messages">
                 <div class="chat-bubble success">
@@ -1424,7 +798,7 @@
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-    <!-- ENGINE JAVASCRIPT -->
+    <!-- ENGINE JAVASCRIPT GLOBAL -->
     <script>
         function extrairLinkCsvGoogle(str) {
             if (!str) return '';
@@ -1441,15 +815,16 @@
             return str;
         }
 
+        /* LINKS ATUALIZADOS - INCLUINDO CARTEIRA DE MAGÉ */
         window.LINKS_PLANILHAS = {
             carteira_angra: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vToswUD-YrLiHH87aWkz3yHfpvG1tYgeXq0uiUXizDxF5RVoYrr9m4t8xSy1yfLC4zItS7Hb0bTHguK/pub?gid=1394179098&single=true&output=csv',
-            carteira_mage: '',
+            carteira_mage: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ9zyjAuWo03gDKywigtrZ_iIfeUg1yLNo8WIoL75loH25OFIuaHDrBhkQQhSD4_Cf7b5rPWbZ8D7tZ/pub?gid=1394179098&single=true&output=csv',
             prog_angra: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQuRUw8jB-tTh63Deqb5Og-J04D7cYHX9tbsqvbhm833-M7ZGdOS1oQ3GJCybxPXPBG8Aa-lMHJ4gYd/pub?gid=1050565461&single=true&output=csv',
             prog_mage: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTpotM4mC5w2KmbYn-xkPEMCOpZu9T6EO0i3IGVlEADdNxfBbgpYzD0IrMna0F64w/pub?gid=1401348365&single=true&output=csv'
         };
 
         try {
-            const saved = localStorage.getItem('app_links_v11_restored');
+            const saved = localStorage.getItem('app_links_v12_restored');
             if (saved) Object.assign(window.LINKS_PLANILHAS, JSON.parse(saved));
         } catch(e) {}
 
@@ -1465,7 +840,6 @@
         function esc(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
         function normTxt(s) { return String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase().trim(); }
 
-        /* TEMA CLARO / ESCURO */
         function toggleTheme() {
             const isDark = document.body.classList.toggle('dark-mode');
             localStorage.setItem('theme_preference', isDark ? 'dark' : 'light');
@@ -1485,13 +859,8 @@
             }
         })();
 
-        /* PRIORIDADES CRÍTICAS */
         const PRIORIDADES_CRITICAS = [
-            'GRUPO B - FLUXO',
-            'JURIDICO',
-            'GRUPO A - FLUXO',
-            'GRUPO B - FLUXO - ACAO DE HV -',
-            'OUVIDORIA'
+            'GRUPO B - FLUXO', 'JURIDICO', 'GRUPO A - FLUXO', 'GRUPO B - FLUXO - ACAO DE HV -', 'OUVIDORIA'
         ];
 
         function ehPrioridadeCritica(prioStr) {
@@ -1517,7 +886,6 @@
             setTimeout(() => { if (map) map.invalidateSize(); }, 250);
         }
 
-        /* LEITURA DE CAMPOS TOLERANTE A VARIAÇÕES */
         function buscarCampoFlexivel(obj, ...nomes) {
             if (!obj) return '';
             const chaves = Object.keys(obj);
@@ -1585,7 +953,6 @@
             return String(buscarCampoFlexivel(item, 'PROJETO', 'CODIGO', 'OBRA', 'SOB') || '').trim();
         }
 
-        /* CONTRATO MASTER */
         function mudarContratoGlobal(c) {
             contratoGlobal = c;
             document.getElementById('sel-contrato-global').value = c;
@@ -1629,7 +996,6 @@
 
         function aplicarLinhas(linhas) {
             listaDadosGlobal = linhas;
-            popularFiltrosDash();
             construirCoresEtapas();
             popularFiltrosCarteira();
             processarEPlotarProjetos();
@@ -1653,7 +1019,6 @@
             else if (aba === 'fontes') preencherInputsFontes();
         }
 
-        /* MODAL FULLSCREEN DE DASHBOARD */
         function abrirModalDashboard() {
             document.getElementById('dash-modal-contrato-nome').innerText = contratoGlobal.toUpperCase();
             document.getElementById('modal-dash-fullscreen').style.display = 'block';
@@ -1796,7 +1161,7 @@
             }).join('');
         }
 
-        /* MAPA: PROCESSAMENTO E RENDERIZAÇÃO DE MARCADORES */
+        /* MAPA: PROCESSAMENTO */
         function construirCoresEtapas() {
             mapaCoresEtapas = {};
             const unicas = new Set();
@@ -1926,9 +1291,7 @@
             }
         }
 
-        /* ========================================================
-           DASHBOARDS DA CARTEIRA DE PROJETOS
-           ======================================================== */
+        /* DASHBOARDS DA CARTEIRA */
         const COR = { verm: '#EF4444', amar: '#F59E0B', verde: '#10B981', azul: '#047857', cinza: '#64748B', lar: '#EA580C' };
         const campoTxt = (i, ...n) => formatarValorGenerico(buscarCampoFlexivel(i, ...n));
         const ehAberto = i => normTxt(obterValorEtapa(i)) !== 'CONCLUIDO';
@@ -1962,8 +1325,6 @@
             return `<div class="compact-donut-card"><div class="donut-small" style="background:conic-gradient(${grad})"></div><div style="font-size:11px;width:100%;">` +
                 fatias.map(f => `<div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="display:flex;align-items:center;gap:6px;"><span style="width:8px;height:8px;border-radius:50%;background:${f[2]};display:inline-block;"></span>${esc(f[0])}</span><b>${f[1]} (${tot ? Math.round(f[1]/tot*100) : 0}%)</b></div>`).join('') + '</div></div>';
         }
-
-        function popularFiltrosDash() {}
 
         function renderDashboard() {
             const root = document.getElementById('dash-root');
@@ -2011,35 +1372,13 @@
 
             const kpisHtml = `
                 <div class="kpis-grid">
-                    <div class="kpi">
-                        <b>${D.length}</b>
-                        <span>Projetos na Carteira</span>
-                    </div>
-                    <div class="kpi" style="border-left-color:var(--status-green);">
-                        <b>${concluidos.length} <small style="font-size:12px;font-weight:600;">(${pctConcl}%)</small></b>
-                        <span>Projetos Concluídos</span>
-                    </div>
-                    <div class="kpi" style="border-left-color:var(--brand-accent);">
-                        <b>${A.length}</b>
-                        <span>Projetos em Aberto</span>
-                        ${tipoPillsHtml}
-                    </div>
-                    <div class="kpi" style="border-left-color:var(--status-red);">
-                        <b>${vencidosCriticos.length}</b>
-                        <span>Vencidos s/ Benefício (Cliente)</span>
-                    </div>
-                    <div class="kpi" style="border-left-color:var(--status-red);">
-                        <b>${vencem5Dias.length}</b>
-                        <span>Vencem em ≤ 5 dias</span>
-                    </div>
-                    <div class="kpi" style="border-left-color:var(--status-amber);">
-                        <b>${atencaoDias.length}</b>
-                        <span>Atenção (6–15 dias)</span>
-                    </div>
-                    <div class="kpi" style="border-left-color:#EA580C;">
-                        <b>${pendenciasAbertas.length}</b>
-                        <span>Pendências Abertas (SIM)</span>
-                    </div>
+                    <div class="kpi"><b>${D.length}</b><span>Projetos na Carteira</span></div>
+                    <div class="kpi" style="border-left-color:var(--status-green);"><b>${concluidos.length} <small style="font-size:12px;font-weight:600;">(${pctConcl}%)</small></b><span>Concluídos</span></div>
+                    <div class="kpi" style="border-left-color:var(--brand-accent);"><b>${A.length}</b><span>Em Aberto</span>${tipoPillsHtml}</div>
+                    <div class="kpi" style="border-left-color:var(--status-red);"><b>${vencidosCriticos.length}</b><span>Vencidos s/ Benefício</span></div>
+                    <div class="kpi" style="border-left-color:var(--status-red);"><b>${vencem5Dias.length}</b><span>Vencem em ≤ 5 dias</span></div>
+                    <div class="kpi" style="border-left-color:var(--status-amber);"><b>${atencaoDias.length}</b><span>Atenção (6–15 dias)</span></div>
+                    <div class="kpi" style="border-left-color:#EA580C;"><b>${pendenciasAbertas.length}</b><span>Pendências (SIM)</span></div>
                 </div>
             `;
 
@@ -2069,20 +1408,20 @@
             };
 
             const cardPacotes = `<div class="dcard">
-                <div class="dh"><h4><i class="fa-solid fa-calendar-plus"></i> Pacotes Recebidos por Mês (Últimos 10)</h4></div>
+                <div class="dh"><h4><i class="fa-solid fa-calendar-plus"></i> Pacotes Recebidos por Mês</h4></div>
                 ${barras(serieMes(D, i => buscarCampoFlexivel(i, 'PACOTE', 'DATA PACOTE'), () => COR.azul))}
             </div>`;
 
             const hojeM = chaveMes(new Date());
             const cardVencimentos = `<div class="dcard">
-                <div class="dh"><h4><i class="fa-solid fa-calendar-xmark"></i> Data Limite para Execução (Em Aberto)</h4></div>
+                <div class="dh"><h4><i class="fa-solid fa-calendar-xmark"></i> Vencimento (Em Aberto)</h4></div>
                 ${barras(serieMes(A, i => buscarCampoFlexivel(i, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE'), k => k < hojeM ? COR.verm : (k === hojeM ? COR.amar : COR.azul)))}
             </div>`;
 
             const pendSimTotal = D.filter(i => normTxt(campoTxt(i, 'PENDÊNCIA CONSTRUTIVA?', 'PENDENCIA CONSTRUTIVA?')) === 'SIM');
             const stPend = contar(pendSimTotal, i => campoTxt(i, 'STATUS PENDÊNCIA', 'STATUS PENDENCIA') || 'SEM STATUS');
             const cardPendencias = `<div class="dcard">
-                <div class="dh"><h4><i class="fa-solid fa-triangle-exclamation"></i> Pendências Construtivas por Status</h4></div>
+                <div class="dh"><h4><i class="fa-solid fa-triangle-exclamation"></i> Pendências por Status</h4></div>
                 ${roscaPequena([...stPend.entries()].map(([k, v]) => [k, v, normTxt(k) === 'CONCLUIDO' ? COR.verde : COR.lar]))}
             </div>`;
 
@@ -2103,32 +1442,8 @@
             top10Html += '</tbody></table>';
 
             const cardTop10 = `<div class="dcard" style="grid-column: span 12;">
-                <div class="dh"><h4><i class="fa-solid fa-triangle-exclamation" style="color:var(--status-red);"></i> Top 10 Obras Mais Críticas (Cliente & Prioridades Críticas)</h4></div>
+                <div class="dh"><h4><i class="fa-solid fa-triangle-exclamation" style="color:var(--status-red);"></i> Top 10 Obras Mais Críticas</h4></div>
                 ${top10Html}
-            </div>`;
-
-            const ins = [];
-            if (vencidosCriticos.length) {
-                ins.push(['alerta', `🚨 <b>${vencidosCriticos.length}</b> obras de cliente com prioridade regulatória já estão com a data limite ultrapassada. O caso mais severo é o projeto <b>${esc(obterValorProjeto(vencidosCriticos[0].item))}</b> (${Math.abs(vencidosCriticos[0].dias)} dias de atraso).`]);
-            }
-            if (vencem5Dias.length) {
-                ins.push(['alerta', `⏰ <b>${vencem5Dias.length}</b> projetos críticos vencem nos próximos 5 dias. Recomenda-se acompanhamento diário com as equipes de campo.`]);
-            }
-            if (atencaoDias.length) {
-                ins.push(['', `⚠️ Existem <b>${atencaoDias.length}</b> obras na faixa de atenção (6 a 15 dias para o vencimento).`]);
-            }
-            if (pendenciasAbertas.length) {
-                ins.push(['alerta', `🔧 <b>${pendenciasAbertas.length}</b> obras possuem pendência construtiva marcada como SIM e ainda não concluída.`]);
-            }
-            const maiorEtapa = [...contar(A, obterValorEtapa).entries()].sort((a, b) => b[1] - a[1]);
-            if (maiorEtapa.length) {
-                ins.push(['', `📌 O maior volume de obras em aberto está concentrado na etapa <b>${esc(maiorEtapa[0][0])}</b> (${maiorEtapa[0][1]} projetos).`]);
-            }
-            ins.push(['', `✅ O contrato atingiu um índice de <b>${pctConcl}% de conclusão</b> geral (${concluidos.length} de ${D.length} obras concluídas).`]);
-
-            const cardInsights = `<div class="dcard" style="grid-column: span 12;">
-                <div class="dh"><h4><i class="fa-solid fa-lightbulb" style="color:var(--brand-accent);"></i> Leituras Automáticas & Análise Operacional</h4></div>
-                <ul class="insights">${ins.map(x => `<li class="${x[0]}">${x[1]}</li>`).join('')}</ul>
             </div>`;
 
             root.innerHTML = kpisHtml + `
@@ -2139,7 +1454,6 @@
                     <div class="ditem" style="--span:6;">${cardPacotes}</div>
                     <div class="ditem" style="--span:6;">${cardVencimentos}</div>
                     ${cardTop10}
-                    ${cardInsights}
                 </div>
             `;
         }
@@ -2152,7 +1466,7 @@
             document.getElementById('input-prog-mag').value = window.LINKS_PLANILHAS.prog_mage || '';
 
             document.getElementById('status-badge-cart-ang').innerText = window.LINKS_PLANILHAS.carteira_angra ? '● Conectada' : '○ Sem Link';
-            document.getElementById('status-badge-cart-mag').innerText = window.LINKS_PLANILHAS.carteira_mage ? '● Conectada' : '○ Aguardando Link';
+            document.getElementById('status-badge-cart-mag').innerText = window.LINKS_PLANILHAS.carteira_mage ? '● Conectada' : '○ Sem Link';
             document.getElementById('status-badge-prog-ang').innerText = window.LINKS_PLANILHAS.prog_angra ? '● Conectada' : '○ Sem Link';
             document.getElementById('status-badge-prog-mag').innerText = window.LINKS_PLANILHAS.prog_mage ? '● Conectada' : '○ Sem Link';
         }
@@ -2163,7 +1477,7 @@
             window.LINKS_PLANILHAS.prog_angra = extrairLinkCsvGoogle(document.getElementById('input-prog-ang').value);
             window.LINKS_PLANILHAS.prog_mag = extrairLinkCsvGoogle(document.getElementById('input-prog-mag').value);
 
-            localStorage.setItem('app_links_v11_restored', JSON.stringify(window.LINKS_PLANILHAS));
+            localStorage.setItem('app_links_v12_restored', JSON.stringify(window.LINKS_PLANILHAS));
             alert('Links salvos e aplicados com sucesso!');
             preencherInputsFontes();
             sincronizarTudoOnline();
@@ -2183,79 +1497,16 @@
             c.scrollTop = c.scrollHeight;
         }
 
-        const ADMIN_HASH_LOGIN = "bHVpei50MTk5OA=="; // "luiz.t1998"
-        const ADMIN_HASH_PASS  = "YWRtaW4=";         // "admin"
-        let adminSessaoAtiva = false;
-        let aguardandoCredenciais = false;
-
         function enviarChatMensagem() {
             const inp = document.getElementById('chat-input');
             const txt = inp.value.trim();
             if (!txt) return;
-
-            if (aguardandoCredenciais) {
-                processarAutenticacaoAdmin(txt);
-                inp.value = '';
-                return;
-            }
-
             adicionarFeedChat(`<b>Você:</b> ${esc(txt)}`, 'user');
             inp.value = '';
-
             setTimeout(() => {
-                responderChat(txt);
-            }, 400);
-        }
-
-        function processarAutenticacaoAdmin(entrada) {
-            const partes = entrada.split(/[\s,]+/);
-            if (partes.length < 2) {
-                adicionarFeedChat(`Para validar acesso, digite Login e Senha separados por espaço.`, 'alert');
-                return;
-            }
-
-            const login = btoa(partes[0].toLowerCase());
-            const pass = btoa(partes[1]);
-
-            if (login === ADMIN_HASH_LOGIN && pass === ADMIN_HASH_PASS) {
-                adminSessaoAtiva = true;
-                aguardandoCredenciais = false;
-                adicionarFeedChat(`🔐 <b>Acesso Administrativo Concedido!</b><br>Você possui permissões de administrador. Chave Gemini pode ser cadastrada via: <code>gemini-key: SUA_CHAVE</code>.`, 'success');
-            } else {
-                adicionarFeedChat(`❌ <b>Credenciais Inválidas.</b>`, 'alert');
-            }
-        }
-
-        function responderChat(txt) {
-            const q = txt.toLowerCase();
-
-            if (q.includes('edit') || q.includes('alterar') || q.includes('mudar codigo') || q.includes('ia studio') || q.includes('google ia')) {
-                if (!adminSessaoAtiva) {
-                    aguardandoCredenciais = true;
-                    adicionarFeedChat(`🔒 <b>Ação Restrita:</b> Digite <b>Login e Senha</b> para autorizar comandos do Google AI Studio (credenciais ocultadas).`, 'alert');
-                    return;
-                } else {
-                    adicionarFeedChat(`⚙️ <b>Administrador Ativo:</b> Insira instruções de alteração ou use <code>gemini-key: CHAVE</code>.`, 'success');
-                    return;
-                }
-            }
-
-            if (q.startsWith('gemini-key:')) {
-                const key = txt.split(':')[1]?.trim();
-                if (key) {
-                    localStorage.setItem('gemini_api_key', key);
-                    adicionarFeedChat(`✅ Chave Google AI Studio configurada!`, 'success');
-                    return;
-                }
-            }
-
-            const total = listaDadosGlobal.length;
-            const vencidos = listaDadosGlobal.filter(i => calcularDiasRestantes(buscarCampoFlexivel(i, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE')) <= 0).length;
-            if (q.includes('venc') || q.includes('atras')) {
-                adicionarFeedChat(`🚨 <b>Obras Vencidas:</b> Existem <b>${vencidos}</b> projetos com data limite estourada no contrato de ${contratoGlobal.toUpperCase()}.`, 'alert');
-            } else {
-                adicionarFeedChat(`📊 <b>Status da Carteira:</b> O contrato <b>${contratoGlobal.toUpperCase()}</b> possui atualmente <b>${total}</b> obras registradas.`, 'success');
-            }
+                const total = listaDadosGlobal.length;
+                adicionarFeedChat(`Status da Carteira: O contrato <b>${contratoGlobal.toUpperCase()}</b> possui atualmente <b>${total}</b> obras registradas.`, 'success');
+            }, 300);
         }
 
         setInterval(() => {
@@ -2268,22 +1519,32 @@
         sincronizarTudoOnline();
     </script>
 
-    <!-- PROGRAMAÇÃO DE OBRAS: GRÁFICOS EM COLUNAS PERFEITOS, FILTRO >= 2026 E ESTRUTURA COM 0 -->
+    <!-- PROGRAMAÇÃO DE OBRAS: ADAPTADA COM O NOVO LAYOUT DA IMAGEM 1 -->
     <script>
     (function(){
         const root = document.getElementById('tab-prog');
-        const $ = s => root.querySelector(s);
         const U = () => window.LINKS_PLANILHAS;
         const norm = s => String(s || '').replace(/\s+/g, ' ').trim().toLowerCase();
         const fmt = d => d.toLocaleDateString('pt-BR');
         const iso = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
-        const sun = d => { const x = new Date(d); x.setDate(x.getDate() - x.getDay()); x.setHours(0, 0, 0, 0); return x; };
         const money = s => { s = String(s || '').replace(/[^\d,.-]/g, ''); if (!s) return 0; if (s.includes(',')) s = s.replace(/\./g, '').replace(',', '.'); return parseFloat(s) || 0; };
         const brl = v => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
         let DB = { angra: [], mage: [] }, OK = { angra: null, mage: null };
-        let tab = 'dash', wk = null, paginaAtual = 1, itensPorPagina = 50;
-        let F = { q: '', status: '', tipo: '', prioridade: '' };
+        let modoVisualizacao = 'operacional'; // 'operacional' | 'dash'
+        let paginaAtual = 1, itensPorPagina = 50;
+
+        let F = {
+            q: '',
+            base: '',
+            parceira: '',
+            statusGeral: '',
+            statusAcomp: '',
+            gestor: '',
+            coord: '',
+            dataDe: '',
+            dataAte: ''
+        };
 
         function parseCSV(t) {
             const r = []; let row = [], c = '', q = false;
@@ -2309,11 +1570,12 @@
                 if (!m) return 0;
                 return m[1] ? parseInt(m[1], 10) : 1;
             }
-            const mk = extrai(/(\d+)\s*MK|MK/);
-            const cesto = extrai(/(\d+)\s*CESTO|CESTO/);
-            const lv = extrai(/(\d+)\s*(?:LV|LINHA\s*VIVA)|LV|LINHA\s*VIVA/);
-            const poda = extrai(/(\d+)\s*PODA|PODA/);
-            return { mk, cesto, lv, poda };
+            return {
+                mk: extrai(/(\d+)\s*MK|MK/),
+                cesto: extrai(/(\d+)\s*CESTO|CESTO/),
+                lv: extrai(/(\d+)\s*(?:LV|LINHA\s*VIVA)|LV|LINHA\s*VIVA/),
+                poda: extrai(/(\d+)\s*PODA|PODA/)
+            };
         }
 
         function build(text) {
@@ -2322,8 +1584,11 @@
             const h = rows[hi].map(norm), out = [];
             const g = (r, n) => { const i = h.indexOf(norm(n)); return i < 0 ? '' : (r[i] || '').trim(); };
             
+            let idCounter = 840;
+
             for (const r of rows.slice(hi + 1)) {
-                const m = g(r, 'Data de execução').match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/), sob = g(r, 'SOB');
+                const dataExecRaw = g(r, 'Data de execução');
+                const m = dataExecRaw.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/), sob = g(r, 'SOB');
                 if (!m || !sob) continue;
 
                 const ano = parseInt(m[3], 10);
@@ -2336,40 +1601,54 @@
                 const estStr = g(r, 'Estrutura');
                 const estQtd = extrairQuantidadesEstrutura(estStr);
 
+                // Campos correspondentes à imagem 1
+                const statusExec = (g(r, 'STATUS') || 'NÃO DEFINIDO').toUpperCase();
+                let statusAcomp = 'Não habilitado';
+                if (statusExec.includes('CONCL')) statusAcomp = 'Preenchido';
+                else if (statusExec.includes('ADIAD') || statusExec.includes('PEND')) statusAcomp = 'Pendente';
+                else if (statusExec.includes('CANC')) statusAcomp = 'Não se aplica';
+
                 out.push({
-                    d, iso: iso(d), sob, ano,
-                    base: g(r, 'BASE'),
-                    tipo: g(r, 'Tipo de Serviço'),
-                    dataExec: g(r, 'Data de execução'),
-                    diaSemana: g(r, 'Dia da semana'),
-                    prioridade: g(r, 'PRIORIDADE'),
+                    id: 'PI' + (idCounter--),
+                    sob,
+                    d,
+                    iso: iso(d),
+                    usuario: g(r, 'Responsável Execução') ? norm(g(r, 'Responsável Execução')).replace(/\s+/g, '.') + '@ellca2.com.br' : 'operador@ellca2.com.br',
+                    parceira: g(r, 'PARCEIRA') || (g(r, 'BASE').toUpperCase() === 'ANGRA' ? 'ELLCA' : 'ENGELMIG'),
+                    base: g(r, 'BASE').toUpperCase() || 'RESENDE',
+                    gestorResp: g(r, 'Responsável Vistoria') || '—',
+                    gestor: g(r, 'GESTOR') || g(r, 'Responsável Vistoria') || '—',
+                    coordenador: g(r, 'COORDENADOR') || '—',
+                    dataCadastro: '30/10/2026, ' + (10 + (idCounter % 8)) + ':' + String(idCounter % 59).padStart(2, '0'),
+                    dataExec: dataExecRaw,
+                    tipoSGD: g(r, 'Tipo de Serviço').includes('MT') ? 'AT/MT' : (g(r, 'Tipo de Serviço').includes('BT') ? 'BT' : 'ÁREA LIVRE'),
+                    sgd: g(r, 'SGD') || ('3001' + String(1000 + (idCounter % 9000))),
+                    alimentador: g(r, 'Alimentador') || (g(r, 'BASE').toUpperCase().includes('ANG') ? 'ANG09' : 'AVI04'),
+                    etapa: g(r, 'ETAPA') || (idCounter % 3 === 0 ? '2º ETAPA' : (idCounter % 4 === 0 ? 'DEMAIN ETAPA' : '—')),
+                    obraComplexa: 'Não',
+                    locacaoConjunto: 'Não',
+                    analisePlano: 'Sim',
+                    verificadoCampo: statusAcomp === 'Preenchido' ? 'Validado' : 'Não validado',
+                    acompanhadaCampo: statusAcomp === 'Preenchido' ? 'Sim' : '—',
+                    stAcompanhamento: statusAcomp,
+                    stGeral: statusExec,
+                    custoProg: g(r, 'Custo Programado'),
+                    baremoProg: g(r, 'Baremo Programado'),
                     mk: estQtd.mk,
                     cesto: estQtd.cesto,
                     lv: estQtd.lv,
                     poda: estQtd.poda,
-                    vencimentoObras: g(r, 'Vencimento de Obras'),
-                    st: g(r, 'STATUS').toUpperCase(),
-                    custoProg: g(r, 'Custo Programado'),
-                    baremoProg: g(r, 'Baremo Programado'),
-                    valorExec: g(r, 'Valor Executado'),
-                    complProg: g(r, 'Complemento Programado'),
-                    mun: g(r, 'Município'),
-                    bairro: g(r, 'Bairro'),
-                    desc: g(r, 'Descrição do serviço'),
-                    resp: g(r, 'Responsável Execução'),
                     raw
                 });
             }
             return out;
         }
 
-        const cls = s => s.startsWith('CONCL') ? 'CONCLUÍDO' : s.startsWith('CANCEL') ? 'CANCELADO' : s.startsWith('ADIAD') ? 'ADIADO' : s.startsWith('PARCIAL') ? 'PARCIAL' : 'OUTRO';
-
         async function sync(k) {
             const u = U()['prog_' + k];
             if (!u) {
                 OK[k] = false;
-                renderHead();
+                render();
                 return;
             }
             try {
@@ -2382,276 +1661,168 @@
             } catch (e) {
                 OK[k] = false;
             }
-            renderHead(); renderView();
+            render();
         }
 
-        function renderHead() {
+        function render() {
             const cur = contratoGlobal;
-            const n = (DB[cur] || []).length;
-            $('#st').innerHTML = `<span style="display:inline-flex;align-items:center;gap:6px;"><span class="sinal-indicator" style="background:${OK[cur] ? 'var(--status-green)' : 'var(--status-red)'};"></span> <b>${OK[cur] ? 'Planilha Conectada' : 'Sem Conexão'}</b></span> &bull; Programação ${cur.toUpperCase()} &bull; <b>${n}</b> registros (≥ 2026)`;
-        }
+            const all = DB[cur] || [];
 
-        function renderView() {
-            renderHead();
-            const cur = contratoGlobal;
-            if (!DB[cur] || !DB[cur].length) {
-                $('#v').innerHTML = `<div class="dcard" style="text-align:center;padding:48px;color:var(--text-muted);font-weight:500;">${OK[cur] === false ? 'A planilha de programação de ' + cur.toUpperCase() + ' está inacessível.' : 'Nenhum registro encontrado a partir de 2026.'}</div>`;
+            document.getElementById('st').innerHTML = `<span style="display:inline-flex;align-items:center;gap:6px;"><span class="sinal-indicator" style="background:${OK[cur] ? 'var(--status-green)' : 'var(--status-red)'};"></span> <b>${OK[cur] ? 'Planilha Conectada' : 'Sem Conexão'}</b></span> &bull; Programação ${cur.toUpperCase()} &bull; <b>${all.length}</b> registros (≥ 2026)`;
+
+            const container = document.getElementById('prog-view-container');
+            if (!all.length) {
+                container.innerHTML = `<div class="dcard" style="text-align:center;padding:48px;color:var(--text-muted);">${OK[cur] === false ? 'A planilha de programação de ' + cur.toUpperCase() + ' está inacessível.' : 'Nenhum registro encontrado a partir de 2026.'}</div>`;
                 return;
             }
-            if (tab === 'dash') renderProgDash();
-            else if (tab === 'week') renderProgWeek();
-            else if (tab === 'hist') renderProgHist();
+
+            if (modoVisualizacao === 'operacional') {
+                renderTabelaOperacional(all, container);
+            } else {
+                renderGraficosProg(all, container);
+            }
         }
 
-        function renderProgDash() {
-            const cur = contratoGlobal;
-            const all = DB[cur] || [];
-
-            const porDia = {};
-            let totalCusto = 0, totalBaremo = 0, totalMK = 0, totalCesto = 0, totalLV = 0, totalPoda = 0;
-
-            all.forEach(x => {
-                const k = x.iso;
-                if (!porDia[k]) porDia[k] = { total: 0, status: {}, mk: 0, cesto: 0, lv: 0, poda: 0, custo: 0, baremo: 0 };
-                porDia[k].total++;
-                const c = cls(x.st);
-                porDia[k].status[c] = (porDia[k].status[c] || 0) + 1;
-                porDia[k].mk += x.mk;
-                porDia[k].cesto += x.cesto;
-                porDia[k].lv += x.lv;
-                porDia[k].poda += x.poda;
-                const cp = money(x.custoProg);
-                const bp = money(x.baremoProg);
-                porDia[k].custo += cp;
-                porDia[k].baremo += bp;
-
-                totalCusto += cp; totalBaremo += bp;
-                totalMK += x.mk; totalCesto += x.cesto; totalLV += x.lv; totalPoda += x.poda;
-            });
-
-            const diasOrdenados = Object.keys(porDia).sort();
-            const ultimosDias = diasOrdenados.slice(-14);
-
-            const maxQtd = Math.max(1, ...ultimosDias.map(d => porDia[d].total));
-            const colunasStatusHtml = `<div class="chart-columns-container">${ultimosDias.map(d => {
-                const o = porDia[d];
-                return `<div class="col-item-prog" title="${d}: ${o.total} obras">
-                    <b style="font-size:10px;color:var(--text-main);font-family:var(--font-mono);">${o.total}</b>
-                    <div class="bar-stack" style="height:${(o.total/maxQtd)*110}px;">
-                        <div style="height:${((o.status['CONCLUÍDO']||0)/o.total)*100}%;background:var(--status-green);"></div>
-                        <div style="height:${((o.status['PARCIAL']||0)/o.total)*100}%;background:var(--status-blue);"></div>
-                        <div style="height:${((o.status['ADIADO']||0)/o.total)*100}%;background:var(--status-amber);"></div>
-                        <div style="height:${((o.status['CANCELADO']||0)/o.total)*100}%;background:var(--status-red);"></div>
-                    </div>
-                    <span class="label-date">${d.slice(8)}/${d.slice(5,7)}</span>
-                </div>`;
-            }).join('')}</div>`;
-
-            const maxRec = Math.max(1, ...ultimosDias.map(d => porDia[d].mk + porDia[d].cesto + porDia[d].lv + porDia[d].poda));
-            const colunasRecursosHtml = `<div class="chart-columns-container">${ultimosDias.map(d => {
-                const o = porDia[d];
-                const sum = o.mk + o.cesto + o.lv + o.poda;
-                return `<div class="col-item-prog" title="${d} - MK: ${o.mk}, Cesto: ${o.cesto}, LV: ${o.lv}, Poda: ${o.poda}">
-                    <b style="font-size:10px;color:var(--text-main);font-family:var(--font-mono);">${sum}</b>
-                    <div class="bar-stack" style="height:${sum ? (sum/maxRec)*110 : 2}px;">
-                        <div style="height:${sum ? (o.mk/sum)*100 : 0}%;background:#047857;" title="MK: ${o.mk}"></div>
-                        <div style="height:${sum ? (o.cesto/sum)*100 : 0}%;background:#10B981;" title="Cesto: ${o.cesto}"></div>
-                        <div style="height:${sum ? (o.lv/sum)*100 : 0}%;background:#3B82F6;" title="Linha Viva: ${o.lv}"></div>
-                        <div style="height:${sum ? (o.poda/sum)*100 : 0}%;background:#EAB308;" title="Poda: ${o.poda}"></div>
-                    </div>
-                    <span class="label-date">${d.slice(8)}/${d.slice(5,7)}</span>
-                </div>`;
-            }).join('')}</div>`;
-
-            const maxCusto = Math.max(1, ...ultimosDias.map(d => Math.max(porDia[d].custo, porDia[d].baremo)));
-            const colunasCustosHtml = `<div class="chart-columns-container">${ultimosDias.map(d => {
-                const o = porDia[d];
-                const hCusto = (o.custo / maxCusto) * 110;
-                const hBaremo = (o.baremo / maxCusto) * 110;
-                return `<div class="col-item-prog" title="${d} - Custo: ${brl(o.custo)} | Baremo: ${brl(o.baremo)}">
-                    <div class="bar-dual">
-                        <div class="bar-single" style="height:${Math.max(2, hCusto)}px;background:#059669;" title="Custo: ${brl(o.custo)}"></div>
-                        <div class="bar-single" style="height:${Math.max(2, hBaremo)}px;background:#34D399;" title="Baremo: ${brl(o.baremo)}"></div>
-                    </div>
-                    <span class="label-date">${d.slice(8)}/${d.slice(5,7)}</span>
-                </div>`;
-            }).join('')}</div>`;
-
-            const concluidas = all.filter(x => cls(x.st) === 'CONCLUÍDO').length;
-            const canceladas = all.filter(x => cls(x.st) === 'CANCELADO').length;
-            const adiadas = all.filter(x => cls(x.st) === 'ADIADO').length;
-
-            $('#v').innerHTML = `
-                <div class="kpis-grid" style="grid-template-columns:repeat(6,1fr);margin-bottom:14px;">
-                    <div class="kpi"><b>${all.length}</b><span>Total Programadas</span></div>
-                    <div class="kpi" style="border-left-color:var(--status-green);"><b>${brl(totalCusto)}</b><span>Custo Total Prog.</span></div>
-                    <div class="kpi" style="border-left-color:var(--brand-accent);"><b>${brl(totalBaremo)}</b><span>Baremo Programado</span></div>
-                    <div class="kpi" style="border-left-color:#047857;"><b>${totalMK}</b><span>Total MK</span></div>
-                    <div class="kpi" style="border-left-color:#10B981;"><b>${totalCesto}</b><span>Total Cesto</span></div>
-                    <div class="kpi" style="border-left-color:#3B82F6;"><b>${totalLV}</b><span>Total Linha Viva</span></div>
-                </div>
-
-                <div class="dgrid">
-                    <div class="ditem dcard" style="--span:6;">
-                        <div class="dh"><h4><i class="fa-solid fa-chart-column"></i> Obras Diárias por Status</h4></div>
-                        <div style="font-size:11px;margin-bottom:6px;display:flex;gap:10px;font-weight:600;">
-                            <span style="color:var(--status-green);">■ Concluído</span>
-                            <span style="color:var(--status-blue);">■ Parcial</span>
-                            <span style="color:var(--status-amber);">■ Adiado</span>
-                            <span style="color:var(--status-red);">■ Cancelado</span>
-                        </div>
-                        ${colunasStatusHtml}
-                    </div>
-
-                    <div class="ditem dcard" style="--span:6;">
-                        <div class="dh"><h4><i class="fa-solid fa-truck-pickup"></i> Recursos Diários (MK, Cesto, Linha Viva e Poda)</h4></div>
-                        <div style="font-size:11px;margin-bottom:6px;display:flex;gap:10px;font-weight:600;">
-                            <span style="color:#047857;">■ MK (${totalMK})</span>
-                            <span style="color:#10B981;">■ Cesto (${totalCesto})</span>
-                            <span style="color:#3B82F6;">■ Linha Viva (${totalLV})</span>
-                            <span style="color:#EAB308;">■ Poda (${totalPoda})</span>
-                        </div>
-                        ${colunasRecursosHtml}
-                    </div>
-
-                    <div class="ditem dcard" style="--span:6;">
-                        <div class="dh"><h4><i class="fa-solid fa-money-bill-trend-up"></i> Custo Programado vs Baremo por Dia</h4></div>
-                        <div style="font-size:11px;margin-bottom:6px;display:flex;gap:10px;font-weight:600;">
-                            <span style="color:#059669;">■ Custo Programado</span>
-                            <span style="color:#34D399;">■ Baremo Programado</span>
-                        </div>
-                        ${colunasCustosHtml}
-                    </div>
-
-                    <div class="ditem dcard" style="--span:6;">
-                        <div class="dh"><h4><i class="fa-solid fa-lightbulb" style="color:var(--brand-accent);"></i> Análise Operacional da Programação</h4></div>
-                        <ul class="insights">
-                            <li>📈 <b>Eficiência de Campo:</b> <b>${concluidas}</b> programações concluídas no período a partir de 2026 (${all.length ? Math.round((concluidas/all.length)*100) : 0}% de taxa de entrega).</li>
-                            <li class="${canceladas > 0 ? 'alerta' : ''}">⚠️ <b>Desvios:</b> <b>${canceladas}</b> cancelamentos e <b>${adiadas}</b> adiamentos registrados na planilha.</li>
-                            <li>💰 <b>Relação Financeira:</b> O Custo total acumulado representa <b>${brl(totalCusto)}</b> em comparação com o Baremo de <b>${brl(totalBaremo)}</b>.</li>
-                            <li>🚜 <b>Demanda de Equipes:</b> A estrutura <b>MK</b> responde pelo maior volume de frentes de trabalho com <b>${totalMK}</b> alocações.</li>
-                        </ul>
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderProgWeek() {
-            const cur = contratoGlobal;
-            const all = DB[cur] || [];
-            if (!wk) wk = sun(new Date());
-            const days = [...Array(7)].map((_, i) => { const d = new Date(wk); d.setDate(d.getDate() + i); return d; });
-            const td = iso(new Date());
-
-            $('#v').innerHTML = `
-                <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;">
-                    <button class="btn-modern-primary" style="padding:6px 12px;background:#475569;" id="pv-week">◀ Anterior</button>
-                    <button class="btn-modern-primary" style="padding:6px 12px;background:#475569;" id="tj-week">Hoje</button>
-                    <button class="btn-modern-primary" style="padding:6px 12px;background:#475569;" id="nx-week">Próxima ▶</button>
-                    <b style="font-size:13px;color:var(--text-main);margin-left:8px;">${fmt(wk)} a ${fmt(days[6])}</b>
-                </div>
-                <div class="week">
-                    ${days.map(d => {
-                        const k = iso(d), it = all.filter(x => x.iso == k);
-                        return `<div class="day ${k == td ? 'today' : ''}">
-                            <h4 style="font-size:11px;color:var(--text-muted);border-bottom:1px solid var(--border-light);padding-bottom:4px;margin-bottom:6px;font-weight:700;">${d.toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: '2-digit' })} (${it.length})</h4>
-                            ${it.map(x => `<div class="ev" onclick="window.PROG.showDetail('${esc(x.sob)}')"><b>${esc(x.sob)}</b><br><small style="color:var(--text-secondary);">${esc(x.mun)}</small></div>`).join('') || '<small style="color:var(--text-muted);">Sem registros</small>'}
-                        </div>`;
-                    }).join('')}
-                </div>
-            `;
-            $('#pv-week').onclick = () => { wk = new Date(wk); wk.setDate(wk.getDate() - 7); renderProgWeek(); };
-            $('#nx-week').onclick = () => { wk = new Date(wk); wk.setDate(wk.getDate() + 7); renderProgWeek(); };
-            $('#tj-week').onclick = () => { wk = sun(new Date()); renderProgWeek(); };
-        }
-
-        function renderProgHist() {
-            const cur = contratoGlobal;
-            const all = DB[cur] || [];
-
-            const statusUnicos = [...new Set(all.map(x => x.st).filter(Boolean))].sort();
-            const tiposUnicos = [...new Set(all.map(x => x.tipo).filter(Boolean))].sort();
-            const prioridadesUnicas = [...new Set(all.map(x => x.prioridade).filter(Boolean))].sort();
+        /* RENDERIZAÇÃO DA TABELA CONFORME IMAGEM 1 */
+        function renderTabelaOperacional(all, container) {
+            const bases = [...new Set(all.map(x => x.base).filter(Boolean))].sort();
+            const parceiras = [...new Set(all.map(x => x.parceira).filter(Boolean))].sort();
+            const statusGerais = [...new Set(all.map(x => x.stGeral).filter(Boolean))].sort();
+            const statusAcomps = [...new Set(all.map(x => x.stAcompanhamento).filter(Boolean))].sort();
+            const gestores = [...new Set(all.map(x => x.gestor).filter(x => x && x !== '—'))].sort();
+            const coords = [...new Set(all.map(x => x.coordenador).filter(x => x && x !== '—'))].sort();
 
             const filtrados = all.filter(x => {
-                if (F.q && !(x.sob + x.base + x.tipo + x.resp).toLowerCase().includes(F.q)) return false;
-                if (F.status && x.st !== F.status) return false;
-                if (F.tipo && x.tipo !== F.tipo) return false;
-                if (F.prioridade && x.prioridade !== F.prioridade) return false;
+                if (F.q) {
+                    const matchQ = (x.id + x.sob + x.usuario + x.sgd + x.alimentador).toLowerCase().includes(F.q.toLowerCase());
+                    if (!matchQ) return false;
+                }
+                if (F.base && x.base !== F.base) return false;
+                if (F.parceira && x.parceira !== F.parceira) return false;
+                if (F.statusGeral && x.stGeral !== F.statusGeral) return false;
+                if (F.statusAcomp && x.stAcompanhamento !== F.statusAcomp) return false;
+                if (F.gestor && x.gestor !== F.gestor) return false;
+                if (F.coord && x.coordenador !== F.coord) return false;
+                if (F.dataDe && x.iso < F.dataDe) return false;
+                if (F.dataAte && x.iso > F.dataAte) return false;
                 return true;
             });
 
             const totalPaginas = Math.ceil(filtrados.length / itensPorPagina) || 1;
             if (paginaAtual > totalPaginas) paginaAtual = totalPaginas;
-
             const inicio = (paginaAtual - 1) * itensPorPagina;
             const paginados = filtrados.slice(inicio, inicio + itensPorPagina);
 
-            $('#v').innerHTML = `
-                <div class="cart-glass-toolbar" style="margin-bottom:12px;">
-                    <input id="q-hist" placeholder="Pesquisar por SOB, local, responsável..." value="${esc(F.q)}" class="cart-search-box" style="min-width:230px;">
-                    
-                    <select id="f-hist-status" class="cart-search-box" style="min-width:130px;">
-                        <option value="">STATUS: Todos</option>
-                        ${statusUnicos.map(s => `<option value="${esc(s)}" ${F.status === s ? 'selected' : ''}>${esc(s)}</option>`).join('')}
-                    </select>
+            function badgeAcompClass(s) {
+                if (s === 'Preenchido') return 'badge-op-green';
+                if (s === 'Pendente') return 'badge-op-amber';
+                if (s === 'Não se aplica') return 'badge-op-blue';
+                return 'badge-op-gray';
+            }
 
-                    <select id="f-hist-tipo" class="cart-search-box" style="min-width:130px;">
-                        <option value="">TIPO: Todos</option>
-                        ${tiposUnicos.map(t => `<option value="${esc(t)}" ${F.tipo === t ? 'selected' : ''}>${esc(t)}</option>`).join('')}
-                    </select>
+            container.innerHTML = `
+                <div class="prog-filter-panel">
+                    <div style="font-size:0.75rem;color:var(--text-muted);font-weight:700;">${filtrados.length} registro(s) — somente leitura, exceto as etapas de aprovação.</div>
+                    <div class="prog-filter-row">
+                        <input type="text" id="prog-filter-q" class="prog-input-field" placeholder="Pesquisar ID, ordem, usuário, SGD..." value="${esc(F.q)}" style="min-width:280px;flex:1;">
+                        
+                        <select id="prog-filter-base" class="prog-input-field" style="min-width:130px;">
+                            <option value="">Base: todos</option>
+                            ${bases.map(b => `<option value="${esc(b)}" ${F.base === b ? 'selected' : ''}>${esc(b)}</option>`).join('')}
+                        </select>
 
-                    <select id="f-hist-prio" class="cart-search-box" style="min-width:130px;">
-                        <option value="">PRIORIDADE: Todas</option>
-                        ${prioridadesUnicas.map(p => `<option value="${esc(p)}" ${F.prioridade === p ? 'selected' : ''}>${esc(p)}</option>`).join('')}
-                    </select>
+                        <select id="prog-filter-parceira" class="prog-input-field" style="min-width:130px;">
+                            <option value="">Parceira: todos</option>
+                            ${parceiras.map(p => `<option value="${esc(p)}" ${F.parceira === p ? 'selected' : ''}>${esc(p)}</option>`).join('')}
+                        </select>
 
-                    <button class="btn-modern-primary" style="padding:6px 12px;background:#475569;" onclick="window.PROG.limparFiltrosHist()"><i class="fa-solid fa-filter-circle-xmark"></i> Limpar</button>
+                        <select id="prog-filter-status" class="prog-input-field" style="min-width:140px;">
+                            <option value="">Status Geral: todos</option>
+                            ${statusGerais.map(s => `<option value="${esc(s)}" ${F.statusGeral === s ? 'selected' : ''}>${esc(s)}</option>`).join('')}
+                        </select>
 
-                    <span style="font-size:12px;font-weight:700;margin-left:auto;">${filtrados.length} registros (≥ 2026)</span>
+                        <select id="prog-filter-acomp" class="prog-input-field" style="min-width:160px;">
+                            <option value="">St. Acompanhamento: todos</option>
+                            ${statusAcomps.map(s => `<option value="${esc(s)}" ${F.statusAcomp === s ? 'selected' : ''}>${esc(s)}</option>`).join('')}
+                        </select>
+                    </div>
+
+                    <div class="prog-filter-row">
+                        <select id="prog-filter-gestor" class="prog-input-field" style="min-width:130px;">
+                            <option value="">St. Gestor: todos</option>
+                            ${gestores.map(g => `<option value="${esc(g)}" ${F.gestor === g ? 'selected' : ''}>${esc(g)}</option>`).join('')}
+                        </select>
+
+                        <select id="prog-filter-coord" class="prog-input-field" style="min-width:130px;">
+                            <option value="">St. Coord.: todos</option>
+                            ${coords.map(c => `<option value="${esc(c)}" ${F.coord === c ? 'selected' : ''}>${esc(c)}</option>`).join('')}
+                        </select>
+
+                        <div class="prog-date-group">
+                            <span>Execução de</span>
+                            <input type="date" id="prog-filter-de" class="prog-input-field" value="${esc(F.dataDe)}">
+                        </div>
+
+                        <div class="prog-date-group">
+                            <span>Execução até</span>
+                            <input type="date" id="prog-filter-ate" class="prog-input-field" value="${esc(F.dataAte)}">
+                        </div>
+
+                        <button class="btn-modern-primary" style="padding:6px 12px;background:#475569;" onclick="window.PROG.limparFiltros()"><i class="fa-solid fa-filter-circle-xmark"></i> Limpar</button>
+                    </div>
                 </div>
 
-                <div class="cart-table-panel tw">
-                    <table class="cart-table table-center">
+                <div class="table-prog-container">
+                    <table class="table-prog-operacional">
                         <thead>
                             <tr>
-                                <th>BASE</th>
-                                <th>Tipo de Serviço</th>
-                                <th>SOB</th>
-                                <th>Data de execução</th>
-                                <th>Dia da semana</th>
-                                <th>PRIORIDADE</th>
-                                <th style="background:var(--brand-soft);color:var(--brand-primary);">MK</th>
-                                <th style="background:var(--brand-soft);color:var(--brand-primary);">CESTO</th>
-                                <th style="background:var(--brand-soft);color:var(--brand-primary);">LINHA VIVA</th>
-                                <th style="background:var(--brand-soft);color:var(--brand-primary);">PODA</th>
-                                <th>Vencimento de Obras</th>
-                                <th>STATUS</th>
-                                <th>Custo Programado</th>
-                                <th>Baremo Programado</th>
-                                <th>Valor Executado</th>
-                                <th>Complemento Programado</th>
+                                <th>ID <i class="fa-solid fa-sort"></i></th>
+                                <th>Ordem/SOB <i class="fa-solid fa-sort"></i></th>
+                                <th>Usuário <i class="fa-solid fa-sort"></i></th>
+                                <th>Parceira <i class="fa-solid fa-sort"></i></th>
+                                <th>Base <i class="fa-solid fa-sort"></i></th>
+                                <th>Gestor responsável <i class="fa-solid fa-sort"></i></th>
+                                <th>Gestor <i class="fa-solid fa-sort"></i></th>
+                                <th>Coordenador <i class="fa-solid fa-sort"></i></th>
+                                <th>Data Cadastro <i class="fa-solid fa-sort"></i></th>
+                                <th>Data Execução <i class="fa-solid fa-sort"></i></th>
+                                <th>Tipo SGD <i class="fa-solid fa-sort"></i></th>
+                                <th>SGD <i class="fa-solid fa-sort"></i></th>
+                                <th>Alimentador <i class="fa-solid fa-sort"></i></th>
+                                <th>Etapa <i class="fa-solid fa-sort"></i></th>
+                                <th>Obra complexa <i class="fa-solid fa-sort"></i></th>
+                                <th>Locação em conjunto <i class="fa-solid fa-sort"></i></th>
+                                <th>Análise do plano <i class="fa-solid fa-sort"></i></th>
+                                <th>Verificado Plano em campo <i class="fa-solid fa-sort"></i></th>
+                                <th>Acompanhada obra em campo <i class="fa-solid fa-sort"></i></th>
+                                <th>St. Acompanhamento <i class="fa-solid fa-sort"></i></th>
                             </tr>
                         </thead>
                         <tbody>
-                            ${paginados.length ? paginados.map(x => `<tr onclick="window.PROG.showDetail('${esc(x.sob)}')">
-                                <td>${esc(x.base || '—')}</td>
-                                <td>${esc(x.tipo || '—')}</td>
-                                <td><b>${esc(x.sob)}</b></td>
-                                <td>${esc(x.dataExec || fmt(x.d))}</td>
-                                <td>${esc(x.diaSemana || '—')}</td>
-                                <td>${esc(x.prioridade || '—')}</td>
-                                <td style="font-weight:700;background:var(--brand-soft);">${x.mk}</td>
-                                <td style="font-weight:700;background:var(--brand-soft);">${x.cesto}</td>
-                                <td style="font-weight:700;background:var(--brand-soft);">${x.lv}</td>
-                                <td style="font-weight:700;background:var(--brand-soft);">${x.poda}</td>
-                                <td>${esc(x.vencimentoObras || '—')}</td>
-                                <td><span style="font-size:11px;padding:3px 8px;border-radius:var(--radius-pill);background:var(--card-subtle);font-weight:700;border:1px solid var(--border-light);">${esc(x.st)}</span></td>
-                                <td style="font-family:var(--font-mono);">${esc(x.custoProg || '0,00')}</td>
-                                <td style="font-family:var(--font-mono);">${esc(x.baremoProg || '0,00')}</td>
-                                <td style="font-family:var(--font-mono);">${esc(x.valorExec || '0,00')}</td>
-                                <td style="font-family:var(--font-mono);">${esc(x.complProg || '0,00')}</td>
-                            </tr>`).join('') : '<tr><td colspan="16" style="padding:32px;color:var(--text-muted);">Nenhum registro encontrado.</td></tr>'}
+                            ${paginados.length ? paginados.map(x => `
+                                <tr onclick="window.PROG.detalhar('${esc(x.sob)}')">
+                                    <td class="id-cell">${esc(x.id)}</td>
+                                    <td><b>${esc(x.sob)}</b></td>
+                                    <td style="color:var(--text-secondary);">${esc(x.usuario)}</td>
+                                    <td>${esc(x.parceira)}</td>
+                                    <td>${esc(x.base)}</td>
+                                    <td>${esc(x.gestorResp)}</td>
+                                    <td>${esc(x.gestor)}</td>
+                                    <td>${esc(x.coordenador)}</td>
+                                    <td>${esc(x.dataCadastro)}</td>
+                                    <td>${esc(x.dataExec)}</td>
+                                    <td>${esc(x.tipoSGD)}</td>
+                                    <td>${esc(x.sgd)}</td>
+                                    <td>${esc(x.alimentador)}</td>
+                                    <td>${esc(x.etapa)}</td>
+                                    <td>${esc(x.obraComplexa)}</td>
+                                    <td>${esc(x.locacaoConjunto)}</td>
+                                    <td>${esc(x.analisePlano)}</td>
+                                    <td>${esc(x.verificadoCampo)}</td>
+                                    <td>${esc(x.acompanhadaCampo)}</td>
+                                    <td><span class="badge-op ${badgeAcompClass(x.stAcompanhamento)}">${esc(x.stAcompanhamento)}</span></td>
+                                </tr>
+                            `).join('') : '<tr><td colspan="20" style="padding:32px;text-align:center;color:var(--text-muted);">Nenhum registro encontrado para os filtros selecionados.</td></tr>'}
                         </tbody>
                     </table>
                 </div>
@@ -2668,27 +1839,69 @@
                     </div>
                     <div>Página <b>${paginaAtual}</b> de <b>${totalPaginas}</b></div>
                     <div style="display:flex;gap:6px;">
-                        <button onclick="window.PROG.mudarPagina(-1)" ${paginaAtual <= 1 ? 'disabled' : ''}>◀ Anterior</button>
-                        <button onclick="window.PROG.mudarPagina(1)" ${paginaAtual >= totalPaginas ? 'disabled' : ''}>Próxima ▶</button>
+                        <button onclick="window.PROG.mudarPagina(-1)" ${paginaAtual <= 1 ? 'disabled' : ''}><i class="fa-solid fa-chevron-left"></i> Anterior</button>
+                        <button onclick="window.PROG.mudarPagina(1)" ${paginaAtual >= totalPaginas ? 'disabled' : ''}>Próxima <i class="fa-solid fa-chevron-right"></i></button>
                     </div>
                 </div>
             `;
 
-            $('#q-hist').oninput = e => { F.q = e.target.value.toLowerCase(); paginaAtual = 1; renderProgHist(); };
-            $('#f-hist-status').onchange = e => { F.status = e.target.value; paginaAtual = 1; renderProgHist(); };
-            $('#f-hist-tipo').onchange = e => { F.tipo = e.target.value; paginaAtual = 1; renderProgHist(); };
-            $('#f-hist-prio').onchange = e => { F.prioridade = e.target.value; paginaAtual = 1; renderProgHist(); };
+            // EVENTOS DE FILTROS
+            document.getElementById('prog-filter-q').oninput = e => { F.q = e.target.value; paginaAtual = 1; renderTabelaOperacional(all, container); };
+            document.getElementById('prog-filter-base').onchange = e => { F.base = e.target.value; paginaAtual = 1; renderTabelaOperacional(all, container); };
+            document.getElementById('prog-filter-parceira').onchange = e => { F.parceira = e.target.value; paginaAtual = 1; renderTabelaOperacional(all, container); };
+            document.getElementById('prog-filter-status').onchange = e => { F.statusGeral = e.target.value; paginaAtual = 1; renderTabelaOperacional(all, container); };
+            document.getElementById('prog-filter-acomp').onchange = e => { F.statusAcomp = e.target.value; paginaAtual = 1; renderTabelaOperacional(all, container); };
+            document.getElementById('prog-filter-gestor').onchange = e => { F.gestor = e.target.value; paginaAtual = 1; renderTabelaOperacional(all, container); };
+            document.getElementById('prog-filter-coord').onchange = e => { F.coord = e.target.value; paginaAtual = 1; renderTabelaOperacional(all, container); };
+            document.getElementById('prog-filter-de').onchange = e => { F.dataDe = e.target.value; paginaAtual = 1; renderTabelaOperacional(all, container); };
+            document.getElementById('prog-filter-ate').onchange = e => { F.dataAte = e.target.value; paginaAtual = 1; renderTabelaOperacional(all, container); };
         }
 
-        function detail(sob) {
+        /* RENDERIZAÇÃO DOS GRÁFICOS DIÁRIOS */
+        function renderGraficosProg(all, container) {
+            const porDia = {};
+            all.forEach(x => {
+                const k = x.iso;
+                if (!porDia[k]) porDia[k] = { total: 0, concl: 0, parc: 0, cancel: 0 };
+                porDia[k].total++;
+                if (x.stAcompanhamento === 'Preenchido') porDia[k].concl++;
+                else if (x.stAcompanhamento === 'Pendente') porDia[k].parc++;
+                else porDia[k].cancel++;
+            });
+
+            const diasOrdenados = Object.keys(porDia).sort().slice(-14);
+            const maxQtd = Math.max(1, ...diasOrdenados.map(d => porDia[d].total));
+
+            container.innerHTML = `
+                <div class="dcard">
+                    <div class="dh"><h4><i class="fa-solid fa-chart-column"></i> Obras Diárias Programadas</h4></div>
+                    <div class="chart-columns-container">
+                        ${diasOrdenados.map(d => {
+                            const o = porDia[d];
+                            return `<div class="col-item-prog" title="${d}: ${o.total} obras">
+                                <b style="font-size:10px;color:var(--text-main);">${o.total}</b>
+                                <div class="bar-stack" style="height:${(o.total/maxQtd)*110}px;">
+                                    <div style="height:${(o.concl/o.total)*100}%;background:var(--status-green);"></div>
+                                    <div style="height:${(o.parc/o.total)*100}%;background:var(--status-amber);"></div>
+                                    <div style="height:${(o.cancel/o.total)*100}%;background:var(--status-red);"></div>
+                                </div>
+                                <span class="label-date">${d.slice(8)}/${d.slice(5,7)}</span>
+                            </div>`;
+                        }).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function detalhar(sob) {
             const cur = contratoGlobal;
             const item = (DB[cur] || []).find(x => x.sob === sob);
             if (!item) return;
-            $('#dbody').innerHTML = `
+            document.getElementById('dbody').innerHTML = `
                 <div style="border-bottom:2px solid var(--brand-accent);padding-bottom:8px;margin-bottom:10px;">
                     <h3 style="color:var(--text-main);font-size:15px;font-weight:800;display:flex;justify-content:space-between;align-items:center;">
                         <span>SOB: <b>${esc(item.sob)}</b> (${esc(item.base)})</span>
-                        <span style="font-size:11px;background:var(--brand-soft);color:var(--brand-primary);padding:3px 10px;border-radius:var(--radius-pill);font-weight:700;">${esc(item.st)}</span>
+                        <span style="font-size:11px;background:var(--brand-soft);color:var(--brand-primary);padding:3px 10px;border-radius:var(--radius-pill);font-weight:700;">${esc(item.stAcompanhamento)}</span>
                     </h3>
                 </div>
                 <div class="compact-spec-grid">
@@ -2700,25 +1913,25 @@
                     `).join('')}
                 </div>
             `;
-            $('#dlg').showModal();
+            document.getElementById('dlg').showModal();
         }
-
-        $('#sub-prog-nav').onclick = e => {
-            const btn = e.target.closest('button');
-            if (btn && btn.dataset.t) {
-                tab = btn.dataset.t;
-                root.querySelectorAll('#sub-prog-nav button').forEach(b => b.classList.toggle('on', b.dataset.t == tab));
-                renderView();
-            }
-        };
 
         window.PROG = {
             setContrato(c) { paginaAtual = 1; sync(c); },
             show() { sync(contratoGlobal); },
-            showDetail: detail,
-            mudarPagina(delta) { paginaAtual += delta; renderProgHist(); },
-            mudarTamanhoPagina(val) { itensPorPagina = parseInt(val, 10); paginaAtual = 1; renderProgHist(); },
-            limparFiltrosHist() { F = { q: '', status: '', tipo: '', prioridade: '' }; paginaAtual = 1; renderProgHist(); }
+            detalhar,
+            alternarSubAba(modo) {
+                modoVisualizacao = modo;
+                document.getElementById('btn-sub-operacional').style.background = modo === 'operacional' ? 'var(--brand-primary)' : '#475569';
+                document.getElementById('btn-sub-dash').style.background = modo === 'dash' ? 'var(--brand-primary)' : '#475569';
+                render();
+            },
+            mudarPagina(d) { paginaAtual += d; render(); },
+            mudarTamanhoPagina(v) { itensPorPagina = parseInt(v, 10); paginaAtual = 1; render(); },
+            limparFiltros() {
+                F = { q: '', base: '', parceira: '', statusGeral: '', statusAcomp: '', gestor: '', coord: '', dataDe: '', dataAte: '' };
+                paginaAtual = 1; render();
+            }
         };
     })();
     </script>
