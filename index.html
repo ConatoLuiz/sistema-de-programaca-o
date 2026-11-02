@@ -13,28 +13,29 @@
 
     <style>
         /* ========================================================
-           DESIGN SYSTEM WORLD-CLASS ENTERPRISE
+           DESIGN SYSTEM CORPORATIVO - PALETA VERDE ESMERALDA
            ======================================================== */
         :root {
-            --bg-base: #F8FAFC;
+            --bg-base: #F4FBF7;
             --bg-surface: #FFFFFF;
-            --bg-glass: rgba(255, 255, 255, 0.92);
-            --brand-navy: #0F172A;
-            --brand-primary: #1E3A8A;
-            --brand-accent: #2563EB;
-            --brand-cyan: #06B6D4;
-            --brand-gradient: linear-gradient(135deg, #1E3A8A 0%, #06B6D4 100%);
-            --border-light: #E2E8F0;
-            --border-glass: rgba(226, 232, 240, 0.85);
-            --text-main: #0F172A;
-            --text-secondary: #475569;
-            --text-muted: #94A3B8;
+            --bg-glass: rgba(255, 255, 255, 0.94);
+            --brand-dark: #064E3B;
+            --brand-primary: #065F46;
+            --brand-accent: #10B981;
+            --brand-accent-hover: #059669;
+            --brand-light: #ECFDF5;
+            --brand-gradient: linear-gradient(135deg, #065F46 0%, #10B981 100%);
+            --border-light: #D1FAE5;
+            --border-glass: rgba(209, 250, 229, 0.8);
+            --text-main: #064E3B;
+            --text-secondary: #374151;
+            --text-muted: #6B7280;
             --status-green: #10B981;
             --status-amber: #F59E0B;
             --status-red: #EF4444;
-            --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
-            --shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
-            --shadow-float: 0 20px 30px -8px rgba(15, 23, 42, 0.15);
+            --shadow-sm: 0 1px 3px rgba(6, 78, 59, 0.08);
+            --shadow-md: 0 10px 25px -5px rgba(6, 78, 59, 0.09);
+            --shadow-float: 0 20px 30px -8px rgba(6, 78, 59, 0.16);
             --radius-md: 10px;
             --radius-lg: 14px;
             --radius-pill: 9999px;
@@ -44,50 +45,49 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif; }
         body { background-color: var(--bg-base); color: var(--text-main); padding: 14px 18px; min-height: 100vh; overflow-x: hidden; }
 
-        /* KEYFRAMES */
         @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes scaleIn { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
-        @keyframes pulseDot { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.4); opacity: 0.5; } }
-        @keyframes pulseGlow { 0%, 100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4); } 50% { box-shadow: 0 0 0 10px rgba(37, 99, 235, 0); } }
+        @keyframes pulseGlow { 0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); } 50% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); } }
 
         /* HEADER */
         header {
             display: flex; justify-content: space-between; align-items: center;
             background: var(--bg-glass); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-            border: 1px solid var(--border-glass); padding: 12px 22px; border-radius: var(--radius-lg);
-            margin-bottom: 12px; box-shadow: var(--shadow-sm); position: sticky; top: 10px; z-index: 2500;
+            border: 1px solid var(--border-glass); border-top: 4px solid var(--brand-accent);
+            padding: 12px 22px; border-radius: var(--radius-lg); margin-bottom: 12px;
+            box-shadow: var(--shadow-sm); position: sticky; top: 10px; z-index: 2500;
             gap: 14px; flex-wrap: wrap; transition: var(--transition-fast);
         }
-        header:hover { border-color: rgba(37, 99, 235, 0.3); }
+        header:hover { border-color: rgba(16, 185, 129, 0.35); }
 
         .brand-container { display: flex; align-items: center; gap: 12px; }
         .brand-icon-box {
             width: 40px; height: 40px; border-radius: 10px; background: var(--brand-gradient);
             display: flex; align-items: center; justify-content: center; color: #FFF; font-size: 1.2rem;
-            box-shadow: 0 6px 14px rgba(37, 99, 235, 0.3);
+            box-shadow: 0 6px 14px rgba(16, 185, 129, 0.3);
         }
-        .brand-title { font-size: 1.15rem; font-weight: 800; color: var(--brand-navy); letter-spacing: -0.3px; }
+        .brand-title { font-size: 1.15rem; font-weight: 800; color: var(--brand-dark); letter-spacing: -0.3px; }
 
         .header-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 
         .select-contract-master {
-            background: #FFFFFF; border: 2px solid var(--brand-accent); color: var(--brand-navy);
+            background: #FFFFFF; border: 2px solid var(--brand-accent); color: var(--brand-dark);
             padding: 7px 14px; border-radius: var(--radius-md); font-size: 0.85rem; font-weight: 700;
             cursor: pointer; outline: none; transition: var(--transition-fast); box-shadow: var(--shadow-sm);
         }
-        .select-contract-master:hover { background: #EFF6FF; }
+        .select-contract-master:hover { background: var(--brand-light); }
 
         .btn-modern-primary {
             background: var(--brand-primary); color: #FFF; border: none;
             padding: 8px 16px; border-radius: var(--radius-md); font-size: 0.84rem; font-weight: 600;
             cursor: pointer; display: inline-flex; align-items: center; gap: 7px;
-            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2); transition: var(--transition-fast);
+            box-shadow: 0 4px 12px rgba(6, 95, 70, 0.2); transition: var(--transition-fast);
         }
-        .btn-modern-primary:hover { background: #172554; transform: translateY(-1px); }
+        .btn-modern-primary:hover { background: var(--brand-dark); transform: translateY(-1px); }
 
-        /* TABS */
+        /* NAVEGAÇÃO DE ABAS */
         .tabs-nav {
-            display: flex; gap: 4px; margin-bottom: 14px; border-bottom: 1px solid var(--border-light);
+            display: flex; gap: 4px; margin-bottom: 14px; border-bottom: 2px solid var(--border-light);
             padding-bottom: 2px; overflow-x: auto;
         }
         .tab-nav-item {
@@ -96,12 +96,12 @@
             cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
             transition: var(--transition-fast); border-radius: 8px 8px 0 0;
         }
-        .tab-nav-item:hover { color: var(--brand-accent); background: rgba(37, 99, 235, 0.04); }
+        .tab-nav-item:hover { color: var(--brand-primary); background: rgba(16, 185, 129, 0.05); }
         .tab-nav-item.active {
-            color: var(--brand-accent); border-bottom-color: var(--brand-accent); font-weight: 700;
-            background: rgba(37, 99, 235, 0.08);
+            color: var(--brand-primary); border-bottom-color: var(--brand-accent); font-weight: 700;
+            background: rgba(16, 185, 129, 0.1);
         }
-        #tab-carteira, #tab-dash, #tab-prog, #tab-fontes { display: none; }
+        #tab-carteira, #tab-prog, #tab-fontes { display: none; }
 
         /* MAPA */
         .map-wrapper {
@@ -113,8 +113,8 @@
 
         .floating-sla-card {
             position: absolute; top: 14px; right: 14px; background: var(--bg-glass);
-            backdrop-filter: blur(12px); border: 1px solid var(--border-glass); border-radius: 12px;
-            padding: 10px 14px; z-index: 1000; display: flex; flex-direction: column; gap: 5px;
+            backdrop-filter: blur(12px); border: 1px solid var(--border-glass); border-top: 3px solid var(--brand-accent);
+            border-radius: 12px; padding: 10px 14px; z-index: 1000; display: flex; flex-direction: column; gap: 5px;
             box-shadow: var(--shadow-float); min-width: 210px; animation: scaleIn 0.25s ease;
         }
         .floating-sla-header {
@@ -125,8 +125,8 @@
             display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem;
             font-weight: 600; padding: 4px 8px; border-radius: 6px; cursor: pointer; transition: var(--transition-fast);
         }
-        .sla-row-btn:hover { background: rgba(37, 99, 235, 0.08); }
-        .sla-row-btn.active { background: rgba(37, 99, 235, 0.15); border: 1px solid var(--brand-accent); }
+        .sla-row-btn:hover { background: rgba(16, 185, 129, 0.1); }
+        .sla-row-btn.active { background: rgba(16, 185, 129, 0.2); border: 1px solid var(--brand-accent); }
 
         .floating-legend-card {
             position: absolute; bottom: 20px; left: 16px; background: var(--bg-glass);
@@ -142,7 +142,7 @@
             border: 1px solid var(--border-light); box-shadow: var(--shadow-sm);
         }
         .cart-search-box {
-            background: #F8FAFC; border: 1px solid var(--border-light); color: var(--text-main);
+            background: #F8FAFC; border: 1px solid #CBD5E1; color: var(--text-main);
             padding: 7px 12px; border-radius: var(--radius-md); font-size: 0.83rem; min-width: 240px; outline: none;
         }
         .cart-search-box:focus { border-color: var(--brand-accent); background: #FFF; }
@@ -160,7 +160,7 @@
             color: var(--text-secondary); transition: var(--transition-fast);
         }
         .etapa-chip-btn:hover { border-color: var(--brand-accent); }
-        .etapa-chip-btn.active { background: rgba(37, 99, 235, 0.1); border-color: var(--brand-accent); color: var(--brand-accent); }
+        .etapa-chip-btn.active { background: rgba(16, 185, 129, 0.15); border-color: var(--brand-accent); color: var(--brand-dark); }
 
         .cart-table-panel {
             background: #FFFFFF; border: 1px solid var(--border-light); border-radius: var(--radius-md);
@@ -168,16 +168,28 @@
         }
         table.cart-table { width: 100%; border-collapse: collapse; font-size: 0.83rem; }
         .cart-table th {
-            position: sticky; top: 0; background: #F8FAFC; color: var(--brand-navy);
+            position: sticky; top: 0; background: #F0FDF4; color: var(--brand-dark);
             font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.4px; text-align: left;
-            padding: 10px 12px; border-bottom: 2px solid var(--border-light); white-space: nowrap; z-index: 2;
+            padding: 10px 12px; border-bottom: 2px solid var(--brand-accent); white-space: nowrap; z-index: 2;
         }
-        .cart-table td { padding: 8px 12px; border-bottom: 1px solid var(--border-light); white-space: nowrap; }
+        .cart-table td { padding: 8px 12px; border-bottom: 1px solid #E5E7EB; white-space: nowrap; }
         .cart-table tbody tr { cursor: pointer; }
-        .cart-table tbody tr:hover td { background: rgba(37, 99, 235, 0.04); }
+        .cart-table tbody tr:hover td { background: rgba(16, 185, 129, 0.05); }
         .cart-empty { padding: 40px; text-align: center; color: var(--text-muted); }
 
-        /* DASHBOARDS COMPLETOS */
+        /* MODAL FULLSCREEN DE DASHBOARD DA CARTEIRA */
+        #modal-dash-fullscreen {
+            display: none; position: fixed; inset: 0; z-index: 4500;
+            background: #F4FBF7; overflow-y: auto; padding: 20px; animation: fadeIn 0.25s ease;
+        }
+        .dash-modal-header {
+            display: flex; justify-content: space-between; align-items: center;
+            background: #FFFFFF; border: 1px solid var(--border-light); border-top: 4px solid var(--brand-accent);
+            padding: 12px 20px; border-radius: 12px; margin-bottom: 16px; box-shadow: var(--shadow-sm); position: sticky; top: 0; z-index: 100;
+        }
+        .dash-modal-title { font-size: 1.15rem; font-weight: 800; color: var(--brand-dark); display: flex; align-items: center; gap: 10px; }
+        
+        /* DASHBOARD KPIS & CARDS */
         .kpis-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-bottom: 14px; }
         @media (max-width: 1400px) { .kpis-grid { grid-template-columns: repeat(4, 1fr); } }
         @media (max-width: 900px) { .kpis-grid { grid-template-columns: repeat(2, 1fr); } }
@@ -188,62 +200,62 @@
             transition: var(--transition-fast);
         }
         .kpi:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
-        .kpi b { display: block; font-size: 1.45rem; color: var(--brand-navy); font-weight: 800; }
+        .kpi b { display: block; font-size: 1.45rem; color: var(--brand-dark); font-weight: 800; }
         .kpi span { font-size: 0.67rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.3px; }
 
+        .tipo-pills-wrap { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+        .tipo-pill { font-size: 10px; font-weight: 700; padding: 2px 6px; background: #ECFDF5; color: #065F46; border-radius: 4px; border: 1px solid #A7F3D0; }
+
         .dgrid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 12px; }
-        .ditem { grid-column: span var(--span, 6); min-width: 0; transition: opacity 0.15s; }
-        .ditem.arrastando { opacity: 0.4; outline: 2px dashed var(--brand-accent); }
+        .ditem { grid-column: span var(--span, 6); min-width: 0; }
         .dcard { background: #FFFFFF; border: 1px solid var(--border-light); border-radius: 10px; padding: 14px; box-shadow: var(--shadow-sm); }
         .dh { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        .dh h4 { font-size: 0.75rem; color: var(--brand-primary); text-transform: uppercase; letter-spacing: 0.4px; margin: 0; }
-        .dsz { background: #F8FAFC; border: 1px solid var(--border-light); border-radius: 6px; color: #64748B; cursor: pointer; padding: 2px 7px; font-size: 0.72rem; }
-        .dsz:hover { color: var(--brand-accent); border-color: var(--brand-accent); }
+        .dh h4 { font-size: 0.75rem; color: var(--brand-dark); text-transform: uppercase; letter-spacing: 0.4px; margin: 0; }
         
         .dbar { display: grid; grid-template-columns: 120px 1fr 34px; gap: 8px; align-items: center; font-size: 0.75rem; margin-bottom: 5px; }
         .dbar > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-secondary); }
-        .dtrack { height: 13px; background: #E8EDF3; border-radius: 6px; display: flex; overflow: hidden; }
+        .dtrack { height: 13px; background: #E5E7EB; border-radius: 6px; display: flex; overflow: hidden; }
         .dtrack i { display: block; height: 100%; }
-        .donut { width: 120px; height: 120px; border-radius: 50%; position: relative; flex-shrink: 0; }
-        .donut::after { content: ''; position: absolute; inset: 26px; background: #FFFFFF; border-radius: 50%; }
-        .dleg { font-size: 0.76rem; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+        
+        /* Semáforo compacto */
+        .compact-donut-card { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
+        .donut-small { width: 100px; height: 100px; border-radius: 50%; position: relative; flex-shrink: 0; }
+        .donut-small::after { content: ''; position: absolute; inset: 22px; background: #FFFFFF; border-radius: 50%; }
+
+        /* Leituras automáticas */
         .insights { list-style: none; display: grid; gap: 6px; font-size: 0.82rem; line-height: 1.45; }
-        .insights li { background: #F8FAFC; border-left: 3px solid var(--brand-accent); padding: 7px 12px; border-radius: 5px; }
+        .insights li { background: #F0FDF4; border-left: 3px solid var(--brand-accent); padding: 7px 12px; border-radius: 5px; }
         .insights li.alerta { border-left-color: var(--status-red); background: #FEF2F2; }
 
         /* PROGRAMAÇÃO DE OBRAS */
-        #tab-prog .bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-        #tab-prog .sub { display: flex; gap: 4px; border-bottom: 1px solid var(--border-light); margin-bottom: 12px; }
+        #tab-prog .sub { display: flex; gap: 4px; border-bottom: 2px solid var(--border-light); margin-bottom: 12px; }
         #tab-prog .sub button {
             border: 0; border-bottom: 3px solid transparent; background: none; color: var(--text-secondary);
             padding: 8px 16px; font-weight: 600; cursor: pointer; font-size: 0.85rem;
         }
-        #tab-prog .sub button.on { color: var(--brand-primary); border-color: var(--brand-accent); font-weight: 700; }
-        #tab-prog .bars { display: flex; align-items: flex-end; gap: 6px; height: 180px; overflow-x: auto; }
-        #tab-prog .col { flex: 1; min-width: 32px; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; align-items: center; font-size: 10px; color: var(--text-muted); text-align: center; }
-        #tab-prog .stack { width: 100%; display: flex; flex-direction: column-reverse; border-radius: 4px; overflow: hidden; }
+        #tab-prog .sub button.on { color: var(--brand-dark); border-color: var(--brand-accent); font-weight: 700; background: rgba(16, 185, 129, 0.08); }
         #tab-prog .week { display: grid; grid-template-columns: repeat(7, minmax(140px, 1fr)); gap: 8px; overflow-x: auto; }
         #tab-prog .day { background: #FFFFFF; border: 1px solid var(--border-light); border-radius: 8px; min-height: 190px; padding: 8px; }
         #tab-prog .day.today { border-color: var(--brand-accent); }
-        #tab-prog .ev { border-left: 3px solid var(--brand-accent); background: #F8FAFC; border-radius: 5px; padding: 5px 7px; margin-bottom: 5px; font-size: 11px; cursor: pointer; }
-        #tab-prog .tw { overflow: auto; max-height: 68vh; }
+        #tab-prog .ev { border-left: 3px solid var(--brand-accent); background: #F0FDF4; border-radius: 5px; padding: 5px 7px; margin-bottom: 5px; font-size: 11px; cursor: pointer; }
+        #tab-prog .tw { overflow: auto; max-height: 72vh; }
 
-        /* MODAL CONSULTA PROJETO */
+        /* MODAIS */
         #proj-window {
             display: none; position: fixed; top: 80px; left: 50%; transform: translateX(-50%);
             width: 480px; height: 520px; max-width: 95vw; max-height: 90vh;
             background: #FFFFFF; border: 1px solid var(--border-light); border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-float); z-index: 3500; resize: both; overflow: hidden;
+            box-shadow: var(--shadow-float); z-index: 5000; resize: both; overflow: hidden;
             flex-direction: column; animation: scaleIn 0.25s ease;
         }
         #proj-window.show { display: flex; }
-        .pw-header { display: flex; justify-content: space-between; align-items: center; background: #F8FAFC; padding: 11px 16px; border-bottom: 2px solid var(--brand-primary); }
+        .pw-header { display: flex; justify-content: space-between; align-items: center; background: #F0FDF4; padding: 11px 16px; border-bottom: 2px solid var(--brand-accent); }
         .pw-body { padding: 14px; overflow-y: auto; flex: 1; font-size: 0.83rem; }
-        .pw-row { display: grid; grid-template-columns: 40% 1fr; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--border-light); }
+        .pw-row { display: grid; grid-template-columns: 40% 1fr; gap: 8px; padding: 6px 0; border-bottom: 1px solid #E5E7EB; }
 
-        /* CHAT ASSISTENTE FLUTUANTE */
+        /* CHAT FLUTUANTE */
         #chat-widget-root {
-            position: fixed; bottom: 22px; right: 22px; z-index: 5000;
+            position: fixed; bottom: 22px; right: 22px; z-index: 4000;
             display: flex; flex-direction: column; align-items: flex-end;
         }
         .chat-fab-btn {
@@ -252,7 +264,6 @@
             justify-content: center; font-size: 1.3rem; cursor: pointer; transition: var(--transition-fast);
             animation: pulseGlow 3s infinite;
         }
-        .chat-fab-btn:hover { transform: scale(1.08); }
         .chat-card-window {
             display: none; width: 350px; height: 460px; background: #FFFFFF;
             border: 1px solid var(--border-light); border-radius: var(--radius-lg);
@@ -261,23 +272,25 @@
         }
         .chat-card-window.open { display: flex; }
         .chat-header-bar {
-            background: var(--brand-navy); color: #FFF; padding: 10px 14px;
+            background: var(--brand-dark); color: #FFF; padding: 10px 14px;
             display: flex; justify-content: space-between; align-items: center; font-size: 0.88rem; font-weight: 700;
         }
         .chat-feed-stream { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; font-size: 0.82rem; }
         .chat-bubble {
-            background: #F1F5F9; padding: 8px 10px; border-radius: 8px; max-width: 90%;
+            background: #F0FDF4; padding: 8px 10px; border-radius: 8px; max-width: 90%;
             line-height: 1.4; border-left: 3px solid var(--brand-accent); animation: fadeIn 0.2s ease;
         }
         .chat-bubble.alert { border-left-color: var(--status-red); background: #FEF2F2; color: #991B1B; }
         .chat-bubble.success { border-left-color: var(--status-green); background: #F0FDF4; }
-        .chat-bubble.user { align-self: flex-end; background: #EFF6FF; border-left: none; border-right: 3px solid var(--brand-accent); }
+        .chat-bubble.user { align-self: flex-end; background: #ECFDF5; border-left: none; border-right: 3px solid var(--brand-accent); }
         .chat-input-row { display: flex; padding: 8px; border-top: 1px solid var(--border-light); gap: 6px; }
         .chat-input-row input { flex: 1; border: 1px solid var(--border-light); border-radius: 6px; padding: 6px 10px; font-size: 0.8rem; outline: none; }
         .chat-input-row button { background: var(--brand-primary); color: #FFF; border: none; border-radius: 6px; padding: 0 12px; cursor: pointer; }
 
         /* FONTES DE DADOS */
-        .card-fonte { background: #FFF; border: 1px solid var(--border-light); border-radius: 10px; padding: 16px; margin-bottom: 12px; }
+        .card-fonte { background: #FFF; border: 1px solid var(--border-light); border-radius: 10px; padding: 18px; margin-bottom: 12px; }
+        .input-link-fonte { width: 100%; border: 1px solid #CBD5E1; padding: 8px 10px; border-radius: 6px; font-size: 0.8rem; margin-top: 4px; font-family: monospace; }
+        .status-badge-fonte { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 12px; }
     </style>
 </head>
 <body>
@@ -286,12 +299,11 @@
         <!-- HEADER -->
         <header>
             <div class="brand-container">
-                <div class="brand-icon-box"><i class="fa-solid fa-chart-line"></i></div>
+                <div class="brand-icon-box"><i class="fa-solid fa-bolt"></i></div>
                 <div class="brand-title">Portal de Gestão Operacional & Obras</div>
             </div>
 
             <div class="header-actions">
-                <!-- SELETOR UNIFICADO MASTER DE CONTRATO -->
                 <select id="sel-contrato-global" class="select-contract-master" onchange="mudarContratoGlobal(this.value)">
                     <option value="angra">Contrato: Angra dos Reis</option>
                     <option value="mage">Contrato: Magé</option>
@@ -306,9 +318,8 @@
         <!-- NAVEGAÇÃO DE ABAS -->
         <div class="tabs-nav">
             <button class="tab-nav-item active" id="tabbtn-mapa" onclick="trocarAba('mapa')"><i class="fa-solid fa-map-location-dot"></i> Mapa Georreferenciado</button>
-            <button class="tab-nav-item" id="tabbtn-carteira" onclick="trocarAba('carteira')"><i class="fa-solid fa-table-list"></i> Carteira de Projetos (Consulta)</button>
-            <button class="tab-nav-item" id="tabbtn-dash" onclick="trocarAba('dash')"><i class="fa-solid fa-chart-pie"></i> Dashboards Executivos</button>
-            <button class="tab-nav-item" id="tabbtn-prog" onclick="trocarAba('prog')"><i class="fa-solid fa-calendar-check"></i> Programação de Obras (Consulta)</button>
+            <button class="tab-nav-item" id="tabbtn-carteira" onclick="trocarAba('carteira')"><i class="fa-solid fa-table-list"></i> Carteira de Projetos</button>
+            <button class="tab-nav-item" id="tabbtn-prog" onclick="trocarAba('prog')"><i class="fa-solid fa-calendar-check"></i> Programação de Obras</button>
             <button class="tab-nav-item" id="tabbtn-fontes" onclick="trocarAba('fontes')"><i class="fa-solid fa-link"></i> Fontes de Dados</button>
         </div>
 
@@ -334,8 +345,8 @@
                         <b id="count-20dias" style="color:#D97706;">0</b>
                     </div>
                     <div class="sla-row-btn" id="card-sla-30dias" onclick="filtrarPorFaixaSla('30dias')">
-                        <span style="color:var(--brand-cyan);">Até 30 Dias</span>
-                        <b id="count-30dias" style="color:var(--brand-cyan);">0</b>
+                        <span style="color:var(--brand-accent);">Até 30 Dias</span>
+                        <b id="count-30dias" style="color:var(--brand-accent);">0</b>
                     </div>
                 </div>
 
@@ -351,6 +362,9 @@
         <!-- ABA 2: CARTEIRA DE PROJETOS -->
         <div id="tab-carteira">
             <div class="cart-glass-toolbar">
+                <button class="btn-modern-primary" style="background:#059669;" onclick="abrirModalDashboard()">
+                    <i class="fa-solid fa-chart-pie"></i> Ver Dashboard da Carteira
+                </button>
                 <input type="text" class="cart-search-box" id="cart-search" placeholder="Pesquisar por projeto, SOB, parceira..." oninput="renderCarteira()">
                 <span class="cart-badge-chip"><i class="fa-solid fa-list"></i> <span id="cart-total">0</span> projetos</span>
                 <span class="cart-badge-chip" style="color:var(--status-red);"><span class="sinal-indicator" style="background:var(--status-red);"></span> <span id="cart-red">0</span></span>
@@ -372,7 +386,7 @@
                     <option value="amarelo">🟡 Amarelo (6-15d)</option>
                     <option value="verde">🟢 Verde (> 15d)</option>
                 </select>
-                <button class="btn-modern-primary" style="padding:6px 12px;background:#64748B;" onclick="limparFiltrosCarteira()"><i class="fa-solid fa-filter-circle-xmark"></i> Limpar Filtros</button>
+                <button class="btn-modern-primary" style="padding:6px 12px;background:#475569;" onclick="limparFiltrosCarteira()"><i class="fa-solid fa-filter-circle-xmark"></i> Limpar Filtros</button>
             </div>
 
             <div class="cart-table-panel">
@@ -385,50 +399,87 @@
             </div>
         </div>
 
-        <!-- ABA 3: DASHBOARDS EXECUTIVOS (COMPLETO) -->
-        <div id="tab-dash">
-            <div class="cart-glass-toolbar" style="margin-bottom:12px;">
-                <select class="cart-search-box" style="min-width:150px;" id="d-tipo" onchange="renderDashboard()"><option value="">TIPO: Todos</option></select>
-                <select class="cart-search-box" style="min-width:150px;" id="d-parceira" onchange="renderDashboard()"><option value="">PARCEIRA: Todas</option></select>
-                <select class="cart-search-box" style="min-width:150px;" id="d-resp" onchange="renderDashboard()"><option value="">RESPONSÁVEL: Todos</option></select>
-                <button class="btn-modern-primary" style="padding:6px 12px;background:#64748B;" onclick="restaurarLayoutDash()"><i class="fa-solid fa-rotate-left"></i> Restaurar Layout</button>
-            </div>
-            <div id="dash-root"></div>
-        </div>
-
-        <!-- ABA 4: PROGRAMAÇÃO DE OBRAS (CONSULTA COM DASHBOARD, SEMANA E HISTÓRICO) -->
+        <!-- ABA 3: PROGRAMAÇÃO DE OBRAS -->
         <div id="tab-prog">
             <div class="cart-glass-toolbar" style="justify-content:space-between;">
                 <span id="st" style="font-size:0.85rem; font-weight:700;"></span>
             </div>
-            <div class="sub" id="sub-prog-nav" style="display:flex;gap:4px;border-bottom:1px solid var(--border-light);margin-bottom:12px;">
+            <div class="sub" id="sub-prog-nav">
                 <button data-t="dash" class="on">Dashboard</button>
                 <button data-t="week">Semana</button>
                 <button data-t="hist">Histórico</button>
             </div>
             <div id="v"></div>
-            <dialog id="dlg" style="border:none;border-radius:12px;padding:20px;max-width:540px;box-shadow:var(--shadow-float);"><div id="dbody"></div><p style="text-align:right;margin-top:12px;"><button class="btn-modern-primary" style="background:#64748B;" onclick="this.closest('dialog').close()">Fechar</button></p></dialog>
+            <dialog id="dlg" style="border:none;border-radius:12px;padding:20px;max-width:540px;box-shadow:var(--shadow-float);"><div id="dbody"></div><p style="text-align:right;margin-top:12px;"><button class="btn-modern-primary" style="background:#475569;" onclick="this.closest('dialog').close()">Fechar</button></p></dialog>
         </div>
 
-        <!-- ABA 5: FONTES DE DADOS (APENAS CONSULTA DOS LINKS) -->
+        <!-- ABA 4: FONTES DE DADOS (COM EDIÇÃO E STATUS) -->
         <div id="tab-fontes">
             <div class="card-fonte">
-                <h3 style="color:var(--brand-navy);margin-bottom:8px;"><i class="fa-solid fa-circle-info"></i> Fontes de Dados Conectadas (Somente Leitura)</h3>
-                <p style="font-size:0.83rem;color:var(--text-secondary);margin-bottom:14px;">As planilhas são lidas diretamente da nuvem em formato CSV em tempo real:</p>
-                <div style="display:grid;gap:10px;font-size:0.82rem;">
-                    <div><b>Carteira Angra dos Reis:</b> <span style="color:#059669;">Conectada</span></div>
-                    <div><b>Carteira Magé:</b> <span style="color:#DC2626;">Aguardando publicação do link</span></div>
-                    <div><b>Programação Angra dos Reis:</b> <span style="color:#059669;">Conectada</span></div>
-                    <div><b>Programação Magé:</b> <span style="color:#059669;">Conectada</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px;">
+                    <h3 style="color:var(--brand-dark);margin:0;"><i class="fa-solid fa-link"></i> Conexão com as Planilhas do Google</h3>
+                    <button class="btn-modern-primary" onclick="salvarLinksFontes()"><i class="fa-solid fa-save"></i> Salvar e Aplicar Alterações</button>
+                </div>
+                <p style="font-size:0.83rem;color:var(--text-secondary);margin-bottom:14px;">Você pode consultar o status de conexão de cada planilha e alterar os links quando necessário:</p>
+                
+                <div style="display:grid;gap:14px;">
+                    <div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;">
+                            <b>Carteira de Projetos - Angra dos Reis</b>
+                            <span id="status-badge-cart-ang" class="status-badge-fonte" style="background:#DCFCE7;color:#15803D;">● Conectada</span>
+                        </div>
+                        <input id="input-cart-ang" class="input-link-fonte" value="">
+                    </div>
+
+                    <div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;">
+                            <b>Carteira de Projetos - Magé</b>
+                            <span id="status-badge-cart-mag" class="status-badge-fonte" style="background:#FEE2E2;color:#B91C1C;">○ Aguardando Link</span>
+                        </div>
+                        <input id="input-cart-mag" class="input-link-fonte" placeholder="Cole aqui o link ou iframe de Magé quando disponível" value="">
+                    </div>
+
+                    <div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;">
+                            <b>Programação de Obras - Angra dos Reis</b>
+                            <span id="status-badge-prog-ang" class="status-badge-fonte" style="background:#DCFCE7;color:#15803D;">● Conectada</span>
+                        </div>
+                        <input id="input-prog-ang" class="input-link-fonte" value="">
+                    </div>
+
+                    <div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;">
+                            <b>Programação de Obras - Magé</b>
+                            <span id="status-badge-prog-mag" class="status-badge-fonte" style="background:#DCFCE7;color:#15803D;">● Conectada</span>
+                        </div>
+                        <input id="input-prog-mag" class="input-link-fonte" value="">
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- JANELA DE TELA CHEIA: DASHBOARD DA CARTEIRA -->
+    <div id="modal-dash-fullscreen">
+        <div class="dash-modal-header">
+            <div class="dash-modal-title">
+                <i class="fa-solid fa-chart-pie" style="color:var(--brand-accent);"></i>
+                <span>Dashboard da Carteira - <b id="dash-modal-contrato-nome">ANGRA DOS REIS</b></span>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center;">
+                <button class="btn-modern-primary" style="background:#475569;" onclick="fecharModalDashboard()">
+                    <i class="fa-solid fa-xmark"></i> Fechar Tela Cheia
+                </button>
+            </div>
+        </div>
+
+        <div id="dash-root"></div>
+    </div>
+
     <!-- JANELA MODAL DE DETALHES DO PROJETO (CONSULTA) -->
     <div id="proj-window">
         <div class="pw-header">
-            <span style="font-weight:800;color:var(--brand-navy);" id="pw-title">DETALHES DO PROJETO</span>
+            <span style="font-weight:800;color:var(--brand-dark);" id="pw-title">DETALHES DO PROJETO</span>
             <button onclick="fecharJanelaProjeto()" style="background:none;border:none;cursor:pointer;font-size:18px;color:var(--text-muted);">&times;</button>
         </div>
         <div class="pw-body" id="pw-body"></div>
@@ -462,7 +513,22 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <script>
-        /* LINKS FIXOS E RESTRITOS (EXATAMENTE COMO FORNECIDOS) */
+        /* CONVERSOR DE LINKS DE GOOGLE PLANILHAS */
+        function extrairLinkCsvGoogle(str) {
+            if (!str) return '';
+            str = String(str).trim();
+            const match = str.match(/src=["']([^"']+)["']/i);
+            if (match && match[1]) str = match[1];
+            str = str.replace(/&amp;/g, '&');
+            if (str.includes('/pubhtml')) {
+                str = str.replace('/pubhtml', '/pub');
+                if (!str.includes('output=csv')) {
+                    str += (str.includes('?') ? '&' : '?') + 'output=csv';
+                }
+            }
+            return str;
+        }
+
         window.LINKS_PLANILHAS = {
             carteira_angra: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vToswUD-YrLiHH87aWkz3yHfpvG1tYgeXq0uiUXizDxF5RVoYrr9m4t8xSy1yfLC4zItS7Hb0bTHguK/pub?gid=1394179098&single=true&output=csv',
             carteira_mage: '',
@@ -470,18 +536,39 @@
             prog_mage: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTpotM4mC5w2KmbYn-xkPEMCOpZu9T6EO0i3IGVlEADdNxfBbgpYzD0IrMna0F64w/pub?gid=1401348365&single=true&output=csv'
         };
 
+        try {
+            const saved = localStorage.getItem('app_links_custom_green');
+            if (saved) Object.assign(window.LINKS_PLANILHAS, JSON.parse(saved));
+        } catch(e) {}
+
         let map, markersGroup;
         let listaDadosGlobal = [];
         let etapasChip = new Set();
         let filtroSlaAtual = 'todos';
         let contratoGlobal = 'angra';
 
-        const paletaCores = ['#2563EB', '#06B6D4', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#F97316'];
+        const paletaCores = ['#047857', '#10B981', '#065F46', '#F59E0B', '#EF4444', '#0284C7', '#8B5CF6', '#EA580C'];
         let mapaCoresEtapas = {};
 
         function esc(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+        function normTxt(s) { return String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase().trim(); }
 
-        /* INICIALIZAÇÃO INFALÍVEL DO MAPA */
+        /* PRIORIDADES CRÍTICAS DEFINIDAS */
+        const PRIORIDADES_CRITICAS = [
+            'GRUPO B - FLUXO',
+            'JURIDICO',
+            'GRUPO A - FLUXO',
+            'GRUPO B - FLUXO - ACAO DE HV -',
+            'OUVIDORIA'
+        ];
+
+        function ehPrioridadeCritica(prioStr) {
+            if (!prioStr) return false;
+            const n = normTxt(prioStr);
+            return PRIORIDADES_CRITICAS.some(pc => n.includes(normTxt(pc)) || normTxt(pc).includes(n));
+        }
+
+        /* MAPA */
         function inicializarMapa() {
             if (!map) {
                 map = L.map('map', { zoomControl: true }).setView([-22.9068, -43.1729], 10);
@@ -553,7 +640,7 @@
             return String(buscarCampoFlexivel(item, 'PROJETO', 'CODIGO', 'OBRA', 'SOB') || '').trim();
         }
 
-        /* TROCA GLOBAL DE CONTRATO (UNIFICAÇÃO TOTAL) */
+        /* TROCA GLOBAL DE CONTRATO */
         function mudarContratoGlobal(c) {
             contratoGlobal = c;
             document.getElementById('sel-contrato-global').value = c;
@@ -587,8 +674,6 @@
 
                 badge.innerHTML = `<span style="color:var(--status-green);"><i class="fa-solid fa-circle-check"></i> ${contratoGlobal.toUpperCase()} Conectado (${rows.length} obras)</span>`;
                 aplicarLinhas(rows);
-
-                const vencidos = rows.filter(i => calcularDiasRestantes(buscarCampoFlexivel(i, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE')) <= 0).length;
                 adicionarFeedChat(`Planilha de Carteira (${contratoGlobal.toUpperCase()}) atualizada: <b>${rows.length} obras</b> carregadas com sucesso.`, 'success');
             } catch(e) {
                 badge.innerHTML = `<span style="color:var(--status-red);"><i class="fa-solid fa-triangle-exclamation"></i> Falha ao ler planilha de ${contratoGlobal.toUpperCase()}</span>`;
@@ -607,7 +692,7 @@
         }
 
         function trocarAba(aba) {
-            ['mapa', 'carteira', 'dash', 'prog', 'fontes'].forEach(a => {
+            ['mapa', 'carteira', 'prog', 'fontes'].forEach(a => {
                 const el = document.getElementById('tab-' + a);
                 const btn = document.getElementById('tabbtn-' + a);
                 if (el) el.style.display = (a === aba) ? 'block' : 'none';
@@ -618,8 +703,19 @@
                 setTimeout(() => { if (map) { map.invalidateSize(); processarEPlotarProjetos(); } }, 200);
             }
             else if (aba === 'carteira') renderCarteira();
-            else if (aba === 'dash') renderDashboard();
             else if (aba === 'prog' && window.PROG) window.PROG.show();
+            else if (aba === 'fontes') preencherInputsFontes();
+        }
+
+        /* MODAL FULLSCREEN DE DASHBOARD */
+        function abrirModalDashboard() {
+            document.getElementById('dash-modal-contrato-nome').innerText = contratoGlobal.toUpperCase();
+            document.getElementById('modal-dash-fullscreen').style.display = 'block';
+            renderDashboard();
+        }
+
+        function fecharModalDashboard() {
+            document.getElementById('modal-dash-fullscreen').style.display = 'none';
         }
 
         /* CARTEIRA DE PROJETOS */
@@ -634,13 +730,24 @@
             { titulo: 'ETAPA', nomes: ['ETAPA', 'STATUS', 'FASE', 'SITUACAO', 'INFO STATUS'] }
         ];
 
+        /* REGRA DO SINAL */
         function obterSinal(item) {
+            const tipo = normTxt(buscarCampoFlexivel(item, 'TIPO', 'TIPO DE SERVICO'));
+            if (!tipo.includes('CLIENTE')) return null;
+            const prio = buscarCampoFlexivel(item, 'PRIORIDADE');
+            if (!ehPrioridadeCritica(prio)) return null;
+
+            const beneficio = String(buscarCampoFlexivel(item, 'BENEFÍCIO ATINGIDO?', 'BENEFÍCIO ANTINGIDO?', 'BENEFICIO ATINGIDO') ?? '').trim();
+            if (beneficio !== '') return null;
+
             const dataLimite = buscarCampoFlexivel(item, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE', 'LIMITE EXECUCAO');
             const dias = calcularDiasRestantes(dataLimite);
             if (dias === 999) return null;
+
             let cor = 'verde';
             if (dias <= 5) cor = 'vermelho';
             else if (dias <= 15) cor = 'amarelo';
+
             const texto = dias < 0 ? `${Math.abs(dias)}d em atraso` : (dias === 0 ? 'vence hoje' : `${dias}d`);
             return { cor, dias, texto };
         }
@@ -688,7 +795,6 @@
             const fPrio = document.getElementById('f-prioridade').value;
             const fSinal = document.getElementById('f-sinal').value;
 
-            // Renderiza chips de etapas com badge
             let contagem = {};
             listaDadosGlobal.forEach(i => { const e = obterValorEtapa(i); contagem[e] = (contagem[e] || 0) + 1; });
             let chips = `<div class="etapa-chip-btn ${etapasChip.size === 0 ? 'active' : ''}" onclick="alternarChipEtapa('')">TODAS (${listaDadosGlobal.length})</div>`;
@@ -825,7 +931,7 @@
                     const corNucleo = mapaCoresEtapas[etapa] || 'var(--brand-accent)';
 
                     const m = L.circleMarker([lat, lng], { radius: 7, fillColor: corNucleo, color: corAura, weight: 3, fillOpacity: 0.95 }).addTo(markersGroup);
-                    m.bindPopup(`<b>PROJETO: ${esc(proj)}</b><br>Etapa: <b>${esc(etapa)}</b><br>Prazo: <b>${dias <= 0 ? Math.abs(dias)+'d em atraso' : dias+'d'}</b><br><a href="https://www.google.com/maps/search/?api=1&query=${lat},${lng}" target="_blank" style="color:#2563EB;font-weight:bold;text-decoration:none;display:inline-block;margin-top:5px;">Abrir no Google Maps</a>`);
+                    m.bindPopup(`<b>PROJETO: ${esc(proj)}</b><br>Etapa: <b>${esc(etapa)}</b><br>Prazo: <b>${dias <= 0 ? Math.abs(dias)+'d em atraso' : dias+'d'}</b><br><a href="https://www.google.com/maps/search/?api=1&query=${lat},${lng}" target="_blank" style="color:#059669;font-weight:bold;text-decoration:none;display:inline-block;margin-top:5px;">Abrir no Google Maps</a>`);
                 }
             });
 
@@ -839,12 +945,11 @@
         }
 
         /* ========================================================
-           DASHBOARDS EXECUTIVOS COMPLETOS
+           DASHBOARDS DA CARTEIRA COM LEITURAS AUTOMÁTICAS E ANÁLISE
            ======================================================== */
-        let topCriticos = [];
-        const COR = { verm: '#EF4444', amar: '#F59E0B', verde: '#10B981', azul: '#1E3A8A', cinza: '#94A3B8', lar: '#EA580C' };
+        const COR = { verm: '#EF4444', amar: '#F59E0B', verde: '#10B981', azul: '#065F46', cinza: '#94A3B8', lar: '#EA580C' };
         const campoTxt = (i, ...n) => formatarValorGenerico(buscarCampoFlexivel(i, ...n));
-        const ehAberto = i => (obterValorEtapa(i) || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase().trim() !== 'CONCLUIDO';
+        const ehAberto = i => normTxt(obterValorEtapa(i)) !== 'CONCLUIDO';
         const dataValida = v => { const d = paraData(v); return d && d.getFullYear() > 1900 ? d : null; };
         const chaveMes = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
         const MES_ABREV = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
@@ -867,77 +972,120 @@
                 `</div><b>${tot(x)}</b></div>`).join('');
         }
 
-        function rosca(fatias) {
+        function roscaPequena(fatias) {
             const tot = fatias.reduce((a, f) => a + f[1], 0);
             if (!tot) return '<div style="color:var(--text-muted);font-size:.8rem;">Sem dados.</div>';
             let acc = 0;
             const grad = fatias.map(f => { const a = acc / tot * 100; acc += f[1]; return `${f[2]} ${a}% ${acc / tot * 100}%`; }).join(',');
-            return `<div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap"><div class="donut" style="background:conic-gradient(${grad})"></div><div>` +
-                fatias.map(f => `<div class="dleg"><span style="width:8px;height:8px;border-radius:50%;background:${f[2]};display:inline-block;"></span>${esc(f[0])}: <b>${f[1]}</b> (${Math.round(f[1] / tot * 100)}%)</div>`).join('') + '</div></div>';
+            return `<div class="compact-donut-card"><div class="donut-small" style="background:conic-gradient(${grad})"></div><div style="font-size:11px;width:100%;">` +
+                fatias.map(f => `<div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span style="display:flex;align-items:center;gap:5px;"><span style="width:7px;height:7px;border-radius:50%;background:${f[2]};display:inline-block;"></span>${esc(f[0])}</span><b>${f[1]} (${tot ? Math.round(f[1]/tot*100) : 0}%)</b></div>`).join('') + '</div></div>';
         }
 
-        function popularFiltrosDash() {
-            [['d-tipo', 'TIPO', ['TIPO', 'TIPO DE SERVICO']], ['d-parceira', 'PARCEIRA', ['PARCEIRA', 'EMPRESA']], ['d-resp', 'RESPONSÁVEL', ['RESPONSÁVEL', 'RESPONSAVEL']]].forEach(([id, t, n]) => {
-                const v = new Set(); listaDadosGlobal.forEach(i => { const x = campoTxt(i, ...n); if (x) v.add(x); });
-                document.getElementById(id).innerHTML = `<option value="">${t}: Todos</option>` + Array.from(v).sort().map(x => `<option value="${esc(x)}">${esc(x)}</option>`).join('');
-            });
-        }
-
-        function restaurarLayoutDash() {
-            try { localStorage.removeItem('dashOrdem'); } catch (e) {}
-            renderDashboard();
-        }
+        function popularFiltrosDash() {}
 
         function renderDashboard() {
             const root = document.getElementById('dash-root');
             if (!listaDadosGlobal.length) { root.innerHTML = '<div class="cart-empty">Nenhum projeto cadastrado na carteira deste contrato.</div>'; return; }
 
-            const fT = document.getElementById('d-tipo').value, fP = document.getElementById('d-parceira').value, fR = document.getElementById('d-resp').value;
-            const D = listaDadosGlobal.filter(i => obterValorProjeto(i) !== '' &&
-                (!fT || campoTxt(i, 'TIPO', 'TIPO DE SERVICO') === fT) && (!fP || campoTxt(i, 'PARCEIRA', 'EMPRESA') === fP) && (!fR || campoTxt(i, 'RESPONSÁVEL', 'RESPONSAVEL') === fR));
+            const D = listaDadosGlobal.filter(i => obterValorProjeto(i) !== '');
             const A = D.filter(ehAberto);
-            const pct = (a, b) => b ? Math.round(a / b * 100) : 0;
-            const etapas = Object.keys(mapaCoresEtapas).sort();
-            const corEtapa = e => mapaCoresEtapas[e] || COR.azul;
+            const concluidos = D.filter(i => normTxt(obterValorEtapa(i)) === 'CONCLUIDO');
+            const pctConcl = D.length ? Math.round((concluidos.length / D.length) * 100) : 0;
 
-            const sin = A.map(i => ({ i, s: obterSinal(i) })).filter(x => x.s).sort((a, b) => a.s.dias - b.s.dias);
-            const venc = sin.filter(x => x.s.dias < 0), crit = sin.filter(x => x.s.dias >= 0 && x.s.dias <= 5);
-            const aten = sin.filter(x => x.s.dias > 5 && x.s.dias <= 15), ok = sin.filter(x => x.s.dias > 15);
-            topCriticos = sin.slice(0, 10).map(x => x.i);
+            // Tipos em aberto
+            const tiposAbertosMap = contar(A, i => campoTxt(i, 'TIPO', 'TIPO DE SERVICO') || 'SEM TIPO');
+            let tipoPillsHtml = '<div class="tipo-pills-wrap">';
+            tiposAbertosMap.forEach((qtd, tp) => {
+                tipoPillsHtml += `<span class="tipo-pill">${esc(tp)}: ${qtd}</span>`;
+            });
+            tipoPillsHtml += '</div>';
 
-            const resp = i => campoTxt(i, 'RESPONSÁVEL', 'RESPONSAVEL') || 'SEM RESPONSÁVEL';
-            const pendSim = D.filter(i => (campoTxt(i, 'PENDÊNCIA CONSTRUTIVA?', 'PENDENCIA CONSTRUTIVA?') || '').toUpperCase().trim() === 'SIM');
-            const pendAbertas = pendSim.filter(i => (campoTxt(i, 'STATUS PENDÊNCIA', 'STATUS PENDENCIA') || '').toUpperCase().trim() !== 'CONCLUIDO');
-            const diverg = D.filter(i => { const s = campoTxt(i, 'STATUS'); return s && s.toUpperCase().trim() !== obterValorEtapa(i).toUpperCase().trim(); });
-            const semResp = A.filter(i => !campoTxt(i, 'RESPONSÁVEL', 'RESPONSAVEL'));
-            const pacInv = D.filter(i => !dataValida(buscarCampoFlexivel(i, 'PACOTE', 'DATA PACOTE')));
-            const semLim = A.filter(i => !dataValida(buscarCampoFlexivel(i, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE')));
-            const prioNorm = i => (campoTxt(i, 'PRIORIDADE') || 'SEM PRIORIDADE').toUpperCase();
-            const prioN = new Set(D.map(prioNorm));
+            // REGRAS ESPECÍFICAS DE CLIENTE CRÍTICO
+            const ehClienteCritico = i => {
+                const tipo = normTxt(campoTxt(i, 'TIPO', 'TIPO DE SERVICO'));
+                if (!tipo.includes('CLIENTE')) return false;
+                const prio = campoTxt(i, 'PRIORIDADE');
+                if (!ehPrioridadeCritica(prio)) return false;
+                const beneficio = String(buscarCampoFlexivel(i, 'BENEFÍCIO ATINGIDO?', 'BENEFÍCIO ANTINGIDO?', 'BENEFICIO ATINGIDO') ?? '').trim();
+                return beneficio === '';
+            };
+
+            const clientesCriticosEmAberto = A.filter(ehClienteCritico).map(i => {
+                const dataLimite = buscarCampoFlexivel(i, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE');
+                const dias = calcularDiasRestantes(dataLimite);
+                return { item: i, dias };
+            }).sort((a, b) => a.dias - b.dias);
+
+            const vencidosCriticos = clientesCriticosEmAberto.filter(x => x.dias < 0);
+            const vencem5Dias = clientesCriticosEmAberto.filter(x => x.dias >= 0 && x.dias <= 5);
+            const atencaoDias = clientesCriticosEmAberto.filter(x => x.dias > 5 && x.dias <= 15);
+            const mais15Dias = clientesCriticosEmAberto.filter(x => x.dias > 15);
+
+            // PENDÊNCIAS EM ABERTO
+            const pendenciasAbertas = D.filter(i => {
+                const pendConst = normTxt(campoTxt(i, 'PENDÊNCIA CONSTRUTIVA?', 'PENDENCIA CONSTRUTIVA?'));
+                const stPend = normTxt(campoTxt(i, 'STATUS PENDÊNCIA', 'STATUS PENDENCIA'));
+                return pendConst === 'SIM' && stPend !== 'CONCLUIDO';
+            });
+
+            // TOP 10 MAIS CRÍTICOS
+            const top10Criticos = clientesCriticosEmAberto.slice(0, 10);
 
             const kpisHtml = `
                 <div class="kpis-grid">
-                    <div class="kpi"><b>${D.length}</b><span>Projetos na Carteira</span></div>
-                    <div class="kpi" style="border-left-color:var(--brand-cyan);"><b>${A.length}</b><span>Em Aberto</span></div>
-                    <div class="kpi" style="border-left-color:var(--status-green);"><b>${D.length - A.length} <small>(${pct(D.length - A.length, D.length)}%)</small></b><span>Concluídos</span></div>
-                    <div class="kpi" style="border-left-color:var(--status-red);"><b>${venc.length}</b><span>Vencidos s/ Benefício</span></div>
-                    <div class="kpi" style="border-left-color:var(--status-red);"><b>${crit.length}</b><span>Vencem em ≤ 5 dias</span></div>
-                    <div class="kpi" style="border-left-color:var(--status-amber);"><b>${aten.length}</b><span>Atenção (6–15 dias)</span></div>
-                    <div class="kpi" style="border-left-color:var(--status-green);"><b>${pendAbertas.length}</b><span>Pendências Abertas</span></div>
+                    <div class="kpi">
+                        <b>${D.length}</b>
+                        <span>Projetos na Carteira</span>
+                    </div>
+                    <div class="kpi" style="border-left-color:var(--status-green);">
+                        <b>${concluidos.length} <small style="font-size:12px;font-weight:600;">(${pctConcl}%)</small></b>
+                        <span>Projetos Concluídos</span>
+                    </div>
+                    <div class="kpi" style="border-left-color:var(--brand-accent);">
+                        <b>${A.length}</b>
+                        <span>Projetos em Aberto</span>
+                        ${tipoPillsHtml}
+                    </div>
+                    <div class="kpi" style="border-left-color:var(--status-red);">
+                        <b>${vencidosCriticos.length}</b>
+                        <span>Vencidos s/ Benefício (Cliente)</span>
+                    </div>
+                    <div class="kpi" style="border-left-color:var(--status-red);">
+                        <b>${vencem5Dias.length}</b>
+                        <span>Vencem em ≤ 5 dias</span>
+                    </div>
+                    <div class="kpi" style="border-left-color:var(--status-amber);">
+                        <b>${atencaoDias.length}</b>
+                        <span>Atenção (6–15 dias)</span>
+                    </div>
+                    <div class="kpi" style="border-left-color:#EA580C;">
+                        <b>${pendenciasAbertas.length}</b>
+                        <span>Pendências Abertas (SIM)</span>
+                    </div>
                 </div>
             `;
 
-            const itens = [];
-            const card = (id, t, corpo, span) => itens.push({ id, span: span || 6, html: `<div class="dh"><h4>${t}</h4></div>${corpo}` });
+            const etapas = Object.keys(mapaCoresEtapas).sort();
+            const corEtapa = e => mapaCoresEtapas[e] || COR.azul;
 
-            card('c-etapa', 'Projetos por Etapa', barras(etapas.map(e => ({ l: e, segs: [[D.filter(i => obterValorEtapa(i) === e).length, corEtapa(e)]] })).filter(x => x.segs[0][0] > 0)));
-            card('c-semaforo', 'Semáforo de Prazos (Em Aberto)', rosca([['Vencidos', venc.length, '#991B1B'], ['0 a 5 dias', crit.length, COR.verm], ['6 a 15 dias', aten.length, COR.amar], ['Mais de 15 dias', ok.length, COR.verde]]));
-            
-            const abEt = etapas.filter(e => e.toUpperCase().trim() !== 'CONCLUÍDO');
-            const somaSegs = x => x.segs.reduce((a, g) => a + g[0], 0);
-            card('c-resp', 'Carga em Aberto por Responsável', barras([...new Set(A.map(resp))].map(r => ({ l: r, segs: abEt.map(e => [A.filter(i => resp(i) === r && obterValorEtapa(i) === e).length, corEtapa(e), e]) })).sort((a, b) => somaSegs(b) - somaSegs(a))));
-            card('c-prio', 'Prioridade / Fluxo (Aberto x Concluído)', barras([...prioN].map(p => { const ab = A.filter(i => prioNorm(i) === p).length; return { l: p, segs: [[ab, COR.lar, 'Em aberto'], [D.filter(i => prioNorm(i) === p).length - ab, COR.cinza, 'Concluído']] }; }).sort((a, b) => somaSegs(b) - somaSegs(a))));
+            // 1. Gráfico em barra: Projetos por Etapa
+            const cardEtapas = `<div class="dcard">
+                <div class="dh"><h4><i class="fa-solid fa-bars-staggered"></i> Projetos por Etapa</h4></div>
+                ${barras(etapas.map(e => ({ l: e, segs: [[D.filter(i => obterValorEtapa(i) === e).length, corEtapa(e)]] })).filter(x => x.segs[0][0] > 0))}
+            </div>`;
 
+            // 2. Semáforo de Prazos (Quadrado compacto)
+            const cardSemaforo = `<div class="dcard">
+                <div class="dh"><h4><i class="fa-solid fa-traffic-light"></i> Semáforo de Prazos (Críticos)</h4></div>
+                ${roscaPequena([
+                    ['Vencidos', vencidosCriticos.length, '#991B1B'],
+                    ['≤ 5 dias', vencem5Dias.length, COR.verm],
+                    ['6 a 15 dias', atencaoDias.length, COR.amar],
+                    ['> 15 dias', mais15Dias.length, COR.verde]
+                ])}
+            </div>`;
+
+            // 3. Pacotes Recebidos por Mês
             const serieMes = (arr, fn, corFn) => {
                 const m = contar(arr, i => { const d = dataValida(fn(i)); return d ? chaveMes(d) : null; });
                 const ks = [...m.keys()].sort();
@@ -945,25 +1093,112 @@
                 return seqMeses(ks[0], ks[ks.length - 1]).slice(-10).map(k => ({ l: rotuloMes(k), segs: [[m.get(k) || 0, corFn(k), rotuloMes(k)]] }));
             };
 
+            const cardPacotes = `<div class="dcard">
+                <div class="dh"><h4><i class="fa-solid fa-calendar-plus"></i> Pacotes Recebidos por Mês (Últimos 10)</h4></div>
+                ${barras(serieMes(D, i => buscarCampoFlexivel(i, 'PACOTE', 'DATA PACOTE'), () => COR.azul))}
+            </div>`;
+
+            // 4. Gráfico Data Limite para Execução
             const hojeM = chaveMes(new Date());
-            card('c-pacotes', 'Pacotes Recebidos por Mês (Últimos 10)', barras(serieMes(D, i => buscarCampoFlexivel(i, 'PACOTE', 'DATA PACOTE'), () => COR.azul)));
-            card('c-venc', 'Previsão de Vencimentos em Aberto por Mês', barras(serieMes(A, i => buscarCampoFlexivel(i, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE'), k => k < hojeM ? COR.verm : (k === hojeM ? COR.amar : COR.azul))));
+            const cardVencimentos = `<div class="dcard">
+                <div class="dh"><h4><i class="fa-solid fa-calendar-xmark"></i> Data Limite para Execução (Em Aberto)</h4></div>
+                ${barras(serieMes(A, i => buscarCampoFlexivel(i, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE'), k => k < hojeM ? COR.verm : (k === hojeM ? COR.amar : COR.azul)))}
+            </div>`;
 
-            const stPend = contar(pendSim, i => campoTxt(i, 'STATUS PENDÊNCIA', 'STATUS PENDENCIA') || 'SEM STATUS');
-            card('c-pend', 'Pendências Construtivas por Status', rosca([...stPend.entries()].map(([k, v]) => [k, v, k === 'CONCLUIDO' ? COR.verde : COR.lar])));
+            // 5. Gráfico de Pendências Construtivas por Status
+            const pendSimTotal = D.filter(i => normTxt(campoTxt(i, 'PENDÊNCIA CONSTRUTIVA?', 'PENDENCIA CONSTRUTIVA?')) === 'SIM');
+            const stPend = contar(pendSimTotal, i => campoTxt(i, 'STATUS PENDÊNCIA', 'STATUS PENDENCIA') || 'SEM STATUS');
+            const cardPendencias = `<div class="dcard">
+                <div class="dh"><h4><i class="fa-solid fa-triangle-exclamation"></i> Pendências Construtivas por Status</h4></div>
+                ${roscaPequena([...stPend.entries()].map(([k, v]) => [k, v, normTxt(k) === 'CONCLUIDO' ? COR.verde : COR.lar]))}
+            </div>`;
 
-            card('c-top', 'Top 10 Obras Mais Críticas', topCriticos.length ? '<table class="cart-table"><tbody>' + topCriticos.map((i, k) => `<tr onclick="abrirDetalheProjeto(${listaDadosGlobal.indexOf(i)})"><td><b>${esc(obterValorProjeto(i))}</b></td><td>${esc(obterValorEtapa(i))}</td><td>${esc(resp(i))}</td><td>${sinalHtml(obterSinal(i))}</td></tr>`).join('') + '</tbody></table>' : '<div style="color:var(--text-muted);font-size:0.8rem;">Sem obras críticas no momento.</div>');
+            // 6. Top 10 Obras Mais Críticas
+            let top10Html = '<table class="cart-table"><thead><tr><th>Projeto / SOB</th><th>Etapa</th><th>Prazo Restante</th><th>Prioridade</th></tr></thead><tbody>';
+            if (top10Criticos.length) {
+                top10Criticos.forEach(x => {
+                    const diasTxt = x.dias < 0 ? `<b style="color:var(--status-red);">${Math.abs(x.dias)} dias em atraso</b>` : (x.dias === 0 ? '<b style="color:var(--status-red);">Vence Hoje</b>' : `${x.dias} dias`);
+                    top10Html += `<tr onclick="abrirDetalheProjeto(${listaDadosGlobal.indexOf(x.item)})">
+                        <td><b>${esc(obterValorProjeto(x.item))}</b></td>
+                        <td>${esc(obterValorEtapa(x.item))}</td>
+                        <td>${diasTxt}</td>
+                        <td><small>${esc(campoTxt(x.item, 'PRIORIDADE'))}</small></td>
+                    </tr>`;
+                });
+            } else {
+                top10Html += '<tr><td colspan="4" style="text-align:center;color:var(--text-muted);padding:15px;">Nenhuma obra crítica nos critérios definidos.</td></tr>';
+            }
+            top10Html += '</tbody></table>';
 
+            const cardTop10 = `<div class="dcard" style="grid-column: span 12;">
+                <div class="dh"><h4><i class="fa-solid fa-triangle-exclamation" style="color:var(--status-red);"></i> Top 10 Obras Mais Críticas (Cliente & Prioridades Críticas)</h4></div>
+                ${top10Html}
+            </div>`;
+
+            // 7. LEITURAS AUTOMÁTICAS E ANÁLISE OPERACIONAL (ADICIONADO)
             const ins = [];
-            if (venc.length) ins.push(['alerta', `<b>${venc.length}</b> projetos em aberto já estão com a data limite vencida.`]);
-            if (crit.length) ins.push(['alerta', `<b>${crit.length}</b> projetos vencem nos próximos 5 dias.`]);
-            ins.push(['', `Total de <b>${D.length - A.length}</b> obras concluídas com sucesso até a presente data.`]);
-            card('c-ins', 'Leituras Automáticas & Insights Operacionais', '<ul class="insights">' + ins.map(x => `<li class="${x[0]}">${x[1]}</li>`).join('') + '</ul>', 12);
+            if (vencidosCriticos.length) {
+                ins.push(['alerta', `🚨 <b>${vencidosCriticos.length}</b> obras de cliente com prioridade regulatória já estão com a data limite ultrapassada. O caso mais severo é o projeto <b>${esc(obterValorProjeto(vencidosCriticos[0].item))}</b> (${Math.abs(vencidosCriticos[0].dias)} dias de atraso).`]);
+            }
+            if (vencem5Dias.length) {
+                ins.push(['alerta', `⏰ <b>${vencem5Dias.length}</b> projetos críticos vencem nos próximos 5 dias. Recomenda-se acompanhamento diário com as empreiteiras.`]);
+            }
+            if (atencaoDias.length) {
+                ins.push(['', `⚠️ Existem <b>${atencaoDias.length}</b> obras na faixa de atenção (6 a 15 dias para o vencimento).`]);
+            }
+            if (pendenciasAbertas.length) {
+                ins.push(['alerta', `🔧 <b>${pendenciasAbertas.length}</b> obras possuem pendência construtiva marcada como SIM e ainda não concluída.`]);
+            }
+            const maiorEtapa = [...contar(A, obterValorEtapa).entries()].sort((a, b) => b[1] - a[1]);
+            if (maiorEtapa.length) {
+                ins.push(['', `📌 O maior volume de obras em aberto está concentrado na etapa <b>${esc(maiorEtapa[0][0])}</b> (${maiorEtapa[0][1]} projetos).`]);
+            }
+            ins.push(['', `✅ O contrato atingiu um índice de <b>${pctConcl}% de conclusão</b> geral (${concluidos.length} de ${D.length} obras concluídas).`]);
 
-            root.innerHTML = kpisHtml + '<div class="dgrid">' + itens.map(it => `<div class="ditem dcard" style="--span:${it.span};">${it.html}</div>`).join('') + '</div>';
+            const cardInsights = `<div class="dcard" style="grid-column: span 12;">
+                <div class="dh"><h4><i class="fa-solid fa-lightbulb" style="color:var(--brand-accent);"></i> Leituras Automáticas & Análise Operacional</h4></div>
+                <ul class="insights">${ins.map(x => `<li class="${x[0]}">${x[1]}</li>`).join('')}</ul>
+            </div>`;
+
+            root.innerHTML = kpisHtml + `
+                <div class="dgrid">
+                    <div class="ditem" style="--span:4;">${cardEtapas}</div>
+                    <div class="ditem" style="--span:4;">${cardSemaforo}</div>
+                    <div class="ditem" style="--span:4;">${cardPendencias}</div>
+                    <div class="ditem" style="--span:6;">${cardPacotes}</div>
+                    <div class="ditem" style="--span:6;">${cardVencimentos}</div>
+                    ${cardTop10}
+                    ${cardInsights}
+                </div>
+            `;
         }
 
-        /* CHAT FLUTUANTE DE ATUALIZAÇÕES */
+        /* FONTES DE DADOS */
+        function preencherInputsFontes() {
+            document.getElementById('input-cart-ang').value = window.LINKS_PLANILHAS.carteira_angra || '';
+            document.getElementById('input-cart-mag').value = window.LINKS_PLANILHAS.carteira_mage || '';
+            document.getElementById('input-prog-ang').value = window.LINKS_PLANILHAS.prog_angra || '';
+            document.getElementById('input-prog-mag').value = window.LINKS_PLANILHAS.prog_mage || '';
+
+            document.getElementById('status-badge-cart-ang').innerText = window.LINKS_PLANILHAS.carteira_angra ? '● Conectada' : '○ Sem Link';
+            document.getElementById('status-badge-cart-mag').innerText = window.LINKS_PLANILHAS.carteira_mage ? '● Conectada' : '○ Aguardando Link';
+            document.getElementById('status-badge-prog-ang').innerText = window.LINKS_PLANILHAS.prog_angra ? '● Conectada' : '○ Sem Link';
+            document.getElementById('status-badge-prog-mag').innerText = window.LINKS_PLANILHAS.prog_mage ? '● Conectada' : '○ Sem Link';
+        }
+
+        function salvarLinksFontes() {
+            window.LINKS_PLANILHAS.carteira_angra = extrairLinkCsvGoogle(document.getElementById('input-cart-ang').value);
+            window.LINKS_PLANILHAS.carteira_mage = extrairLinkCsvGoogle(document.getElementById('input-cart-mag').value);
+            window.LINKS_PLANILHAS.prog_angra = extrairLinkCsvGoogle(document.getElementById('input-prog-ang').value);
+            window.LINKS_PLANILHAS.prog_mag = extrairLinkCsvGoogle(document.getElementById('input-prog-mag').value);
+
+            localStorage.setItem('app_links_custom_green', JSON.stringify(window.LINKS_PLANILHAS));
+            alert('Links das fontes de dados salvos com sucesso!');
+            preencherInputsFontes();
+            sincronizarTudoOnline();
+        }
+
+        /* CHAT FLUTUANTE */
         function toggleChatWindow() {
             document.getElementById('chat-window').classList.toggle('open');
         }
@@ -988,18 +1223,19 @@
                 const total = listaDadosGlobal.length;
                 const vencidos = listaDadosGlobal.filter(i => calcularDiasRestantes(buscarCampoFlexivel(i, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE')) <= 0).length;
                 if (txt.toLowerCase().includes('venc') || txt.toLowerCase().includes('atras')) {
-                    adicionarFeedChat(`🚨 <b>Obras Vencidas:</b> Existem ${vencidos} projetos com SLA estourado em ${contratoGlobal.toUpperCase()}.`, 'alert');
+                    adicionarFeedChat(`🚨 <b>Obras Vencidas:</b> Existem ${vencidos} projetos com data limite estourada em ${contratoGlobal.toUpperCase()}.`, 'alert');
                 } else {
-                    adicionarFeedChat(`📊 <b>Status Atual:</b> No contrato de <b>${contratoGlobal.toUpperCase()}</b> temos ${total} obras registradas.`, 'success');
+                    adicionarFeedChat(`📊 <b>Status Atual:</b> No contrato de <b>${contratoGlobal.toUpperCase()}</b> temos ${total} obras monitoradas.`, 'success');
                 }
             }, 500);
         }
 
         inicializarMapa();
+        preencherInputsFontes();
         sincronizarTudoOnline();
     </script>
 
-    <!-- PROGRAMAÇÃO DE OBRAS COMPLETA (SUB-ABAS DASHBOARD, SEMANA E HISTÓRICO) -->
+    <!-- PROGRAMAÇÃO DE OBRAS COM COLUNAS IDÊNTICAS À PLANILHA -->
     <script>
     (function(){
         const root = document.getElementById('tab-prog');
@@ -1010,11 +1246,9 @@
         const fmt = d => d.toLocaleDateString('pt-BR');
         const iso = d => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
         const sun = d => { const x = new Date(d); x.setDate(x.getDate() - x.getDay()); x.setHours(0, 0, 0, 0); return x; };
-        const ST = ['CONCLUÍDO', 'PARCIAL', 'ADIADO', 'CANCELADO', 'OUTRO'];
-        const COL = { CONCLUÍDO: 'var(--status-green)', PARCIAL: 'var(--brand-cyan)', ADIADO: 'var(--status-amber)', CANCELADO: 'var(--status-red)', OUTRO: '#94A3B8' };
 
         let DB = { angra: [], mage: [] }, OK = { angra: null, mage: null };
-        let tab = 'dash', wk = null, pg = 0, F = { q: '', s: '' };
+        let tab = 'dash', wk = null, F = { q: '' };
 
         function parseCSV(t) {
             const r = []; let row = [], c = '', q = false;
@@ -1033,6 +1267,21 @@
             return r;
         }
 
+        /* EXTRAI QUANTIDADES DA COLUNA ESTRUTURA (MK, CESTO, LINHA VIVA, PODA) */
+        function extrairQuantidadesEstrutura(str) {
+            const s = String(str || '').toUpperCase();
+            function extrai(regex) {
+                const m = s.match(regex);
+                if (!m) return 0;
+                return m[1] ? parseInt(m[1], 10) : 1;
+            }
+            const mk = extrai(/(\d+)\s*MK|MK/);
+            const cesto = extrai(/(\d+)\s*CESTO|CESTO/);
+            const lv = extrai(/(\d+)\s*(?:LV|LINHA\s*VIVA)|LV|LINHA\s*VIVA/);
+            const poda = extrai(/(\d+)\s*PODA|PODA/);
+            return { mk, cesto, lv, poda };
+        }
+
         function build(text) {
             const rows = parseCSV(text), hi = rows.findIndex(r => norm(r[0]) == 'base');
             if (hi < 0) return null;
@@ -1044,11 +1293,33 @@
                 const d = new Date(+m[3], m[2] - 1, +m[1]);
                 const raw = {};
                 h.forEach((k, i) => { if (k && (r[i] || '').trim()) raw[rows[hi][i].replace(/\s+/g, ' ').trim()] = r[i].trim(); });
+
+                const estStr = g(r, 'Estrutura');
+                const estQtd = extrairQuantidadesEstrutura(estStr);
+
                 out.push({
-                    d, iso: iso(d), sob, st: g(r, 'STATUS').toUpperCase(),
-                    base: g(r, 'BASE'), tipo: g(r, 'Tipo de Serviço'), etapa: g(r, 'INFO STATUS'),
-                    mun: g(r, 'Município'), bairro: g(r, 'Bairro'), desc: g(r, 'Descrição do serviço'),
-                    resp: g(r, 'Responsável Execução'), raw
+                    d, iso: iso(d), sob,
+                    base: g(r, 'BASE'),
+                    tipo: g(r, 'Tipo de Serviço'),
+                    dataExec: g(r, 'Data de execução'),
+                    diaSemana: g(r, 'Dia da semana'),
+                    prioridade: g(r, 'PRIORIDADE'),
+                    estruturaBruta: estStr,
+                    mk: estQtd.mk,
+                    cesto: estQtd.cesto,
+                    lv: estQtd.lv,
+                    poda: estQtd.poda,
+                    vencimentoObras: g(r, 'Vencimento de Obras'),
+                    st: g(r, 'STATUS').toUpperCase(),
+                    custoProg: g(r, 'Custo Programado'),
+                    baremoProg: g(r, 'Baremo Programado'),
+                    valorExec: g(r, 'Valor Executado'),
+                    complProg: g(r, 'Complemento Programado'),
+                    mun: g(r, 'Município'),
+                    bairro: g(r, 'Bairro'),
+                    desc: g(r, 'Descrição do serviço'),
+                    resp: g(r, 'Responsável Execução'),
+                    raw
                 });
             }
             return out;
@@ -1106,7 +1377,7 @@
                 <div class="kpis-grid" style="grid-template-columns:repeat(5,1fr);margin-bottom:12px;">
                     <div class="kpi"><b>${all.length}</b><span>Total Programadas</span></div>
                     <div class="kpi" style="border-left-color:var(--status-green);"><b>${conc}</b><span>Concluídas</span></div>
-                    <div class="kpi" style="border-left-color:var(--brand-cyan);"><b>${parc}</b><span>Parciais</span></div>
+                    <div class="kpi" style="border-left-color:var(--brand-accent);"><b>${parc}</b><span>Parciais</span></div>
                     <div class="kpi" style="border-left-color:var(--status-amber);"><b>${adia}</b><span>Adiada</span></div>
                     <div class="kpi" style="border-left-color:var(--status-red);"><b>${canc}</b><span>Canceladas</span></div>
                 </div>
@@ -1114,7 +1385,7 @@
                     <table class="cart-table">
                         <thead><tr><th>Data</th><th>SOB</th><th>Status</th><th>Tipo</th><th>Município</th><th>Responsável</th></tr></thead>
                         <tbody>
-                            ${all.slice(0, 50).map(x => `<tr><td>${fmt(x.d)}</td><td><b>${esc(x.sob)}</b></td><td><span style="font-size:11px;padding:2px 8px;border-radius:10px;background:#F1F5F9;font-weight:700;">${esc(x.st)}</span></td><td>${esc(x.tipo)}</td><td>${esc(x.mun)}</td><td>${esc(x.resp)}</td></tr>`).join('')}
+                            ${all.slice(0, 50).map(x => `<tr><td>${fmt(x.d)}</td><td><b>${esc(x.sob)}</b></td><td><span style="font-size:11px;padding:2px 8px;border-radius:10px;background:#ECFDF5;color:#065F46;font-weight:700;">${esc(x.st)}</span></td><td>${esc(x.tipo)}</td><td>${esc(x.mun)}</td><td>${esc(x.resp)}</td></tr>`).join('')}
                         </tbody>
                     </table>
                 </div>
@@ -1130,10 +1401,10 @@
 
             $('#v').innerHTML = `
                 <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;">
-                    <button class="btn-modern-primary" style="padding:6px 12px;background:#64748B;" id="pv-week">◀ Anterior</button>
-                    <button class="btn-modern-primary" style="padding:6px 12px;background:#64748B;" id="tj-week">Hoje</button>
-                    <button class="btn-modern-primary" style="padding:6px 12px;background:#64748B;" id="nx-week">Próxima ▶</button>
-                    <b style="font-size:13px;color:var(--brand-navy);margin-left:8px;">${fmt(wk)} a ${fmt(days[6])}</b>
+                    <button class="btn-modern-primary" style="padding:6px 12px;background:#475569;" id="pv-week">◀ Anterior</button>
+                    <button class="btn-modern-primary" style="padding:6px 12px;background:#475569;" id="tj-week">Hoje</button>
+                    <button class="btn-modern-primary" style="padding:6px 12px;background:#475569;" id="nx-week">Próxima ▶</button>
+                    <b style="font-size:13px;color:var(--brand-dark);margin-left:8px;">${fmt(wk)} a ${fmt(days[6])}</b>
                 </div>
                 <div class="week">
                     ${days.map(d => {
@@ -1150,19 +1421,57 @@
             $('#tj-week').onclick = () => { wk = sun(new Date()); renderProgWeek(); };
         }
 
+        /* HISTÓRICO COM ESTRUTURA SEPARADA (MK, CESTO, LINHA VIVA, PODA) E COLUNAS IDÊNTICAS */
         function renderProgHist() {
             const cur = contratoGlobal;
             const all = DB[cur] || [];
-            const f = all.filter(x => (!F.q || (x.sob + x.mun + x.resp).toLowerCase().includes(F.q)));
+            const f = all.filter(x => (!F.q || (x.sob + x.mun + x.resp + x.tipo + x.prioridade).toLowerCase().includes(F.q)));
+
             $('#v').innerHTML = `
                 <div style="margin-bottom:10px;">
-                    <input id="q-hist" placeholder="Buscar por SOB, local ou equipe..." value="${esc(F.q)}" class="cart-search-box">
+                    <input id="q-hist" placeholder="Buscar por SOB, local, tipo, prioridade..." value="${esc(F.q)}" class="cart-search-box">
                 </div>
                 <div class="dcard tw">
                     <table class="cart-table">
-                        <thead><tr><th>Data</th><th>SOB</th><th>Status</th><th>Município</th><th>Responsável</th><th>Descrição</th></tr></thead>
+                        <thead>
+                            <tr>
+                                <th>BASE</th>
+                                <th>Tipo de Serviço</th>
+                                <th>SOB</th>
+                                <th>Data de execução</th>
+                                <th>Dia da semana</th>
+                                <th>PRIORIDADE</th>
+                                <th style="text-align:center;background:#ECFDF5;">MK</th>
+                                <th style="text-align:center;background:#ECFDF5;">CESTO</th>
+                                <th style="text-align:center;background:#ECFDF5;">LINHA VIVA</th>
+                                <th style="text-align:center;background:#ECFDF5;">PODA</th>
+                                <th>Vencimento de Obras</th>
+                                <th>STATUS</th>
+                                <th>Custo Programado</th>
+                                <th>Baremo Programado</th>
+                                <th>Valor Executado</th>
+                                <th>Complemento Programado</th>
+                            </tr>
+                        </thead>
                         <tbody>
-                            ${f.slice(0, 100).map(x => `<tr onclick="window.PROG.showDetail('${esc(x.sob)}')"><td>${fmt(x.d)}</td><td><b>${esc(x.sob)}</b></td><td>${esc(x.st)}</td><td>${esc(x.mun)}</td><td>${esc(x.resp)}</td><td>${esc(x.desc.slice(0, 70))}</td></tr>`).join('')}
+                            ${f.slice(0, 150).map(x => `<tr onclick="window.PROG.showDetail('${esc(x.sob)}')">
+                                <td>${esc(x.base || '—')}</td>
+                                <td>${esc(x.tipo || '—')}</td>
+                                <td><b>${esc(x.sob)}</b></td>
+                                <td>${esc(x.dataExec || fmt(x.d))}</td>
+                                <td>${esc(x.diaSemana || '—')}</td>
+                                <td>${esc(x.prioridade || '—')}</td>
+                                <td style="text-align:center;font-weight:700;">${x.mk || '—'}</td>
+                                <td style="text-align:center;font-weight:700;">${x.cesto || '—'}</td>
+                                <td style="text-align:center;font-weight:700;">${x.lv || '—'}</td>
+                                <td style="text-align:center;font-weight:700;">${x.poda || '—'}</td>
+                                <td>${esc(x.vencimentoObras || '—')}</td>
+                                <td><span style="font-size:11px;padding:2px 8px;border-radius:10px;background:#F3F4F6;font-weight:700;">${esc(x.st)}</span></td>
+                                <td>${esc(x.custoProg || '—')}</td>
+                                <td>${esc(x.baremoProg || '—')}</td>
+                                <td>${esc(x.valorExec || '—')}</td>
+                                <td>${esc(x.complProg || '—')}</td>
+                            </tr>`).join('')}
                         </tbody>
                     </table>
                 </div>
@@ -1175,15 +1484,14 @@
             const item = (DB[cur] || []).find(x => x.sob === sob);
             if (!item) return;
             $('#dbody').innerHTML = `
-                <h3 style="color:var(--brand-navy);margin-bottom:10px;">SOB: ${esc(item.sob)} · ${fmt(item.d)}</h3>
-                <dl style="display:grid;grid-template-columns:130px 1fr;gap:6px;font-size:12px;">
+                <h3 style="color:var(--brand-dark);margin-bottom:10px;">SOB: ${esc(item.sob)} · ${fmt(item.d)}</h3>
+                <dl style="display:grid;grid-template-columns:140px 1fr;gap:6px;font-size:12px;">
                     ${Object.entries(item.raw).map(([k, v]) => `<dt style="color:var(--text-muted);font-weight:600;">${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')}
                 </dl>
             `;
             $('#dlg').showModal();
         }
 
-        // Listener das sub-abas da programação
         $('#sub-prog-nav').onclick = e => {
             if (e.target.dataset.t) {
                 tab = e.target.dataset.t;
