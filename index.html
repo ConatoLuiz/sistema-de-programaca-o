@@ -367,11 +367,6 @@
         .chat-input-row { display: flex; padding: 8px; border-top: 1px solid var(--border-light); gap: 6px; background: var(--bg-surface); }
         .chat-input-row input { flex: 1; border: 1px solid var(--border-light); border-radius: 6px; padding: 6px 10px; font-size: 0.8rem; outline: none; background: var(--bg-base); color: var(--text-main); }
         .chat-input-row button { background: var(--brand-primary); color: #FFF; border: none; border-radius: 6px; padding: 0 12px; cursor: pointer; }
-
-        /* FONTES DE DADOS */
-        .card-fonte { background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: 10px; padding: 16px; margin-bottom: 12px; }
-        .input-link-fonte { width: 100%; border: 1px solid var(--border-light); padding: 7px 10px; border-radius: 6px; font-size: 0.8rem; margin-top: 4px; font-family: monospace; background: var(--card-subtle); color: var(--text-main); }
-        .status-badge-fonte { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 10px; }
     </style>
 </head>
 <body>
@@ -954,7 +949,7 @@
         }
 
         /* ========================================================
-           MAPA: RESTAURADO COM AURA DUPLA E POPUP COMPLETO
+           MAPA: RESTAURADO COM CORREÇÃO DE LEITURA E AURA DUPLA
            ======================================================== */
         function construirCoresEtapas() {
             mapaCoresEtapas = {};
@@ -996,15 +991,15 @@
                 const etapaOriginal = obterValorEtapa(item);
                 const projetoOriginal = obterValorProjeto(item);
                 const pendenciaConstrutiva = String(buscarCampoFlexivel(item, 'PENDÊNCIA CONSTRUTIVA?', 'PENDENCIA CONSTRUTIVA?') || '').toUpperCase().trim();
-                let latRaw = buscarCampoFlexivel(item, 'LATITUDE', 'LAT');
-                let lngRaw = buscarCampoFlexivel(item, 'LONGITUDE', 'LNG', 'LONG');
+                let latRaw = buscarCampoFlexivel(item, 'LATITUDE', 'LAT', 'LATITUDE OBRA', 'LAT_OBRA');
+                let lngRaw = buscarCampoFlexivel(item, 'LONGITUDE', 'LNG', 'LONG', 'LONGITUDE OBRA', 'LONG_OBRA');
                 if (typeof latRaw === 'string') latRaw = latRaw.replace(',', '.').trim();
                 if (typeof lngRaw === 'string') lngRaw = lngRaw.replace(',', '.').trim();
                 const lat = parseFloat(latRaw), lng = parseFloat(lngRaw);
 
                 if (isNaN(lat) || isNaN(lng) || lat === 0 || lng === 0) return;
 
-                const dataLimiteValor = buscarCampoFlexivel(item, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE', 'LIMITE EXECUCAO');
+                const dataLimiteValor = buscarCampoFlexivel(item, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE', 'LIMITE EXECUCAO', 'PRAZO LIMITE');
                 const diasRestantes = calcularDiasRestantes(dataLimiteValor);
 
                 if (diasRestantes <= 0) cViolada++;
@@ -1055,8 +1050,8 @@
                         <div class="popup-card">
                             <h3>PROJETO: ${esc(projetoOriginal) || 'S/N'}</h3>
                             <div class="popup-item"><strong>Etapa:</strong> <span style="color:${corNucleoEtapa}; font-weight:bold;">${esc(etapaOriginal)}</span></div>
-                            <div class="popup-item"><strong>Base:</strong> ${esc(buscarCampoFlexivel(item, 'BASE')) || 'N/D'} | <strong>Bairro:</strong> ${esc(buscarCampoFlexivel(item, 'BAIRRO')) || 'N/D'}</div>
-                            <div class="popup-item"><strong>Tipo:</strong> ${esc(buscarCampoFlexivel(item, 'TIPO')) || 'N/D'} | <strong>Parceira:</strong> ${esc(buscarCampoFlexivel(item, 'PARCEIRA')) || 'N/D'}</div>
+                            <div class="popup-item"><strong>Base:</strong> ${esc(buscarCampoFlexivel(item, 'BASE', 'MUNICIPIO')) || 'N/D'} | <strong>Bairro:</strong> ${esc(buscarCampoFlexivel(item, 'BAIRRO')) || 'N/D'}</div>
+                            <div class="popup-item"><strong>Tipo:</strong> ${esc(buscarCampoFlexivel(item, 'TIPO', 'TIPO DE SERVICO')) || 'N/D'} | <strong>Parceira:</strong> ${esc(buscarCampoFlexivel(item, 'PARCEIRA', 'EMPRESA')) || 'N/D'}</div>
                             <div class="popup-item"><strong>Data Recebimento:</strong> ${dataRecebimentoBR}</div>
                             <div class="popup-item"><strong>Data Limite Execução:</strong> ${dataLimiteBR}</div>
                             <div class="popup-item"><strong>Prioridade:</strong> ${esc(buscarCampoFlexivel(item, 'PRIORIDADE')) || 'N/D'}</div>
@@ -1729,7 +1724,7 @@
             $('#tj-week').onclick = () => { wk = sun(new Date()); renderProgWeek(); };
         }
 
-        /* HISTÓRICO CENTRALIZADO, COM ESTRUTURAS ZERADAS COMO 0, FILTROS E PAGINAÇÃO */
+        /* HISTÓRICO CENTRALIZADO, COM ESTRUTURAS ZERADAS COM 0, FILTROS E PAGINAÇÃO */
         function renderProgHist() {
             const cur = contratoGlobal;
             const all = DB[cur] || [];
