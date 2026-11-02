@@ -13,7 +13,7 @@
 
     <style>
         /* ========================================================
-           DESIGN SYSTEM - TEMA CLARO E ESCURO EM VERDE
+           DESIGN SYSTEM - TEMA CLARO E ESCURO EM VERDE CORPORATIVO
            ======================================================== */
         :root {
             --bg-base: #F4FBF7;
@@ -132,7 +132,7 @@
         }
         #map { height: 100%; width: 100%; min-height: 480px; }
 
-        /* PAINEL FLUTUANTE DE SLA (CANTO SUPERIOR DIREITO - FIXO E COMPACTO) */
+        /* PAINEL FLUTUANTE DE SLA (CANTO SUPERIOR DIREITO) */
         .floating-sla-panel {
             position: absolute; top: 15px; right: 15px; left: auto; width: 220px;
             background: var(--bg-glass); border: 1px solid var(--border-light); border-radius: 8px;
@@ -343,7 +343,6 @@
             background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-accent) 100%); color: #FFF; width: 48px; height: 48px; border-radius: 50%;
             border: 2px solid #FFF; box-shadow: var(--shadow-float); display: flex; align-items: center;
             justify-content: center; font-size: 1.25rem; cursor: pointer; transition: var(--transition);
-            animation: pulseGlow 3s infinite;
         }
         .chat-card-window {
             display: none; width: 350px; height: 460px; background: var(--bg-surface);
@@ -367,11 +366,6 @@
         .chat-input-row { display: flex; padding: 8px; border-top: 1px solid var(--border-light); gap: 6px; background: var(--bg-surface); }
         .chat-input-row input { flex: 1; border: 1px solid var(--border-light); border-radius: 6px; padding: 6px 10px; font-size: 0.8rem; outline: none; background: var(--bg-base); color: var(--text-main); }
         .chat-input-row button { background: var(--brand-primary); color: #FFF; border: none; border-radius: 6px; padding: 0 12px; cursor: pointer; }
-
-        /* FONTES DE DADOS */
-        .card-fonte { background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: 10px; padding: 16px; margin-bottom: 12px; }
-        .input-link-fonte { width: 100%; border: 1px solid var(--border-light); padding: 7px 10px; border-radius: 6px; font-size: 0.8rem; margin-top: 4px; font-family: monospace; background: var(--card-subtle); color: var(--text-main); }
-        .status-badge-fonte { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 10px; }
     </style>
 </head>
 <body>
@@ -408,10 +402,10 @@
             <button class="tab-nav-item" id="tabbtn-fontes" onclick="trocarAba('fontes')"><i class="fa-solid fa-link"></i> Fontes de Dados</button>
         </div>
 
-        <!-- ABA 1: MAPA (RESTAURADO) -->
+        <!-- ABA 1: MAPA -->
         <div id="tab-mapa">
             <div class="map-container">
-                <!-- PAINEL FLUTUANTE DE SLA: COMPACTO NO CANTO SUPERIOR DIREITO -->
+                <!-- PAINEL FLUTUANTE DE SLA -->
                 <div class="floating-sla-panel">
                     <div class="floating-sla-title"><i class="fa-solid fa-clock"></i> Prazos / SLA</div>
                     <div class="sla-mini-card active" id="card-sla-todos" onclick="filtrarPorFaixaSla('todos')">
@@ -436,7 +430,7 @@
                     </div>
                 </div>
 
-                <!-- PAINEL FLUTUANTE: LEGENDA NO CANTO INFERIOR ESQUERDO -->
+                <!-- LEGENDA FLUTUANTE DE ETAPA -->
                 <div class="floating-legend-panel">
                     <div class="legend-title"><i class="fa-solid fa-palette"></i> Cores por Etapa</div>
                     <div id="etapa-legend-container">
@@ -589,6 +583,9 @@
         </div>
     </div>
 
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
     <!-- ENGINE JAVASCRIPT -->
     <script>
         function extrairLinkCsvGoogle(str) {
@@ -665,7 +662,7 @@
             return PRIORIDADES_CRITICAS.some(pc => n.includes(normTxt(pc)) || normTxt(pc).includes(n));
         }
 
-        /* INICIALIZAÇÃO DO MAPA RESTAURADA */
+        /* INICIALIZAÇÃO DO MAPA */
         const satelliteTileUrl = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
         const satelliteAttribution = 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community';
 
@@ -682,6 +679,7 @@
             setTimeout(() => { if (map) map.invalidateSize(); }, 250);
         }
 
+        /* LEITURA DE CAMPOS TOLERANTE A VARIAÇÕES */
         function buscarCampoFlexivel(obj, ...nomes) {
             if (!obj) return '';
             const chaves = Object.keys(obj);
@@ -689,6 +687,14 @@
                 const normN = n.toLowerCase().replace(/[^a-z0-9]/g, '');
                 for (let c of chaves) {
                     if (c.toLowerCase().replace(/[^a-z0-9]/g, '') === normN) return obj[c];
+                }
+            }
+            // Fallback genérico para colunas contendo o termo
+            for (let n of nomes) {
+                const normN = n.toLowerCase().replace(/[^a-z0-9]/g, '');
+                for (let c of chaves) {
+                    const normC = c.toLowerCase().replace(/[^a-z0-9]/g, '');
+                    if (normC.includes(normN) || normN.includes(normC)) return obj[c];
                 }
             }
             return '';
@@ -954,7 +960,7 @@
         }
 
         /* ========================================================
-           MAPA: RESTAURADO COM AURA DUPLA E POPUP COMPLETO
+           MAPA: PROCESSAMENTO E RENDERIZAÇÃO DE MARCADORES
            ======================================================== */
         function construirCoresEtapas() {
             mapaCoresEtapas = {};
@@ -996,15 +1002,17 @@
                 const etapaOriginal = obterValorEtapa(item);
                 const projetoOriginal = obterValorProjeto(item);
                 const pendenciaConstrutiva = String(buscarCampoFlexivel(item, 'PENDÊNCIA CONSTRUTIVA?', 'PENDENCIA CONSTRUTIVA?') || '').toUpperCase().trim();
-                let latRaw = buscarCampoFlexivel(item, 'LATITUDE', 'LAT');
-                let lngRaw = buscarCampoFlexivel(item, 'LONGITUDE', 'LNG', 'LONG');
+                
+                let latRaw = buscarCampoFlexivel(item, 'LATITUDE', 'LAT', 'LAT_OBRA', 'LATITUDE OBRA');
+                let lngRaw = buscarCampoFlexivel(item, 'LONGITUDE', 'LNG', 'LONG', 'LONG_OBRA', 'LONGITUDE OBRA');
+                
                 if (typeof latRaw === 'string') latRaw = latRaw.replace(',', '.').trim();
                 if (typeof lngRaw === 'string') lngRaw = lngRaw.replace(',', '.').trim();
                 const lat = parseFloat(latRaw), lng = parseFloat(lngRaw);
 
                 if (isNaN(lat) || isNaN(lng) || lat === 0 || lng === 0) return;
 
-                const dataLimiteValor = buscarCampoFlexivel(item, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE', 'LIMITE EXECUCAO');
+                const dataLimiteValor = buscarCampoFlexivel(item, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE', 'LIMITE EXECUCAO', 'PRAZO LIMITE');
                 const diasRestantes = calcularDiasRestantes(dataLimiteValor);
 
                 if (diasRestantes <= 0) cViolada++;
@@ -1047,7 +1055,7 @@
                     const responsavelVistoria = buscarCampoFlexivel(item, 'RESPONSÁVEL', 'RESPONSAVEL', 'RESPONSAVEL VISTORIA') || 'N/D';
                     const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
 
-                    // CÍRCULO DUPLO COM AURA EXATO DO ORIGINAL
+                    // MARCADORES DUPLOS (AURA + NÚCLEO)
                     const auraMarker = L.circleMarker([lat, lng], { radius: 14, fillColor: corAuraSla, color: corAuraSla, weight: 1, fillOpacity: 0.35 }).addTo(markersGroup);
                     const coreMarker = L.circleMarker([lat, lng], { radius: 7, fillColor: corNucleoEtapa, color: '#FFFFFF', weight: 2, fillOpacity: 1 }).addTo(markersGroup);
 
@@ -1055,8 +1063,8 @@
                         <div class="popup-card">
                             <h3>PROJETO: ${esc(projetoOriginal) || 'S/N'}</h3>
                             <div class="popup-item"><strong>Etapa:</strong> <span style="color:${corNucleoEtapa}; font-weight:bold;">${esc(etapaOriginal)}</span></div>
-                            <div class="popup-item"><strong>Base:</strong> ${esc(buscarCampoFlexivel(item, 'BASE')) || 'N/D'} | <strong>Bairro:</strong> ${esc(buscarCampoFlexivel(item, 'BAIRRO')) || 'N/D'}</div>
-                            <div class="popup-item"><strong>Tipo:</strong> ${esc(buscarCampoFlexivel(item, 'TIPO')) || 'N/D'} | <strong>Parceira:</strong> ${esc(buscarCampoFlexivel(item, 'PARCEIRA')) || 'N/D'}</div>
+                            <div class="popup-item"><strong>Base:</strong> ${esc(buscarCampoFlexivel(item, 'BASE', 'MUNICIPIO')) || 'N/D'} | <strong>Bairro:</strong> ${esc(buscarCampoFlexivel(item, 'BAIRRO')) || 'N/D'}</div>
+                            <div class="popup-item"><strong>Tipo:</strong> ${esc(buscarCampoFlexivel(item, 'TIPO', 'TIPO DE SERVICO')) || 'N/D'} | <strong>Parceira:</strong> ${esc(buscarCampoFlexivel(item, 'PARCEIRA', 'EMPRESA')) || 'N/D'}</div>
                             <div class="popup-item"><strong>Data Recebimento:</strong> ${dataRecebimentoBR}</div>
                             <div class="popup-item"><strong>Data Limite Execução:</strong> ${dataLimiteBR}</div>
                             <div class="popup-item"><strong>Prioridade:</strong> ${esc(buscarCampoFlexivel(item, 'PRIORIDADE')) || 'N/D'}</div>
@@ -1486,7 +1494,6 @@
                 if (!m || !sob) continue;
 
                 const ano = parseInt(m[3], 10);
-                // BUSCAR SOMENTE DE 2026 PARA FRENTE
                 if (ano < 2026) continue;
 
                 const d = new Date(ano, m[2] - 1, +m[1]);
@@ -1563,7 +1570,6 @@
             else if (tab === 'hist') renderProgHist();
         }
 
-        /* DASHBOARD DA PROGRAMAÇÃO REESTRUTURADO */
         function renderProgDash() {
             const cur = contratoGlobal;
             const all = DB[cur] || [];
@@ -1593,7 +1599,6 @@
             const diasOrdenados = Object.keys(porDia).sort();
             const ultimosDias = diasOrdenados.slice(-14);
 
-            // 1. Gráfico em Colunas: Qtd de Projetos Programados por Dia por Status
             const maxQtd = Math.max(1, ...ultimosDias.map(d => porDia[d].total));
             const colunasStatusHtml = `<div class="chart-columns-container">${ultimosDias.map(d => {
                 const o = porDia[d];
@@ -1609,7 +1614,6 @@
                 </div>`;
             }).join('')}</div>`;
 
-            // 2. Gráfico em Colunas: Qtd por MK, CESTO, LV e PODA por Dia
             const maxRec = Math.max(1, ...ultimosDias.map(d => porDia[d].mk + porDia[d].cesto + porDia[d].lv + porDia[d].poda));
             const colunasRecursosHtml = `<div class="chart-columns-container">${ultimosDias.map(d => {
                 const o = porDia[d];
@@ -1626,7 +1630,6 @@
                 </div>`;
             }).join('')}</div>`;
 
-            // 3. Gráfico em Colunas Duplas: Custo Total Programado vs Baremo Programado por Dia
             const maxCusto = Math.max(1, ...ultimosDias.map(d => Math.max(porDia[d].custo, porDia[d].baremo)));
             const colunasCustosHtml = `<div class="chart-columns-container">${ultimosDias.map(d => {
                 const o = porDia[d];
@@ -1729,7 +1732,6 @@
             $('#tj-week').onclick = () => { wk = sun(new Date()); renderProgWeek(); };
         }
 
-        /* HISTÓRICO CENTRALIZADO, COM ESTRUTURAS ZERADAS COMO 0, FILTROS E PAGINAÇÃO */
         function renderProgHist() {
             const cur = contratoGlobal;
             const all = DB[cur] || [];
@@ -1845,7 +1847,6 @@
             $('#f-hist-prio').onchange = e => { F.prioridade = e.target.value; paginaAtual = 1; renderProgHist(); };
         }
 
-        /* MODAL COMPACTO DE ESPECIFICAÇÕES */
         function detail(sob) {
             const cur = contratoGlobal;
             const item = (DB[cur] || []).find(x => x.sob === sob);
