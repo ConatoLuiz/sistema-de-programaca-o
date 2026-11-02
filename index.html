@@ -3,356 +3,384 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal de Gestão de Carteira & Obras</title>
+    <title>Enterprise Project & Works Management Portal</title>
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Font Awesome Pro/Free Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- SheetJS -->
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
     <style>
         /* ========================================================
-           TEMA CORPORATIVO ENEL (DESIGN SYSTEM)
+           GLOBAL DESIGN SYSTEM & KEYFRAME ANIMATIONS
            ======================================================== */
         :root {
-            --enel-navy: #002D5A;
-            --enel-navy-dark: #001E3D;
-            --enel-cyan: #0099DA;
-            --enel-cyan-light: #E1F3FB;
-            --enel-magenta: #E3007F;
-            --enel-bg: #F4F6F9;
-            --enel-card-bg: #FFFFFF;
-            --enel-border: #DCE3EC;
-            --enel-border-focus: #0099DA;
-            --text-main: #132238;
-            --text-muted: #5A6A80;
-            --status-green: #10B981;
-            --status-amber: #F59E0B;
-            --status-red: #EF4444;
-            --status-blue: #0099DA;
+            --bg-base: #F8FAFC;
+            --bg-surface: #FFFFFF;
+            --bg-glass: rgba(255, 255, 255, 0.88);
+            --brand-primary: #0F172A;
+            --brand-accent: #3B82F6;
+            --brand-gradient: linear-gradient(135deg, #2563EB 0%, #06B6D4 100%);
+            --brand-gradient-hover: linear-gradient(135deg, #1D4ED8 0%, #0891B2 100%);
+            --border-light: #E2E8F0;
+            --border-glass: rgba(226, 232, 240, 0.8);
+            --text-main: #0F172A;
+            --text-secondary: #475569;
+            --text-muted: #94A3B8;
+            --status-success: #10B981;
+            --status-warning: #F59E0B;
+            --status-danger: #EF4444;
+            --status-info: #06B6D4;
+            --shadow-subtle: 0 4px 6px -1px rgba(15, 23, 42, 0.05), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
+            --shadow-float: 0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.08);
+            --shadow-glow: 0 0 20px rgba(37, 99, 235, 0.25);
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --radius-pill: 9999px;
+            --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-        body { background-color: var(--enel-bg); color: var(--text-main); padding: 14px 18px; min-height: 100vh; }
+        /* RESET & BASE */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif; }
+        body { background-color: var(--bg-base); color: var(--text-main); padding: 16px 20px; min-height: 100vh; overflow-x: hidden; }
 
-        /* HEADER CORPORATIVO */
+        /* KEYFRAMES */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes scaleIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        @keyframes pulseGlow { 0%, 100% { box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.5); } 50% { box-shadow: 0 0 0 10px rgba(6, 182, 212, 0); } }
+        @keyframes radarPing { 0% { transform: scale(0.9); opacity: 1; } 75%, 100% { transform: scale(2.2); opacity: 0; } }
+        @keyframes shimmerGradient { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+        @keyframes chatBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+
+        /* HEADER */
         header {
             display: flex; justify-content: space-between; align-items: center;
-            background: #FFFFFF; border: 1px solid var(--enel-border); border-top: 4px solid var(--enel-cyan);
-            padding: 12px 20px; border-radius: 10px; margin-bottom: 12px;
-            box-shadow: 0 4px 12px rgba(0, 45, 90, 0.05); position: sticky; top: 0; z-index: 2500;
-            gap: 12px; flex-wrap: wrap;
+            background: var(--bg-glass); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+            border: 1px solid var(--border-glass); padding: 14px 24px; border-radius: var(--radius-lg);
+            margin-bottom: 14px; box-shadow: var(--shadow-subtle); position: sticky; top: 12px; z-index: 2500;
+            gap: 16px; flex-wrap: wrap; transition: var(--transition-smooth);
+        }
+        header:hover { border-color: rgba(59, 130, 246, 0.3); }
+
+        .brand-container { display: flex; align-items: center; gap: 14px; }
+        .brand-icon-box {
+            width: 42px; height: 42px; border-radius: 12px; background: var(--brand-gradient);
+            display: flex; align-items: center; justify-content: center; color: #FFF; font-size: 1.25rem;
+            box-shadow: 0 8px 16px rgba(37, 99, 235, 0.35); transition: var(--transition-smooth);
+        }
+        .brand-icon-box:hover { transform: rotate(10deg) scale(1.05); }
+        .brand-text { font-size: 1.2rem; font-weight: 800; color: var(--brand-primary); letter-spacing: -0.4px; }
+
+        .header-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+        /* UNIFIED GLOBAL CONTRACT SELECTOR */
+        .select-contract-master {
+            background: #FFFFFF; border: 2px solid #CBD5E1; color: var(--brand-primary);
+            padding: 8px 16px; border-radius: var(--radius-md); font-size: 0.88rem; font-weight: 700;
+            cursor: pointer; outline: none; transition: var(--transition-smooth); box-shadow: var(--shadow-subtle);
+        }
+        .select-contract-master:hover, .select-contract-master:focus {
+            border-color: #2563EB; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15); transform: translateY(-1px);
         }
 
-        .brand-container { display: flex; align-items: center; gap: 12px; }
-        .brand-icon {
-            width: 36px; height: 36px; border-radius: 8px; background: linear-gradient(135deg, var(--enel-navy) 0%, var(--enel-cyan) 100%);
-            display: flex; align-items: center; justify-content: center; color: #FFF; font-size: 1.1rem; box-shadow: 0 2px 6px rgba(0, 153, 218, 0.35);
+        /* BUTTONS */
+        .btn-modern-gradient {
+            background: var(--brand-gradient); color: #FFF; border: none;
+            padding: 9px 18px; border-radius: var(--radius-md); font-size: 0.85rem; font-weight: 700;
+            cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25); transition: var(--transition-smooth);
         }
-        .brand-title { font-size: 1.15rem; font-weight: 700; color: var(--enel-navy); letter-spacing: -0.2px; }
+        .btn-modern-gradient:hover {
+            background: var(--brand-gradient-hover); transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(37, 99, 235, 0.4);
+        }
 
-        /* SELETORES E BOTÕES */
-        .header-controls { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-        
-        .global-contract-select {
-            background: #FFFFFF; border: 2px solid var(--enel-cyan); color: var(--enel-navy);
-            padding: 7px 12px; border-radius: 6px; font-size: 0.84rem; font-weight: 700;
-            cursor: pointer; outline: none; transition: all 0.2s;
+        .btn-modern-subtle {
+            background: #FFFFFF; border: 1px solid var(--border-light); color: var(--text-secondary);
+            padding: 8px 16px; border-radius: var(--radius-md); font-size: 0.85rem; font-weight: 600;
+            cursor: pointer; display: inline-flex; align-items: center; gap: 7px;
+            box-shadow: var(--shadow-subtle); transition: var(--transition-smooth);
         }
-        .global-contract-select:hover { background: var(--enel-cyan-light); }
+        .btn-modern-subtle:hover {
+            color: var(--brand-accent); border-color: var(--brand-accent);
+            transform: translateY(-2px); background: #F8FAFC;
+        }
 
-        .btn-enel-primary {
-            background: var(--enel-navy); color: #FFFFFF; border: 1px solid var(--enel-navy);
-            padding: 7px 14px; border-radius: 6px; font-size: 0.82rem; font-weight: 600;
-            cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s;
+        /* NAVIGATION TABS */
+        .tabs-nav {
+            display: flex; gap: 6px; margin-bottom: 16px; border-bottom: 1px solid var(--border-light);
+            padding-bottom: 4px; overflow-x: auto;
         }
-        .btn-enel-primary:hover { background: var(--enel-navy-dark); }
-
-        .btn-enel-secondary {
-            background: #FFFFFF; border: 1px solid var(--enel-border); color: var(--text-main);
-            padding: 7px 12px; border-radius: 6px; font-size: 0.82rem; font-weight: 600;
-            cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s;
+        .tab-nav-item {
+            background: transparent; border: none; border-bottom: 3px solid transparent;
+            color: var(--text-secondary); padding: 10px 20px; font-weight: 600; font-size: 0.88rem;
+            cursor: pointer; display: inline-flex; align-items: center; gap: 9px;
+            transition: var(--transition-smooth); border-radius: 8px 8px 0 0;
         }
-        .btn-enel-secondary:hover { border-color: var(--enel-cyan); background: #F8FAFC; color: var(--enel-navy); }
-
-        /* MULTISELECT DROPDOWNS */
-        .multiselect-wrapper { position: relative; display: inline-block; }
-        .multiselect-btn {
-            background: #FFFFFF; border: 1px solid var(--enel-border); color: var(--text-main);
-            padding: 7px 12px; border-radius: 6px; font-size: 0.82rem; font-weight: 600;
-            cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.2s;
+        .tab-nav-item:hover { color: var(--brand-accent); background: rgba(59, 130, 246, 0.04); }
+        .tab-nav-item.active {
+            color: var(--brand-accent); border-bottom-color: var(--brand-accent); font-weight: 700;
+            background: rgba(59, 130, 246, 0.08);
         }
-        .multiselect-btn:hover { border-color: var(--enel-cyan); }
-        .multiselect-dropdown {
-            display: none; position: absolute; top: 110%; right: 0; background: #FFFFFF;
-            border: 1px solid var(--enel-border); border-radius: 8px; padding: 12px; min-width: 270px;
-            max-height: 340px; overflow-y: auto; box-shadow: 0 12px 28px rgba(0, 45, 90, 0.12); z-index: 3000;
-        }
-        .multiselect-dropdown.show { display: block; }
-        .multiselect-search {
-            width: 100%; background: #F8FAFC; border: 1px solid var(--enel-border); color: var(--text-main);
-            padding: 6px 10px; border-radius: 5px; font-size: 0.82rem; margin-bottom: 8px; outline: none;
-        }
-        .multiselect-search:focus { border-color: var(--enel-cyan); }
-        .multiselect-actions { display: flex; justify-content: space-between; border-bottom: 1px solid var(--enel-border); padding-bottom: 6px; margin-bottom: 8px; }
-        .multiselect-action-btn { background: none; border: none; color: var(--enel-cyan); font-size: 0.72rem; font-weight: 700; cursor: pointer; text-transform: uppercase; }
-        .checkbox-option { display: flex; align-items: center; gap: 8px; padding: 4px 0; font-size: 0.82rem; color: var(--text-main); cursor: pointer; }
-        .checkbox-option input[type="checkbox"] { accent-color: var(--enel-navy); cursor: pointer; }
-
-        /* ABAS SUPERIORES */
-        .tabs-bar { display: flex; gap: 2px; margin-bottom: 12px; border-bottom: 1px solid var(--enel-border); }
-        .tab-btn {
-            background: none; border: 0; border-bottom: 3px solid transparent; color: var(--text-muted); padding: 9px 18px;
-            font-weight: 600; font-size: 0.86rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;
-        }
-        .tab-btn:hover { color: var(--enel-navy); }
-        .tab-btn.active { color: var(--enel-navy); border-bottom-color: var(--enel-cyan); font-weight: 700; }
         #tab-carteira, #tab-dash, #tab-prog, #tab-config { display: none; }
 
-        /* CONTAINER DO MAPA */
-        .map-container { position: relative; width: 100%; height: 80vh; border-radius: 10px; border: 1px solid var(--enel-border); overflow: hidden; box-shadow: 0 4px 18px rgba(0, 45, 90, 0.06); }
+        /* MAP AREA */
+        .map-wrapper {
+            position: relative; width: 100%; height: 80vh; border-radius: var(--radius-lg);
+            border: 1px solid var(--border-light); overflow: hidden; box-shadow: var(--shadow-subtle);
+            animation: fadeIn 0.4s ease;
+        }
         #map { height: 100%; width: 100%; }
 
-        /* PAINÉIS FLUTUANTES DO MAPA */
-        .floating-sla-panel {
-            position: absolute; top: 12px; right: 12px; background: rgba(255, 255, 255, 0.98);
-            border: 1px solid var(--enel-border); border-top: 3px solid var(--enel-cyan); border-radius: 8px;
-            padding: 8px 12px; z-index: 1000; display: flex; flex-direction: column; gap: 5px;
-            box-shadow: 0 6px 18px rgba(0, 45, 90, 0.1); min-width: 200px; backdrop-filter: blur(4px);
+        .floating-sla-card {
+            position: absolute; top: 16px; right: 16px; background: var(--bg-glass);
+            backdrop-filter: blur(12px); border: 1px solid var(--border-glass); border-radius: 14px;
+            padding: 12px 16px; z-index: 1000; display: flex; flex-direction: column; gap: 6px;
+            box-shadow: var(--shadow-float); min-width: 220px; animation: scaleIn 0.3s ease;
         }
-        .floating-sla-title { font-size: 0.72rem; color: var(--enel-navy); font-weight: 700; border-bottom: 1px solid var(--enel-border); padding-bottom: 4px; text-transform: uppercase; letter-spacing: 0.4px; }
-        .sla-mini-card { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; font-weight: 600; cursor: pointer; padding: 4px 8px; border-radius: 4px; transition: background 0.15s; }
-        .sla-mini-card:hover { background: var(--enel-cyan-light); }
-        .sla-mini-card.active { background: rgba(0, 153, 218, 0.18); border: 1px solid var(--enel-cyan); }
-
-        .floating-legend-panel {
-            position: absolute; bottom: 20px; left: 15px; background: rgba(255, 255, 255, 0.98);
-            border: 1px solid var(--enel-border); border-radius: 8px; padding: 8px 12px; z-index: 1000;
-            box-shadow: 0 6px 18px rgba(0, 45, 90, 0.1); min-width: 180px; max-height: 230px; overflow-y: auto;
+        .floating-sla-header {
+            font-size: 0.75rem; color: var(--text-muted); font-weight: 800; text-transform: uppercase;
+            letter-spacing: 0.6px; border-bottom: 1px solid var(--border-light); padding-bottom: 6px;
         }
-        .legend-title { font-size: 0.72rem; color: var(--enel-navy); font-weight: 700; border-bottom: 1px solid var(--enel-border); padding-bottom: 4px; margin-bottom: 6px; text-transform: uppercase; }
-        .legend-item { display: flex; align-items: center; gap: 7px; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; }
-        .legend-color-dot { width: 10px; height: 10px; border-radius: 50%; border: 1px solid #FFF; flex-shrink: 0; }
+        .sla-row-btn {
+            display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem;
+            font-weight: 600; padding: 6px 10px; border-radius: 8px; cursor: pointer; transition: var(--transition-smooth);
+        }
+        .sla-row-btn:hover { background: rgba(59, 130, 246, 0.08); transform: translateX(2px); }
+        .sla-row-btn.active { background: rgba(59, 130, 246, 0.15); border: 1px solid var(--brand-accent); }
 
-        /* CARTEIRA DE PROJETOS */
-        .cart-toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 10px; }
-        .cart-search { background: #FFFFFF; border: 1px solid var(--enel-border); color: var(--text-main); padding: 7px 12px; border-radius: 6px; font-size: .83rem; min-width: 250px; outline: none; }
-        .cart-search:focus { border-color: var(--enel-cyan); }
-        .cart-chip { display: inline-flex; align-items: center; gap: 6px; background: #FFFFFF; border: 1px solid var(--enel-border); border-radius: 20px; padding: 4px 11px; font-size: .78rem; font-weight: 600; }
-        .cart-legend { color: var(--text-muted); font-size: .72rem; margin-left: auto; }
-        .cart-table-wrap { background: #FFFFFF; border: 1px solid var(--enel-border); border-radius: 10px; max-height: 74vh; overflow: auto; box-shadow: 0 4px 18px rgba(0, 45, 90, 0.05); }
-        table.cart-table { width: 100%; border-collapse: collapse; font-size: .83rem; }
+        .floating-legend-card {
+            position: absolute; bottom: 24px; left: 20px; background: var(--bg-glass);
+            backdrop-filter: blur(12px); border: 1px solid var(--border-glass); border-radius: 14px;
+            padding: 12px 16px; z-index: 1000; box-shadow: var(--shadow-float); min-width: 190px;
+            max-height: 240px; overflow-y: auto; animation: scaleIn 0.3s ease;
+        }
+
+        /* CARTEIRA TABLE & CONTROLS */
+        .cart-glass-toolbar {
+            display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 12px;
+            background: #FFFFFF; padding: 12px 16px; border-radius: var(--radius-md);
+            border: 1px solid var(--border-light); box-shadow: var(--shadow-subtle);
+        }
+        .cart-search-box {
+            background: #F8FAFC; border: 1px solid var(--border-light); color: var(--text-main);
+            padding: 8px 14px; border-radius: var(--radius-md); font-size: 0.85rem; min-width: 260px;
+            outline: none; transition: var(--transition-smooth);
+        }
+        .cart-search-box:focus { border-color: var(--brand-accent); background: #FFF; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12); }
+
+        .cart-badge-chip {
+            display: inline-flex; align-items: center; gap: 7px; background: #FFFFFF;
+            border: 1px solid var(--border-light); border-radius: var(--radius-pill);
+            padding: 5px 12px; font-size: 0.78rem; font-weight: 700; box-shadow: var(--shadow-subtle);
+        }
+        .sinal-indicator { width: 10px; height: 10px; border-radius: 50%; display: inline-block; position: relative; }
+        .sinal-indicator.pulse::after {
+            content: ''; position: absolute; inset: -3px; border-radius: 50%; background: inherit; opacity: 0.4;
+            animation: radarPing 2s infinite;
+        }
+
+        .etapa-chips-container { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+        .etapa-chip-btn {
+            display: inline-flex; align-items: center; gap: 8px; background: #FFFFFF; border: 1px solid var(--border-light);
+            border-radius: var(--radius-pill); padding: 6px 14px; font-size: 0.78rem; font-weight: 700; cursor: pointer;
+            color: var(--text-secondary); transition: var(--transition-smooth); box-shadow: var(--shadow-subtle);
+        }
+        .etapa-chip-btn:hover { border-color: var(--brand-accent); transform: translateY(-1px); }
+        .etapa-chip-btn.active { background: rgba(59, 130, 246, 0.1); border-color: var(--brand-accent); color: var(--brand-accent); }
+
+        .cart-table-panel {
+            background: #FFFFFF; border: 1px solid var(--border-light); border-radius: var(--radius-lg);
+            max-height: 75vh; overflow: auto; box-shadow: var(--shadow-subtle);
+        }
+        table.cart-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
         .cart-table th {
-            position: sticky; top: 0; background: #F8FAFC; color: var(--enel-navy);
-            font-size: .72rem; text-transform: uppercase; letter-spacing: .4px; text-align: left; padding: 10px 12px;
-            cursor: pointer; border-bottom: 2px solid var(--enel-navy); white-space: nowrap; user-select: none; z-index: 2;
+            position: sticky; top: 0; background: #F8FAFC; color: var(--text-secondary);
+            font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.5px; text-align: left;
+            padding: 12px 14px; border-bottom: 2px solid var(--border-light); white-space: nowrap; z-index: 2;
         }
-        .cart-table td { padding: 8px 12px; border-bottom: 1px solid var(--enel-border); white-space: nowrap; }
-        .cart-table tbody tr { cursor: pointer; transition: background 0.15s; }
-        .cart-table tbody tr:nth-child(even) { background: #FCFDFE; }
-        .cart-table tbody tr:hover { background: var(--enel-cyan-light); }
-        .cart-empty { padding: 40px; text-align: center; color: var(--text-muted); font-size: 0.9rem; }
-        .sinal { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; font-size: .78rem; }
-        .sinal-dot { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
-        .sinal-vermelho { color: var(--status-red); } .sinal-vermelho .sinal-dot { background: var(--status-red); }
-        .sinal-amarelo { color: #B45309; } .sinal-amarelo .sinal-dot { background: var(--status-amber); }
-        .sinal-verde { color: var(--status-green); } .sinal-verde .sinal-dot { background: var(--status-green); }
-        .etapa-pill { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: .72rem; font-weight: 600; border: 1px solid; }
-
-        /* CHIPS E FILTROS */
-        .etapa-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
-        .etapa-chip {
-            display: inline-flex; align-items: center; gap: 7px; background: #FFFFFF; border: 1px solid var(--enel-border);
-            border-radius: 20px; padding: 5px 12px; font-size: .76rem; font-weight: 700; cursor: pointer; color: var(--text-main); transition: all 0.2s;
-        }
-        .etapa-chip:hover { border-color: var(--enel-cyan); }
-        .etapa-chip.active { background: var(--enel-cyan-light); border-color: var(--enel-cyan); color: var(--enel-navy); }
-        .cart-filters { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 10px; }
-        .cart-select { background: #FFFFFF; border: 1px solid var(--enel-border); color: var(--text-main); padding: 7px 10px; border-radius: 6px; font-size: .8rem; outline: none; }
-        .cart-select:focus { border-color: var(--enel-cyan); }
-        .tree-node { display: flex; align-items: center; gap: 4px; padding: 3px 0; font-size: .8rem; }
-        .tree-toggle { width: 14px; cursor: pointer; color: var(--enel-cyan); text-align: center; }
+        .cart-table td { padding: 10px 14px; border-bottom: 1px solid var(--border-light); white-space: nowrap; transition: background 0.15s; }
+        .cart-table tbody tr { cursor: pointer; }
+        .cart-table tbody tr:hover td { background: rgba(59, 130, 246, 0.05); }
 
         /* DASHBOARDS */
-        .kpis-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-bottom: 14px; }
-        @media (max-width: 1400px) { .kpis-grid { grid-template-columns: repeat(4, 1fr); } }
-        @media (max-width: 900px) { .kpis-grid { grid-template-columns: repeat(2, 1fr); } }
-        
-        .kpi { background: #FFFFFF; border: 1px solid var(--enel-border); border-radius: 8px; padding: 12px 14px; border-left: 4px solid var(--enel-cyan); box-shadow: 0 2px 6px rgba(0, 45, 90, 0.04); }
-        .kpi b { display: block; font-size: 1.45rem; color: var(--enel-navy); }
-        .kpi span { font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.3px; }
-        
-        .dgrid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 12px; }
-        .ditem { grid-column: span var(--span, 6); min-width: 0; }
-        .dcard { background: #FFFFFF; border: 1px solid var(--enel-border); border-radius: 10px; padding: 14px; box-shadow: 0 2px 8px rgba(0, 45, 90, 0.04); }
-        .dh { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .dh h4 { font-size: .76rem; color: var(--enel-navy); text-transform: uppercase; letter-spacing: .4px; margin: 0; }
-        .dbar { display: grid; grid-template-columns: 120px 1fr 34px; gap: 8px; align-items: center; font-size: .76rem; margin-bottom: 5px; }
-        .dbar > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-muted); }
-        .dtrack { height: 13px; background: #E8EDF3; border-radius: 6px; display: flex; overflow: hidden; }
-        .dtrack i { display: block; height: 100%; }
-        .donut { width: 120px; height: 120px; border-radius: 50%; position: relative; flex-shrink: 0; }
-        .donut::after { content: ''; position: absolute; inset: 26px; background: #FFFFFF; border-radius: 50%; }
-        .insights { list-style: none; display: grid; gap: 6px; font-size: .82rem; }
-        .insights li { background: #F8FAFC; border-left: 3px solid var(--enel-cyan); padding: 7px 12px; border-radius: 5px; }
-        .insights li.alerta { border-left-color: var(--status-red); }
+        .kpis-row { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-bottom: 14px; }
+        @media (max-width: 1400px) { .kpis-row { grid-template-columns: repeat(4, 1fr); } }
+        @media (max-width: 900px) { .kpis-row { grid-template-columns: repeat(2, 1fr); } }
 
-        /* PROGRAMAÇÃO DE OBRAS */
-        #tab-prog { color: var(--text-main); font-size: 13px; }
-        #tab-prog .bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-        #tab-prog .sub { display: flex; gap: 4px; border-bottom: 1px solid var(--enel-border); margin-bottom: 12px; }
-        #tab-prog .sub button { border: 0; border-bottom: 3px solid transparent; background: none; color: var(--text-muted); padding: 7px 14px; font-weight: 600; cursor: pointer; }
-        #tab-prog .sub button.on { color: var(--enel-navy); border-color: var(--enel-cyan); font-weight: 700; }
-        #tab-prog .week { display: grid; grid-template-columns: repeat(7, minmax(140px, 1fr)); gap: 8px; overflow-x: auto; }
-        #tab-prog .day { background: #FFFFFF; border: 1px solid var(--enel-border); border-radius: 8px; min-height: 190px; padding: 8px; }
-        #tab-prog .day.today { border-color: var(--enel-cyan); box-shadow: 0 0 0 1px var(--enel-cyan); }
-        #tab-prog .ev { border-left: 3px solid var(--enel-cyan); background: #F8FAFC; border-radius: 5px; padding: 5px 7px; margin-bottom: 5px; font-size: 11px; cursor: pointer; }
-        #tab-prog .ev.CONCLUÍDO { border-color: var(--status-green); }
-        #tab-prog .ev.CANCELADO { border-color: var(--status-red); }
-        #tab-prog .ev.ADIADO { border-color: var(--status-amber); }
-        #tab-prog .tw { overflow: auto; max-height: 68vh; }
+        .kpi-card {
+            background: #FFFFFF; border: 1px solid var(--border-light); border-radius: var(--radius-md);
+            padding: 14px; border-left: 4px solid var(--brand-accent); box-shadow: var(--shadow-subtle);
+            transition: var(--transition-smooth);
+        }
+        .kpi-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-float); }
+        .kpi-card b { display: block; font-size: 1.55rem; color: var(--brand-primary); font-weight: 800; }
+        .kpi-card span { font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.4px; }
 
-        /* JANELAS MODAIS */
+        .dash-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 14px; }
+        .dash-card {
+            background: #FFFFFF; border: 1px solid var(--border-light); border-radius: var(--radius-md);
+            padding: 16px; box-shadow: var(--shadow-subtle); transition: var(--transition-smooth);
+        }
+        .dash-card:hover { border-color: rgba(59, 130, 246, 0.3); }
+
+        /* FLOATING CHAT WIDGET & UPDATES FEED */
+        #chat-widget-root {
+            position: fixed; bottom: 24px; right: 24px; z-index: 5000;
+            display: flex; flex-direction: column; align-items: flex-end;
+        }
+        .chat-fab-btn {
+            background: var(--brand-gradient); color: #FFF; width: 54px; height: 54px; border-radius: 50%;
+            border: 2px solid #FFF; box-shadow: var(--shadow-float); display: flex; align-items: center;
+            justify-content: center; font-size: 1.35rem; cursor: pointer; transition: var(--transition-smooth);
+            position: relative; animation: pulseGlow 3s infinite;
+        }
+        .chat-fab-btn:hover { transform: scale(1.1) rotate(5deg); }
+        .chat-unread-dot {
+            position: absolute; top: 0; right: 0; width: 14px; height: 14px;
+            background: var(--status-danger); border: 2px solid #FFF; border-radius: 50%;
+        }
+
+        .chat-card-window {
+            display: none; width: 360px; height: 480px; background: #FFFFFF;
+            border: 1px solid var(--border-light); border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-float); margin-bottom: 12px; flex-direction: column;
+            overflow: hidden; animation: scaleIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .chat-card-window.open { display: flex; }
+        .chat-header-bar {
+            background: var(--brand-primary); color: #FFF; padding: 12px 16px;
+            display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; font-weight: 700;
+        }
+        .chat-feed-stream {
+            flex: 1; padding: 14px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; font-size: 0.82rem;
+        }
+        .chat-bubble {
+            background: #F1F5F9; padding: 10px 12px; border-radius: 10px; max-width: 92%;
+            line-height: 1.45; border-left: 3px solid var(--brand-accent); animation: fadeIn 0.2s ease;
+        }
+        .chat-bubble.alert { border-left-color: var(--status-danger); background: #FEF2F2; color: #991B1B; }
+        .chat-bubble.success { border-left-color: var(--status-success); background: #F0FDF4; }
+        .chat-bubble.user { align-self: flex-end; background: #EFF6FF; border-left: none; border-right: 3px solid var(--brand-accent); }
+        .chat-bubble small { display: block; font-size: 0.68rem; color: var(--text-muted); margin-top: 4px; }
+
+        .chat-quick-actions {
+            display: flex; gap: 6px; padding: 8px 12px; background: #F8FAFC; border-top: 1px solid var(--border-light); overflow-x: auto;
+        }
+        .chat-action-pill {
+            background: #FFFFFF; border: 1px solid var(--border-light); border-radius: var(--radius-pill);
+            padding: 4px 10px; font-size: 0.72rem; cursor: pointer; white-space: nowrap; font-weight: 600;
+            transition: var(--transition-smooth);
+        }
+        .chat-action-pill:hover { border-color: var(--brand-accent); color: var(--brand-accent); transform: translateY(-1px); }
+
+        .chat-input-row { display: flex; padding: 10px; border-top: 1px solid var(--border-light); gap: 8px; background: #FFF; }
+        .chat-input-row input {
+            flex: 1; border: 1px solid var(--border-light); border-radius: var(--radius-md);
+            padding: 8px 12px; font-size: 0.82rem; outline: none; transition: var(--transition-smooth);
+        }
+        .chat-input-row input:focus { border-color: var(--brand-accent); }
+        .chat-input-row button {
+            background: var(--brand-gradient); color: #FFF; border: none; border-radius: var(--radius-md);
+            padding: 0 16px; cursor: pointer; font-size: 0.85rem; transition: var(--transition-smooth);
+        }
+
+        /* MODAL PROJECT WINDOW */
         #proj-window {
-            display: none; position: fixed; top: 85px; left: 50%; transform: translateX(-50%);
-            width: 480px; height: 520px; max-width: 95vw; max-height: 90vh;
-            background: #FFFFFF; border: 1px solid var(--enel-navy); border-radius: 10px;
-            box-shadow: 0 20px 45px rgba(0, 45, 90, 0.25); z-index: 3500; resize: both; overflow: hidden; flex-direction: column;
+            display: none; position: fixed; top: 80px; left: 50%; transform: translateX(-50%);
+            width: 520px; height: 560px; max-width: 95vw; max-height: 90vh;
+            background: #FFFFFF; border: 1px solid var(--border-light); border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-float); z-index: 3500; resize: both; overflow: hidden;
+            flex-direction: column; animation: scaleIn 0.25s ease;
         }
         #proj-window.show { display: flex; }
-        .pw-header { display: flex; justify-content: space-between; align-items: center; background: #F1F5F9; padding: 10px 14px; border-bottom: 2px solid var(--enel-navy); }
-        .pw-title { color: var(--enel-navy); font-size: .88rem; font-weight: 700; }
-        .pw-body { padding: 12px; overflow-y: auto; flex: 1; font-size: .82rem; }
-        .pw-row { display: grid; grid-template-columns: 42% 1fr; gap: 8px; padding: 6px 0; border-bottom: 1px solid #E2E8F0; }
-        .pw-row .k { color: var(--text-muted); font-weight: 600; text-transform: uppercase; font-size: .7rem; }
-
-        #auth, #modal-perfil { display: none; position: fixed; inset: 0; z-index: 6000; background: rgba(0, 30, 60, 0.65); align-items: center; justify-content: center; padding: 16px; backdrop-filter: blur(3px); }
-        .acard { background: #FFFFFF; border: 1px solid var(--enel-border); border-top: 4px solid var(--enel-cyan); border-radius: 10px; padding: 22px; width: 100%; max-width: 380px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
-        .acard h2 { margin: 0 0 12px; font-size: 16px; color: var(--enel-navy); }
-        .acard label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
-        .acard input { display: block; width: 100%; margin-top: 3px; font: inherit; border: 1px solid var(--enel-border); border-radius: 6px; padding: 7px 10px; }
-        .acard input:focus { border-color: var(--enel-cyan); outline: none; }
-
-        /* ABA CONFIG */
-        .cfc { background: #FFFFFF; border: 1px solid var(--enel-border); border-radius: 10px; padding: 16px; margin-bottom: 12px; }
-        .cfc h3 { color: var(--enel-navy); font-size: 14px; margin-bottom: 10px; }
-        .cfc label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
-        .cfc input { display: block; width: 100%; margin-top: 3px; font: inherit; border: 1px solid var(--enel-border); border-radius: 6px; padding: 7px 10px; }
+        .pw-header-top {
+            display: flex; justify-content: space-between; align-items: center; background: #F8FAFC;
+            padding: 12px 18px; border-bottom: 2px solid var(--brand-primary); cursor: move;
+        }
+        .pw-body-content { padding: 16px; overflow-y: auto; flex: 1; font-size: 0.84rem; }
+        .pw-info-row { display: grid; grid-template-columns: 36% 1fr; gap: 8px; padding: 7px 0; border-bottom: 1px solid var(--border-light); }
 
         /* TOAST */
-        .toast-notification {
-            position: fixed; bottom: 20px; right: 20px; background: #FFFFFF; border-left: 4px solid var(--status-green);
-            border-radius: 8px; padding: 12px 18px; box-shadow: 0 10px 25px rgba(0, 45, 90, 0.15);
-            display: flex; align-items: center; gap: 12px; z-index: 4000; opacity: 0; transform: translateY(15px); transition: all 0.3s; pointer-events: none;
+        .toast-box {
+            position: fixed; bottom: 90px; right: 24px; background: #FFFFFF; border-left: 4px solid var(--status-success);
+            border-radius: var(--radius-md); padding: 12px 20px; box-shadow: var(--shadow-float);
+            display: flex; align-items: center; gap: 12px; z-index: 4500; opacity: 0; transform: translateY(15px);
+            transition: var(--transition-smooth); pointer-events: none;
         }
-        .toast-notification.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        .toast-box.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+        /* CONFIG STYLING */
+        .cfg-card { background: #FFF; border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 18px; margin-bottom: 14px; }
+        .code-box-embed { background: #0F172A; color: #38BDF8; padding: 12px; border-radius: 8px; font-family: monospace; font-size: 11px; max-height: 150px; overflow: auto; margin-top: 6px; user-select: all; }
     </style>
 </head>
 <body>
 
-    <!-- APLICAÇÃO -->
     <div id="app-container">
+        <!-- HEADER (SEM FILTROS PROJETOS/ETAPAS, COM CONTRATO MASTER UNIFICADO) -->
         <header>
             <div class="brand-container">
-                <div class="brand-icon"><i class="fa-solid fa-bolt"></i></div>
-                <div class="brand-title">Gestão de Carteira & Programação de Obras</div>
+                <div class="brand-icon-box"><i class="fa-solid fa-network-wired"></i></div>
+                <div class="brand-text">Gestão Integrada de Carteira & Obras</div>
             </div>
 
-            <div class="header-controls">
-                <!-- SELETOR UNIFICADO DE CONTRATO (CONTROLA O SITE INTEIRO) -->
-                <select id="sel-contrato-global" class="global-contract-select" onchange="mudarContratoGlobal(this.value)">
+            <div class="header-actions">
+                <!-- SELETOR UNIFICADO MASTER DE CONTRATO -->
+                <select id="sel-contrato-global" class="select-contract-master" onchange="mudarContratoGlobal(this.value)">
                     <option value="angra">Contrato: Angra dos Reis</option>
                     <option value="mage">Contrato: Magé</option>
                 </select>
 
-                <button class="btn-enel-primary" onclick="sincronizarTudoOnline()" title="Sincronizar dados das planilhas Google">
-                    <i class="fa-solid fa-rotate"></i> Atualizar Tudo
+                <button class="btn-modern-subtle" onclick="sincronizarTudoOnline()" title="Sincronizar dados das planilhas Google">
+                    <i class="fa-solid fa-rotate"></i> Sincronizar Tudo
                 </button>
 
-                <!-- FILTRO PROJETO -->
-                <div class="multiselect-wrapper">
-                    <button class="multiselect-btn" onclick="toggleDropdown(event, 'projeto-dropdown')">
-                        <i class="fa-solid fa-diagram-project" style="color: var(--enel-cyan);"></i>
-                        <span id="projeto-label">Filtrar Projeto</span>
-                        <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>
-                    </button>
-                    <div class="multiselect-dropdown" id="projeto-dropdown" onclick="event.stopPropagation()">
-                        <input type="text" class="multiselect-search" id="projeto-search-input" placeholder="Pesquisar..." oninput="filtrarOpcoesProjeto(this.value)">
-                        <div class="multiselect-actions">
-                            <button class="multiselect-action-btn" onclick="marcarTodosProjetos(true)">Todos</button>
-                            <button class="multiselect-action-btn" onclick="marcarTodosProjetos(false)">Limpar</button>
-                        </div>
-                        <div id="checkbox-projeto-container"></div>
-                    </div>
-                </div>
-
-                <!-- FILTRO ETAPA -->
-                <div class="multiselect-wrapper">
-                    <button class="multiselect-btn" onclick="toggleDropdown(event, 'etapa-dropdown')">
-                        <i class="fa-solid fa-filter" style="color: var(--enel-cyan);"></i>
-                        <span id="etapa-label">Filtrar Etapa</span>
-                        <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>
-                    </button>
-                    <div class="multiselect-dropdown" id="etapa-dropdown" onclick="event.stopPropagation()">
-                        <div class="multiselect-actions">
-                            <button class="multiselect-action-btn" onclick="marcarTodasEtapas(true)">Todas</button>
-                            <button class="multiselect-action-btn" onclick="marcarTodasEtapas(false)">Limpar</button>
-                        </div>
-                        <div id="checkbox-etapa-container"></div>
-                    </div>
-                </div>
-
-                <!-- PERFIL E SAIR -->
-                <div style="display:flex; align-items:center; gap:6px;">
-                    <button class="btn-enel-secondary" onclick="APP.abrirPerfil()" title="Meus dados">
-                        <i class="fa-solid fa-user-gear"></i> <span id="user-nome-chip">Admin</span>
-                    </button>
-                    <button class="btn-enel-secondary" onclick="APP.sair()" title="Desconectar do sistema" style="color:var(--status-red); border-color:#FECACA;">
-                        <i class="fa-solid fa-arrow-right-from-bracket"></i> Sair
-                    </button>
-                </div>
+                <button class="btn-modern-gradient" onclick="abrirModalNovoProjeto()">
+                    <i class="fa-solid fa-plus"></i> Novo Projeto
+                </button>
             </div>
         </header>
 
-        <!-- BARRA DE ABAS -->
-        <div class="tabs-bar">
-            <button class="tab-btn active" id="tabbtn-mapa" onclick="trocarAba('mapa')"><i class="fa-solid fa-map-location-dot"></i> Mapa Georreferenciado</button>
-            <button class="tab-btn" id="tabbtn-carteira" onclick="trocarAba('carteira')"><i class="fa-solid fa-table-list"></i> Carteira de Projetos</button>
-            <button class="tab-btn" id="tabbtn-dash" onclick="trocarAba('dash')"><i class="fa-solid fa-chart-pie"></i> Dashboards Gerenciais</button>
-            <button class="tab-btn" id="tabbtn-prog" onclick="trocarAba('prog')"><i class="fa-solid fa-calendar-check"></i> Programação de Obras</button>
-            <button class="tab-btn" id="tabbtn-config" style="display:none" onclick="trocarAba('config')"><i class="fa-solid fa-gear"></i> Configuração de Links</button>
+        <!-- NAVEGAÇÃO DE ABAS -->
+        <div class="tabs-nav">
+            <button class="tab-nav-item active" id="tabbtn-mapa" onclick="trocarAba('mapa')"><i class="fa-solid fa-map-location-dot"></i> Mapa Georreferenciado</button>
+            <button class="tab-nav-item" id="tabbtn-carteira" onclick="trocarAba('carteira')"><i class="fa-solid fa-table-list"></i> Carteira de Projetos (Consulta & Cadastro)</button>
+            <button class="tab-nav-item" id="tabbtn-dash" onclick="trocarAba('dash')"><i class="fa-solid fa-chart-pie"></i> Dashboards Executivos</button>
+            <button class="tab-nav-item" id="tabbtn-prog" onclick="trocarAba('prog')"><i class="fa-solid fa-calendar-check"></i> Programação de Obras (Consulta)</button>
+            <button class="tab-nav-item" id="tabbtn-config" onclick="trocarAba('config')"><i class="fa-solid fa-database"></i> Banco de Dados (Google Planilhas)</button>
         </div>
 
-        <!-- ABA MAPA -->
+        <!-- ABA 1: MAPA -->
         <div id="tab-mapa">
-            <div class="map-container">
-                <div class="floating-sla-panel">
-                    <div class="floating-sla-title"><i class="fa-solid fa-clock"></i> SLA / Prazos de Obra</div>
-                    <div class="sla-mini-card active" id="card-sla-todos" onclick="filtrarPorFaixaSla('todos')">
-                        <span style="color:var(--status-green);">Total Mapeados</span>
-                        <b id="count-total" style="color:var(--status-green);">0</b>
+            <div class="map-wrapper">
+                <div class="floating-sla-card">
+                    <div class="floating-sla-header"><i class="fa-solid fa-clock"></i> SLA / Prazos de Obra</div>
+                    <div class="sla-row-btn active" id="card-sla-todos" onclick="filtrarPorFaixaSla('todos')">
+                        <span style="color:var(--status-success);">Total Mapeados</span>
+                        <b id="count-total" style="color:var(--status-success);">0</b>
                     </div>
-                    <div class="sla-mini-card" id="card-sla-violada" onclick="filtrarPorFaixaSla('violada')">
-                        <span style="color:var(--status-red);">Violadas (≤ 0d)</span>
-                        <b id="count-violada" style="color:var(--status-red);">0</b>
+                    <div class="sla-row-btn" id="card-sla-violada" onclick="filtrarPorFaixaSla('violada')">
+                        <span style="color:var(--status-danger);">Violadas (≤ 0d)</span>
+                        <b id="count-violada" style="color:var(--status-danger);">0</b>
                     </div>
-                    <div class="sla-mini-card" id="card-sla-12dias" onclick="filtrarPorFaixaSla('12dias')">
-                        <span style="color:var(--status-amber);">Até 12 Dias</span>
-                        <b id="count-12dias" style="color:var(--status-amber);">0</b>
+                    <div class="sla-row-btn" id="card-sla-12dias" onclick="filtrarPorFaixaSla('12dias')">
+                        <span style="color:var(--status-warning);">Até 12 Dias</span>
+                        <b id="count-12dias" style="color:var(--status-warning);">0</b>
                     </div>
-                    <div class="sla-mini-card" id="card-sla-20dias" onclick="filtrarPorFaixaSla('20dias')">
+                    <div class="sla-row-btn" id="card-sla-20dias" onclick="filtrarPorFaixaSla('20dias')">
                         <span style="color:#D97706;">Até 20 Dias</span>
                         <b id="count-20dias" style="color:#D97706;">0</b>
                     </div>
-                    <div class="sla-mini-card" id="card-sla-30dias" onclick="filtrarPorFaixaSla('30dias')">
-                        <span style="color:var(--enel-cyan);">Até 30 Dias</span>
-                        <b id="count-30dias" style="color:var(--enel-cyan);">0</b>
+                    <div class="sla-row-btn" id="card-sla-30dias" onclick="filtrarPorFaixaSla('30dias')">
+                        <span style="color:var(--status-info);">Até 30 Dias</span>
+                        <b id="count-30dias" style="color:var(--status-info);">0</b>
                     </div>
                 </div>
 
-                <div class="floating-legend-panel">
-                    <div class="legend-title"><i class="fa-solid fa-palette"></i> Etapas da Obra</div>
+                <div class="floating-legend-card">
+                    <div class="floating-sla-header"><i class="fa-solid fa-palette"></i> Etapas da Obra</div>
                     <div id="etapa-legend-container"></div>
                 </div>
 
@@ -360,159 +388,179 @@
             </div>
         </div>
 
-        <!-- ABA CARTEIRA DE PROJETOS -->
+        <!-- ABA 2: CARTEIRA DE PROJETOS -->
         <div id="tab-carteira">
-            <div class="cart-toolbar">
-                <input type="text" class="cart-search" id="cart-search" placeholder="Pesquisar em todas as colunas..." oninput="renderCarteira()">
-                <span class="cart-chip"><i class="fa-solid fa-list"></i> <span id="cart-total">0</span> projetos</span>
-                <span class="cart-chip sinal-vermelho"><span class="sinal-dot"></span> <span id="cart-red">0</span></span>
-                <span class="cart-chip sinal-amarelo"><span class="sinal-dot"></span> <span id="cart-yellow">0</span></span>
-                <span class="cart-chip sinal-verde"><span class="sinal-dot"></span> <span id="cart-green">0</span></span>
-                <span id="carteira-status-badge" style="font-size:.78rem; font-weight:600;"></span>
-                <span class="cart-legend">Semáforo: 🔴 ≤ 5 dias · 🟡 6 a 15 dias · 🟢 &gt; 15 dias</span>
+            <div class="cart-glass-toolbar">
+                <input type="text" class="cart-search-box" id="cart-search" placeholder="Pesquisar por projeto, SOB, parceira..." oninput="renderCarteira()">
+                <button class="btn-modern-gradient" onclick="abrirModalNovoProjeto()"><i class="fa-solid fa-plus"></i> Cadastrar Projeto</button>
+                <span class="cart-badge-chip"><i class="fa-solid fa-list"></i> <span id="cart-total">0</span> projetos</span>
+                <span class="cart-badge-chip" style="color:var(--status-danger);"><span class="sinal-indicator pulse" style="background:var(--status-danger);"></span> <span id="cart-red">0</span></span>
+                <span class="cart-badge-chip" style="color:var(--status-warning);"><span class="sinal-indicator" style="background:var(--status-warning);"></span> <span id="cart-yellow">0</span></span>
+                <span class="cart-badge-chip" style="color:var(--status-success);"><span class="sinal-indicator" style="background:var(--status-success);"></span> <span id="cart-green">0</span></span>
+                <span id="carteira-status-badge" style="font-size:0.8rem; font-weight:700; margin-left:6px;"></span>
             </div>
 
-            <div class="etapa-chips" id="etapa-chips"></div>
+            <div class="etapa-chips-container" id="etapa-chips"></div>
 
-            <div class="cart-filters">
-                <select class="cart-select" id="f-base" onchange="renderCarteira()"><option value="">BASE: Todas</option></select>
-                <select class="cart-select" id="f-tipo" onchange="renderCarteira()"><option value="">TIPO: Todos</option></select>
-                <select class="cart-select" id="f-parceira" onchange="renderCarteira()"><option value="">PARCEIRA: Todas</option></select>
-                <select class="cart-select" id="f-prioridade" onchange="renderCarteira()"><option value="">PRIORIDADE: Todas</option></select>
-                <select class="cart-select" id="f-sinal" onchange="renderCarteira()">
+            <div class="cart-glass-toolbar" style="margin-top:-4px; margin-bottom:12px;">
+                <select class="cart-search-box" style="min-width:140px;" id="f-base" onchange="renderCarteira()"><option value="">BASE: Todas</option></select>
+                <select class="cart-search-box" style="min-width:140px;" id="f-tipo" onchange="renderCarteira()"><option value="">TIPO: Todos</option></select>
+                <select class="cart-search-box" style="min-width:140px;" id="f-parceira" onchange="renderCarteira()"><option value="">PARCEIRA: Todas</option></select>
+                <select class="cart-search-box" style="min-width:140px;" id="f-prioridade" onchange="renderCarteira()"><option value="">PRIORIDADE: Todas</option></select>
+                <select class="cart-search-box" style="min-width:140px;" id="f-sinal" onchange="renderCarteira()">
                     <option value="">SINAL: Todos</option>
-                    <option value="vermelho">🔴 Vermelho</option>
-                    <option value="amarelo">🟡 Amarelo</option>
-                    <option value="verde">🟢 Verde</option>
-                    <option value="sem">Sem sinal</option>
+                    <option value="vermelho">🔴 Vermelho (≤ 5d)</option>
+                    <option value="amarelo">🟡 Amarelo (6-15d)</option>
+                    <option value="verde">🟢 Verde (> 15d)</option>
                 </select>
-
-                <!-- FILTRO DE DATA EM ÁRVORE -->
-                <div class="multiselect-wrapper">
-                    <button class="multiselect-btn" onclick="toggleDropdown(event, 'data-dropdown')">
-                        <i class="fa-solid fa-calendar-days" style="color: var(--enel-cyan);"></i>
-                        <span id="data-label">Data: Todas</span>
-                        <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>
-                    </button>
-                    <div class="multiselect-dropdown" id="data-dropdown" style="left:0; right:auto;" onclick="event.stopPropagation()">
-                        <select class="cart-select" id="data-campo" style="width:100%; margin-bottom:8px;" onchange="mudarCampoData(this.value)">
-                            <option value="limite">DATA LIMITE PARA EXECUÇÃO</option>
-                            <option value="pacote">PACOTE</option>
-                        </select>
-                        <div class="multiselect-actions">
-                            <button class="multiselect-action-btn" onclick="marcarTodasDatas(true)">Marcar Todas</button>
-                            <button class="multiselect-action-btn" onclick="marcarTodasDatas(false)">Limpar</button>
-                        </div>
-                        <div id="data-tree"></div>
-                    </div>
-                </div>
-
-                <button class="btn-enel-secondary" onclick="limparFiltrosCarteira()"><i class="fa-solid fa-filter-circle-xmark"></i> Limpar filtros</button>
+                <button class="btn-modern-subtle" onclick="limparFiltrosCarteira()"><i class="fa-solid fa-filter-circle-xmark"></i> Limpar Filtros</button>
             </div>
 
-            <div class="cart-table-wrap">
+            <div class="cart-table-panel">
                 <table class="cart-table">
                     <thead><tr id="cart-thead"></tr></thead>
                     <tbody id="cart-tbody">
-                        <tr><td class="cart-empty" colspan="8">Carregando dados da carteira...</td></tr>
+                        <tr><td class="cart-empty" colspan="8">Carregando carteira de projetos...</td></tr>
                     </tbody>
                 </table>
             </div>
         </div>
 
-        <!-- ABA DASHBOARDS -->
+        <!-- ABA 3: DASHBOARDS -->
         <div id="tab-dash">
-            <div class="cart-filters">
-                <select class="cart-select" id="d-tipo" onchange="renderDashboard()"><option value="">TIPO: Todos</option></select>
-                <select class="cart-select" id="d-parceira" onchange="renderDashboard()"><option value="">PARCEIRA: Todas</option></select>
-                <select class="cart-select" id="d-resp" onchange="renderDashboard()"><option value="">RESPONSÁVEL: Todos</option></select>
-                <button class="btn-enel-secondary" onclick="restaurarLayoutDash()"><i class="fa-solid fa-rotate-left"></i> Restaurar layout</button>
+            <div class="cart-glass-toolbar" style="margin-bottom:14px;">
+                <select class="cart-search-box" style="min-width:160px;" id="d-tipo" onchange="renderDashboard()"><option value="">TIPO: Todos</option></select>
+                <select class="cart-search-box" style="min-width:160px;" id="d-parceira" onchange="renderDashboard()"><option value="">PARCEIRA: Todas</option></select>
+                <select class="cart-search-box" style="min-width:160px;" id="d-resp" onchange="renderDashboard()"><option value="">RESPONSÁVEL: Todos</option></select>
             </div>
-            <div id="dash-root"><div class="cart-empty">Carregando painéis gerenciais...</div></div>
+            <div id="dash-root"></div>
         </div>
 
-        <!-- ABA PROGRAMAÇÃO DE OBRAS (UNIFICADA COM O TOPO) -->
+        <!-- ABA 4: PROGRAMAÇÃO DE OBRAS (CONSULTA) -->
         <div id="tab-prog">
-            <div class="bar">
-                <span class="st" id="st"></span>
+            <div class="cart-glass-toolbar" style="justify-content:space-between;">
+                <span id="st" style="font-size:0.85rem; font-weight:700;"></span>
             </div>
-            <div class="sub" id="sub">
-                <button data-t="dash" class="on">Dashboard Executivo</button>
-                <button data-t="week">Calendário Semanal</button>
-                <button data-t="hist">Histórico Completo</button>
+            <div class="tabs-nav" id="sub" style="margin-top:-6px;">
+                <button data-t="dash" class="tab-nav-item active">Dashboard Executivo</button>
+                <button data-t="week" class="tab-nav-item">Calendário Semanal</button>
+                <button data-t="hist" class="tab-nav-item">Histórico Completo</button>
             </div>
             <div id="v"></div>
-            <dialog id="dlg"><div id="dbody"></div><p style="text-align:right"><button class="btn-enel-secondary" onclick="this.closest('dialog').close()">Fechar</button></p></dialog>
+            <dialog id="dlg" style="border:none;border-radius:12px;padding:20px;max-width:540px;box-shadow:var(--shadow-float);"><div id="dbody"></div><p style="text-align:right;margin-top:12px;"><button class="btn-modern-subtle" onclick="this.closest('dialog').close()">Fechar</button></p></dialog>
         </div>
 
-        <!-- ABA CONFIGURAÇÃO -->
-        <div id="tab-config"></div>
+        <!-- ABA 5: BANCO DE DADOS (GOOGLE PLANILHAS) -->
+        <div id="tab-config">
+            <div class="cfg-card">
+                <h3 style="font-size:1.05rem;color:var(--brand-primary);margin-bottom:8px;"><i class="fa-brands fa-google-drive"></i> Conexão com Google Planilhas</h3>
+                <p style="font-size:0.82rem;color:var(--text-secondary);margin-bottom:14px;">O sistema lê diretamente as planilhas publicadas e envia novos cadastros via Webhook do Google Apps Script.</p>
+
+                <div style="display:grid;gap:10px;">
+                    <label style="font-size:0.8rem;font-weight:700;">Carteira Angra dos Reis (Link CSV ou &lt;iframe&gt;)
+                        <input id="cfg-cart-ang" class="cart-search-box" style="width:100%;margin-top:4px;">
+                    </label>
+                    <label style="font-size:0.8rem;font-weight:700;">Carteira Magé (Link CSV ou &lt;iframe&gt;)
+                        <input id="cfg-cart-mag" class="cart-search-box" style="width:100%;margin-top:4px;" placeholder="Cole aqui o link ou iframe de Magé quando disponível">
+                    </label>
+                    <label style="font-size:0.8rem;font-weight:700;">Programação Angra dos Reis
+                        <input id="cfg-prog-ang" class="cart-search-box" style="width:100%;margin-top:4px;">
+                    </label>
+                    <label style="font-size:0.8rem;font-weight:700;">Programação Magé
+                        <input id="cfg-prog-mag" class="cart-search-box" style="width:100%;margin-top:4px;">
+                    </label>
+                </div>
+
+                <h3 style="font-size:0.95rem;color:var(--brand-primary);margin-top:20px;margin-bottom:6px;"><i class="fa-solid fa-cloud-arrow-up"></i> Webhook de Gravação Automática na Planilha</h3>
+                <p style="font-size:0.8rem;color:var(--text-secondary);">Para gravar os novos projetos automaticamente em tempo real sem servidor, cole o código abaixo em <b>Extensões > Apps Script</b> da sua planilha, implante como <b>App da Web</b> (Acesso: Qualquer pessoa) e cole a URL gerada abaixo:</p>
+                
+                <input id="cfg-webhook-url" class="cart-search-box" style="width:100%;margin-top:6px;" placeholder="https://script.google.com/macros/s/.../exec">
+
+                <div class="code-box-embed">
+function doPost(e) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var data = JSON.parse(e.postData.contents);
+  sheet.appendRow([
+    data.PACOTE || '',
+    data.BASE || '',
+    data.TIPO || '',
+    data.PROJETO || '',
+    data.PARCEIRA || '',
+    data['DATA LIMITE PARA EXECUÇÃO'] || '',
+    data.PRIORIDADE || '',
+    data.ETAPA || '',
+    data.LATITUDE || '',
+    data.LONGITUDE || '',
+    data.RESPONSÁVEL || ''
+  ]);
+  return ContentService.createTextOutput("OK");
+}
+                </div>
+
+                <div style="margin-top:14px;display:flex;align-items:center;gap:10px;">
+                    <button class="btn-modern-gradient" onclick="salvarConfiguracaoMaster()">Salvar Configurações</button>
+                    <span id="cfg-msg" style="font-size:0.85rem;font-weight:700;"></span>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- JANELA FLUTUANTE DO PROJETO -->
+    <!-- JANELA MODAL DE DETALHE E CADASTRO -->
     <div id="proj-window">
-        <div class="pw-header" id="pw-header">
-            <span class="pw-title" id="pw-title">PROJETO</span>
-            <button class="pw-close" onclick="fecharJanelaProjeto()" style="background:none;border:none;cursor:pointer;font-size:16px;">&times;</button>
+        <div class="pw-header-top" id="pw-header-drag">
+            <span style="font-size:0.9rem;font-weight:800;color:var(--brand-primary);" id="pw-title">PROJETO</span>
+            <button onclick="fecharJanelaProjeto()" style="background:none;border:none;cursor:pointer;font-size:18px;color:var(--text-muted);">&times;</button>
         </div>
-        <div class="pw-body" id="pw-body"></div>
+        <div class="pw-body-content" id="pw-body"></div>
     </div>
 
-    <!-- MODAL DE LOGIN -->
-    <div id="auth">
-        <div class="acard">
-            <h2>Acesso ao Sistema</h2>
-            <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px;">Informe suas credenciais corporativas.</p>
-            <div id="auth-content">
-                <label>Usuário ou E-mail<input id="a-email" type="text" autocomplete="username" placeholder="admin ou seu e-mail"></label>
-                <label>Senha<input id="a-pw" type="password" autocomplete="current-password" onkeydown="if(event.key=='Enter')APP.entrar()"></label>
-                <div id="a-msg" class="amsg" style="min-height:16px;margin-bottom:8px;font-size:12px;color:var(--status-red);"></div>
-                <button class="btn-enel-primary" style="width:100%;justify-content:center;padding:9px;" onclick="APP.entrar()">Entrar no Sistema</button>
+    <!-- CHAT ASSISTENTE & FEED DE ATUALIZAÇÕES -->
+    <div id="chat-widget-root">
+        <div class="chat-card-window" id="chat-window">
+            <div class="chat-header-bar">
+                <span><i class="fa-solid fa-robot"></i> Feed de Atualizações & Assistente</span>
+                <span onclick="toggleChatWindow()" style="cursor:pointer;font-size:18px;">&times;</span>
+            </div>
+            <div class="chat-feed-stream" id="chat-messages">
+                <div class="chat-bubble success">
+                    <b>Assistente Conectado</b><br>
+                    Monitorando planilhas de Angra dos Reis e Magé. Todas as sincronizações aparecem neste feed.
+                    <small>Agora</small>
+                </div>
+            </div>
+            <div class="chat-quick-actions">
+                <button class="chat-action-pill" onclick="chatPrompt('resumo')">📊 Resumo</button>
+                <button class="chat-action-pill" onclick="chatPrompt('vencidos')">🚨 Obras Vencidas</button>
+                <button class="chat-action-pill" onclick="chatPrompt('programacao')">📅 Programação</button>
+            </div>
+            <div class="chat-input-row">
+                <input type="text" id="chat-input" placeholder="Pergunte sobre as obras..." onkeydown="if(event.key==='Enter')enviarChatMensagem()">
+                <button onclick="enviarChatMensagem()"><i class="fa-solid fa-paper-plane"></i></button>
             </div>
         </div>
-    </div>
-
-    <!-- MODAL DE PERFIL / SENHA -->
-    <div id="modal-perfil">
-        <div class="acard">
-            <h2>Meus Dados de Acesso</h2>
-            <label>Login<input id="mp-email" type="text" readonly style="background:#F1F5F9;color:#64748B;"></label>
-            <label>Nome Completo<input id="mp-nome" type="text" placeholder="Seu nome"></label>
-            <label>Alterar Senha<input id="mp-pw" type="password" placeholder="Nova senha (se desejar alterar)"></label>
-            <div id="mp-msg" style="font-size:12px;min-height:16px;margin-bottom:8px;"></div>
-            <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:12px;">
-                <button class="btn-enel-secondary" onclick="APP.fecharPerfil()">Cancelar</button>
-                <button class="btn-enel-primary" onclick="APP.salvarPerfilProprio()">Salvar</button>
-            </div>
+        <div class="chat-fab-btn" onclick="toggleChatWindow()" title="Feed e Chat de Atualizações">
+            <i class="fa-solid fa-comments"></i>
+            <span class="chat-unread-dot" id="chat-dot"></span>
         </div>
     </div>
 
-    <!-- TOAST DE AVISO -->
-    <div id="toast-notif" class="toast-notification">
-        <i class="fa-solid fa-circle-check" style="color:var(--status-green);font-size:1.3rem;"></i>
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast-box" class="toast-box">
+        <i class="fa-solid fa-circle-check" style="color:var(--status-success);font-size:1.3rem;"></i>
         <div>
-            <div style="font-weight:700;color:var(--enel-navy);" id="toast-title">Aviso</div>
-            <div style="font-size:.78rem;color:var(--text-muted);" id="toast-text">Ação concluída com sucesso.</div>
+            <div style="font-weight:700;color:var(--brand-primary);font-size:0.85rem;" id="toast-title">Notificação</div>
+            <div style="font-size:0.75rem;color:var(--text-secondary);" id="toast-desc">Operação realizada.</div>
         </div>
     </div>
 
-    <!-- SCRIPTS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-
+    <!-- ENGINE JAVASCRIPT -->
     <script>
-        /* CONFIGURAÇÃO SUPABASE */
-        window.APP_CONFIG = {
-            SUPABASE_URL: 'https://pvcfhfftiokflxvgrpov.supabase.co',
-            SUPABASE_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB2Y2ZoZmZ0aW9rZmx4dmdycG92Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM2MTcyNjcsImV4cCI6MjEwOTE5MzI2N30.VxTcYRNNAaX1Uw9EAMzbbM8VDm6EC_TQPtPxTOucVDg'
-        };
-
-        /* EXTRAÇÃO INTELIGENTE DE IFRAME OU URL GOOGLE SHEETS PARA CSV */
+        /* CONVERSOR INTELIGENTE DE IFRAME / GOOGLE SHEETS PARA CSV */
         function extrairLinkCsvGoogle(str) {
             if (!str) return '';
             str = String(str).trim();
-            const matchIframe = str.match(/src=["']([^"']+)["']/i);
-            if (matchIframe && matchIframe[1]) str = matchIframe[1];
+            const match = str.match(/src=["']([^"']+)["']/i);
+            if (match && match[1]) str = match[1];
             str = str.replace(/&amp;/g, '&');
             if (str.includes('/pubhtml')) {
                 str = str.replace('/pubhtml', '/pub');
@@ -527,25 +575,22 @@
             prog_angra: extrairLinkCsvGoogle('https://docs.google.com/spreadsheets/d/e/2PACX-1vQuRUw8jB-tTh63Deqb5Og-J04D7cYHX9tbsqvbhm833-M7ZGdOS1oQ3GJCybxPXPBG8Aa-lMHJ4gYd/pubhtml?gid=1050565461&single=true&widget=true&headers=false'),
             prog_mage: extrairLinkCsvGoogle('https://docs.google.com/spreadsheets/d/e/2PACX-1vTpotM4mC5w2KmbYn-xkPEMCOpZu9T6EO0i3IGVlEADdNxfBbgpYzD0IrMna0F64w/pubhtml?gid=1401348365&single=true&widget=true&headers=false'),
             carteira_angra: extrairLinkCsvGoogle('https://docs.google.com/spreadsheets/d/e/2PACX-1vToswUD-YrLiHH87aWkz3yHfpvG1tYgeXq0uiUXizDxF5RVoYrr9m4t8xSy1yfLC4zItS7Hb0bTHguK/pubhtml?gid=1394179098&single=true&widget=true&headers=false'),
-            carteira_mage: ''
+            carteira_mage: '',
+            webhook_url: ''
         };
 
         try {
-            const salvo = localStorage.getItem('app_links_planilhas');
-            if (salvo) Object.assign(window.LINKS_PLANILHAS, JSON.parse(salvo));
+            const saved = localStorage.getItem('app_links_v7_clean');
+            if (saved) Object.assign(window.LINKS_PLANILHAS, JSON.parse(saved));
         } catch(e) {}
-    </script>
 
-    <!-- MOTOR DE DADOS: MAPA, CARTEIRA E DASHBOARDS -->
-    <script>
         let map, markersGroup;
         let listaDadosGlobal = [];
-        let etapasSelecionadas = new Set();
-        let projetosSelecionados = new Set();
+        let etapasChip = new Set();
         let filtroSlaAtual = 'todos';
         let contratoGlobal = 'angra';
 
-        const paletaCoresEtapas = ['#002D5A', '#0099DA', '#10B981', '#F59E0B', '#E3007F', '#6366F1', '#0D9488', '#EA580C', '#2563EB'];
+        const paletaCores = ['#2563EB', '#06B6D4', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#F97316'];
         let mapaCoresEtapas = {};
 
         function esc(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
@@ -553,25 +598,10 @@
         function inicializarMapa() {
             if (!map) {
                 map = L.map('map').setView([-22.9068, -43.1729], 11);
-                const camadaSat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: 19 });
-                const camadaRua = L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
-                L.control.layers({ 'Mapa claro': camadaRua, 'Satélite': camadaSat }).addTo(map);
+                const sat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: 19 });
+                const osm = L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
+                L.control.layers({ 'Mapa Claro': osm, 'Satélite': sat }).addTo(map);
                 markersGroup = L.layerGroup().addTo(map);
-
-                document.addEventListener('click', () => {
-                    document.querySelectorAll('.multiselect-dropdown').forEach(d => d.classList.remove('show'));
-                });
-            }
-        }
-
-        function toggleDropdown(e, id) {
-            e.stopPropagation();
-            const target = document.getElementById(id);
-            const isOpen = target.classList.contains('show');
-            document.querySelectorAll('.multiselect-dropdown').forEach(d => d.classList.remove('show'));
-            if (!isOpen) {
-                target.classList.add('show');
-                if (id === 'projeto-dropdown') setTimeout(() => document.getElementById('projeto-search-input').focus(), 50);
             }
         }
 
@@ -635,24 +665,16 @@
             return String(buscarCampoFlexivel(item, 'PROJETO', 'CODIGO', 'OBRA', 'SOB') || '').trim();
         }
 
-        /* TROCA GLOBAL DE CONTRATO (UNIFICA CARTEIRA + PROGRAMAÇÃO) */
-        function mudarContratoGlobal(contrato) {
-            contratoGlobal = contrato;
-            document.getElementById('sel-contrato-global').value = contrato;
-            
-            // 1. Sincroniza a Carteira do contrato selecionado
-            sincronizarCarteiraOnline();
-
-            // 2. Sincroniza a Programação do contrato selecionado
-            if (window.PROG) {
-                window.PROG.setContrato(contrato);
-            }
+        /* CONTRATO UNIFICADO MASTER */
+        function mudarContratoGlobal(c) {
+            contratoGlobal = c;
+            document.getElementById('sel-contrato-global').value = c;
+            sincronizarTudoOnline();
         }
 
         function sincronizarTudoOnline() {
             sincronizarCarteiraOnline();
-            if (window.PROG) window.PROG.sync(contratoGlobal);
-            mostrarToast('Atualização', `Sincronizando dados de ${contratoGlobal.toUpperCase()}...`);
+            if (window.PROG) window.PROG.setContrato(contratoGlobal);
         }
 
         async function sincronizarCarteiraOnline() {
@@ -660,38 +682,40 @@
             const url = window.LINKS_PLANILHAS['carteira_' + contratoGlobal];
 
             if (!url) {
-                badge.innerHTML = `<span style="color:var(--status-red);"><i class="fa-solid fa-triangle-exclamation"></i> Carteira de ${contratoGlobal.toUpperCase()}: Sem link cadastrado.</span>`;
+                badge.innerHTML = `<span style="color:var(--status-danger);"><i class="fa-solid fa-triangle-exclamation"></i> ${contratoGlobal.toUpperCase()}: Sem planilha vinculada</span>`;
                 aplicarLinhas([]);
+                adicionarFeedChat(`Alerta: Carteira de ${contratoGlobal.toUpperCase()} ainda não possui link cadastrado na aba Banco de Dados.`, 'alert');
                 return;
             }
 
-            badge.innerHTML = `<span style="color:var(--enel-cyan);"><i class="fa-solid fa-spinner fa-spin"></i> Conectando à Carteira (${contratoGlobal.toUpperCase()})...</span>`;
+            badge.innerHTML = `<span style="color:var(--brand-accent);"><i class="fa-solid fa-spinner fa-spin"></i> Lendo Carteira de ${contratoGlobal.toUpperCase()}...</span>`;
             try {
                 const resp = await fetch(url + (url.includes('?') ? '&' : '?') + '_=' + Date.now(), { cache: 'no-store' });
                 if (!resp.ok) throw new Error('Offline');
                 const csvData = await resp.text();
-                const workbook = XLSX.read(csvData, { type: 'string', cellDates: true });
-                const sheet = workbook.Sheets[workbook.SheetNames[0]];
+                const wb = XLSX.read(csvData, { type: 'string', cellDates: true });
+                const sheet = wb.Sheets[wb.SheetNames[0]];
                 const rows = XLSX.utils.sheet_to_json(sheet, { defval: "" });
 
-                badge.innerHTML = `<span style="color:var(--status-green);"><i class="fa-solid fa-circle-check"></i> Carteira ${contratoGlobal.toUpperCase()} Online (${rows.length} projetos)</span>`;
-                aplicarLinhas(rows);
-            } catch (e) {
-                badge.innerHTML = `<span style="color:var(--status-red);"><i class="fa-solid fa-triangle-exclamation"></i> Falha ao ler planilha da Carteira de ${contratoGlobal.toUpperCase()}.</span>`;
+                // Mescla com cadastros locais
+                const locais = JSON.parse(localStorage.getItem('obras_locais_' + contratoGlobal) || '[]');
+                const todas = [...locais, ...rows];
+
+                badge.innerHTML = `<span style="color:var(--status-success);"><i class="fa-solid fa-circle-check"></i> ${contratoGlobal.toUpperCase()} Conectado (${todas.length} obras)</span>`;
+                aplicarLinhas(todas);
+
+                const vencidos = todas.filter(i => calcularDiasRestantes(buscarCampoFlexivel(i, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE')) <= 0).length;
+                adicionarFeedChat(`Planilha de ${contratoGlobal.toUpperCase()} sincronizada! <b>${todas.length} obras carregadas</b> (${vencidos} com prazo de execução violado).`, 'success');
+            } catch(e) {
+                badge.innerHTML = `<span style="color:var(--status-danger);"><i class="fa-solid fa-triangle-exclamation"></i> Falha ao ler planilha de ${contratoGlobal.toUpperCase()}</span>`;
                 aplicarLinhas([]);
             }
         }
 
         function aplicarLinhas(linhas) {
             listaDadosGlobal = linhas;
-            popularFiltrosDash();
-            construirMapeamentoCoresEtapas();
-            popularMultiSelectEtapas();
-            popularMultiSelectProjetos();
-            atualizarLegendaEtapasVisual();
-            etapasChip.clear();
+            construirCoresEtapas();
             popularFiltrosCarteira();
-            reconstruirFiltroData();
             processarEPlotarProjetos();
             renderCarteira();
             renderDashboard();
@@ -701,14 +725,13 @@
             ['mapa', 'carteira', 'dash', 'prog', 'config'].forEach(a => {
                 const el = document.getElementById('tab-' + a);
                 const btn = document.getElementById('tabbtn-' + a);
-                if (el) el.style.display = a === aba ? 'block' : 'none';
+                if (el) el.style.display = (a === aba) ? 'block' : 'none';
                 if (btn) btn.classList.toggle('active', a === aba);
             });
-            if (aba === 'mapa' && map) setTimeout(() => { map.invalidateSize(); processarEPlotarProjetos(); }, 50);
+            if (aba === 'mapa' && map) setTimeout(() => { map.invalidateSize(); processarEPlotarProjetos(); }, 60);
             else if (aba === 'carteira') renderCarteira();
             else if (aba === 'dash') renderDashboard();
-            else if (aba === 'prog') { if (window.PROG) window.PROG.show(); }
-            else if (aba === 'config') APP.renderConfig();
+            else if (aba === 'prog' && window.PROG) window.PROG.show();
         }
 
         /* CARTEIRA DE PROJETOS */
@@ -718,158 +741,43 @@
             { titulo: 'TIPO', nomes: ['TIPO', 'TIPO DE SERVICO'] },
             { titulo: 'PROJETO', nomes: ['PROJETO', 'CODIGO', 'OBRA', 'SOB'] },
             { titulo: 'PARCEIRA', nomes: ['PARCEIRA', 'EMPRESA'] },
-            { titulo: 'DATA LIMITE PARA EXECUÇÃO', nomes: ['DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE', 'LIMITE EXECUCAO'], data: true },
+            { titulo: 'PRAZO LIMITE', nomes: ['DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE', 'LIMITE EXECUCAO'], data: true },
             { titulo: 'PRIORIDADE', nomes: ['PRIORIDADE'] },
             { titulo: 'ETAPA', nomes: ['ETAPA', 'STATUS', 'FASE', 'SITUACAO', 'INFO STATUS'] }
         ];
-        let ordenacao = { col: null, dir: 1 };
-        let linhasVisiveis = [];
-
-        function dataParaOrdenar(v) { const d = calcularDiasRestantes(v); return d === 999 ? Infinity : d; }
 
         function obterSinal(item) {
-            const tipo = String(buscarCampoFlexivel(item, 'TIPO', 'TIPO DE SERVICO') || '').toLowerCase();
-            if (!tipo.includes('cliente')) return null;
-            const beneficio = String(buscarCampoFlexivel(item, 'BENEFÍCIO ATINGIDO?', 'BENEFÍCIO ANTINGIDO?', 'BENEFICIO ATINGIDO') ?? '').trim();
-            if (beneficio !== '') return null;
             const dataLimite = buscarCampoFlexivel(item, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE', 'LIMITE EXECUCAO');
             const dias = calcularDiasRestantes(dataLimite);
             if (dias === 999) return null;
             let cor = 'verde';
             if (dias <= 5) cor = 'vermelho';
             else if (dias <= 15) cor = 'amarelo';
-            const texto = dias < 0 ? `${Math.abs(dias)}d atrasado` : (dias === 0 ? 'vence hoje' : `${dias}d`);
+            const texto = dias < 0 ? `${Math.abs(dias)}d em atraso` : (dias === 0 ? 'vence hoje' : `${dias}d`);
             return { cor, dias, texto };
         }
 
         function sinalHtml(s) {
             if (!s) return '';
-            return `<span class="sinal sinal-${s.cor}" title="${esc(s.texto)}"><span class="sinal-dot"></span>${esc(s.texto)}</span>`;
+            const c = s.cor === 'vermelho' ? 'var(--status-danger)' : (s.cor === 'amarelo' ? 'var(--status-warning)' : 'var(--status-success)');
+            return `<span style="color:${c};font-weight:700;"><span class="sinal-indicator" style="background:${c};margin-right:4px;"></span>${esc(s.texto)}</span>`;
         }
 
-        const ORDEM_ETAPAS = ['A PROGRAMAR', 'VISTORIA', 'LOCAÇÃO', 'E-MAIL', 'PROGRAMADO', 'CONCLUÍDO'];
-        const FILTROS_SELECT = [
-            { id: 'f-base', titulo: 'BASE', nomes: ['BASE', 'MUNICIPIO'] },
-            { id: 'f-tipo', titulo: 'TIPO', nomes: ['TIPO', 'TIPO DE SERVICO'] },
-            { id: 'f-parceira', titulo: 'PARCEIRA', nomes: ['PARCEIRA', 'EMPRESA'] },
-            { id: 'f-prioridade', titulo: 'PRIORIDADE', nomes: ['PRIORIDADE'] }
-        ];
-        const CAMPOS_DATA = {
-            limite: ['DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE', 'LIMITE EXECUCAO'],
-            pacote: ['PACOTE', 'DATA PACOTE', 'RECEBIMENTO']
-        };
-        const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
-        let etapasChip = new Set();
-        let campoData = 'limite';
-        let datasTodas = new Set();
-        let datasSelecionadas = new Set();
-        let nosExpandidos = new Set();
-        let folhasPorNo = {};
-
-        function normTxt(s) { return String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase().trim(); }
-        function indiceEtapa(e) { const i = ORDEM_ETAPAS.findIndex(o => normTxt(o) === normTxt(e)); return i === -1 ? ORDEM_ETAPAS.length : i; }
-        function ordenarEtapas(arr) { return arr.sort((a, b) => indiceEtapa(a) - indiceEtapa(b) || a.localeCompare(b, 'pt-BR')); }
-
         function popularFiltrosCarteira() {
-            FILTROS_SELECT.forEach(f => {
-                const vals = new Set();
-                listaDadosGlobal.forEach(i => {
-                    if (obterValorProjeto(i) === '') return;
-                    const v = formatarValorGenerico(buscarCampoFlexivel(i, ...f.nomes));
-                    if (v) vals.add(v);
-                });
-                document.getElementById(f.id).innerHTML = `<option value="">${f.titulo}: Todos</option>` +
-                    Array.from(vals).sort((a, b) => a.localeCompare(b, 'pt-BR', { numeric: true }))
-                        .map(v => `<option value="${esc(v)}">${esc(v)}</option>`).join('');
+            [['f-base', 'BASE', ['BASE', 'MUNICIPIO']], ['f-tipo', 'TIPO', ['TIPO', 'TIPO DE SERVICO']], ['f-parceira', 'PARCEIRA', ['PARCEIRA', 'EMPRESA']], ['f-prioridade', 'PRIORIDADE', ['PRIORIDADE']]].forEach(([id, t, n]) => {
+                const v = new Set();
+                listaDadosGlobal.forEach(i => { const x = formatarValorGenerico(buscarCampoFlexivel(i, ...n)); if (x) v.add(x); });
+                document.getElementById(id).innerHTML = `<option value="">${t}: Todas</option>` + Array.from(v).sort().map(x => `<option value="${esc(x)}">${esc(x)}</option>`).join('');
             });
-            document.getElementById('f-sinal').value = '';
-            document.getElementById('cart-search').value = '';
         }
 
         function limparFiltrosCarteira() {
-            FILTROS_SELECT.forEach(f => document.getElementById(f.id).value = '');
-            document.getElementById('f-sinal').value = '';
-            document.getElementById('cart-search').value = '';
+            ['f-base', 'f-tipo', 'f-parceira', 'f-prioridade', 'f-sinal', 'cart-search'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.value = '';
+            });
             etapasChip.clear();
-            datasSelecionadas = new Set(datasTodas);
-            renderArvoreData(); atualizarLabelData(); renderCarteira();
-        }
-
-        function chaveData(item) {
-            const d = paraData(buscarCampoFlexivel(item, ...CAMPOS_DATA[campoData]));
-            if (!d || d.getFullYear() <= 1900) return '';
-            return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-        }
-
-        function reconstruirFiltroData() {
-            datasTodas = new Set(listaDadosGlobal.filter(i => obterValorProjeto(i) !== '').map(chaveData));
-            datasSelecionadas = new Set(datasTodas);
-            nosExpandidos = new Set();
-            datasTodas.forEach(k => { if (k) nosExpandidos.add('a' + k.slice(0, 4)); });
-            renderArvoreData(); atualizarLabelData();
-        }
-
-        function mudarCampoData(v) { campoData = v; reconstruirFiltroData(); renderCarteira(); }
-
-        function renderArvoreData() {
-            const cont = document.getElementById('data-tree');
-            if (!datasTodas.size) { cont.innerHTML = '<div style="color:var(--text-muted);font-size:0.8rem;">Carregue uma planilha...</div>'; return; }
-            const arv = {};
-            datasTodas.forEach(k => {
-                if (!k) return;
-                const [y, m, d] = k.split('-');
-                ((arv[y] = arv[y] || {})[m] = arv[y][m] || []).push(d);
-            });
-            folhasPorNo = {};
-
-            const no = (id, rotulo, folhas, nivel, filhos, html) => {
-                folhasPorNo[id] = folhas;
-                const sel = folhas.filter(k => datasSelecionadas.has(k)).length;
-                const estado = sel === 0 ? 0 : (sel === folhas.length ? 2 : 1);
-                const aberto = nosExpandidos.has(id);
-                return `<div class="tree-node" style="margin-left:${nivel * 16}px">` +
-                    `<span class="tree-toggle" ${filhos ? `onclick="alternarNoData('${id}')"` : ''}>${filhos ? (aberto ? '▾' : '▸') : ''}</span>` +
-                    `<label><input type="checkbox" data-no="${id}" data-estado="${estado}" ${estado === 2 ? 'checked' : ''} onchange="marcarNoData('${id}', this.checked)"> ${rotulo}</label></div>` +
-                    (filhos && aberto ? html : '');
-            };
-
-            let html = '';
-            if (datasTodas.has('')) html += no('vazio', '(Sem data)', [''], 0, false, '');
-            Object.keys(arv).sort().forEach(y => {
-                let htmlMeses = '', folhasAno = [];
-                Object.keys(arv[y]).sort().forEach(m => {
-                    const dias = arv[y][m].sort();
-                    const folhasMes = dias.map(d => `${y}-${m}-${d}`);
-                    folhasAno = folhasAno.concat(folhasMes);
-                    const htmlDias = dias.map(d => no('d' + y + '-' + m + '-' + d, d, [`${y}-${m}-${d}`], 2, false, '')).join('');
-                    htmlMeses += no('m' + y + '-' + m, `${m} - ${MESES[parseInt(m, 10) - 1]}`, folhasMes, 1, true, htmlDias);
-                });
-                html += no('a' + y, y, folhasAno, 0, true, htmlMeses);
-            });
-            cont.innerHTML = html;
-            cont.querySelectorAll('input[data-estado="1"]').forEach(cb => cb.indeterminate = true);
-        }
-
-        function alternarNoData(id) {
-            if (nosExpandidos.has(id)) nosExpandidos.delete(id); else nosExpandidos.add(id);
-            renderArvoreData();
-        }
-
-        function marcarNoData(id, marcado) {
-            (folhasPorNo[id] || []).forEach(k => marcado ? datasSelecionadas.add(k) : datasSelecionadas.delete(k));
-            renderArvoreData(); atualizarLabelData(); renderCarteira();
-        }
-
-        function marcarTodasDatas(marcar) {
-            datasSelecionadas = marcar ? new Set(datasTodas) : new Set();
-            renderArvoreData(); atualizarLabelData(); renderCarteira();
-        }
-
-        function atualizarLabelData() {
-            const el = document.getElementById('data-label');
-            if (!datasTodas.size || datasSelecionadas.size === datasTodas.size) el.textContent = 'Data: Todas';
-            else if (datasSelecionadas.size === 0) el.textContent = 'Data: Nenhuma';
-            else el.textContent = `Data: ${datasSelecionadas.size} dias`;
+            renderCarteira();
         }
 
         function alternarChipEtapa(etapa) {
@@ -879,235 +787,210 @@
             renderCarteira();
         }
 
-        function passaFiltros(item, ignorarChip) {
-            const proj = obterValorProjeto(item);
-            if (proj === '') return false;
-            if (!(etapasSelecionadas.has(obterValorEtapa(item)) && projetosSelecionados.has(proj))) return false;
-            for (const f of FILTROS_SELECT) {
-                const v = document.getElementById(f.id).value;
-                if (v && formatarValorGenerico(buscarCampoFlexivel(item, ...f.nomes)) !== v) return false;
-            }
-            const fs = document.getElementById('f-sinal').value;
-            if (fs) { const s = obterSinal(item); if ((s ? s.cor : 'sem') !== fs) return false; }
-            if (datasTodas.size && !datasSelecionadas.has(chaveData(item))) return false;
-            const busca = (document.getElementById('cart-search').value || '').toLowerCase().trim();
-            if (busca && !Object.values(item).map(formatarValorGenerico).join(' ').toLowerCase().includes(busca)) return false;
-            if (!ignorarChip && etapasChip.size && !etapasChip.has(obterValorEtapa(item))) return false;
-            return true;
-        }
-
         function renderCarteira() {
             const thead = document.getElementById('cart-thead');
             const tbody = document.getElementById('cart-tbody');
             if (!thead || !tbody) return;
 
-            thead.innerHTML = COLUNAS_CARTEIRA.map((c, i) => {
-                const seta = ordenacao.col === i ? (ordenacao.dir === 1 ? ' ▲' : ' ▼') : '';
-                return `<th onclick="ordenarCarteira(${i})">${esc(c.titulo)}${seta}</th>`;
-            }).join('');
+            thead.innerHTML = COLUNAS_CARTEIRA.map(c => `<th>${c.titulo}</th>`).join('');
+            const q = (document.getElementById('cart-search').value || '').toLowerCase();
+            const fBase = document.getElementById('f-base').value;
+            const fTipo = document.getElementById('f-tipo').value;
+            const fParceira = document.getElementById('f-parceira').value;
+            const fPrio = document.getElementById('f-prioridade').value;
+            const fSinal = document.getElementById('f-sinal').value;
 
-            const linhasBase = listaDadosGlobal.filter(i => passaFiltros(i, true));
-            const contagem = {};
-            linhasBase.forEach(i => { const e = obterValorEtapa(i); contagem[e] = (contagem[e] || 0) + 1; });
-            let chips = `<div class="etapa-chip ${etapasChip.size === 0 ? 'active' : ''}" onclick="alternarChipEtapa('')">TODAS <span class="n">${linhasBase.length}</span></div>`;
-            ordenarEtapas(Object.keys(mapaCoresEtapas)).forEach(e => {
-                const cor = mapaCoresEtapas[e];
-                chips += `<div class="etapa-chip ${etapasChip.has(e) ? 'active' : ''}" data-e="${esc(e)}" onclick="alternarChipEtapa(this.dataset.e)">` +
-                    `<span class="legend-color-dot" style="background:${cor}"></span>${esc(e)} <span class="n">${contagem[e] || 0}</span></div>`;
+            // Renderiza chips de etapas com badge
+            let contagem = {};
+            listaDadosGlobal.forEach(i => { const e = obterValorEtapa(i); contagem[e] = (contagem[e] || 0) + 1; });
+            let chips = `<div class="etapa-chip-btn ${etapasChip.size === 0 ? 'active' : ''}" onclick="alternarChipEtapa('')">TODAS (${listaDadosGlobal.length})</div>`;
+            Object.keys(mapaCoresEtapas).sort().forEach(e => {
+                chips += `<div class="etapa-chip-btn ${etapasChip.has(e) ? 'active' : ''}" onclick="alternarChipEtapa('${esc(e)}')">
+                    <span style="width:8px;height:8px;border-radius:50%;background:${mapaCoresEtapas[e]};display:inline-block;"></span>${esc(e)} (${contagem[e] || 0})
+                </div>`;
             });
-            document.getElementById('etapa-chips').innerHTML = listaDadosGlobal.length ? chips : '';
+            document.getElementById('etapa-chips').innerHTML = chips;
 
-            linhasVisiveis = linhasBase.filter(i => !etapasChip.size || etapasChip.has(obterValorEtapa(i)));
-            const dataLim = i => dataParaOrdenar(buscarCampoFlexivel(i, ...CAMPOS_DATA.limite));
-            if (ordenacao.col === null) {
-                linhasVisiveis.sort((a, b) => indiceEtapa(obterValorEtapa(a)) - indiceEtapa(obterValorEtapa(b)) || (dataLim(a) - dataLim(b)) || 0);
-            } else {
-                const col = COLUNAS_CARTEIRA[ordenacao.col];
-                linhasVisiveis.sort((a, b) => {
-                    if (col.titulo === 'ETAPA') return (indiceEtapa(obterValorEtapa(a)) - indiceEtapa(obterValorEtapa(b))) * ordenacao.dir;
-                    const va = buscarCampoFlexivel(a, ...col.nomes), vb = buscarCampoFlexivel(b, ...col.nomes);
-                    if (col.data) return ((dataParaOrdenar(va) - dataParaOrdenar(vb)) || 0) * ordenacao.dir;
-                    return formatarValorGenerico(va).localeCompare(formatarValorGenerico(vb), 'pt-BR', { numeric: true }) * ordenacao.dir;
-                });
+            const filtrados = listaDadosGlobal.filter(i => {
+                const etapa = obterValorEtapa(i);
+                if (etapasChip.size && !etapasChip.has(etapa)) return false;
+                if (fBase && formatarValorGenerico(buscarCampoFlexivel(i, 'BASE', 'MUNICIPIO')) !== fBase) return false;
+                if (fTipo && formatarValorGenerico(buscarCampoFlexivel(i, 'TIPO', 'TIPO DE SERVICO')) !== fTipo) return false;
+                if (fParceira && formatarValorGenerico(buscarCampoFlexivel(i, 'PARCEIRA', 'EMPRESA')) !== fParceira) return false;
+                if (fPrio && formatarValorGenerico(buscarCampoFlexivel(i, 'PRIORIDADE')) !== fPrio) return false;
+                if (fSinal) {
+                    const s = obterSinal(i);
+                    if ((s ? s.cor : 'sem') !== fSinal) return false;
+                }
+                if (q && !Object.values(i).join(' ').toLowerCase().includes(q)) return false;
+                return true;
+            });
+
+            document.getElementById('cart-total').innerText = filtrados.length;
+            let cR = 0, cY = 0, cG = 0;
+            filtrados.forEach(i => {
+                const s = obterSinal(i);
+                if (s) { if (s.cor === 'vermelho') cR++; else if (s.cor === 'amarelo') cY++; else cG++; }
+            });
+            document.getElementById('cart-red').innerText = cR;
+            document.getElementById('cart-yellow').innerText = cY;
+            document.getElementById('cart-green').innerText = cG;
+
+            if (!filtrados.length) {
+                tbody.innerHTML = `<tr><td class="cart-empty" colspan="${COLUNAS_CARTEIRA.length}">${listaDadosGlobal.length ? 'Nenhuma obra correspondente aos filtros.' : 'Sem dados para este contrato.'}</td></tr>`;
+                return;
             }
 
-            let cR = 0, cA = 0, cV = 0;
-            if (linhasVisiveis.length === 0) {
-                tbody.innerHTML = `<tr><td class="cart-empty" colspan="${COLUNAS_CARTEIRA.length}">${listaDadosGlobal.length ? 'Nenhum projeto encontrado com os filtros atuais.' : 'Nenhum projeto na carteira deste contrato.'}</td></tr>`;
-            } else {
-                tbody.innerHTML = linhasVisiveis.map((item, idx) => {
-                    const s = obterSinal(item);
-                    if (s) { if (s.cor === 'vermelho') cR++; else if (s.cor === 'amarelo') cA++; else cV++; }
-                    const tds = COLUNAS_CARTEIRA.map(c => {
-                        const v = buscarCampoFlexivel(item, ...c.nomes);
-                        if (c.titulo === 'ETAPA') {
-                            const etapa = obterValorEtapa(item);
-                            const cor = mapaCoresEtapas[etapa] || '#0099DA';
-                            return `<td><span class="etapa-pill" style="color:${cor}; border-color:${cor}; background:${cor}15;">${esc(etapa)}</span></td>`;
-                        }
-                        const txt = formatarValorGenerico(v);
-                        if (c.data) return `<td>${esc(txt) || '—'} ${sinalHtml(s)}</td>`;
-                        return `<td>${esc(txt)}</td>`;
-                    }).join('');
-                    return `<tr onclick="abrirJanelaProjeto(${idx})">${tds}</tr>`;
+            tbody.innerHTML = filtrados.slice(0, 150).map((i, idx) => {
+                const s = obterSinal(i);
+                const etapa = obterValorEtapa(i);
+                const cor = mapaCoresEtapas[etapa] || 'var(--brand-accent)';
+                const tds = COLUNAS_CARTEIRA.map(c => {
+                    const v = formatarValorGenerico(buscarCampoFlexivel(i, ...c.nomes));
+                    if (c.titulo === 'ETAPA') {
+                        return `<td><span style="border:1px solid ${cor};color:${cor};background:${cor}15;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;">${esc(etapa)}</span></td>`;
+                    }
+                    if (c.data) return `<td>${esc(v || '—')} ${sinalHtml(s)}</td>`;
+                    return `<td>${esc(v || '—')}</td>`;
                 }).join('');
+                return `<tr onclick="abrirDetalheProjeto(${idx})">${tds}</tr>`;
+            }).join('');
+        }
+
+        /* MODAL DE CADASTRO E DETALHE */
+        function abrirModalNovoProjeto() {
+            document.getElementById('pw-title').innerText = `NOVO PROJETO (${contratoGlobal.toUpperCase()})`;
+            document.getElementById('pw-body').innerHTML = `
+                <div style="display:flex;flex-direction:column;gap:12px;">
+                    <label style="font-weight:700;font-size:0.8rem;">Código da Obra / SOB / PROJETO:
+                        <input id="np-proj" class="cart-search-box" style="width:100%;margin-top:4px;" placeholder="Ex: SOB-90210">
+                    </label>
+                    <label style="font-weight:700;font-size:0.8rem;">Etapa Inicial:
+                        <select id="np-etapa" class="cart-search-box" style="width:100%;margin-top:4px;">
+                            <option>A PROGRAMAR</option>
+                            <option>VISTORIA</option>
+                            <option>LOCAÇÃO</option>
+                            <option>PROGRAMADO</option>
+                            <option>CONCLUÍDO</option>
+                        </select>
+                    </label>
+                    <label style="font-weight:700;font-size:0.8rem;">Base / Município:
+                        <input id="np-base" class="cart-search-box" style="width:100%;margin-top:4px;" value="${contratoGlobal === 'angra' ? 'Angra dos Reis' : 'Magé'}">
+                    </label>
+                    <label style="font-weight:700;font-size:0.8rem;">Tipo de Serviço:
+                        <input id="np-tipo" class="cart-search-box" style="width:100%;margin-top:4px;" placeholder="Ex: Cliente / Ampliação de Rede">
+                    </label>
+                    <label style="font-weight:700;font-size:0.8rem;">Parceira / Empreiteira:
+                        <input id="np-parc" class="cart-search-box" style="width:100%;margin-top:4px;" placeholder="Ex: Citelum / Engelmig">
+                    </label>
+                    <label style="font-weight:700;font-size:0.8rem;">Data Limite para Execução:
+                        <input id="np-limite" type="date" class="cart-search-box" style="width:100%;margin-top:4px;">
+                    </label>
+                    <label style="font-weight:700;font-size:0.8rem;">Prioridade:
+                        <select id="np-prio" class="cart-search-box" style="width:100%;margin-top:4px;">
+                            <option>ALTA</option>
+                            <option selected>MÉDIA</option>
+                            <option>BAIXA</option>
+                        </select>
+                    </label>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                        <label style="font-weight:700;font-size:0.8rem;">Latitude:
+                            <input id="np-lat" class="cart-search-box" style="width:100%;margin-top:4px;" placeholder="-22.9068">
+                        </label>
+                        <label style="font-weight:700;font-size:0.8rem;">Longitude:
+                            <input id="np-lng" class="cart-search-box" style="width:100%;margin-top:4px;" placeholder="-43.1729">
+                        </label>
+                    </div>
+                    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:10px;">
+                        <button class="btn-modern-subtle" onclick="fecharJanelaProjeto()">Cancelar</button>
+                        <button class="btn-modern-gradient" onclick="gravarNovoProjeto()"><i class="fa-solid fa-cloud-arrow-up"></i> Salvar na Planilha</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('proj-window').classList.add('show');
+        }
+
+        async function gravarNovoProjeto() {
+            const proj = document.getElementById('np-proj').value.trim();
+            if (!proj) { alert('Informe o código da obra.'); return; }
+
+            const novo = {
+                'PACOTE': formatarDataBR(new Date()),
+                'BASE': document.getElementById('np-base').value.trim(),
+                'TIPO': document.getElementById('np-tipo').value.trim(),
+                'PROJETO': proj,
+                'PARCEIRA': document.getElementById('np-parc').value.trim(),
+                'DATA LIMITE PARA EXECUÇÃO': formatarDataBR(document.getElementById('np-limite').value),
+                'PRIORIDADE': document.getElementById('np-prio').value,
+                'ETAPA': document.getElementById('np-etapa').value,
+                'LATITUDE': document.getElementById('np-lat').value.trim(),
+                'LONGITUDE': document.getElementById('np-lng').value.trim()
+            };
+
+            // Salva na memória e no cache local
+            const locais = JSON.parse(localStorage.getItem('obras_locais_' + contratoGlobal) || '[]');
+            locais.unshift(novo);
+            localStorage.setItem('obras_locais_' + contratoGlobal, JSON.stringify(locais));
+
+            listaDadosGlobal.unshift(novo);
+            aplicarLinhas(listaDadosGlobal);
+            fecharJanelaProjeto();
+
+            // Grava na Planilha do Google via Webhook se configurado
+            if (window.LINKS_PLANILHAS.webhook_url) {
+                try {
+                    await fetch(window.LINKS_PLANILHAS.webhook_url, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        body: JSON.stringify(novo)
+                    });
+                } catch(e) {}
             }
 
-            document.getElementById('cart-total').textContent = linhasVisiveis.length;
-            document.getElementById('cart-red').textContent = cR;
-            document.getElementById('cart-yellow').textContent = cA;
-            document.getElementById('cart-green').textContent = cV;
+            mostrarToastAviso('Obra Cadastrada', `${proj} adicionada e sincronizada.`);
+            adicionarFeedChat(`Nova obra cadastrada no sistema: <b>${proj}</b> (${novo.BASE}) - Etapa: ${novo.ETAPA}.`, 'success');
         }
 
-        function ordenarCarteira(i) {
-            if (ordenacao.col === i) ordenacao.dir *= -1; else ordenacao = { col: i, dir: 1 };
-            renderCarteira();
-        }
-
-        function abrirJanelaProjeto(idx) { mostrarJanelaItem(linhasVisiveis[idx]); }
-        function mostrarJanelaItem(item) {
+        function abrirDetalheProjeto(idx) {
+            const item = listaDadosGlobal[idx];
             if (!item) return;
-            const win = document.getElementById('proj-window');
-            document.getElementById('pw-title').textContent = 'PROJETO: ' + (obterValorProjeto(item) || 'S/N');
-            const s = obterSinal(item);
-            let html = '';
-            if (s) html += `<div class="pw-sinal">${sinalHtml(s)} <span style="color:var(--text-muted); font-size:.75rem; margin-left:6px;">prazo de execução</span></div>`;
-            Object.keys(item).forEach(chave => {
-                const txt = formatarValorGenerico(item[chave]);
-                html += `<div class="pw-row"><div class="k">${esc(chave)}</div><div class="v ${txt ? '' : 'vazio'}">${txt ? esc(txt) : '—'}</div></div>`;
+            document.getElementById('pw-title').innerText = 'OBRA: ' + (obterValorProjeto(item) || 'S/N');
+            let h = '';
+            Object.keys(item).forEach(k => {
+                h += `<div class="pw-info-row"><div style="font-weight:700;color:var(--text-muted);font-size:0.7rem;text-transform:uppercase;">${esc(k)}</div><div>${esc(formatarValorGenerico(item[k]) || '—')}</div></div>`;
             });
-            document.getElementById('pw-body').innerHTML = html;
-            document.getElementById('pw-body').scrollTop = 0;
-            if (!win.classList.contains('show')) {
-                win.style.left = '50%'; win.style.top = '90px'; win.style.transform = 'translateX(-50%)';
-            }
-            win.classList.add('show');
+            document.getElementById('pw-body').innerHTML = h;
+            document.getElementById('proj-window').classList.add('show');
         }
+
         function fecharJanelaProjeto() { document.getElementById('proj-window').classList.remove('show'); }
 
-        document.addEventListener('keydown', e => { if (e.key === 'Escape') fecharJanelaProjeto(); });
-
-        /* POPULAR MULTISELECTS */
-        function construirMapeamentoCoresEtapas() {
+        /* MAPA */
+        function construirCoresEtapas() {
             mapaCoresEtapas = {};
             const unicas = new Set();
             listaDadosGlobal.forEach(i => { const e = obterValorEtapa(i); if (e) unicas.add(e); });
             let idx = 0;
-            ordenarEtapas(Array.from(unicas)).forEach(e => {
-                mapaCoresEtapas[e] = paletaCoresEtapas[idx % paletaCoresEtapas.length];
+            Array.from(unicas).sort().forEach(e => {
+                mapaCoresEtapas[e] = paletaCores[idx % paletaCores.length];
                 idx++;
             });
-        }
 
-        function popularMultiSelectEtapas() {
-            const container = document.getElementById('checkbox-etapa-container');
-            container.innerHTML = '';
-            etapasSelecionadas.clear();
-            ordenarEtapas(Object.keys(mapaCoresEtapas)).forEach(etapa => {
-                etapasSelecionadas.add(etapa);
-                const label = document.createElement('label');
-                label.className = 'checkbox-option';
-                const checkbox = document.createElement('input');
-                checkbox.type = 'checkbox'; checkbox.value = etapa; checkbox.checked = true;
-                checkbox.onchange = onEtapaCheckboxChange;
-                const dot = document.createElement('span');
-                dot.style.display = 'inline-block'; dot.style.width = '10px'; dot.style.height = '10px'; dot.style.borderRadius = '50%'; dot.style.backgroundColor = mapaCoresEtapas[etapa];
-                label.appendChild(checkbox); label.appendChild(dot); label.appendChild(document.createTextNode(etapa));
-                container.appendChild(label);
-            });
-            atualizarLabelEtapa();
-        }
-
-        function popularMultiSelectProjetos() {
-            const container = document.getElementById('checkbox-projeto-container');
-            container.innerHTML = '';
-            projetosSelecionados.clear();
-            const unicos = new Set();
-            listaDadosGlobal.forEach(item => {
-                const proj = obterValorProjeto(item);
-                if (proj) unicos.add(proj);
-            });
-            Array.from(unicos).sort().forEach(proj => {
-                projetosSelecionados.add(proj);
-                const label = document.createElement('label');
-                label.className = 'checkbox-option projeto-opcao';
-                label.setAttribute('data-projeto', proj.toLowerCase());
-                const checkbox = document.createElement('input');
-                checkbox.type = 'checkbox'; checkbox.value = proj; checkbox.checked = true;
-                checkbox.onchange = onProjetoCheckboxChange;
-                label.appendChild(checkbox); label.appendChild(document.createTextNode(proj));
-                container.appendChild(label);
-            });
-            atualizarLabelProjeto();
-        }
-
-        function filtrarOpcoesProjeto(q) {
-            const termo = q.toLowerCase().trim();
-            document.querySelectorAll('.projeto-opcao').forEach(item => {
-                item.style.display = item.getAttribute('data-projeto').includes(termo) ? 'flex' : 'none';
+            // Atualiza legenda flutuante
+            const c = document.getElementById('etapa-legend-container');
+            if (!c) return;
+            c.innerHTML = '';
+            Object.keys(mapaCoresEtapas).sort().forEach(e => {
+                c.innerHTML += `<div style="display:flex;align-items:center;gap:7px;font-size:0.75rem;font-weight:600;margin-bottom:4px;">
+                    <span style="width:9px;height:9px;border-radius:50%;background:${mapaCoresEtapas[e]};"></span> ${esc(e)}
+                </div>`;
             });
         }
 
-        function atualizarLegendaEtapasVisual() {
-            const container = document.getElementById('etapa-legend-container');
-            container.innerHTML = '';
-            ordenarEtapas(Object.keys(mapaCoresEtapas)).forEach(etapa => {
-                const cor = mapaCoresEtapas[etapa];
-                const item = document.createElement('div');
-                item.className = 'legend-item';
-                item.innerHTML = `<span class="legend-color-dot" style="background-color: ${cor};"></span> <span>${esc(etapa)}</span>`;
-                container.appendChild(item);
-            });
-        }
-
-        function onEtapaCheckboxChange(e) {
-            if (e.target.checked) etapasSelecionadas.add(e.target.value);
-            else etapasSelecionadas.delete(e.target.value);
-            atualizarLabelEtapa(); processarEPlotarProjetos();
-        }
-
-        function onProjetoCheckboxChange(e) {
-            if (e.target.checked) projetosSelecionados.add(e.target.value);
-            else projetosSelecionados.delete(e.target.value);
-            atualizarLabelProjeto(); processarEPlotarProjetos();
-        }
-
-        function marcarTodasEtapas(marcar) {
-            etapasSelecionadas.clear();
-            document.querySelectorAll('#checkbox-etapa-container input[type="checkbox"]').forEach(cb => {
-                cb.checked = marcar;
-                if (marcar) etapasSelecionadas.add(cb.value);
-            });
-            atualizarLabelEtapa(); processarEPlotarProjetos();
-        }
-
-        function marcarTodosProjetos(marcar) {
-            projetosSelecionados.clear();
-            document.querySelectorAll('#checkbox-projeto-container input[type="checkbox"]').forEach(cb => {
-                if (cb.parentElement.style.display !== 'none') {
-                    cb.checked = marcar;
-                    if (marcar) projetosSelecionados.add(cb.value);
-                } else if (cb.checked) projetosSelecionados.add(cb.value);
-            });
-            atualizarLabelProjeto(); processarEPlotarProjetos();
-        }
-
-        function atualizarLabelEtapa() {
-            const total = document.querySelectorAll('#checkbox-etapa-container input[type="checkbox"]').length;
-            const sel = etapasSelecionadas.size;
-            document.getElementById('etapa-label').textContent = sel === total ? 'Etapas (Todas)' : (sel === 0 ? 'Nenhuma' : `${sel}/${total}`);
-        }
-
-        function atualizarLabelProjeto() {
-            const total = document.querySelectorAll('#checkbox-projeto-container input[type="checkbox"]').length;
-            const sel = projetosSelecionados.size;
-            document.getElementById('projeto-label').textContent = sel === total ? 'Projetos (Todos)' : (sel === 0 ? 'Nenhum' : `${sel}/${total}`);
-        }
-
-        function filtrarPorFaixaSla(faixa) {
-            filtroSlaAtual = faixa;
-            document.querySelectorAll('.sla-mini-card').forEach(c => c.classList.remove('active'));
-            document.getElementById(`card-sla-${faixa}`).classList.add('active');
+        function filtrarPorFaixaSla(f) {
+            filtroSlaAtual = f;
+            document.querySelectorAll('.sla-row-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('card-sla-' + f).classList.add('active');
             processarEPlotarProjetos();
         }
 
@@ -1118,8 +1001,8 @@
             let bounds = [];
 
             listaDadosGlobal.forEach(item => {
-                const etapaOriginal = obterValorEtapa(item);
-                const projetoOriginal = obterValorProjeto(item);
+                const etapa = obterValorEtapa(item);
+                const proj = obterValorProjeto(item);
                 let latRaw = buscarCampoFlexivel(item, 'LATITUDE', 'LAT');
                 let lngRaw = buscarCampoFlexivel(item, 'LONGITUDE', 'LNG', 'LONG');
                 if (typeof latRaw === 'string') latRaw = latRaw.replace(',', '.').trim();
@@ -1127,43 +1010,28 @@
                 const lat = parseFloat(latRaw), lng = parseFloat(lngRaw);
                 if (isNaN(lat) || isNaN(lng)) return;
 
-                if (etapasSelecionadas.has(etapaOriginal) && projetosSelecionados.has(projetoOriginal)) {
-                    const dataLimiteValor = buscarCampoFlexivel(item, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE', 'LIMITE EXECUCAO');
-                    const diasRestantes = calcularDiasRestantes(dataLimiteValor);
+                const dataLimite = buscarCampoFlexivel(item, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE');
+                const dias = calcularDiasRestantes(dataLimite);
 
-                    if (diasRestantes <= 0) cViolada++;
-                    else if (diasRestantes <= 12) c12++;
-                    else if (diasRestantes <= 20) c20++;
-                    else if (diasRestantes <= 30) c30++;
-                    cTotal++;
+                if (dias <= 0) cViolada++;
+                else if (dias <= 12) c12++;
+                else if (dias <= 20) c20++;
+                else if (dias <= 30) c30++;
+                cTotal++;
 
-                    let atendeFiltroSla = (filtroSlaAtual === 'todos') ||
-                        (filtroSlaAtual === 'violada' && diasRestantes <= 0) ||
-                        (filtroSlaAtual === '12dias' && diasRestantes > 0 && diasRestantes <= 12) ||
-                        (filtroSlaAtual === '20dias' && diasRestantes > 12 && diasRestantes <= 20) ||
-                        (filtroSlaAtual === '30dias' && diasRestantes > 20 && diasRestantes <= 30);
+                let atende = (filtroSlaAtual === 'todos') ||
+                    (filtroSlaAtual === 'violada' && dias <= 0) ||
+                    (filtroSlaAtual === '12dias' && dias > 0 && dias <= 12) ||
+                    (filtroSlaAtual === '20dias' && dias > 12 && dias <= 20) ||
+                    (filtroSlaAtual === '30dias' && dias > 20 && dias <= 30);
 
-                    if (atendeFiltroSla) {
-                        bounds.push([lat, lng]);
-                        const corAura = diasRestantes <= 0 ? 'var(--status-red)' : (diasRestantes <= 12 ? 'var(--status-amber)' : (diasRestantes <= 20 ? '#D97706' : 'var(--status-green)'));
-                        const corNucleo = mapaCoresEtapas[etapaOriginal] || '#0099DA';
+                if (atende) {
+                    bounds.push([lat, lng]);
+                    const corAura = dias <= 0 ? 'var(--status-danger)' : (dias <= 12 ? 'var(--status-warning)' : 'var(--status-success)');
+                    const corNucleo = mapaCoresEtapas[etapa] || 'var(--brand-accent)';
 
-                        const auraMarker = L.circleMarker([lat, lng], { radius: 14, fillColor: corAura, color: corAura, weight: 1, fillOpacity: 0.35 }).addTo(markersGroup);
-                        const coreMarker = L.circleMarker([lat, lng], { radius: 7, fillColor: corNucleo, color: '#FFFFFF', weight: 2, fillOpacity: 1 }).addTo(markersGroup);
-
-                        const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
-                        const popupContent = `
-                            <div class="popup-card">
-                                <h3>PROJETO: ${esc(projetoOriginal) || 'S/N'}</h3>
-                                <div class="popup-item"><strong>Etapa:</strong> <span style="color:${corNucleo}; font-weight:bold;">${esc(etapaOriginal)}</span></div>
-                                <div class="popup-item"><strong>Base:</strong> ${esc(buscarCampoFlexivel(item, 'BASE', 'MUNICIPIO')) || 'N/D'}</div>
-                                <div class="popup-item"><strong>Prazo Limite:</strong> ${formatarDataBR(dataLimiteValor)} (${diasRestantes <= 0 ? Math.abs(diasRestantes)+'d em atraso' : diasRestantes+'d'})</div>
-                                <a href="${googleMapsUrl}" target="_blank" class="btn-maps-link" style="margin-top:8px;"><i class="fa-solid fa-location-dot"></i> Abrir no Google Maps</a>
-                            </div>
-                        `;
-                        auraMarker.bindPopup(popupContent);
-                        coreMarker.bindPopup(popupContent);
-                    }
+                    const m = L.circleMarker([lat, lng], { radius: 7, fillColor: corNucleo, color: corAura, weight: 3, fillOpacity: 0.95 }).addTo(markersGroup);
+                    m.bindPopup(`<b>${esc(proj)}</b><br>Etapa: <b>${esc(etapa)}</b><br>Prazo: <b>${dias <= 0 ? Math.abs(dias)+'d em atraso' : dias+'d'}</b>`);
                 }
             });
 
@@ -1177,124 +1045,123 @@
         }
 
         /* DASHBOARDS */
-        let topCriticos = [];
-        const COR = { verm: '#EF4444', amar: '#F59E0B', verde: '#10B981', azul: '#002D5A', cinza: '#94A3B8', lar: '#EA580C' };
-        const campoTxt = (i, ...n) => formatarValorGenerico(buscarCampoFlexivel(i, ...n));
-        const ehAberto = i => normTxt(obterValorEtapa(i)) !== 'CONCLUIDO';
-        const dataValida = v => { const d = paraData(v); return d && d.getFullYear() > 1900 ? d : null; };
-        const chaveMes = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
-        const MES_ABREV = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
-        const rotuloMes = k => `${MES_ABREV[+k.slice(5) - 1]}/${k.slice(2, 4)}`;
-
-        function seqMeses(a, b) {
-            const r = []; let [y, m] = a.split('-').map(Number); const [y2, m2] = b.split('-').map(Number);
-            while (y < y2 || (y === y2 && m <= m2)) { r.push(`${y}-${String(m).padStart(2, '0')}`); if (++m > 12) { m = 1; y++; } }
-            return r;
-        }
-        function lerLS(k, def) { try { return JSON.parse(localStorage.getItem(k)) || def; } catch (e) { return def; } }
-        function gravarLS(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
-
         function popularFiltrosDash() {
             [['d-tipo', 'TIPO', ['TIPO', 'TIPO DE SERVICO']], ['d-parceira', 'PARCEIRA', ['PARCEIRA', 'EMPRESA']], ['d-resp', 'RESPONSÁVEL', ['RESPONSÁVEL', 'RESPONSAVEL']]].forEach(([id, t, n]) => {
-                const v = new Set(); listaDadosGlobal.forEach(i => { const x = campoTxt(i, ...n); if (x) v.add(x); });
+                const v = new Set(); listaDadosGlobal.forEach(i => { const x = formatarValorGenerico(buscarCampoFlexivel(i, ...n)); if (x) v.add(x); });
                 document.getElementById(id).innerHTML = `<option value="">${t}: Todos</option>` + Array.from(v).sort().map(x => `<option value="${esc(x)}">${esc(x)}</option>`).join('');
             });
         }
 
-        function contar(arr, fn) { const m = new Map(); arr.forEach(i => { const k = fn(i); if (k !== null && k !== undefined) m.set(k, (m.get(k) || 0) + 1); }); return m; }
-
-        function barras(itens) {
-            if (!itens.length) return '<div style="color:var(--text-muted);font-size:.8rem;">Sem dados.</div>';
-            const tot = x => x.segs.reduce((a, s) => a + s[0], 0);
-            const max = Math.max(1, ...itens.map(tot));
-            return itens.map(x => `<div class="dbar"><span title="${esc(x.l)}">${esc(x.l)}</span><div class="dtrack">` +
-                x.segs.filter(s => s[0] > 0).map(s => `<i style="width:${s[0] / max * 100}%;background:${s[1]}" title="${esc(s[2] || x.l)}: ${s[0]}"></i>`).join('') +
-                `</div><b>${tot(x)}</b></div>`).join('');
-        }
-
-        function rosca(fatias) {
-            const tot = fatias.reduce((a, f) => a + f[1], 0);
-            if (!tot) return '<div style="color:var(--text-muted);font-size:.8rem;">Sem dados.</div>';
-            let acc = 0;
-            const grad = fatias.map(f => { const a = acc / tot * 100; acc += f[1]; return `${f[2]} ${a}% ${acc / tot * 100}%`; }).join(',');
-            return `<div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap"><div class="donut" style="background:conic-gradient(${grad})"></div><div>` +
-                fatias.map(f => `<div style="font-size:.78rem;margin-bottom:3px;display:flex;align-items:center;gap:6px;"><span class="legend-color-dot" style="background:${f[2]}"></span>${esc(f[0])}: <b>${f[1]}</b> (${Math.round(f[1] / tot * 100)}%)</div>`).join('') + '</div></div>';
-        }
-
-        function restaurarLayoutDash() {
-            try { localStorage.removeItem('dashOrdem'); } catch (e) {}
-            renderDashboard();
-        }
-
         function renderDashboard() {
             const root = document.getElementById('dash-root');
-            if (!listaDadosGlobal.length) { root.innerHTML = '<div class="cart-empty">Nenhum projeto cadastrado na carteira deste contrato.</div>'; return; }
+            if (!listaDadosGlobal.length) { root.innerHTML = '<div class="cart-empty">Nenhum projeto registrado neste contrato.</div>'; return; }
+            const concluidos = listaDadosGlobal.filter(i => obterValorEtapa(i).toUpperCase().includes('CONCLU')).length;
+            const violados = listaDadosGlobal.filter(i => calcularDiasRestantes(buscarCampoFlexivel(i, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE')) <= 0).length;
 
-            const fT = document.getElementById('d-tipo').value, fP = document.getElementById('d-parceira').value, fR = document.getElementById('d-resp').value;
-            const D = listaDadosGlobal.filter(i => obterValorProjeto(i) !== '' &&
-                (!fT || campoTxt(i, 'TIPO', 'TIPO DE SERVICO') === fT) && (!fP || campoTxt(i, 'PARCEIRA', 'EMPRESA') === fP) && (!fR || campoTxt(i, 'RESPONSÁVEL', 'RESPONSAVEL') === fR));
-            const A = D.filter(ehAberto);
-            const pct = (a, b) => b ? Math.round(a / b * 100) : 0;
-            const etapas = ordenarEtapas(Object.keys(mapaCoresEtapas));
-            const corEtapa = e => mapaCoresEtapas[e] || COR.azul;
-
-            const sin = A.map(i => ({ i, s: obterSinal(i) })).filter(x => x.s).sort((a, b) => a.s.dias - b.s.dias);
-            const venc = sin.filter(x => x.s.dias < 0), crit = sin.filter(x => x.s.dias >= 0 && x.s.dias <= 5);
-            const aten = sin.filter(x => x.s.dias > 5 && x.s.dias <= 15), ok = sin.filter(x => x.s.dias > 15);
-            topCriticos = sin.slice(0, 10).map(x => x.i);
-
-            const kpisHtml = `
-                <div class="kpis-grid">
-                    <div class="kpi"><b>${D.length}</b><span>Projetos Totais</span></div>
-                    <div class="kpi" style="border-left-color:var(--enel-cyan);"><b>${A.length}</b><span>Em Aberto</span></div>
-                    <div class="kpi" style="border-left-color:var(--status-green);"><b>${D.length - A.length} <small>(${pct(D.length - A.length, D.length)}%)</small></b><span>Concluídos</span></div>
-                    <div class="kpi" style="border-left-color:var(--status-red);"><b>${venc.length}</b><span>Vencidos s/ Benefício</span></div>
-                    <div class="kpi" style="border-left-color:var(--status-red);"><b>${crit.length}</b><span>Críticos (≤ 5 dias)</span></div>
-                    <div class="kpi" style="border-left-color:var(--status-amber);"><b>${aten.length}</b><span>Atenção (6–15 dias)</span></div>
-                    <div class="kpi" style="border-left-color:var(--status-green);"><b>${ok.length}</b><span>No Prazo (> 15 dias)</span></div>
+            root.innerHTML = `
+                <div class="kpis-row">
+                    <div class="kpi-card"><b>${listaDadosGlobal.length}</b><span>Total Projetos</span></div>
+                    <div class="kpi-card" style="border-left-color:var(--status-success);"><b>${concluidos}</b><span>Concluídos</span></div>
+                    <div class="kpi-card" style="border-left-color:var(--status-danger);"><b>${violados}</b><span>Violados / Vencidos</span></div>
+                    <div class="kpi-card" style="border-left-color:var(--status-warning);"><b>${listaDadosGlobal.length - concluidos}</b><span>Em Aberto</span></div>
                 </div>
             `;
+        }
 
-            const itens = [];
-            const card = (id, t, corpo) => itens.push({ id, html: `<div class="dh"><h4>${t}</h4></div>${corpo}` });
+        /* CONFIGURAÇÃO */
+        function carregarConfiguracaoInputs() {
+            document.getElementById('cfg-cart-ang').value = window.LINKS_PLANILHAS.carteira_angra || '';
+            document.getElementById('cfg-cart-mag').value = window.LINKS_PLANILHAS.carteira_mage || '';
+            document.getElementById('cfg-prog-ang').value = window.LINKS_PLANILHAS.prog_angra || '';
+            document.getElementById('cfg-prog-mag').value = window.LINKS_PLANILHAS.prog_mage || '';
+            document.getElementById('cfg-webhook-url').value = window.LINKS_PLANILHAS.webhook_url || '';
+        }
 
-            card('c-etapa', 'Projetos por Etapa', barras(etapas.map(e => ({ l: e, segs: [[D.filter(i => obterValorEtapa(i) === e).length, corEtapa(e)]] })).filter(x => x.segs[0][0] > 0)));
-            card('c-sla', 'Semáforo de Prazos', rosca([['Vencidos', venc.length, '#991B1B'], ['Críticos (≤ 5d)', crit.length, COR.verm], ['Atenção (6-15d)', aten.length, COR.amar], ['No Prazo (> 15d)', ok.length, COR.verde]]));
-            
-            const serieMes = (arr, fn, cor) => {
-                const m = contar(arr, i => { const d = dataValida(fn(i)); return d ? chaveMes(d) : null; });
-                const ks = [...m.keys()].sort();
-                if (!ks.length) return [];
-                return seqMeses(ks[0], ks[ks.length - 1]).slice(-10).map(k => ({ l: rotuloMes(k), segs: [[m.get(k) || 0, cor, rotuloMes(k)]] }));
-            };
+        function salvarConfiguracaoMaster() {
+            window.LINKS_PLANILHAS.carteira_angra = extrairLinkCsvGoogle(document.getElementById('cfg-cart-ang').value);
+            window.LINKS_PLANILHAS.carteira_mage = extrairLinkCsvGoogle(document.getElementById('cfg-cart-mag').value);
+            window.LINKS_PLANILHAS.prog_angra = extrairLinkCsvGoogle(document.getElementById('cfg-prog-ang').value);
+            window.LINKS_PLANILHAS.prog_mag = extrairLinkCsvGoogle(document.getElementById('cfg-prog-mag').value);
+            window.LINKS_PLANILHAS.webhook_url = document.getElementById('cfg-webhook-url').value.trim();
 
-            card('c-pacotes', 'Entrada de Pacotes por Mês', barras(serieMes(D, i => buscarCampoFlexivel(i, 'PACOTE', 'DATA PACOTE', 'RECEBIMENTO'), COR.azul)));
-            card('c-venc', 'Previsão de Vencimentos em Aberto', barras(serieMes(A, i => buscarCampoFlexivel(i, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE'), COR.amar)));
+            localStorage.setItem('app_links_v7_clean', JSON.stringify(window.LINKS_PLANILHAS));
+            document.getElementById('cfg-msg').innerHTML = '<b style="color:var(--status-success);"><i class="fa-solid fa-check"></i> Configurações salvas e aplicadas!</b>';
+            sincronizarTudoOnline();
+        }
 
-            root.innerHTML = kpisHtml + '<div class="dgrid">' + itens.map(it => `<div class="ditem dcard" style="--span:6;">${it.html}</div>`).join('') + '</div>';
+        /* CHAT ASSISTENTE & FEED */
+        function toggleChatWindow() {
+            const w = document.getElementById('chat-window');
+            w.classList.toggle('open');
+            document.getElementById('chat-dot').style.display = 'none';
+        }
+
+        function adicionarFeedChat(texto, tipo = '') {
+            const c = document.getElementById('chat-messages');
+            const d = document.createElement('div');
+            d.className = `chat-bubble ${tipo}`;
+            d.innerHTML = texto + `<small>${new Date().toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'})}</small>`;
+            c.appendChild(d);
+            c.scrollTop = c.scrollHeight;
+            if (!document.getElementById('chat-window').classList.contains('open')) {
+                document.getElementById('chat-dot').style.display = 'block';
+            }
+        }
+
+        function enviarChatMensagem() {
+            const inp = document.getElementById('chat-input');
+            const txt = inp.value.trim();
+            if (!txt) return;
+            adicionarFeedChat(`<b>Você:</b> ${esc(txt)}`, 'user');
+            inp.value = '';
+
+            setTimeout(() => {
+                responderChat(txt.toLowerCase());
+            }, 500);
+        }
+
+        function chatPrompt(tipo) {
+            if (tipo === 'resumo') responderChat('resumo');
+            else if (tipo === 'vencidos') responderChat('vencidos');
+            else if (tipo === 'programacao') responderChat('programacao');
+        }
+
+        function responderChat(q) {
+            const total = listaDadosGlobal.length;
+            const vencidos = listaDadosGlobal.filter(i => calcularDiasRestantes(buscarCampoFlexivel(i, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE')) <= 0).length;
+
+            if (q.includes('resumo') || q.includes('status')) {
+                adicionarFeedChat(`📊 <b>Resumo Executivo (${contratoGlobal.toUpperCase()}):</b><br>Total de ${total} obras na carteira ativa. Temos ${vencidos} projetos com prazo limite estourado.`, 'success');
+            } else if (q.includes('vencid') || q.includes('atras')) {
+                adicionarFeedChat(`🚨 <b>Obras Críticas:</b><br>${vencidos} obras estão com SLA violado em ${contratoGlobal.toUpperCase()}. Recomenda-se priorizar vistoria ou programação de rede.`, 'alert');
+            } else if (q.includes('prog') || q.includes('obra')) {
+                adicionarFeedChat(`📅 <b>Programação de Obras:</b><br>Consulte a aba "Programação de Obras" para visualizar a escala de equipes e o histórico detalhado.`, 'success');
+            } else {
+                adicionarFeedChat(`Entendido! Estou monitorando o contrato de <b>${contratoGlobal.toUpperCase()}</b> com ${total} projetos integrados.`, 'success');
+            }
+        }
+
+        function mostrarToastAviso(titulo, desc) {
+            const t = document.getElementById('toast-box');
+            document.getElementById('toast-title').innerText = titulo;
+            document.getElementById('toast-desc').innerText = desc;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3500);
         }
 
         inicializarMapa();
+        carregarConfiguracaoInputs();
+        sincronizarTudoOnline();
     </script>
 
-    <!-- PROGRAMAÇÃO DE OBRAS (UNIFICADA) -->
+    <!-- PROGRAMAÇÃO DE OBRAS (CONSULTA) -->
     <script>
     (function(){
         const root = document.getElementById('tab-prog');
         const $ = s => root.querySelector(s);
         const U = () => window.LINKS_PLANILHAS;
         const norm = s => String(s || '').replace(/\s+/g, ' ').trim().toLowerCase();
-        const pad = n => String(n).padStart(2, '0');
-        const fmt = d => d.toLocaleDateString('pt-BR');
-        const iso = d => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
-        const sun = d => { const x = new Date(d); x.setDate(x.getDate() - x.getDay()); x.setHours(0, 0, 0, 0); return x; };
-        const money = s => { s = String(s || '').replace(/[^\d,.-]/g, ''); if (!s) return 0; if (s.includes(',')) s = s.replace(/\./g, '').replace(',', '.'); return parseFloat(s) || 0; };
-        const ST = ['CONCLUÍDO', 'PARCIAL', 'ADIADO', 'CANCELADO', 'OUTRO'];
-        const COL = { CONCLUÍDO: 'var(--status-green)', PARCIAL: 'var(--enel-cyan)', ADIADO: 'var(--status-amber)', CANCELADO: 'var(--status-red)', OUTRO: '#94A3B8' };
-        const MES = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
-
-        let DB = { angra: [], mage: [] }, OK = { angra: null, mage: null }, AT = {};
-        let tab = 'dash', wk = null, pg = 0, G = 'dia', Y = '', M = '', F = { q: '', s: '', m: '' };
+        let DB = { angra: [], mage: [] }, OK = { angra: null, mage: null };
 
         function parseCSV(t) {
             const r = []; let row = [], c = '', q = false;
@@ -1313,334 +1180,67 @@
             return r;
         }
 
-        function build(text) {
-            const rows = parseCSV(text), hi = rows.findIndex(r => norm(r[0]) == 'base');
-            if (hi < 0) return null;
-            const h = rows[hi].map(norm), out = [];
-            const g = (r, n) => { const i = h.indexOf(norm(n)); return i < 0 ? '' : (r[i] || '').trim(); };
-            for (const r of rows.slice(hi + 1)) {
-                const m = g(r, 'Data de execução').match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/), sob = g(r, 'SOB');
-                if (!m || !sob) continue;
-                const d = new Date(+m[3], m[2] - 1, +m[1]);
-                const raw = {};
-                h.forEach((k, i) => { if (k && (r[i] || '').trim()) raw[rows[hi][i].replace(/\s+/g, ' ').trim()] = r[i].trim(); });
-                out.push({
-                    d, iso: iso(d), sob, st: g(r, 'STATUS').toUpperCase(),
-                    base: g(r, 'BASE'), tipo: g(r, 'Tipo de Serviço'), etapa: g(r, 'INFO STATUS'),
-                    mun: g(r, 'Município'), bairro: g(r, 'Bairro'), desc: g(r, 'Descrição do serviço'),
-                    resp: g(r, 'Responsável Execução'), cp: money(g(r, 'Custo Programado')), raw
-                });
-            }
-            return out;
-        }
-
-        const cls = s => s.startsWith('CONCL') ? 'CONCLUÍDO' : s.startsWith('CANCEL') ? 'CANCELADO' : s.startsWith('ADIAD') ? 'ADIADO' : s.startsWith('PARCIAL') ? 'PARCIAL' : 'OUTRO';
-        const tag = s => `<span style="padding:2px 8px;border-radius:12px;font-size:11px;color:#FFF;background:${COL[cls(s)]};">${esc(s || '—')}</span>`;
-
         async function sync(k) {
             const u = U()['prog_' + k];
             if (!u) {
                 OK[k] = false;
-                if (k === contratoGlobal) head();
+                renderHead();
                 return;
             }
             try {
                 const r = await fetch(u + (u.includes('?') ? '&' : '?') + '_=' + Date.now(), { cache: 'no-store' });
                 if (!r.ok) throw 0;
-                const t = await r.text(), d = build(t);
-                if (!d) throw 0;
-                DB[k] = d; AT[k] = new Date(); OK[k] = true;
-            } catch (e) {
+                const t = await r.text();
+                const rows = parseCSV(t);
+                const hi = rows.findIndex(r => norm(r[0]) == 'base');
+                if (hi < 0) throw 0;
+                const h = rows[hi].map(norm), out = [];
+                for (const r of rows.slice(hi + 1)) {
+                    const sob = r[h.indexOf('sob')];
+                    if (!sob) continue;
+                    out.push({
+                        sob,
+                        st: (r[h.indexOf('status')] || '').toUpperCase(),
+                        tipo: r[h.indexOf('tipo de serviço')] || '—',
+                        mun: r[h.indexOf('município')] || '—',
+                        resp: r[h.indexOf('responsável execução')] || '—'
+                    });
+                }
+                DB[k] = out; OK[k] = true;
+            } catch(e) {
                 OK[k] = false;
             }
-            if (k === contratoGlobal) { head(); render(); }
+            renderHead(); renderView();
         }
 
-        function head() {
+        function renderHead() {
             const cur = contratoGlobal;
-            const n = (DB[cur] || []).length, a = AT[cur];
-            $('#st').innerHTML = `<b style="color:${OK[cur] ? 'var(--status-green)' : 'var(--status-red)'}; font-weight:700;">${OK[cur] ? '● Online' : OK[cur] === false ? '○ Sem conexão' : '◌ Conectando…'}</b> · Contrato ${cur.toUpperCase()} · ${n} registros programados ${a ? '· Atualizado às ' + a.toLocaleTimeString('pt-BR') : ''}`;
+            const n = (DB[cur] || []).length;
+            $('#st').innerHTML = `<b style="color:${OK[cur] ? 'var(--status-success)' : 'var(--status-danger)'};"><i class="fa-solid fa-circle"></i> ${OK[cur] ? 'Planilha Conectada' : 'Sem Conexão'}</b> · Programação ${cur.toUpperCase()} · <b>${n}</b> registros`;
         }
 
-        function render() {
-            head();
+        function renderView() {
             const cur = contratoGlobal;
             if (!DB[cur] || !DB[cur].length) {
-                $('#v').innerHTML = `<div class="dcard" style="text-align:center;padding:30px;color:var(--text-muted);">${OK[cur] === false ? 'Planilha de programação de ' + cur.toUpperCase() + ' sem link configurado ou indisponível.' : 'Carregando programação de obras...'}</div>`;
+                $('#v').innerHTML = `<div class="dash-card" style="text-align:center;padding:36px;color:var(--text-muted);">${OK[cur] === false ? 'A planilha de programação de ' + cur.toUpperCase() + ' não possui link ativo ou está inacessível.' : 'Carregando programação de obras...'}</div>`;
                 return;
             }
-            ({ dash, week, hist })[tab]();
-        }
-
-        function met(a) {
-            const o = { n: a.length, proj: new Set(a.map(x => x.sob)).size };
-            ST.forEach(s => o[s] = 0);
-            a.forEach(x => o[cls(x.st)]++);
-            return o;
-        }
-
-        function dash() {
-            const all = DB[contratoGlobal];
-            const ys = [...new Set(all.map(x => x.d.getFullYear()))].sort();
-            if (!Y || !ys.includes(+Y)) Y = String(ys[ys.length - 1]);
-            const inY = all.filter(x => x.d.getFullYear() == Y);
-            const T = met(inY);
-
             $('#v').innerHTML = `
-                <div class="kpis-grid" style="margin-bottom:12px;">
-                    <div class="kpi"><b>${T.n}</b><span>Programações (${Y})</span></div>
-                    <div class="kpi" style="border-left-color:var(--status-green);"><b>${T['CONCLUÍDO']}</b><span>Concluídas</span></div>
-                    <div class="kpi" style="border-left-color:var(--status-amber);"><b>${T['ADIADO']}</b><span>Adiadadas</span></div>
-                    <div class="kpi" style="border-left-color:var(--status-red);"><b>${T['CANCELADO']}</b><span>Canceladas</span></div>
-                </div>
-                <div class="dcard">
-                    <h4>Programações Recentes</h4>
-                    <div class="tw">
-                        <table class="cart-table">
-                            <thead><tr><th>Data</th><th>SOB</th><th>Status</th><th>Município</th><th>Equipe Responsável</th></tr></thead>
-                            <tbody>
-                                ${inY.slice(0, 30).map(x => `<tr><td>${fmt(x.d)}</td><td><b>${esc(x.sob)}</b></td><td>${tag(x.st)}</td><td>${esc(x.mun)}</td><td>${esc(x.resp)}</td></tr>`).join('')}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            `;
-        }
-
-        function week() {
-            const all = DB[contratoGlobal];
-            if (!wk) wk = sun(new Date());
-            const days = [...Array(7)].map((_, i) => { const d = new Date(wk); d.setDate(d.getDate() + i); return d; });
-            const td = iso(new Date());
-
-            $('#v').innerHTML = `
-                <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;">
-                    <button class="btn-enel-secondary" id="pv">◀ Anterior</button>
-                    <button class="btn-enel-secondary" id="tj">Hoje</button>
-                    <button class="btn-enel-secondary" id="nx">Próxima ▶</button>
-                    <b style="font-size:13px;color:var(--enel-navy);">${fmt(wk)} a ${fmt(days[6])}</b>
-                </div>
-                <div class="week">
-                    ${days.map(d => {
-                        const k = iso(d), it = all.filter(x => x.iso == k);
-                        return `<div class="day ${k == td ? 'today' : ''}">
-                            <h4 style="font-size:11px;color:var(--text-muted);border-bottom:1px solid #E2E8F0;padding-bottom:3px;margin-bottom:6px;">${d.toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: '2-digit' })} (${it.length})</h4>
-                            ${it.map(x => `<div class="ev ${cls(x.st)}" onclick="window.PROG.showDetail('${esc(x.sob)}')"><b>${esc(x.sob)}</b><br><small>${esc(x.mun)}</small></div>`).join('') || '<small style="color:#A0AEC0;">—</small>'}
-                        </div>`;
-                    }).join('')}
-                </div>
-            `;
-            $('#pv').onclick = () => { wk = new Date(wk); wk.setDate(wk.getDate() - 7); week(); };
-            $('#nx').onclick = () => { wk = new Date(wk); wk.setDate(wk.getDate() + 7); week(); };
-            $('#tj').onclick = () => { wk = sun(new Date()); week(); };
-        }
-
-        function hist() {
-            const all = DB[contratoGlobal];
-            const f = all.filter(x => (!F.q || (x.sob + x.mun + x.resp).toLowerCase().includes(F.q)));
-            $('#v').innerHTML = `
-                <div style="margin-bottom:10px;">
-                    <input id="q" placeholder="Buscar por SOB, local ou equipe..." value="${esc(F.q)}" style="padding:6px 10px;border:1px solid var(--enel-border);border-radius:6px;width:280px;font-size:12px;">
-                </div>
-                <div class="dcard tw">
+                <div class="dash-card" style="max-height:65vh;overflow:auto;">
                     <table class="cart-table">
-                        <thead><tr><th>Data</th><th>SOB</th><th>Status</th><th>Município</th><th>Responsável</th><th>Descrição</th></tr></thead>
+                        <thead><tr><th>SOB</th><th>Status</th><th>Tipo de Obra</th><th>Município</th><th>Equipe Responsável</th></tr></thead>
                         <tbody>
-                            ${f.slice(0, 100).map(x => `<tr><td>${fmt(x.d)}</td><td><b>${esc(x.sob)}</b></td><td>${tag(x.st)}</td><td>${esc(x.mun)}</td><td>${esc(x.resp)}</td><td>${esc(x.desc.slice(0, 70))}</td></tr>`).join('')}
+                            ${DB[cur].slice(0, 100).map(x => `<tr><td><b>${esc(x.sob)}</b></td><td><span style="font-size:11px;padding:2px 8px;border-radius:10px;background:#F1F5F9;font-weight:700;">${esc(x.st)}</span></td><td>${esc(x.tipo)}</td><td>${esc(x.mun)}</td><td>${esc(x.resp)}</td></tr>`).join('')}
                         </tbody>
                     </table>
                 </div>
             `;
-            $('#q').oninput = e => { F.q = e.target.value.toLowerCase(); hist(); };
         }
-
-        function detail(sob) {
-            const item = DB[contratoGlobal].find(x => x.sob === sob);
-            if (!item) return;
-            $('#dbody').innerHTML = `
-                <h3 style="color:var(--enel-navy);margin-bottom:10px;">SOB: ${esc(item.sob)} · ${fmt(item.d)}</h3>
-                <dl style="display:grid;grid-template-columns:130px 1fr;gap:6px;font-size:12px;">
-                    ${Object.entries(item.raw).map(([k, v]) => `<dt style="color:var(--text-muted);font-weight:600;">${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')}
-                </dl>
-            `;
-            $('#dlg').showModal();
-        }
-
-        $('#sub').onclick = e => {
-            if (e.target.dataset.t) {
-                tab = e.target.dataset.t;
-                root.querySelectorAll('#sub button').forEach(b => b.classList.toggle('on', b.dataset.t == tab));
-                render();
-            }
-        };
 
         window.PROG = {
-            sync,
             setContrato(c) { sync(c); },
-            show() { sync(contratoGlobal); },
-            showDetail: detail
+            show() { sync(contratoGlobal); }
         };
-    })();
-    </script>
-
-    <!-- AUTENTICAÇÃO, CONTROLE DE ACESSO E CONFIGURAÇÕES -->
-    <script>
-    (function(){
-        const C = window.APP_CONFIG || {}, $ = id => document.getElementById(id);
-        const A = window.APP = { role: 'admin', perfil: null, sb: null, email: 'admin@admin.com' };
-
-        function authUI(show, msg) {
-            $('auth').style.display = show ? 'flex' : 'none';
-            $('a-msg').textContent = msg || '';
-        }
-
-        A.entrar = async () => {
-            let email = $('a-email').value.trim();
-            const password = $('a-pw').value;
-            if (!email) { $('a-msg').textContent = 'Informe seu usuário ou e-mail.'; return; }
-
-            // Atalho rápido admin
-            if (email.toLowerCase() === 'admin' || !email.includes('@')) {
-                email = email + '@admin.com';
-            }
-
-            if (!A.sb) {
-                A.email = email;
-                A.role = 'admin';
-                authUI(false);
-                chip();
-                sincronizarCarteiraOnline();
-                return;
-            }
-
-            const { error } = await A.sb.auth.signInWithPassword({ email, password });
-            if (error) { $('a-msg').textContent = 'Usuário ou senha inválidos.'; return; }
-            A.email = email;
-            boot();
-        };
-
-        A.sair = async () => {
-            if (confirm('Deseja realmente sair e trocar de usuário?')) {
-                if (A.sb) await A.sb.auth.signOut();
-                authUI(true, 'Sessão encerrada.');
-            }
-        };
-
-        A.abrirPerfil = () => {
-            $('mp-email').value = A.email;
-            $('mp-nome').value = (A.perfil && A.perfil.nome) || A.email.split('@')[0];
-            $('mp-pw').value = '';
-            $('mp-msg').textContent = '';
-            $('modal-perfil').style.display = 'flex';
-        };
-
-        A.fecharPerfil = () => { $('modal-perfil').style.display = 'none'; };
-
-        A.salvarPerfilProprio = async () => {
-            const nome = $('mp-nome').value.trim();
-            const pw = $('mp-pw').value;
-            const msg = $('mp-msg');
-            msg.style.color = 'var(--enel-cyan)';
-            msg.textContent = 'Salvando...';
-
-            try {
-                if (A.sb && A.email) {
-                    if (nome) await A.sb.from('profiles').upsert({ email: A.email, nome }, { onConflict: 'email' });
-                    if (pw) {
-                        if (pw.length < 5) throw new Error('A senha deve ter no mínimo 5 caracteres.');
-                        const { error } = await A.sb.auth.updateUser({ password: pw });
-                        if (error) throw error;
-                    }
-                }
-                A.perfil = { ...(A.perfil || {}), nome: nome || A.email };
-                msg.style.color = 'var(--status-green)';
-                msg.textContent = 'Dados salvos com sucesso!';
-                setTimeout(() => { A.fecharPerfil(); chip(); }, 1000);
-            } catch (e) {
-                msg.style.color = 'var(--status-red)';
-                msg.textContent = e.message || 'Erro ao salvar.';
-            }
-        };
-
-        function chip() {
-            const nome = (A.perfil && A.perfil.nome) || A.email.split('@')[0];
-            $('user-nome-chip').textContent = `${nome} (${A.role})`;
-            $('tabbtn-config').style.display = (A.role === 'admin') ? 'inline-flex' : 'none';
-        }
-
-        async function boot() {
-            authUI(false);
-            if (A.sb) {
-                const { data: p } = await A.sb.from('profiles').select('*').eq('email', A.email).maybeSingle();
-                if (p) { A.perfil = p; A.role = p.role || 'admin'; }
-            }
-            chip();
-            sincronizarTudoOnline();
-        }
-
-        /* ABA CONFIGURAÇÃO */
-        A.renderConfig = () => {
-            const c = $('tab-config');
-            c.innerHTML = `
-                <div class="cfc">
-                    <h3><i class="fa-solid fa-link"></i> Configuração de Links das Planilhas Google (Aceita link ou &lt;iframe&gt;)</h3>
-                    <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px;">Cole as tags de incorporação (&lt;iframe src="..."&gt;&lt;/iframe&gt;) ou os links publicados na web.</p>
-                    
-                    <label>Carteira de Projetos Angra dos Reis
-                        <input id="cfg-cart-ang" value="${esc(window.LINKS_PLANILHAS.carteira_angra)}">
-                    </label>
-                    <label>Carteira de Projetos Magé (atualmente sem link)
-                        <input id="cfg-cart-mag" placeholder="Cole aqui o link ou iframe de Magé" value="${esc(window.LINKS_PLANILHAS.carteira_mage)}">
-                    </label>
-                    <label>Programação de Obras Angra dos Reis
-                        <input id="cfg-prog-ang" value="${esc(window.LINKS_PLANILHAS.prog_angra)}">
-                    </label>
-                    <label>Programação de Obras Magé
-                        <input id="cfg-prog-mag" value="${esc(window.LINKS_PLANILHAS.prog_mage)}">
-                    </label>
-                    
-                    <div style="margin-top:12px;">
-                        <button class="btn-enel-primary" onclick="APP.salvarLinksConfig()">Salvar e Aplicar</button>
-                        <span id="cfg-msg" style="margin-left:10px;font-size:12px;"></span>
-                    </div>
-                </div>
-            `;
-        };
-
-        A.salvarLinksConfig = () => {
-            window.LINKS_PLANILHAS.carteira_angra = extrairLinkCsvGoogle($('cfg-cart-ang').value);
-            window.LINKS_PLANILHAS.carteira_mage = extrairLinkCsvGoogle($('cfg-cart-mag').value);
-            window.LINKS_PLANILHAS.prog_angra = extrairLinkCsvGoogle($('cfg-prog-ang').value);
-            window.LINKS_PLANILHAS.prog_mag = extrairLinkCsvGoogle($('cfg-prog-mag').value);
-
-            localStorage.setItem('app_links_planilhas', JSON.stringify(window.LINKS_PLANILHAS));
-            $('cfg-msg').innerHTML = '<span style="color:var(--status-green);font-weight:600;"><i class="fa-solid fa-check"></i> Configurações salvas e aplicadas!</span>';
-            sincronizarTudoOnline();
-        };
-
-        function mostrarToast(titulo, desc) {
-            const t = $('toast-notif');
-            $('toast-title').innerText = titulo;
-            $('toast-text').innerText = desc;
-            t.classList.add('show');
-            setTimeout(() => t.classList.remove('show'), 3500);
-        }
-        window.mostrarToast = mostrarToast;
-
-        async function init() {
-            if (window.supabase && C.SUPABASE_URL) {
-                A.sb = supabase.createClient(C.SUPABASE_URL, C.SUPABASE_KEY);
-                const { data: { session } } = await A.sb.auth.getSession();
-                if (session && session.user) {
-                    A.email = session.user.email;
-                    boot();
-                    return;
-                }
-            }
-            authUI(true);
-        }
-
-        init();
     })();
     </script>
 </body>
