@@ -13,27 +13,27 @@
 
     <style>
         /* ========================================================
-           DESIGN SYSTEM - TEMA CLARO E ESCURO EM VERDE ESMERALDA
+           DESIGN SYSTEM - TEMA CLARO E ESCURO EM VERDE
            ======================================================== */
         :root {
             --bg-base: #F4FBF7;
             --bg-surface: #FFFFFF;
-            --bg-glass: rgba(255, 255, 255, 0.96);
+            --bg-glass: rgba(255, 255, 255, 0.97);
             --brand-dark: #064E3B;
             --brand-primary: #065F46;
             --brand-accent: #10B981;
             --brand-light: #ECFDF5;
-            --border-light: #C6E7D9;
-            --border-glass: rgba(198, 231, 217, 0.9);
-            --text-main: #064E3B;
-            --text-secondary: #1F2937;
-            --text-muted: #4B5563;
-            --card-subtle: #EBF8F2;
-            --status-green: #059669;
+            --border-light: #CBD5E1;
+            --border-glass: rgba(203, 213, 225, 0.9);
+            --text-main: #0F172A;
+            --text-secondary: #334155;
+            --text-muted: #64748B;
+            --card-subtle: #F8FAFC;
+            --status-green: #10B981;
             --status-amber: #D97706;
-            --status-red: #DC2626;
-            --shadow-sm: 0 1px 3px rgba(6, 78, 59, 0.08);
-            --shadow-float: 0 14px 28px rgba(6, 78, 59, 0.16);
+            --status-red: #EF4444;
+            --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08);
+            --shadow-float: 0 10px 25px rgba(15, 23, 42, 0.15);
             --radius-md: 8px;
             --radius-lg: 12px;
             --radius-pill: 9999px;
@@ -41,38 +41,36 @@
         }
 
         body.dark-mode {
-            --bg-base: #071B14;
-            --bg-surface: #0E2920;
-            --bg-glass: rgba(14, 41, 32, 0.96);
+            --bg-base: #061812;
+            --bg-surface: #0C241C;
+            --bg-glass: rgba(12, 36, 28, 0.97);
             --brand-dark: #A7F3D0;
             --brand-primary: #10B981;
             --brand-accent: #34D399;
             --brand-light: #064E3B;
-            --border-light: #184738;
-            --border-glass: rgba(24, 71, 56, 0.9);
-            --text-main: #ECFDF5;
+            --border-light: #1A3E33;
+            --border-glass: rgba(26, 62, 51, 0.9);
+            --text-main: #F0FDF4;
             --text-secondary: #D1FAE5;
             --text-muted: #9CA3AF;
-            --card-subtle: #143B2E;
+            --card-subtle: #14352C;
             --status-green: #34D399;
             --status-amber: #FBBF24;
             --status-red: #F87171;
-            --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.5);
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4);
             --shadow-float: 0 16px 30px rgba(0, 0, 0, 0.7);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
         body { background-color: var(--bg-base); color: var(--text-main); padding: 12px 16px; min-height: 100vh; overflow-x: hidden; transition: var(--transition); }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes scaleIn { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
-        @keyframes pulseGlow { 0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); } 50% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); } }
 
         /* HEADER */
         header {
             display: flex; justify-content: space-between; align-items: center;
-            background: var(--bg-glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--border-glass); border-top: 4px solid var(--brand-accent);
+            background: var(--bg-surface); border: 1px solid var(--border-light); border-top: 4px solid var(--brand-accent);
             padding: 10px 18px; border-radius: var(--radius-lg); margin-bottom: 12px;
             box-shadow: var(--shadow-sm); position: sticky; top: 8px; z-index: 2500;
             gap: 12px; flex-wrap: wrap; transition: var(--transition);
@@ -82,7 +80,6 @@
         .brand-icon-box {
             width: 36px; height: 36px; border-radius: 8px; background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-accent) 100%);
             display: flex; align-items: center; justify-content: center; color: #FFF; font-size: 1.1rem;
-            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
         }
         .brand-title { font-size: 1.1rem; font-weight: 800; color: var(--brand-dark); letter-spacing: -0.3px; }
 
@@ -91,14 +88,14 @@
         .select-contract-master {
             background: var(--bg-surface); border: 2px solid var(--brand-accent); color: var(--text-main);
             padding: 6px 12px; border-radius: var(--radius-md); font-size: 0.83rem; font-weight: 700;
-            cursor: pointer; outline: none; transition: var(--transition); box-shadow: var(--shadow-sm);
+            cursor: pointer; outline: none; transition: var(--transition);
         }
 
         .btn-modern-primary {
             background: var(--brand-primary); color: #FFF; border: none;
             padding: 7px 14px; border-radius: var(--radius-md); font-size: 0.82rem; font-weight: 600;
             cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
-            box-shadow: 0 3px 10px rgba(6, 95, 70, 0.2); transition: var(--transition);
+            transition: var(--transition);
         }
         .btn-modern-primary:hover { filter: brightness(1.1); transform: translateY(-1px); }
 
@@ -107,7 +104,6 @@
             padding: 7px 12px; border-radius: var(--radius-md); font-size: 0.82rem; font-weight: 600;
             cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: var(--transition);
         }
-        .btn-theme-toggle:hover { border-color: var(--brand-accent); }
 
         /* TABS NAVEGAÇÃO */
         .tabs-nav {
@@ -120,67 +116,71 @@
             cursor: pointer; display: inline-flex; align-items: center; gap: 7px;
             transition: var(--transition); border-radius: 6px 6px 0 0;
         }
-        .tab-nav-item:hover { color: var(--brand-primary); background: rgba(16, 185, 129, 0.08); }
+        .tab-nav-item:hover { color: var(--brand-accent); background: rgba(16, 185, 129, 0.08); }
         .tab-nav-item.active {
-            color: var(--brand-primary); border-bottom-color: var(--brand-accent); font-weight: 700;
+            color: var(--brand-accent); border-bottom-color: var(--brand-accent); font-weight: 700;
             background: rgba(16, 185, 129, 0.12);
         }
         #tab-carteira, #tab-prog, #tab-fontes { display: none; }
 
-        /* MAPA: RESTAURADO COM POSICIONAMENTO E TAMANHO CORRETOS */
+        /* ========================================================
+           MAPA EXATO RESTAURADO (CONTAINER + CARDS FLUTUANTES)
+           ======================================================== */
         .map-container {
-            position: relative; width: 100%; height: 82vh; border-radius: var(--radius-lg);
-            border: 1px solid var(--border-light); overflow: hidden; box-shadow: var(--shadow-sm);
-            animation: fadeIn 0.3s ease;
+            position: relative; width: 100%; height: 82vh; border-radius: 12px;
+            border: 1px solid var(--border-light); overflow: hidden; box-shadow: 0 4px 20px rgba(15, 23, 42, 0.14);
         }
         #map { height: 100%; width: 100%; min-height: 480px; }
 
-        /* PAINEL FLUTUANTE DE SLA (EXATO: FIXO NO CANTO SUPERIOR DIREITO, 220PX) */
+        /* PAINEL FLUTUANTE DE SLA (CANTO SUPERIOR DIREITO - FIXO E COMPACTO) */
         .floating-sla-panel {
             position: absolute; top: 15px; right: 15px; left: auto; width: 220px;
-            background: var(--bg-glass); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-            border: 1px solid var(--border-light); border-top: 3px solid var(--brand-accent);
-            border-radius: 8px; padding: 10px 14px; z-index: 1000; display: flex; flex-direction: column; gap: 6px;
-            box-shadow: var(--shadow-float); animation: scaleIn 0.25s ease;
+            background: var(--bg-glass); border: 1px solid var(--border-light); border-radius: 8px;
+            padding: 10px 14px; z-index: 1000; display: flex; flex-direction: column; gap: 6px;
+            box-shadow: 0 4px 15px rgba(15, 23, 42, 0.14); backdrop-filter: blur(4px);
         }
         .floating-sla-title {
-            font-size: 0.74rem; color: var(--text-main); font-weight: 800; text-transform: uppercase;
-            letter-spacing: 0.5px; border-bottom: 1px solid var(--border-light); padding-bottom: 4px;
+            font-size: 0.75rem; color: var(--brand-dark); border-bottom: 1px solid var(--border-light);
+            padding-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700;
         }
         .sla-mini-card {
-            display: flex; justify-content: space-between; align-items: center; font-size: 0.81rem;
-            font-weight: 700; padding: 4px 6px; border-radius: 4px; cursor: pointer; transition: background 0.2s;
+            display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem;
+            font-weight: 600; cursor: pointer; padding: 4px 8px; border-radius: 4px; transition: background 0.2s;
         }
         .sla-mini-card:hover { background: rgba(16, 185, 129, 0.12); }
         .sla-mini-card.active { background: rgba(16, 185, 129, 0.22); border: 1px solid var(--brand-accent); }
-        .sla-mini-val { font-weight: 800; font-size: 0.92rem; }
+        .sla-mini-val { font-weight: 700; font-size: 0.95rem; }
 
-        /* LEGENDA FLUTUANTE NO CANTO INFERIOR ESQUERDO */
+        /* LEGENDA FLUTUANTE DE ETAPA (CANTO INFERIOR ESQUERDO) */
         .floating-legend-panel {
             position: absolute; bottom: 25px; left: 15px; right: auto; width: 190px;
-            background: var(--bg-glass); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-            border: 1px solid var(--border-light); border-radius: 8px; padding: 10px 14px; z-index: 1000;
-            box-shadow: var(--shadow-float); max-height: 220px; overflow-y: auto; animation: scaleIn 0.25s ease;
+            background: var(--bg-glass); border: 1px solid var(--border-light); border-radius: 8px;
+            padding: 10px 14px; z-index: 1000; box-shadow: 0 4px 15px rgba(15, 23, 42, 0.14);
+            backdrop-filter: blur(4px); max-height: 240px; overflow-y: auto;
         }
         .legend-title {
-            font-size: 0.74rem; color: var(--text-main); font-weight: 800; text-transform: uppercase;
-            letter-spacing: 0.5px; border-bottom: 1px solid var(--border-light); padding-bottom: 4px; margin-bottom: 6px;
+            font-size: 0.75rem; color: var(--brand-dark); border-bottom: 1px solid var(--border-light);
+            padding-bottom: 4px; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700;
         }
-        .legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; color: var(--text-main); }
+        .legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; font-weight: 600; margin-bottom: 4px; color: var(--text-main); }
         .legend-color-dot { width: 11px; height: 11px; border-radius: 50%; border: 1px solid #FFF; flex-shrink: 0; }
 
-        /* POPUP DO MAPA */
-        .leaflet-popup-content-wrapper { background: var(--bg-surface) !important; color: var(--text-main) !important; border: 1px solid var(--brand-accent); border-radius: 10px; box-shadow: var(--shadow-float); }
+        /* ESTILO DO POPUP */
+        .leaflet-popup-content-wrapper { background: var(--bg-surface) !important; color: var(--text-main) !important; border: 1px solid var(--brand-accent); border-radius: 10px; box-shadow: 0 10px 25px rgba(15, 23, 42, 0.14); }
         .leaflet-popup-tip { background: var(--bg-surface) !important; }
-        .popup-card { font-size: 0.88rem; line-height: 1.4; padding: 4px; min-width: 250px; }
-        .popup-card h3 { color: var(--brand-primary); border-bottom: 1px solid var(--border-light); padding-bottom: 4px; margin-bottom: 6px; font-size: 0.95rem; }
+        .popup-card { font-size: 0.9rem; line-height: 1.4; padding: 5px; min-width: 260px; }
+        .popup-card h3 { color: var(--brand-dark); border-bottom: 1px solid var(--border-light); padding-bottom: 4px; margin-bottom: 8px; }
         .popup-item { margin-bottom: 4px; color: var(--text-muted); font-size: 0.82rem; }
         .popup-item strong { color: var(--text-main); }
+        
         .btn-maps-link {
-            display: flex; align-items: center; justify-content: center; gap: 6px; background: var(--brand-primary); color: #FFFFFF !important;
-            text-decoration: none; font-weight: 600; font-size: 0.8rem; padding: 6px 10px; border-radius: 6px; margin-top: 8px; transition: var(--transition);
+            display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--brand-primary); color: #FFFFFF !important;
+            text-decoration: none; font-weight: 600; font-size: 0.8rem; padding: 8px 12px; border-radius: 6px; margin-top: 10px; transition: var(--transition);
         }
         .btn-maps-link:hover { filter: brightness(1.15); }
+
+        .badge-violada { background: rgba(239, 68, 68, 0.15); color: #DC2626; border: 1px solid #DC2626; padding: 4px 8px; border-radius: 4px; font-weight: bold; margin-top: 6px; display: block; font-size: 0.82rem; }
+        .badge-alerta { background: rgba(245, 158, 11, 0.15); color: #D97706; border: 1px solid #D97706; padding: 4px 8px; border-radius: 4px; font-weight: bold; margin-top: 6px; display: block; font-size: 0.82rem; }
 
         /* CARTEIRA TABLE */
         .cart-glass-toolbar {
@@ -224,10 +224,7 @@
         table.cart-table tbody tr:hover td { background: rgba(16, 185, 129, 0.08); }
         .cart-empty { padding: 36px; text-align: center; color: var(--text-muted); }
 
-        /* TABELA CENTRALIZADA DO HISTÓRICO */
-        table.table-center th, table.table-center td {
-            text-align: center !important;
-        }
+        table.table-center th, table.table-center td { text-align: center !important; }
 
         /* MODAL FULLSCREEN DE DASHBOARD DA CARTEIRA */
         #modal-dash-fullscreen {
@@ -275,6 +272,27 @@
         .insights { list-style: none; display: grid; gap: 6px; font-size: 0.8rem; line-height: 1.4; }
         .insights li { background: var(--card-subtle); border-left: 3px solid var(--brand-accent); padding: 6px 10px; border-radius: 4px; color: var(--text-main); }
         .insights li.alerta { border-left-color: var(--status-red); background: rgba(220, 38, 38, 0.1); }
+
+        /* GRÁFICOS EM COLUNAS DA PROGRAMAÇÃO DE OBRAS */
+        .chart-columns-container {
+            display: flex; align-items: flex-end; gap: 8px; height: 170px; padding: 12px 6px 4px 6px;
+            overflow-x: auto; border-bottom: 2px solid var(--border-light);
+        }
+        .col-item-prog {
+            flex: 1; min-width: 44px; display: flex; flex-direction: column; justify-content: flex-end;
+            align-items: center; height: 100%; font-size: 10px; text-align: center;
+        }
+        .col-item-prog .bar-stack {
+            width: 22px; display: flex; flex-direction: column-reverse; border-radius: 4px 4px 0 0;
+            overflow: hidden; background: rgba(0,0,0,0.04);
+        }
+        .col-item-prog .bar-dual {
+            display: flex; gap: 3px; align-items: flex-end; height: 120px;
+        }
+        .col-item-prog .bar-single {
+            width: 10px; border-radius: 3px 3px 0 0; min-height: 2px;
+        }
+        .col-item-prog .label-date { margin-top: 6px; color: var(--text-muted); font-weight: 700; }
 
         /* PROGRAMAÇÃO SUB-ABAS */
         #tab-prog .sub { display: flex; gap: 4px; border-bottom: 2px solid var(--border-light); margin-bottom: 10px; }
@@ -393,35 +411,37 @@
         <!-- ABA 1: MAPA (RESTAURADO) -->
         <div id="tab-mapa">
             <div class="map-container">
-                <!-- CARD SLA: RESTAURADO NO CANTO SUPERIOR DIREITO -->
+                <!-- PAINEL FLUTUANTE DE SLA: COMPACTO NO CANTO SUPERIOR DIREITO -->
                 <div class="floating-sla-panel">
-                    <div class="floating-sla-title"><i class="fa-solid fa-clock"></i> SLA / Prazos de Execução</div>
+                    <div class="floating-sla-title"><i class="fa-solid fa-clock"></i> Prazos / SLA</div>
                     <div class="sla-mini-card active" id="card-sla-todos" onclick="filtrarPorFaixaSla('todos')">
-                        <span style="color:var(--status-green);">Total Mapeados</span>
-                        <span class="sla-mini-val" id="count-total" style="color:var(--status-green);">0</span>
+                        <span style="color: #10B981;">Total Mapeados</span>
+                        <span class="sla-mini-val" id="count-total" style="color: #10B981;">0</span>
                     </div>
                     <div class="sla-mini-card" id="card-sla-violada" onclick="filtrarPorFaixaSla('violada')">
-                        <span style="color:var(--status-red);">Violadas (≤ 0d)</span>
-                        <span class="sla-mini-val" id="count-violada" style="color:var(--status-red);">0</span>
+                        <span style="color: #EF4444;">Violadas (≤ 0d)</span>
+                        <span class="sla-mini-val" id="count-violada" style="color: #EF4444;">0</span>
                     </div>
                     <div class="sla-mini-card" id="card-sla-12dias" onclick="filtrarPorFaixaSla('12dias')">
-                        <span style="color:var(--status-amber);">Até 12 Dias</span>
-                        <span class="sla-mini-val" id="count-12dias" style="color:var(--status-amber);">0</span>
+                        <span style="color: #F97316;">Até 12 Dias</span>
+                        <span class="sla-mini-val" id="count-12dias" style="color: #F97316;">0</span>
                     </div>
                     <div class="sla-mini-card" id="card-sla-20dias" onclick="filtrarPorFaixaSla('20dias')">
-                        <span style="color:#D97706;">Até 20 Dias</span>
-                        <span class="sla-mini-val" id="count-20dias" style="color:#D97706;">0</span>
+                        <span style="color: #FBBF24;">Até 20 Dias</span>
+                        <span class="sla-mini-val" id="count-20dias" style="color: #FBBF24;">0</span>
                     </div>
                     <div class="sla-mini-card" id="card-sla-30dias" onclick="filtrarPorFaixaSla('30dias')">
-                        <span style="color:#0284C7;">Até 30 Dias</span>
-                        <span class="sla-mini-val" id="count-30dias" style="color:#0284C7;">0</span>
+                        <span style="color: #0EA5E9;">Até 30 Dias</span>
+                        <span class="sla-mini-val" id="count-30dias" style="color: #0EA5E9;">0</span>
                     </div>
                 </div>
 
-                <!-- CARD LEGENDA: RESTAURADO NO CANTO INFERIOR ESQUERDO -->
+                <!-- PAINEL FLUTUANTE: LEGENDA NO CANTO INFERIOR ESQUERDO -->
                 <div class="floating-legend-panel">
                     <div class="legend-title"><i class="fa-solid fa-palette"></i> Cores por Etapa</div>
-                    <div id="etapa-legend-container"></div>
+                    <div id="etapa-legend-container">
+                        <div style="color: var(--text-muted); font-size:0.75rem;">Aguardando dados...</div>
+                    </div>
                 </div>
 
                 <div id="map"></div>
@@ -431,7 +451,7 @@
         <!-- ABA 2: CARTEIRA DE PROJETOS -->
         <div id="tab-carteira">
             <div class="cart-glass-toolbar">
-                <button class="btn-modern-primary" onclick="abrirModalDashboard()">
+                <button class="btn-modern-primary" style="background:var(--brand-primary);" onclick="abrirModalDashboard()">
                     <i class="fa-solid fa-chart-pie"></i> Ver Dashboard da Carteira
                 </button>
                 <input type="text" class="cart-search-box" id="cart-search" placeholder="Pesquisar por projeto, SOB, parceira..." oninput="renderCarteira()">
@@ -479,7 +499,6 @@
                 <button data-t="hist">Histórico</button>
             </div>
             <div id="v"></div>
-            <!-- MODAL COMPACTO DE ESPECIFICAÇÕES -->
             <dialog id="dlg"><div id="dbody"></div><p style="text-align:right;margin-top:10px;"><button class="btn-modern-primary" style="padding:6px 14px;background:#475569;" onclick="this.closest('dialog').close()">Fechar</button></p></dialog>
         </div>
 
@@ -570,9 +589,7 @@
         </div>
     </div>
 
-    <!-- SCRIPTS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
+    <!-- ENGINE JAVASCRIPT -->
     <script>
         function extrairLinkCsvGoogle(str) {
             if (!str) return '';
@@ -597,7 +614,7 @@
         };
 
         try {
-            const saved = localStorage.getItem('app_links_v10_green');
+            const saved = localStorage.getItem('app_links_v11_restored');
             if (saved) Object.assign(window.LINKS_PLANILHAS, JSON.parse(saved));
         } catch(e) {}
 
@@ -607,7 +624,7 @@
         let filtroSlaAtual = 'todos';
         let contratoGlobal = 'angra';
 
-        const paletaCores = ['#047857', '#10B981', '#065F46', '#D97706', '#DC2626', '#0284C7', '#8B5CF6', '#EA580C'];
+        const paletaCores = ['#0b5cab', '#6366F1', '#059669', '#D97706', '#E11D48', '#7C3AED', '#0D9488', '#EA580C', '#2563EB'];
         let mapaCoresEtapas = {};
 
         function esc(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
@@ -648,20 +665,21 @@
             return PRIORIDADES_CRITICAS.some(pc => n.includes(normTxt(pc)) || normTxt(pc).includes(n));
         }
 
-        /* INICIALIZAÇÃO INFALÍVEL DO MAPA */
+        /* INICIALIZAÇÃO DO MAPA RESTAURADA */
+        const satelliteTileUrl = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
+        const satelliteAttribution = 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community';
+
         function inicializarMapa() {
             if (!map) {
-                map = L.map('map', { zoomControl: true }).setView([-22.9068, -43.1729], 10);
-                
-                // CAMADAS DE ALTA DISPONIBILIDADE (NÃO BLOQUEIAM)
-                const camadaCarto = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', { maxZoom: 19, attribution: '&copy; CartoDB' }).addTo(map);
-                const camadaSat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: 19, attribution: '&copy; Esri' });
-                const camadaOsm = L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; OpenStreetMap' });
+                map = L.map('map').setView([-22.9068, -43.1729], 11);
+                const camadaSat = L.tileLayer(satelliteTileUrl, { attribution: satelliteAttribution, maxZoom: 19 });
+                const camadaCarto = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', { maxZoom: 19, attribution: '&copy; CartoDB' });
+                const camadaOsm = L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap France', maxZoom: 19 }).addTo(map);
 
-                L.control.layers({ 'Carto Voyager (Claro)': camadaCarto, 'OpenStreetMap': camadaOsm, 'Satélite': camadaSat }).addTo(map);
+                L.control.layers({ 'Mapa Claro (OSM)': camadaOsm, 'Mapa Voyager': camadaCarto, 'Satélite (Esri)': camadaSat }).addTo(map);
                 markersGroup = L.layerGroup().addTo(map);
             }
-            setTimeout(() => { if (map) map.invalidateSize(); }, 200);
+            setTimeout(() => { if (map) map.invalidateSize(); }, 250);
         }
 
         function buscarCampoFlexivel(obj, ...nomes) {
@@ -785,7 +803,7 @@
             });
             if (aba === 'mapa') {
                 inicializarMapa();
-                setTimeout(() => { if (map) { map.invalidateSize(); processarEPlotarProjetos(); } }, 150);
+                setTimeout(() => { if (map) { map.invalidateSize(); processarEPlotarProjetos(); } }, 120);
             }
             else if (aba === 'carteira') renderCarteira();
             else if (aba === 'prog' && window.PROG) window.PROG.show();
@@ -935,7 +953,9 @@
             }).join('');
         }
 
-        /* MAPA: RESTAURADO COM POSICIONAMENTO E COORDENADAS REAIS */
+        /* ========================================================
+           MAPA: RESTAURADO COM AURA DUPLA E POPUP COMPLETO
+           ======================================================== */
         function construirCoresEtapas() {
             mapaCoresEtapas = {};
             const unicas = new Set();
@@ -949,17 +969,19 @@
             const c = document.getElementById('etapa-legend-container');
             if (!c) return;
             c.innerHTML = '';
-            Object.keys(mapaCoresEtapas).sort().forEach(e => {
-                c.innerHTML += `<div class="legend-item">
-                    <span class="legend-color-dot" style="background-color:${mapaCoresEtapas[e]};"></span> <span>${esc(e)}</span>
-                </div>`;
+            Array.from(unicas).sort().forEach(e => {
+                const cor = mapaCoresEtapas[e];
+                const item = document.createElement('div');
+                item.className = 'legend-item';
+                item.innerHTML = `<span class="legend-color-dot" style="background-color: ${cor};"></span> <span>${esc(e)}</span>`;
+                c.appendChild(item);
             });
         }
 
-        function filtrarPorFaixaSla(f) {
-            filtroSlaAtual = f;
-            document.querySelectorAll('.sla-mini-card').forEach(b => b.classList.remove('active'));
-            const card = document.getElementById('card-sla-' + f);
+        function filtrarPorFaixaSla(faixa) {
+            filtroSlaAtual = faixa;
+            document.querySelectorAll('.sla-mini-card').forEach(c => c.classList.remove('active'));
+            const card = document.getElementById(`card-sla-${faixa}`);
             if (card) card.classList.add('active');
             processarEPlotarProjetos();
         }
@@ -971,68 +993,75 @@
             let bounds = [];
 
             listaDadosGlobal.forEach(item => {
-                const etapa = obterValorEtapa(item);
-                const proj = obterValorProjeto(item);
-                let latRaw = buscarCampoFlexivel(item, 'LATITUDE', 'LAT', 'LAT_COORD');
-                let lngRaw = buscarCampoFlexivel(item, 'LONGITUDE', 'LNG', 'LONG', 'LONG_COORD');
+                const etapaOriginal = obterValorEtapa(item);
+                const projetoOriginal = obterValorProjeto(item);
+                const pendenciaConstrutiva = String(buscarCampoFlexivel(item, 'PENDÊNCIA CONSTRUTIVA?', 'PENDENCIA CONSTRUTIVA?') || '').toUpperCase().trim();
+                let latRaw = buscarCampoFlexivel(item, 'LATITUDE', 'LAT');
+                let lngRaw = buscarCampoFlexivel(item, 'LONGITUDE', 'LNG', 'LONG');
                 if (typeof latRaw === 'string') latRaw = latRaw.replace(',', '.').trim();
                 if (typeof lngRaw === 'string') lngRaw = lngRaw.replace(',', '.').trim();
                 const lat = parseFloat(latRaw), lng = parseFloat(lngRaw);
 
                 if (isNaN(lat) || isNaN(lng) || lat === 0 || lng === 0) return;
 
-                const dataLimite = buscarCampoFlexivel(item, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE');
-                const dias = calcularDiasRestantes(dataLimite);
+                const dataLimiteValor = buscarCampoFlexivel(item, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE', 'LIMITE EXECUCAO');
+                const diasRestantes = calcularDiasRestantes(dataLimiteValor);
 
-                if (dias <= 0) cViolada++;
-                else if (dias <= 12) c12++;
-                else if (dias <= 20) c20++;
-                else if (dias <= 30) c30++;
+                if (diasRestantes <= 0) cViolada++;
+                else if (diasRestantes <= 12) c12++;
+                else if (diasRestantes <= 20) c20++;
+                else if (diasRestantes <= 30) c30++;
                 cTotal++;
 
-                let atende = (filtroSlaAtual === 'todos') ||
-                    (filtroSlaAtual === 'violada' && dias <= 0) ||
-                    (filtroSlaAtual === '12dias' && dias > 0 && dias <= 12) ||
-                    (filtroSlaAtual === '20dias' && dias > 12 && dias <= 20) ||
-                    (filtroSlaAtual === '30dias' && dias > 20 && dias <= 30);
+                let atendeFiltroSla = false;
+                if (filtroSlaAtual === 'todos') atendeFiltroSla = true;
+                else if (filtroSlaAtual === 'violada' && diasRestantes <= 0) atendeFiltroSla = true;
+                else if (filtroSlaAtual === '12dias' && diasRestantes > 0 && diasRestantes <= 12) atendeFiltroSla = true;
+                else if (filtroSlaAtual === '20dias' && diasRestantes > 12 && diasRestantes <= 20) atendeFiltroSla = true;
+                else if (filtroSlaAtual === '30dias' && diasRestantes > 20 && diasRestantes <= 30) atendeFiltroSla = true;
 
-                if (atende) {
+                if (atendeFiltroSla) {
                     bounds.push([lat, lng]);
-                    let corAuraSla = 'var(--status-green)';
-                    let badgeSlaHtml = '';
+                    const dataRecebimentoBR = formatarDataBR(buscarCampoFlexivel(item, 'PACOTE', 'DATA PACOTE', 'RECEBIMENTO'));
+                    const dataLimiteBR = formatarDataBR(dataLimiteValor);
+                    let badgeSlaHtml = '', corAuraSla = '#10B981';
 
-                    if (dias <= 0) {
-                        corAuraSla = 'var(--status-red)';
-                        badgeSlaHtml = `<div style="background:#FEE2E2;color:#DC2626;padding:4px 8px;border-radius:4px;font-weight:700;margin-top:6px;font-size:0.75rem;">🚨 VIOLADA (${Math.abs(dias)} dias em atraso)</div>`;
-                    } else if (dias <= 12) {
-                        corAuraSla = 'var(--status-amber)';
-                        badgeSlaHtml = `<div style="background:#FEF3C7;color:#D97706;padding:4px 8px;border-radius:4px;font-weight:700;margin-top:6px;font-size:0.75rem;">⏰ CRÍTICO: Faltam ${dias} dias</div>`;
-                    } else if (dias <= 20) {
-                        corAuraSla = '#D97706';
-                    } else if (dias <= 30) {
-                        corAuraSla = '#0284C7';
+                    if (diasRestantes <= 0) {
+                        corAuraSla = '#EF4444';
+                        badgeSlaHtml = `<span class="badge-violada"><i class="fa-solid fa-triangle-exclamation"></i> OBRA VIOLADA! (${Math.abs(diasRestantes)} dias em atraso)</span>`;
+                    } else if (diasRestantes <= 12) {
+                        corAuraSla = '#F97316';
+                        badgeSlaHtml = `<span class="badge-alerta"><i class="fa-solid fa-clock"></i> CRÍTICO: Faltam apenas ${diasRestantes} dias!</span>`;
+                    } else if (diasRestantes <= 20) {
+                        corAuraSla = '#FBBF24';
+                        badgeSlaHtml = `<span class="badge-alerta" style="background:rgba(251,191,36,0.2); color:#FBBF24; border-color:#FBBF24;"><i class="fa-solid fa-clock"></i> ATENÇÃO: Faltam ${diasRestantes} dias</span>`;
+                    } else if (diasRestantes <= 30) {
+                        corAuraSla = '#0EA5E9';
                     }
 
-                    const corNucleoEtapa = mapaCoresEtapas[etapa] || 'var(--brand-accent)';
+                    const corNucleoEtapa = mapaCoresEtapas[etapaOriginal] || '#059669';
+                    let observacaoFinal = buscarCampoFlexivel(item, 'OBSERVAÇÕES', 'OBSERVACOES', 'OBS') || 'Nenhuma';
+                    let pendenciaApontada = buscarCampoFlexivel(item, 'PENDÊNCIAS APONTADAS', 'PENDENCIAS APONTADAS') || '';
+                    if (pendenciaConstrutiva === 'SIM' && pendenciaApontada) observacaoFinal = pendenciaApontada;
 
-                    // MARCADOR DUPLO COM AURA EXATAMENTE COMO ERA ANTES
+                    const responsavelVistoria = buscarCampoFlexivel(item, 'RESPONSÁVEL', 'RESPONSAVEL', 'RESPONSAVEL VISTORIA') || 'N/D';
+                    const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+
+                    // CÍRCULO DUPLO COM AURA EXATO DO ORIGINAL
                     const auraMarker = L.circleMarker([lat, lng], { radius: 14, fillColor: corAuraSla, color: corAuraSla, weight: 1, fillOpacity: 0.35 }).addTo(markersGroup);
                     const coreMarker = L.circleMarker([lat, lng], { radius: 7, fillColor: corNucleoEtapa, color: '#FFFFFF', weight: 2, fillOpacity: 1 }).addTo(markersGroup);
 
-                    const dataRecebimentoBR = formatarDataBR(buscarCampoFlexivel(item, 'PACOTE', 'DATA PACOTE', 'RECEBIMENTO'));
-                    const dataLimiteBR = formatarDataBR(dataLimite);
-                    const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
-
                     const popupContent = `
                         <div class="popup-card">
-                            <h3>PROJETO: ${esc(proj) || 'S/N'}</h3>
-                            <div class="popup-item"><strong>Etapa:</strong> <span style="color:${corNucleoEtapa}; font-weight:bold;">${esc(etapa)}</span></div>
+                            <h3>PROJETO: ${esc(projetoOriginal) || 'S/N'}</h3>
+                            <div class="popup-item"><strong>Etapa:</strong> <span style="color:${corNucleoEtapa}; font-weight:bold;">${esc(etapaOriginal)}</span></div>
                             <div class="popup-item"><strong>Base:</strong> ${esc(buscarCampoFlexivel(item, 'BASE')) || 'N/D'} | <strong>Bairro:</strong> ${esc(buscarCampoFlexivel(item, 'BAIRRO')) || 'N/D'}</div>
                             <div class="popup-item"><strong>Tipo:</strong> ${esc(buscarCampoFlexivel(item, 'TIPO')) || 'N/D'} | <strong>Parceira:</strong> ${esc(buscarCampoFlexivel(item, 'PARCEIRA')) || 'N/D'}</div>
                             <div class="popup-item"><strong>Data Recebimento:</strong> ${dataRecebimentoBR}</div>
-                            <div class="popup-item"><strong>Data Limite:</strong> ${dataLimiteBR}</div>
+                            <div class="popup-item"><strong>Data Limite Execução:</strong> ${dataLimiteBR}</div>
                             <div class="popup-item"><strong>Prioridade:</strong> ${esc(buscarCampoFlexivel(item, 'PRIORIDADE')) || 'N/D'}</div>
-                            <div class="popup-item"><strong>Responsável:</strong> ${esc(buscarCampoFlexivel(item, 'RESPONSÁVEL', 'RESPONSAVEL')) || 'N/D'}</div>
+                            <div class="popup-item"><strong>Responsável:</strong> ${esc(responsavelVistoria)}</div>
+                            <div class="popup-item" style="margin-top:6px; border-top: 1px solid var(--border-light); padding-top:4px;"><strong>Observação:</strong> ${esc(observacaoFinal)}</div>
                             ${badgeSlaHtml}
                             <a href="${googleMapsUrl}" target="_blank" class="btn-maps-link"><i class="fa-solid fa-location-dot"></i> Abrir no Google Maps</a>
                         </div>
@@ -1056,7 +1085,7 @@
         }
 
         /* ========================================================
-           DASHBOARD DA CARTEIRA DE PROJETOS
+           DASHBOARDS DA CARTEIRA DE PROJETOS
            ======================================================== */
         const COR = { verm: '#DC2626', amar: '#D97706', verde: '#059669', azul: '#065F46', cinza: '#94A3B8', lar: '#EA580C' };
         const campoTxt = (i, ...n) => formatarValorGenerico(buscarCampoFlexivel(i, ...n));
@@ -1292,7 +1321,7 @@
             window.LINKS_PLANILHAS.prog_angra = extrairLinkCsvGoogle(document.getElementById('input-prog-ang').value);
             window.LINKS_PLANILHAS.prog_mag = extrairLinkCsvGoogle(document.getElementById('input-prog-mag').value);
 
-            localStorage.setItem('app_links_v10_green', JSON.stringify(window.LINKS_PLANILHAS));
+            localStorage.setItem('app_links_v11_restored', JSON.stringify(window.LINKS_PLANILHAS));
             alert('Links salvos e aplicados com sucesso!');
             preencherInputsFontes();
             sincronizarTudoOnline();
@@ -1397,7 +1426,7 @@
         sincronizarTudoOnline();
     </script>
 
-    <!-- PROGRAMAÇÃO DE OBRAS COM COLUNAS IDÊNTICAS, ESTRUTURA COM 0, ITENS CENTRALIZADOS E PAGINAÇÃO -->
+    <!-- PROGRAMAÇÃO DE OBRAS: GRÁFICOS EM COLUNAS PERFEITOS, FILTRO >= 2026 E ESTRUTURA COM 0 -->
     <script>
     (function(){
         const root = document.getElementById('tab-prog');
@@ -1534,6 +1563,7 @@
             else if (tab === 'hist') renderProgHist();
         }
 
+        /* DASHBOARD DA PROGRAMAÇÃO REESTRUTURADO */
         function renderProgDash() {
             const cur = contratoGlobal;
             const all = DB[cur] || [];
@@ -1815,7 +1845,7 @@
             $('#f-hist-prio').onchange = e => { F.prioridade = e.target.value; paginaAtual = 1; renderProgHist(); };
         }
 
-        /* MODAL COMPACTO DE ESPECIFICAÇÕES (SEM ROLAGEM EXCESSIVA) */
+        /* MODAL COMPACTO DE ESPECIFICAÇÕES */
         function detail(sob) {
             const cur = contratoGlobal;
             const item = (DB[cur] || []).find(x => x.sob === sob);
