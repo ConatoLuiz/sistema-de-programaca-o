@@ -3,327 +3,291 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enterprise Project & Works Management Portal</title>
+    <title>Portal de Inteligência Operacional & Obras</title>
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <!-- Font Awesome Pro/Free Icons -->
+    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- SheetJS -->
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
     <style>
         /* ========================================================
-           GLOBAL DESIGN SYSTEM & KEYFRAME ANIMATIONS
+           DESIGN SYSTEM WORLD-CLASS ENTERPRISE
            ======================================================== */
         :root {
             --bg-base: #F8FAFC;
             --bg-surface: #FFFFFF;
-            --bg-glass: rgba(255, 255, 255, 0.88);
-            --brand-primary: #0F172A;
-            --brand-accent: #3B82F6;
-            --brand-gradient: linear-gradient(135deg, #2563EB 0%, #06B6D4 100%);
-            --brand-gradient-hover: linear-gradient(135deg, #1D4ED8 0%, #0891B2 100%);
+            --bg-glass: rgba(255, 255, 255, 0.92);
+            --brand-navy: #0F172A;
+            --brand-primary: #1E3A8A;
+            --brand-accent: #2563EB;
+            --brand-cyan: #06B6D4;
+            --brand-gradient: linear-gradient(135deg, #1E3A8A 0%, #06B6D4 100%);
             --border-light: #E2E8F0;
-            --border-glass: rgba(226, 232, 240, 0.8);
+            --border-glass: rgba(226, 232, 240, 0.85);
             --text-main: #0F172A;
             --text-secondary: #475569;
             --text-muted: #94A3B8;
-            --status-success: #10B981;
-            --status-warning: #F59E0B;
-            --status-danger: #EF4444;
-            --status-info: #06B6D4;
-            --shadow-subtle: 0 4px 6px -1px rgba(15, 23, 42, 0.05), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
-            --shadow-float: 0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.08);
-            --shadow-glow: 0 0 20px rgba(37, 99, 235, 0.25);
+            --status-green: #10B981;
+            --status-amber: #F59E0B;
+            --status-red: #EF4444;
+            --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+            --shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
+            --shadow-float: 0 20px 30px -8px rgba(15, 23, 42, 0.15);
             --radius-md: 10px;
-            --radius-lg: 16px;
+            --radius-lg: 14px;
             --radius-pill: 9999px;
-            --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* RESET & BASE */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif; }
-        body { background-color: var(--bg-base); color: var(--text-main); padding: 16px 20px; min-height: 100vh; overflow-x: hidden; }
+        body { background-color: var(--bg-base); color: var(--text-main); padding: 14px 18px; min-height: 100vh; overflow-x: hidden; }
 
         /* KEYFRAMES */
         @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes scaleIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-        @keyframes pulseGlow { 0%, 100% { box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.5); } 50% { box-shadow: 0 0 0 10px rgba(6, 182, 212, 0); } }
-        @keyframes radarPing { 0% { transform: scale(0.9); opacity: 1; } 75%, 100% { transform: scale(2.2); opacity: 0; } }
-        @keyframes shimmerGradient { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
-        @keyframes chatBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+        @keyframes scaleIn { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+        @keyframes pulseDot { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.4); opacity: 0.5; } }
+        @keyframes pulseGlow { 0%, 100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4); } 50% { box-shadow: 0 0 0 10px rgba(37, 99, 235, 0); } }
 
         /* HEADER */
         header {
             display: flex; justify-content: space-between; align-items: center;
             background: var(--bg-glass); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-            border: 1px solid var(--border-glass); padding: 14px 24px; border-radius: var(--radius-lg);
-            margin-bottom: 14px; box-shadow: var(--shadow-subtle); position: sticky; top: 12px; z-index: 2500;
-            gap: 16px; flex-wrap: wrap; transition: var(--transition-smooth);
+            border: 1px solid var(--border-glass); padding: 12px 22px; border-radius: var(--radius-lg);
+            margin-bottom: 12px; box-shadow: var(--shadow-sm); position: sticky; top: 10px; z-index: 2500;
+            gap: 14px; flex-wrap: wrap; transition: var(--transition-fast);
         }
-        header:hover { border-color: rgba(59, 130, 246, 0.3); }
+        header:hover { border-color: rgba(37, 99, 235, 0.3); }
 
-        .brand-container { display: flex; align-items: center; gap: 14px; }
+        .brand-container { display: flex; align-items: center; gap: 12px; }
         .brand-icon-box {
-            width: 42px; height: 42px; border-radius: 12px; background: var(--brand-gradient);
-            display: flex; align-items: center; justify-content: center; color: #FFF; font-size: 1.25rem;
-            box-shadow: 0 8px 16px rgba(37, 99, 235, 0.35); transition: var(--transition-smooth);
+            width: 40px; height: 40px; border-radius: 10px; background: var(--brand-gradient);
+            display: flex; align-items: center; justify-content: center; color: #FFF; font-size: 1.2rem;
+            box-shadow: 0 6px 14px rgba(37, 99, 235, 0.3);
         }
-        .brand-icon-box:hover { transform: rotate(10deg) scale(1.05); }
-        .brand-text { font-size: 1.2rem; font-weight: 800; color: var(--brand-primary); letter-spacing: -0.4px; }
+        .brand-title { font-size: 1.15rem; font-weight: 800; color: var(--brand-navy); letter-spacing: -0.3px; }
 
         .header-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 
-        /* UNIFIED GLOBAL CONTRACT SELECTOR */
         .select-contract-master {
-            background: #FFFFFF; border: 2px solid #CBD5E1; color: var(--brand-primary);
-            padding: 8px 16px; border-radius: var(--radius-md); font-size: 0.88rem; font-weight: 700;
-            cursor: pointer; outline: none; transition: var(--transition-smooth); box-shadow: var(--shadow-subtle);
+            background: #FFFFFF; border: 2px solid var(--brand-accent); color: var(--brand-navy);
+            padding: 7px 14px; border-radius: var(--radius-md); font-size: 0.85rem; font-weight: 700;
+            cursor: pointer; outline: none; transition: var(--transition-fast); box-shadow: var(--shadow-sm);
         }
-        .select-contract-master:hover, .select-contract-master:focus {
-            border-color: #2563EB; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15); transform: translateY(-1px);
-        }
+        .select-contract-master:hover { background: #EFF6FF; }
 
-        /* BUTTONS */
-        .btn-modern-gradient {
-            background: var(--brand-gradient); color: #FFF; border: none;
-            padding: 9px 18px; border-radius: var(--radius-md); font-size: 0.85rem; font-weight: 700;
-            cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25); transition: var(--transition-smooth);
-        }
-        .btn-modern-gradient:hover {
-            background: var(--brand-gradient-hover); transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(37, 99, 235, 0.4);
-        }
-
-        .btn-modern-subtle {
-            background: #FFFFFF; border: 1px solid var(--border-light); color: var(--text-secondary);
-            padding: 8px 16px; border-radius: var(--radius-md); font-size: 0.85rem; font-weight: 600;
+        .btn-modern-primary {
+            background: var(--brand-primary); color: #FFF; border: none;
+            padding: 8px 16px; border-radius: var(--radius-md); font-size: 0.84rem; font-weight: 600;
             cursor: pointer; display: inline-flex; align-items: center; gap: 7px;
-            box-shadow: var(--shadow-subtle); transition: var(--transition-smooth);
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2); transition: var(--transition-fast);
         }
-        .btn-modern-subtle:hover {
-            color: var(--brand-accent); border-color: var(--brand-accent);
-            transform: translateY(-2px); background: #F8FAFC;
-        }
+        .btn-modern-primary:hover { background: #172554; transform: translateY(-1px); }
 
-        /* NAVIGATION TABS */
+        /* TABS */
         .tabs-nav {
-            display: flex; gap: 6px; margin-bottom: 16px; border-bottom: 1px solid var(--border-light);
-            padding-bottom: 4px; overflow-x: auto;
+            display: flex; gap: 4px; margin-bottom: 14px; border-bottom: 1px solid var(--border-light);
+            padding-bottom: 2px; overflow-x: auto;
         }
         .tab-nav-item {
             background: transparent; border: none; border-bottom: 3px solid transparent;
-            color: var(--text-secondary); padding: 10px 20px; font-weight: 600; font-size: 0.88rem;
-            cursor: pointer; display: inline-flex; align-items: center; gap: 9px;
-            transition: var(--transition-smooth); border-radius: 8px 8px 0 0;
+            color: var(--text-secondary); padding: 9px 18px; font-weight: 600; font-size: 0.86rem;
+            cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+            transition: var(--transition-fast); border-radius: 8px 8px 0 0;
         }
-        .tab-nav-item:hover { color: var(--brand-accent); background: rgba(59, 130, 246, 0.04); }
+        .tab-nav-item:hover { color: var(--brand-accent); background: rgba(37, 99, 235, 0.04); }
         .tab-nav-item.active {
             color: var(--brand-accent); border-bottom-color: var(--brand-accent); font-weight: 700;
-            background: rgba(59, 130, 246, 0.08);
+            background: rgba(37, 99, 235, 0.08);
         }
-        #tab-carteira, #tab-dash, #tab-prog, #tab-config { display: none; }
+        #tab-carteira, #tab-dash, #tab-prog, #tab-fontes { display: none; }
 
-        /* MAP AREA */
+        /* MAPA */
         .map-wrapper {
-            position: relative; width: 100%; height: 80vh; border-radius: var(--radius-lg);
-            border: 1px solid var(--border-light); overflow: hidden; box-shadow: var(--shadow-subtle);
-            animation: fadeIn 0.4s ease;
+            position: relative; width: 100%; height: 79vh; border-radius: var(--radius-lg);
+            border: 1px solid var(--border-light); overflow: hidden; box-shadow: var(--shadow-sm);
+            animation: fadeIn 0.3s ease;
         }
-        #map { height: 100%; width: 100%; }
+        #map { height: 100%; width: 100%; min-height: 400px; background: #E2E8F0; }
 
         .floating-sla-card {
-            position: absolute; top: 16px; right: 16px; background: var(--bg-glass);
-            backdrop-filter: blur(12px); border: 1px solid var(--border-glass); border-radius: 14px;
-            padding: 12px 16px; z-index: 1000; display: flex; flex-direction: column; gap: 6px;
-            box-shadow: var(--shadow-float); min-width: 220px; animation: scaleIn 0.3s ease;
+            position: absolute; top: 14px; right: 14px; background: var(--bg-glass);
+            backdrop-filter: blur(12px); border: 1px solid var(--border-glass); border-radius: 12px;
+            padding: 10px 14px; z-index: 1000; display: flex; flex-direction: column; gap: 5px;
+            box-shadow: var(--shadow-float); min-width: 210px; animation: scaleIn 0.25s ease;
         }
         .floating-sla-header {
-            font-size: 0.75rem; color: var(--text-muted); font-weight: 800; text-transform: uppercase;
-            letter-spacing: 0.6px; border-bottom: 1px solid var(--border-light); padding-bottom: 6px;
+            font-size: 0.72rem; color: var(--text-muted); font-weight: 800; text-transform: uppercase;
+            letter-spacing: 0.5px; border-bottom: 1px solid var(--border-light); padding-bottom: 4px;
         }
         .sla-row-btn {
-            display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem;
-            font-weight: 600; padding: 6px 10px; border-radius: 8px; cursor: pointer; transition: var(--transition-smooth);
+            display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem;
+            font-weight: 600; padding: 4px 8px; border-radius: 6px; cursor: pointer; transition: var(--transition-fast);
         }
-        .sla-row-btn:hover { background: rgba(59, 130, 246, 0.08); transform: translateX(2px); }
-        .sla-row-btn.active { background: rgba(59, 130, 246, 0.15); border: 1px solid var(--brand-accent); }
+        .sla-row-btn:hover { background: rgba(37, 99, 235, 0.08); }
+        .sla-row-btn.active { background: rgba(37, 99, 235, 0.15); border: 1px solid var(--brand-accent); }
 
         .floating-legend-card {
-            position: absolute; bottom: 24px; left: 20px; background: var(--bg-glass);
-            backdrop-filter: blur(12px); border: 1px solid var(--border-glass); border-radius: 14px;
-            padding: 12px 16px; z-index: 1000; box-shadow: var(--shadow-float); min-width: 190px;
-            max-height: 240px; overflow-y: auto; animation: scaleIn 0.3s ease;
+            position: absolute; bottom: 20px; left: 16px; background: var(--bg-glass);
+            backdrop-filter: blur(12px); border: 1px solid var(--border-glass); border-radius: 12px;
+            padding: 10px 14px; z-index: 1000; box-shadow: var(--shadow-float); min-width: 180px;
+            max-height: 230px; overflow-y: auto; animation: scaleIn 0.25s ease;
         }
 
-        /* CARTEIRA TABLE & CONTROLS */
+        /* CARTEIRA TABLE */
         .cart-glass-toolbar {
-            display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 12px;
-            background: #FFFFFF; padding: 12px 16px; border-radius: var(--radius-md);
-            border: 1px solid var(--border-light); box-shadow: var(--shadow-subtle);
+            display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 10px;
+            background: #FFFFFF; padding: 10px 14px; border-radius: var(--radius-md);
+            border: 1px solid var(--border-light); box-shadow: var(--shadow-sm);
         }
         .cart-search-box {
             background: #F8FAFC; border: 1px solid var(--border-light); color: var(--text-main);
-            padding: 8px 14px; border-radius: var(--radius-md); font-size: 0.85rem; min-width: 260px;
-            outline: none; transition: var(--transition-smooth);
+            padding: 7px 12px; border-radius: var(--radius-md); font-size: 0.83rem; min-width: 240px; outline: none;
         }
-        .cart-search-box:focus { border-color: var(--brand-accent); background: #FFF; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12); }
-
+        .cart-search-box:focus { border-color: var(--brand-accent); background: #FFF; }
         .cart-badge-chip {
-            display: inline-flex; align-items: center; gap: 7px; background: #FFFFFF;
+            display: inline-flex; align-items: center; gap: 6px; background: #FFFFFF;
             border: 1px solid var(--border-light); border-radius: var(--radius-pill);
-            padding: 5px 12px; font-size: 0.78rem; font-weight: 700; box-shadow: var(--shadow-subtle);
+            padding: 4px 10px; font-size: 0.76rem; font-weight: 700;
         }
-        .sinal-indicator { width: 10px; height: 10px; border-radius: 50%; display: inline-block; position: relative; }
-        .sinal-indicator.pulse::after {
-            content: ''; position: absolute; inset: -3px; border-radius: 50%; background: inherit; opacity: 0.4;
-            animation: radarPing 2s infinite;
-        }
+        .sinal-indicator { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
 
-        .etapa-chips-container { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+        .etapa-chips-container { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
         .etapa-chip-btn {
-            display: inline-flex; align-items: center; gap: 8px; background: #FFFFFF; border: 1px solid var(--border-light);
-            border-radius: var(--radius-pill); padding: 6px 14px; font-size: 0.78rem; font-weight: 700; cursor: pointer;
-            color: var(--text-secondary); transition: var(--transition-smooth); box-shadow: var(--shadow-subtle);
+            display: inline-flex; align-items: center; gap: 6px; background: #FFFFFF; border: 1px solid var(--border-light);
+            border-radius: var(--radius-pill); padding: 5px 12px; font-size: 0.76rem; font-weight: 700; cursor: pointer;
+            color: var(--text-secondary); transition: var(--transition-fast);
         }
-        .etapa-chip-btn:hover { border-color: var(--brand-accent); transform: translateY(-1px); }
-        .etapa-chip-btn.active { background: rgba(59, 130, 246, 0.1); border-color: var(--brand-accent); color: var(--brand-accent); }
+        .etapa-chip-btn:hover { border-color: var(--brand-accent); }
+        .etapa-chip-btn.active { background: rgba(37, 99, 235, 0.1); border-color: var(--brand-accent); color: var(--brand-accent); }
 
         .cart-table-panel {
-            background: #FFFFFF; border: 1px solid var(--border-light); border-radius: var(--radius-lg);
-            max-height: 75vh; overflow: auto; box-shadow: var(--shadow-subtle);
+            background: #FFFFFF; border: 1px solid var(--border-light); border-radius: var(--radius-md);
+            max-height: 74vh; overflow: auto; box-shadow: var(--shadow-sm);
         }
-        table.cart-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        table.cart-table { width: 100%; border-collapse: collapse; font-size: 0.83rem; }
         .cart-table th {
-            position: sticky; top: 0; background: #F8FAFC; color: var(--text-secondary);
-            font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.5px; text-align: left;
-            padding: 12px 14px; border-bottom: 2px solid var(--border-light); white-space: nowrap; z-index: 2;
+            position: sticky; top: 0; background: #F8FAFC; color: var(--brand-navy);
+            font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.4px; text-align: left;
+            padding: 10px 12px; border-bottom: 2px solid var(--border-light); white-space: nowrap; z-index: 2;
         }
-        .cart-table td { padding: 10px 14px; border-bottom: 1px solid var(--border-light); white-space: nowrap; transition: background 0.15s; }
+        .cart-table td { padding: 8px 12px; border-bottom: 1px solid var(--border-light); white-space: nowrap; }
         .cart-table tbody tr { cursor: pointer; }
-        .cart-table tbody tr:hover td { background: rgba(59, 130, 246, 0.05); }
+        .cart-table tbody tr:hover td { background: rgba(37, 99, 235, 0.04); }
+        .cart-empty { padding: 40px; text-align: center; color: var(--text-muted); }
 
-        /* DASHBOARDS */
-        .kpis-row { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-bottom: 14px; }
-        @media (max-width: 1400px) { .kpis-row { grid-template-columns: repeat(4, 1fr); } }
-        @media (max-width: 900px) { .kpis-row { grid-template-columns: repeat(2, 1fr); } }
+        /* DASHBOARDS COMPLETOS */
+        .kpis-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-bottom: 14px; }
+        @media (max-width: 1400px) { .kpis-grid { grid-template-columns: repeat(4, 1fr); } }
+        @media (max-width: 900px) { .kpis-grid { grid-template-columns: repeat(2, 1fr); } }
 
-        .kpi-card {
-            background: #FFFFFF; border: 1px solid var(--border-light); border-radius: var(--radius-md);
-            padding: 14px; border-left: 4px solid var(--brand-accent); box-shadow: var(--shadow-subtle);
-            transition: var(--transition-smooth);
+        .kpi {
+            background: #FFFFFF; border: 1px solid var(--border-light); border-radius: 8px;
+            padding: 12px 14px; border-left: 4px solid var(--brand-accent); box-shadow: var(--shadow-sm);
+            transition: var(--transition-fast);
         }
-        .kpi-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-float); }
-        .kpi-card b { display: block; font-size: 1.55rem; color: var(--brand-primary); font-weight: 800; }
-        .kpi-card span { font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.4px; }
+        .kpi:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .kpi b { display: block; font-size: 1.45rem; color: var(--brand-navy); font-weight: 800; }
+        .kpi span { font-size: 0.67rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.3px; }
 
-        .dash-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 14px; }
-        .dash-card {
-            background: #FFFFFF; border: 1px solid var(--border-light); border-radius: var(--radius-md);
-            padding: 16px; box-shadow: var(--shadow-subtle); transition: var(--transition-smooth);
-        }
-        .dash-card:hover { border-color: rgba(59, 130, 246, 0.3); }
+        .dgrid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 12px; }
+        .ditem { grid-column: span var(--span, 6); min-width: 0; transition: opacity 0.15s; }
+        .ditem.arrastando { opacity: 0.4; outline: 2px dashed var(--brand-accent); }
+        .dcard { background: #FFFFFF; border: 1px solid var(--border-light); border-radius: 10px; padding: 14px; box-shadow: var(--shadow-sm); }
+        .dh { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .dh h4 { font-size: 0.75rem; color: var(--brand-primary); text-transform: uppercase; letter-spacing: 0.4px; margin: 0; }
+        .dsz { background: #F8FAFC; border: 1px solid var(--border-light); border-radius: 6px; color: #64748B; cursor: pointer; padding: 2px 7px; font-size: 0.72rem; }
+        .dsz:hover { color: var(--brand-accent); border-color: var(--brand-accent); }
+        
+        .dbar { display: grid; grid-template-columns: 120px 1fr 34px; gap: 8px; align-items: center; font-size: 0.75rem; margin-bottom: 5px; }
+        .dbar > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-secondary); }
+        .dtrack { height: 13px; background: #E8EDF3; border-radius: 6px; display: flex; overflow: hidden; }
+        .dtrack i { display: block; height: 100%; }
+        .donut { width: 120px; height: 120px; border-radius: 50%; position: relative; flex-shrink: 0; }
+        .donut::after { content: ''; position: absolute; inset: 26px; background: #FFFFFF; border-radius: 50%; }
+        .dleg { font-size: 0.76rem; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+        .insights { list-style: none; display: grid; gap: 6px; font-size: 0.82rem; line-height: 1.45; }
+        .insights li { background: #F8FAFC; border-left: 3px solid var(--brand-accent); padding: 7px 12px; border-radius: 5px; }
+        .insights li.alerta { border-left-color: var(--status-red); background: #FEF2F2; }
 
-        /* FLOATING CHAT WIDGET & UPDATES FEED */
-        #chat-widget-root {
-            position: fixed; bottom: 24px; right: 24px; z-index: 5000;
-            display: flex; flex-direction: column; align-items: flex-end;
+        /* PROGRAMAÇÃO DE OBRAS */
+        #tab-prog .bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+        #tab-prog .sub { display: flex; gap: 4px; border-bottom: 1px solid var(--border-light); margin-bottom: 12px; }
+        #tab-prog .sub button {
+            border: 0; border-bottom: 3px solid transparent; background: none; color: var(--text-secondary);
+            padding: 8px 16px; font-weight: 600; cursor: pointer; font-size: 0.85rem;
         }
-        .chat-fab-btn {
-            background: var(--brand-gradient); color: #FFF; width: 54px; height: 54px; border-radius: 50%;
-            border: 2px solid #FFF; box-shadow: var(--shadow-float); display: flex; align-items: center;
-            justify-content: center; font-size: 1.35rem; cursor: pointer; transition: var(--transition-smooth);
-            position: relative; animation: pulseGlow 3s infinite;
-        }
-        .chat-fab-btn:hover { transform: scale(1.1) rotate(5deg); }
-        .chat-unread-dot {
-            position: absolute; top: 0; right: 0; width: 14px; height: 14px;
-            background: var(--status-danger); border: 2px solid #FFF; border-radius: 50%;
-        }
+        #tab-prog .sub button.on { color: var(--brand-primary); border-color: var(--brand-accent); font-weight: 700; }
+        #tab-prog .bars { display: flex; align-items: flex-end; gap: 6px; height: 180px; overflow-x: auto; }
+        #tab-prog .col { flex: 1; min-width: 32px; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; align-items: center; font-size: 10px; color: var(--text-muted); text-align: center; }
+        #tab-prog .stack { width: 100%; display: flex; flex-direction: column-reverse; border-radius: 4px; overflow: hidden; }
+        #tab-prog .week { display: grid; grid-template-columns: repeat(7, minmax(140px, 1fr)); gap: 8px; overflow-x: auto; }
+        #tab-prog .day { background: #FFFFFF; border: 1px solid var(--border-light); border-radius: 8px; min-height: 190px; padding: 8px; }
+        #tab-prog .day.today { border-color: var(--brand-accent); }
+        #tab-prog .ev { border-left: 3px solid var(--brand-accent); background: #F8FAFC; border-radius: 5px; padding: 5px 7px; margin-bottom: 5px; font-size: 11px; cursor: pointer; }
+        #tab-prog .tw { overflow: auto; max-height: 68vh; }
 
-        .chat-card-window {
-            display: none; width: 360px; height: 480px; background: #FFFFFF;
-            border: 1px solid var(--border-light); border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-float); margin-bottom: 12px; flex-direction: column;
-            overflow: hidden; animation: scaleIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .chat-card-window.open { display: flex; }
-        .chat-header-bar {
-            background: var(--brand-primary); color: #FFF; padding: 12px 16px;
-            display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; font-weight: 700;
-        }
-        .chat-feed-stream {
-            flex: 1; padding: 14px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; font-size: 0.82rem;
-        }
-        .chat-bubble {
-            background: #F1F5F9; padding: 10px 12px; border-radius: 10px; max-width: 92%;
-            line-height: 1.45; border-left: 3px solid var(--brand-accent); animation: fadeIn 0.2s ease;
-        }
-        .chat-bubble.alert { border-left-color: var(--status-danger); background: #FEF2F2; color: #991B1B; }
-        .chat-bubble.success { border-left-color: var(--status-success); background: #F0FDF4; }
-        .chat-bubble.user { align-self: flex-end; background: #EFF6FF; border-left: none; border-right: 3px solid var(--brand-accent); }
-        .chat-bubble small { display: block; font-size: 0.68rem; color: var(--text-muted); margin-top: 4px; }
-
-        .chat-quick-actions {
-            display: flex; gap: 6px; padding: 8px 12px; background: #F8FAFC; border-top: 1px solid var(--border-light); overflow-x: auto;
-        }
-        .chat-action-pill {
-            background: #FFFFFF; border: 1px solid var(--border-light); border-radius: var(--radius-pill);
-            padding: 4px 10px; font-size: 0.72rem; cursor: pointer; white-space: nowrap; font-weight: 600;
-            transition: var(--transition-smooth);
-        }
-        .chat-action-pill:hover { border-color: var(--brand-accent); color: var(--brand-accent); transform: translateY(-1px); }
-
-        .chat-input-row { display: flex; padding: 10px; border-top: 1px solid var(--border-light); gap: 8px; background: #FFF; }
-        .chat-input-row input {
-            flex: 1; border: 1px solid var(--border-light); border-radius: var(--radius-md);
-            padding: 8px 12px; font-size: 0.82rem; outline: none; transition: var(--transition-smooth);
-        }
-        .chat-input-row input:focus { border-color: var(--brand-accent); }
-        .chat-input-row button {
-            background: var(--brand-gradient); color: #FFF; border: none; border-radius: var(--radius-md);
-            padding: 0 16px; cursor: pointer; font-size: 0.85rem; transition: var(--transition-smooth);
-        }
-
-        /* MODAL PROJECT WINDOW */
+        /* MODAL CONSULTA PROJETO */
         #proj-window {
             display: none; position: fixed; top: 80px; left: 50%; transform: translateX(-50%);
-            width: 520px; height: 560px; max-width: 95vw; max-height: 90vh;
+            width: 480px; height: 520px; max-width: 95vw; max-height: 90vh;
             background: #FFFFFF; border: 1px solid var(--border-light); border-radius: var(--radius-lg);
             box-shadow: var(--shadow-float); z-index: 3500; resize: both; overflow: hidden;
             flex-direction: column; animation: scaleIn 0.25s ease;
         }
         #proj-window.show { display: flex; }
-        .pw-header-top {
-            display: flex; justify-content: space-between; align-items: center; background: #F8FAFC;
-            padding: 12px 18px; border-bottom: 2px solid var(--brand-primary); cursor: move;
-        }
-        .pw-body-content { padding: 16px; overflow-y: auto; flex: 1; font-size: 0.84rem; }
-        .pw-info-row { display: grid; grid-template-columns: 36% 1fr; gap: 8px; padding: 7px 0; border-bottom: 1px solid var(--border-light); }
+        .pw-header { display: flex; justify-content: space-between; align-items: center; background: #F8FAFC; padding: 11px 16px; border-bottom: 2px solid var(--brand-primary); }
+        .pw-body { padding: 14px; overflow-y: auto; flex: 1; font-size: 0.83rem; }
+        .pw-row { display: grid; grid-template-columns: 40% 1fr; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--border-light); }
 
-        /* TOAST */
-        .toast-box {
-            position: fixed; bottom: 90px; right: 24px; background: #FFFFFF; border-left: 4px solid var(--status-success);
-            border-radius: var(--radius-md); padding: 12px 20px; box-shadow: var(--shadow-float);
-            display: flex; align-items: center; gap: 12px; z-index: 4500; opacity: 0; transform: translateY(15px);
-            transition: var(--transition-smooth); pointer-events: none;
+        /* CHAT ASSISTENTE FLUTUANTE */
+        #chat-widget-root {
+            position: fixed; bottom: 22px; right: 22px; z-index: 5000;
+            display: flex; flex-direction: column; align-items: flex-end;
         }
-        .toast-box.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        .chat-fab-btn {
+            background: var(--brand-gradient); color: #FFF; width: 50px; height: 50px; border-radius: 50%;
+            border: 2px solid #FFF; box-shadow: var(--shadow-float); display: flex; align-items: center;
+            justify-content: center; font-size: 1.3rem; cursor: pointer; transition: var(--transition-fast);
+            animation: pulseGlow 3s infinite;
+        }
+        .chat-fab-btn:hover { transform: scale(1.08); }
+        .chat-card-window {
+            display: none; width: 350px; height: 460px; background: #FFFFFF;
+            border: 1px solid var(--border-light); border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-float); margin-bottom: 10px; flex-direction: column;
+            overflow: hidden; animation: scaleIn 0.2s ease;
+        }
+        .chat-card-window.open { display: flex; }
+        .chat-header-bar {
+            background: var(--brand-navy); color: #FFF; padding: 10px 14px;
+            display: flex; justify-content: space-between; align-items: center; font-size: 0.88rem; font-weight: 700;
+        }
+        .chat-feed-stream { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; font-size: 0.82rem; }
+        .chat-bubble {
+            background: #F1F5F9; padding: 8px 10px; border-radius: 8px; max-width: 90%;
+            line-height: 1.4; border-left: 3px solid var(--brand-accent); animation: fadeIn 0.2s ease;
+        }
+        .chat-bubble.alert { border-left-color: var(--status-red); background: #FEF2F2; color: #991B1B; }
+        .chat-bubble.success { border-left-color: var(--status-green); background: #F0FDF4; }
+        .chat-bubble.user { align-self: flex-end; background: #EFF6FF; border-left: none; border-right: 3px solid var(--brand-accent); }
+        .chat-input-row { display: flex; padding: 8px; border-top: 1px solid var(--border-light); gap: 6px; }
+        .chat-input-row input { flex: 1; border: 1px solid var(--border-light); border-radius: 6px; padding: 6px 10px; font-size: 0.8rem; outline: none; }
+        .chat-input-row button { background: var(--brand-primary); color: #FFF; border: none; border-radius: 6px; padding: 0 12px; cursor: pointer; }
 
-        /* CONFIG STYLING */
-        .cfg-card { background: #FFF; border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 18px; margin-bottom: 14px; }
-        .code-box-embed { background: #0F172A; color: #38BDF8; padding: 12px; border-radius: 8px; font-family: monospace; font-size: 11px; max-height: 150px; overflow: auto; margin-top: 6px; user-select: all; }
+        /* FONTES DE DADOS */
+        .card-fonte { background: #FFF; border: 1px solid var(--border-light); border-radius: 10px; padding: 16px; margin-bottom: 12px; }
     </style>
 </head>
 <body>
 
     <div id="app-container">
-        <!-- HEADER (SEM FILTROS PROJETOS/ETAPAS, COM CONTRATO MASTER UNIFICADO) -->
+        <!-- HEADER -->
         <header>
             <div class="brand-container">
-                <div class="brand-icon-box"><i class="fa-solid fa-network-wired"></i></div>
-                <div class="brand-text">Gestão Integrada de Carteira & Obras</div>
+                <div class="brand-icon-box"><i class="fa-solid fa-chart-line"></i></div>
+                <div class="brand-title">Portal de Gestão Operacional & Obras</div>
             </div>
 
             <div class="header-actions">
@@ -333,12 +297,8 @@
                     <option value="mage">Contrato: Magé</option>
                 </select>
 
-                <button class="btn-modern-subtle" onclick="sincronizarTudoOnline()" title="Sincronizar dados das planilhas Google">
-                    <i class="fa-solid fa-rotate"></i> Sincronizar Tudo
-                </button>
-
-                <button class="btn-modern-gradient" onclick="abrirModalNovoProjeto()">
-                    <i class="fa-solid fa-plus"></i> Novo Projeto
+                <button class="btn-modern-primary" onclick="sincronizarTudoOnline()" title="Sincronizar planilhas Google">
+                    <i class="fa-solid fa-rotate"></i> Atualizar Planilhas
                 </button>
             </div>
         </header>
@@ -346,36 +306,36 @@
         <!-- NAVEGAÇÃO DE ABAS -->
         <div class="tabs-nav">
             <button class="tab-nav-item active" id="tabbtn-mapa" onclick="trocarAba('mapa')"><i class="fa-solid fa-map-location-dot"></i> Mapa Georreferenciado</button>
-            <button class="tab-nav-item" id="tabbtn-carteira" onclick="trocarAba('carteira')"><i class="fa-solid fa-table-list"></i> Carteira de Projetos (Consulta & Cadastro)</button>
+            <button class="tab-nav-item" id="tabbtn-carteira" onclick="trocarAba('carteira')"><i class="fa-solid fa-table-list"></i> Carteira de Projetos (Consulta)</button>
             <button class="tab-nav-item" id="tabbtn-dash" onclick="trocarAba('dash')"><i class="fa-solid fa-chart-pie"></i> Dashboards Executivos</button>
             <button class="tab-nav-item" id="tabbtn-prog" onclick="trocarAba('prog')"><i class="fa-solid fa-calendar-check"></i> Programação de Obras (Consulta)</button>
-            <button class="tab-nav-item" id="tabbtn-config" onclick="trocarAba('config')"><i class="fa-solid fa-database"></i> Banco de Dados (Google Planilhas)</button>
+            <button class="tab-nav-item" id="tabbtn-fontes" onclick="trocarAba('fontes')"><i class="fa-solid fa-link"></i> Fontes de Dados</button>
         </div>
 
         <!-- ABA 1: MAPA -->
         <div id="tab-mapa">
             <div class="map-wrapper">
                 <div class="floating-sla-card">
-                    <div class="floating-sla-header"><i class="fa-solid fa-clock"></i> SLA / Prazos de Obra</div>
+                    <div class="floating-sla-header"><i class="fa-solid fa-clock"></i> SLA / Prazos de Execução</div>
                     <div class="sla-row-btn active" id="card-sla-todos" onclick="filtrarPorFaixaSla('todos')">
-                        <span style="color:var(--status-success);">Total Mapeados</span>
-                        <b id="count-total" style="color:var(--status-success);">0</b>
+                        <span style="color:var(--status-green);">Total Mapeados</span>
+                        <b id="count-total" style="color:var(--status-green);">0</b>
                     </div>
                     <div class="sla-row-btn" id="card-sla-violada" onclick="filtrarPorFaixaSla('violada')">
-                        <span style="color:var(--status-danger);">Violadas (≤ 0d)</span>
-                        <b id="count-violada" style="color:var(--status-danger);">0</b>
+                        <span style="color:var(--status-red);">Violadas (≤ 0d)</span>
+                        <b id="count-violada" style="color:var(--status-red);">0</b>
                     </div>
                     <div class="sla-row-btn" id="card-sla-12dias" onclick="filtrarPorFaixaSla('12dias')">
-                        <span style="color:var(--status-warning);">Até 12 Dias</span>
-                        <b id="count-12dias" style="color:var(--status-warning);">0</b>
+                        <span style="color:var(--status-amber);">Até 12 Dias</span>
+                        <b id="count-12dias" style="color:var(--status-amber);">0</b>
                     </div>
                     <div class="sla-row-btn" id="card-sla-20dias" onclick="filtrarPorFaixaSla('20dias')">
                         <span style="color:#D97706;">Até 20 Dias</span>
                         <b id="count-20dias" style="color:#D97706;">0</b>
                     </div>
                     <div class="sla-row-btn" id="card-sla-30dias" onclick="filtrarPorFaixaSla('30dias')">
-                        <span style="color:var(--status-info);">Até 30 Dias</span>
-                        <b id="count-30dias" style="color:var(--status-info);">0</b>
+                        <span style="color:var(--brand-cyan);">Até 30 Dias</span>
+                        <b id="count-30dias" style="color:var(--brand-cyan);">0</b>
                     </div>
                 </div>
 
@@ -392,11 +352,10 @@
         <div id="tab-carteira">
             <div class="cart-glass-toolbar">
                 <input type="text" class="cart-search-box" id="cart-search" placeholder="Pesquisar por projeto, SOB, parceira..." oninput="renderCarteira()">
-                <button class="btn-modern-gradient" onclick="abrirModalNovoProjeto()"><i class="fa-solid fa-plus"></i> Cadastrar Projeto</button>
                 <span class="cart-badge-chip"><i class="fa-solid fa-list"></i> <span id="cart-total">0</span> projetos</span>
-                <span class="cart-badge-chip" style="color:var(--status-danger);"><span class="sinal-indicator pulse" style="background:var(--status-danger);"></span> <span id="cart-red">0</span></span>
-                <span class="cart-badge-chip" style="color:var(--status-warning);"><span class="sinal-indicator" style="background:var(--status-warning);"></span> <span id="cart-yellow">0</span></span>
-                <span class="cart-badge-chip" style="color:var(--status-success);"><span class="sinal-indicator" style="background:var(--status-success);"></span> <span id="cart-green">0</span></span>
+                <span class="cart-badge-chip" style="color:var(--status-red);"><span class="sinal-indicator" style="background:var(--status-red);"></span> <span id="cart-red">0</span></span>
+                <span class="cart-badge-chip" style="color:var(--status-amber);"><span class="sinal-indicator" style="background:var(--status-amber);"></span> <span id="cart-yellow">0</span></span>
+                <span class="cart-badge-chip" style="color:var(--status-green);"><span class="sinal-indicator" style="background:var(--status-green);"></span> <span id="cart-green">0</span></span>
                 <span id="carteira-status-badge" style="font-size:0.8rem; font-weight:700; margin-left:6px;"></span>
             </div>
 
@@ -413,7 +372,7 @@
                     <option value="amarelo">🟡 Amarelo (6-15d)</option>
                     <option value="verde">🟢 Verde (> 15d)</option>
                 </select>
-                <button class="btn-modern-subtle" onclick="limparFiltrosCarteira()"><i class="fa-solid fa-filter-circle-xmark"></i> Limpar Filtros</button>
+                <button class="btn-modern-primary" style="padding:6px 12px;background:#64748B;" onclick="limparFiltrosCarteira()"><i class="fa-solid fa-filter-circle-xmark"></i> Limpar Filtros</button>
             </div>
 
             <div class="cart-table-panel">
@@ -426,112 +385,68 @@
             </div>
         </div>
 
-        <!-- ABA 3: DASHBOARDS -->
+        <!-- ABA 3: DASHBOARDS EXECUTIVOS (COMPLETO) -->
         <div id="tab-dash">
-            <div class="cart-glass-toolbar" style="margin-bottom:14px;">
-                <select class="cart-search-box" style="min-width:160px;" id="d-tipo" onchange="renderDashboard()"><option value="">TIPO: Todos</option></select>
-                <select class="cart-search-box" style="min-width:160px;" id="d-parceira" onchange="renderDashboard()"><option value="">PARCEIRA: Todas</option></select>
-                <select class="cart-search-box" style="min-width:160px;" id="d-resp" onchange="renderDashboard()"><option value="">RESPONSÁVEL: Todos</option></select>
+            <div class="cart-glass-toolbar" style="margin-bottom:12px;">
+                <select class="cart-search-box" style="min-width:150px;" id="d-tipo" onchange="renderDashboard()"><option value="">TIPO: Todos</option></select>
+                <select class="cart-search-box" style="min-width:150px;" id="d-parceira" onchange="renderDashboard()"><option value="">PARCEIRA: Todas</option></select>
+                <select class="cart-search-box" style="min-width:150px;" id="d-resp" onchange="renderDashboard()"><option value="">RESPONSÁVEL: Todos</option></select>
+                <button class="btn-modern-primary" style="padding:6px 12px;background:#64748B;" onclick="restaurarLayoutDash()"><i class="fa-solid fa-rotate-left"></i> Restaurar Layout</button>
             </div>
             <div id="dash-root"></div>
         </div>
 
-        <!-- ABA 4: PROGRAMAÇÃO DE OBRAS (CONSULTA) -->
+        <!-- ABA 4: PROGRAMAÇÃO DE OBRAS (CONSULTA COM DASHBOARD, SEMANA E HISTÓRICO) -->
         <div id="tab-prog">
             <div class="cart-glass-toolbar" style="justify-content:space-between;">
                 <span id="st" style="font-size:0.85rem; font-weight:700;"></span>
             </div>
-            <div class="tabs-nav" id="sub" style="margin-top:-6px;">
-                <button data-t="dash" class="tab-nav-item active">Dashboard Executivo</button>
-                <button data-t="week" class="tab-nav-item">Calendário Semanal</button>
-                <button data-t="hist" class="tab-nav-item">Histórico Completo</button>
+            <div class="sub" id="sub-prog-nav" style="display:flex;gap:4px;border-bottom:1px solid var(--border-light);margin-bottom:12px;">
+                <button data-t="dash" class="on">Dashboard</button>
+                <button data-t="week">Semana</button>
+                <button data-t="hist">Histórico</button>
             </div>
             <div id="v"></div>
-            <dialog id="dlg" style="border:none;border-radius:12px;padding:20px;max-width:540px;box-shadow:var(--shadow-float);"><div id="dbody"></div><p style="text-align:right;margin-top:12px;"><button class="btn-modern-subtle" onclick="this.closest('dialog').close()">Fechar</button></p></dialog>
+            <dialog id="dlg" style="border:none;border-radius:12px;padding:20px;max-width:540px;box-shadow:var(--shadow-float);"><div id="dbody"></div><p style="text-align:right;margin-top:12px;"><button class="btn-modern-primary" style="background:#64748B;" onclick="this.closest('dialog').close()">Fechar</button></p></dialog>
         </div>
 
-        <!-- ABA 5: BANCO DE DADOS (GOOGLE PLANILHAS) -->
-        <div id="tab-config">
-            <div class="cfg-card">
-                <h3 style="font-size:1.05rem;color:var(--brand-primary);margin-bottom:8px;"><i class="fa-brands fa-google-drive"></i> Conexão com Google Planilhas</h3>
-                <p style="font-size:0.82rem;color:var(--text-secondary);margin-bottom:14px;">O sistema lê diretamente as planilhas publicadas e envia novos cadastros via Webhook do Google Apps Script.</p>
-
-                <div style="display:grid;gap:10px;">
-                    <label style="font-size:0.8rem;font-weight:700;">Carteira Angra dos Reis (Link CSV ou &lt;iframe&gt;)
-                        <input id="cfg-cart-ang" class="cart-search-box" style="width:100%;margin-top:4px;">
-                    </label>
-                    <label style="font-size:0.8rem;font-weight:700;">Carteira Magé (Link CSV ou &lt;iframe&gt;)
-                        <input id="cfg-cart-mag" class="cart-search-box" style="width:100%;margin-top:4px;" placeholder="Cole aqui o link ou iframe de Magé quando disponível">
-                    </label>
-                    <label style="font-size:0.8rem;font-weight:700;">Programação Angra dos Reis
-                        <input id="cfg-prog-ang" class="cart-search-box" style="width:100%;margin-top:4px;">
-                    </label>
-                    <label style="font-size:0.8rem;font-weight:700;">Programação Magé
-                        <input id="cfg-prog-mag" class="cart-search-box" style="width:100%;margin-top:4px;">
-                    </label>
-                </div>
-
-                <h3 style="font-size:0.95rem;color:var(--brand-primary);margin-top:20px;margin-bottom:6px;"><i class="fa-solid fa-cloud-arrow-up"></i> Webhook de Gravação Automática na Planilha</h3>
-                <p style="font-size:0.8rem;color:var(--text-secondary);">Para gravar os novos projetos automaticamente em tempo real sem servidor, cole o código abaixo em <b>Extensões > Apps Script</b> da sua planilha, implante como <b>App da Web</b> (Acesso: Qualquer pessoa) e cole a URL gerada abaixo:</p>
-                
-                <input id="cfg-webhook-url" class="cart-search-box" style="width:100%;margin-top:6px;" placeholder="https://script.google.com/macros/s/.../exec">
-
-                <div class="code-box-embed">
-function doPost(e) {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-  var data = JSON.parse(e.postData.contents);
-  sheet.appendRow([
-    data.PACOTE || '',
-    data.BASE || '',
-    data.TIPO || '',
-    data.PROJETO || '',
-    data.PARCEIRA || '',
-    data['DATA LIMITE PARA EXECUÇÃO'] || '',
-    data.PRIORIDADE || '',
-    data.ETAPA || '',
-    data.LATITUDE || '',
-    data.LONGITUDE || '',
-    data.RESPONSÁVEL || ''
-  ]);
-  return ContentService.createTextOutput("OK");
-}
-                </div>
-
-                <div style="margin-top:14px;display:flex;align-items:center;gap:10px;">
-                    <button class="btn-modern-gradient" onclick="salvarConfiguracaoMaster()">Salvar Configurações</button>
-                    <span id="cfg-msg" style="font-size:0.85rem;font-weight:700;"></span>
+        <!-- ABA 5: FONTES DE DADOS (APENAS CONSULTA DOS LINKS) -->
+        <div id="tab-fontes">
+            <div class="card-fonte">
+                <h3 style="color:var(--brand-navy);margin-bottom:8px;"><i class="fa-solid fa-circle-info"></i> Fontes de Dados Conectadas (Somente Leitura)</h3>
+                <p style="font-size:0.83rem;color:var(--text-secondary);margin-bottom:14px;">As planilhas são lidas diretamente da nuvem em formato CSV em tempo real:</p>
+                <div style="display:grid;gap:10px;font-size:0.82rem;">
+                    <div><b>Carteira Angra dos Reis:</b> <span style="color:#059669;">Conectada</span></div>
+                    <div><b>Carteira Magé:</b> <span style="color:#DC2626;">Aguardando publicação do link</span></div>
+                    <div><b>Programação Angra dos Reis:</b> <span style="color:#059669;">Conectada</span></div>
+                    <div><b>Programação Magé:</b> <span style="color:#059669;">Conectada</span></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- JANELA MODAL DE DETALHE E CADASTRO -->
+    <!-- JANELA MODAL DE DETALHES DO PROJETO (CONSULTA) -->
     <div id="proj-window">
-        <div class="pw-header-top" id="pw-header-drag">
-            <span style="font-size:0.9rem;font-weight:800;color:var(--brand-primary);" id="pw-title">PROJETO</span>
+        <div class="pw-header">
+            <span style="font-weight:800;color:var(--brand-navy);" id="pw-title">DETALHES DO PROJETO</span>
             <button onclick="fecharJanelaProjeto()" style="background:none;border:none;cursor:pointer;font-size:18px;color:var(--text-muted);">&times;</button>
         </div>
-        <div class="pw-body-content" id="pw-body"></div>
+        <div class="pw-body" id="pw-body"></div>
     </div>
 
-    <!-- CHAT ASSISTENTE & FEED DE ATUALIZAÇÕES -->
+    <!-- CHAT FLUTUANTE DE ATUALIZAÇÕES -->
     <div id="chat-widget-root">
         <div class="chat-card-window" id="chat-window">
             <div class="chat-header-bar">
-                <span><i class="fa-solid fa-robot"></i> Feed de Atualizações & Assistente</span>
+                <span><i class="fa-solid fa-robot"></i> Feed de Atualizações das Planilhas</span>
                 <span onclick="toggleChatWindow()" style="cursor:pointer;font-size:18px;">&times;</span>
             </div>
             <div class="chat-feed-stream" id="chat-messages">
                 <div class="chat-bubble success">
-                    <b>Assistente Conectado</b><br>
-                    Monitorando planilhas de Angra dos Reis e Magé. Todas as sincronizações aparecem neste feed.
+                    <b>Monitoramento Ativo</b><br>
+                    Feed conectado às planilhas oficiais. Todas as leituras e alertas aparecem aqui.
                     <small>Agora</small>
                 </div>
-            </div>
-            <div class="chat-quick-actions">
-                <button class="chat-action-pill" onclick="chatPrompt('resumo')">📊 Resumo</button>
-                <button class="chat-action-pill" onclick="chatPrompt('vencidos')">🚨 Obras Vencidas</button>
-                <button class="chat-action-pill" onclick="chatPrompt('programacao')">📅 Programação</button>
             </div>
             <div class="chat-input-row">
                 <input type="text" id="chat-input" placeholder="Pergunte sobre as obras..." onkeydown="if(event.key==='Enter')enviarChatMensagem()">
@@ -540,49 +455,20 @@ function doPost(e) {
         </div>
         <div class="chat-fab-btn" onclick="toggleChatWindow()" title="Feed e Chat de Atualizações">
             <i class="fa-solid fa-comments"></i>
-            <span class="chat-unread-dot" id="chat-dot"></span>
         </div>
     </div>
 
-    <!-- TOAST NOTIFICATION -->
-    <div id="toast-box" class="toast-box">
-        <i class="fa-solid fa-circle-check" style="color:var(--status-success);font-size:1.3rem;"></i>
-        <div>
-            <div style="font-weight:700;color:var(--brand-primary);font-size:0.85rem;" id="toast-title">Notificação</div>
-            <div style="font-size:0.75rem;color:var(--text-secondary);" id="toast-desc">Operação realizada.</div>
-        </div>
-    </div>
+    <!-- SCRIPTS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-    <!-- ENGINE JAVASCRIPT -->
     <script>
-        /* CONVERSOR INTELIGENTE DE IFRAME / GOOGLE SHEETS PARA CSV */
-        function extrairLinkCsvGoogle(str) {
-            if (!str) return '';
-            str = String(str).trim();
-            const match = str.match(/src=["']([^"']+)["']/i);
-            if (match && match[1]) str = match[1];
-            str = str.replace(/&amp;/g, '&');
-            if (str.includes('/pubhtml')) {
-                str = str.replace('/pubhtml', '/pub');
-                if (!str.includes('output=csv')) {
-                    str += (str.includes('?') ? '&' : '?') + 'output=csv';
-                }
-            }
-            return str;
-        }
-
+        /* LINKS FIXOS E RESTRITOS (EXATAMENTE COMO FORNECIDOS) */
         window.LINKS_PLANILHAS = {
-            prog_angra: extrairLinkCsvGoogle('https://docs.google.com/spreadsheets/d/e/2PACX-1vQuRUw8jB-tTh63Deqb5Og-J04D7cYHX9tbsqvbhm833-M7ZGdOS1oQ3GJCybxPXPBG8Aa-lMHJ4gYd/pubhtml?gid=1050565461&single=true&widget=true&headers=false'),
-            prog_mage: extrairLinkCsvGoogle('https://docs.google.com/spreadsheets/d/e/2PACX-1vTpotM4mC5w2KmbYn-xkPEMCOpZu9T6EO0i3IGVlEADdNxfBbgpYzD0IrMna0F64w/pubhtml?gid=1401348365&single=true&widget=true&headers=false'),
-            carteira_angra: extrairLinkCsvGoogle('https://docs.google.com/spreadsheets/d/e/2PACX-1vToswUD-YrLiHH87aWkz3yHfpvG1tYgeXq0uiUXizDxF5RVoYrr9m4t8xSy1yfLC4zItS7Hb0bTHguK/pubhtml?gid=1394179098&single=true&widget=true&headers=false'),
+            carteira_angra: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vToswUD-YrLiHH87aWkz3yHfpvG1tYgeXq0uiUXizDxF5RVoYrr9m4t8xSy1yfLC4zItS7Hb0bTHguK/pub?gid=1394179098&single=true&output=csv',
             carteira_mage: '',
-            webhook_url: ''
+            prog_angra: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQuRUw8jB-tTh63Deqb5Og-J04D7cYHX9tbsqvbhm833-M7ZGdOS1oQ3GJCybxPXPBG8Aa-lMHJ4gYd/pub?gid=1050565461&single=true&output=csv',
+            prog_mage: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTpotM4mC5w2KmbYn-xkPEMCOpZu9T6EO0i3IGVlEADdNxfBbgpYzD0IrMna0F64w/pub?gid=1401348365&single=true&output=csv'
         };
-
-        try {
-            const saved = localStorage.getItem('app_links_v7_clean');
-            if (saved) Object.assign(window.LINKS_PLANILHAS, JSON.parse(saved));
-        } catch(e) {}
 
         let map, markersGroup;
         let listaDadosGlobal = [];
@@ -595,14 +481,16 @@ function doPost(e) {
 
         function esc(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
+        /* INICIALIZAÇÃO INFALÍVEL DO MAPA */
         function inicializarMapa() {
             if (!map) {
-                map = L.map('map').setView([-22.9068, -43.1729], 11);
-                const sat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: 19 });
-                const osm = L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
-                L.control.layers({ 'Mapa Claro': osm, 'Satélite': sat }).addTo(map);
+                map = L.map('map', { zoomControl: true }).setView([-22.9068, -43.1729], 10);
+                const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; OpenStreetMap' }).addTo(map);
+                const sat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: 19, attribution: '&copy; Esri' });
+                L.control.layers({ 'Mapa': osm, 'Satélite': sat }).addTo(map);
                 markersGroup = L.layerGroup().addTo(map);
             }
+            setTimeout(() => { if (map) map.invalidateSize(); }, 200);
         }
 
         function buscarCampoFlexivel(obj, ...nomes) {
@@ -665,7 +553,7 @@ function doPost(e) {
             return String(buscarCampoFlexivel(item, 'PROJETO', 'CODIGO', 'OBRA', 'SOB') || '').trim();
         }
 
-        /* CONTRATO UNIFICADO MASTER */
+        /* TROCA GLOBAL DE CONTRATO (UNIFICAÇÃO TOTAL) */
         function mudarContratoGlobal(c) {
             contratoGlobal = c;
             document.getElementById('sel-contrato-global').value = c;
@@ -682,38 +570,35 @@ function doPost(e) {
             const url = window.LINKS_PLANILHAS['carteira_' + contratoGlobal];
 
             if (!url) {
-                badge.innerHTML = `<span style="color:var(--status-danger);"><i class="fa-solid fa-triangle-exclamation"></i> ${contratoGlobal.toUpperCase()}: Sem planilha vinculada</span>`;
+                badge.innerHTML = `<span style="color:var(--status-red);"><i class="fa-solid fa-triangle-exclamation"></i> Carteira de ${contratoGlobal.toUpperCase()}: Ainda sem link publicado.</span>`;
                 aplicarLinhas([]);
-                adicionarFeedChat(`Alerta: Carteira de ${contratoGlobal.toUpperCase()} ainda não possui link cadastrado na aba Banco de Dados.`, 'alert');
+                adicionarFeedChat(`Aviso: A planilha de Carteira de ${contratoGlobal.toUpperCase()} ainda não possui link publicado.`, 'alert');
                 return;
             }
 
-            badge.innerHTML = `<span style="color:var(--brand-accent);"><i class="fa-solid fa-spinner fa-spin"></i> Lendo Carteira de ${contratoGlobal.toUpperCase()}...</span>`;
+            badge.innerHTML = `<span style="color:var(--brand-accent);"><i class="fa-solid fa-spinner fa-spin"></i> Lendo dados de ${contratoGlobal.toUpperCase()}...</span>`;
             try {
                 const resp = await fetch(url + (url.includes('?') ? '&' : '?') + '_=' + Date.now(), { cache: 'no-store' });
-                if (!resp.ok) throw new Error('Offline');
+                if (!resp.ok) throw new Error('Falha de conexão');
                 const csvData = await resp.text();
                 const wb = XLSX.read(csvData, { type: 'string', cellDates: true });
                 const sheet = wb.Sheets[wb.SheetNames[0]];
                 const rows = XLSX.utils.sheet_to_json(sheet, { defval: "" });
 
-                // Mescla com cadastros locais
-                const locais = JSON.parse(localStorage.getItem('obras_locais_' + contratoGlobal) || '[]');
-                const todas = [...locais, ...rows];
+                badge.innerHTML = `<span style="color:var(--status-green);"><i class="fa-solid fa-circle-check"></i> ${contratoGlobal.toUpperCase()} Conectado (${rows.length} obras)</span>`;
+                aplicarLinhas(rows);
 
-                badge.innerHTML = `<span style="color:var(--status-success);"><i class="fa-solid fa-circle-check"></i> ${contratoGlobal.toUpperCase()} Conectado (${todas.length} obras)</span>`;
-                aplicarLinhas(todas);
-
-                const vencidos = todas.filter(i => calcularDiasRestantes(buscarCampoFlexivel(i, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE')) <= 0).length;
-                adicionarFeedChat(`Planilha de ${contratoGlobal.toUpperCase()} sincronizada! <b>${todas.length} obras carregadas</b> (${vencidos} com prazo de execução violado).`, 'success');
+                const vencidos = rows.filter(i => calcularDiasRestantes(buscarCampoFlexivel(i, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE')) <= 0).length;
+                adicionarFeedChat(`Planilha de Carteira (${contratoGlobal.toUpperCase()}) atualizada: <b>${rows.length} obras</b> carregadas com sucesso.`, 'success');
             } catch(e) {
-                badge.innerHTML = `<span style="color:var(--status-danger);"><i class="fa-solid fa-triangle-exclamation"></i> Falha ao ler planilha de ${contratoGlobal.toUpperCase()}</span>`;
+                badge.innerHTML = `<span style="color:var(--status-red);"><i class="fa-solid fa-triangle-exclamation"></i> Falha ao ler planilha de ${contratoGlobal.toUpperCase()}</span>`;
                 aplicarLinhas([]);
             }
         }
 
         function aplicarLinhas(linhas) {
             listaDadosGlobal = linhas;
+            popularFiltrosDash();
             construirCoresEtapas();
             popularFiltrosCarteira();
             processarEPlotarProjetos();
@@ -722,13 +607,16 @@ function doPost(e) {
         }
 
         function trocarAba(aba) {
-            ['mapa', 'carteira', 'dash', 'prog', 'config'].forEach(a => {
+            ['mapa', 'carteira', 'dash', 'prog', 'fontes'].forEach(a => {
                 const el = document.getElementById('tab-' + a);
                 const btn = document.getElementById('tabbtn-' + a);
                 if (el) el.style.display = (a === aba) ? 'block' : 'none';
                 if (btn) btn.classList.toggle('active', a === aba);
             });
-            if (aba === 'mapa' && map) setTimeout(() => { map.invalidateSize(); processarEPlotarProjetos(); }, 60);
+            if (aba === 'mapa') {
+                inicializarMapa();
+                setTimeout(() => { if (map) { map.invalidateSize(); processarEPlotarProjetos(); } }, 200);
+            }
             else if (aba === 'carteira') renderCarteira();
             else if (aba === 'dash') renderDashboard();
             else if (aba === 'prog' && window.PROG) window.PROG.show();
@@ -759,7 +647,7 @@ function doPost(e) {
 
         function sinalHtml(s) {
             if (!s) return '';
-            const c = s.cor === 'vermelho' ? 'var(--status-danger)' : (s.cor === 'amarelo' ? 'var(--status-warning)' : 'var(--status-success)');
+            const c = s.cor === 'vermelho' ? 'var(--status-red)' : (s.cor === 'amarelo' ? 'var(--status-amber)' : 'var(--status-green)');
             return `<span style="color:${c};font-weight:700;"><span class="sinal-indicator" style="background:${c};margin-right:4px;"></span>${esc(s.texto)}</span>`;
         }
 
@@ -857,107 +745,13 @@ function doPost(e) {
             }).join('');
         }
 
-        /* MODAL DE CADASTRO E DETALHE */
-        function abrirModalNovoProjeto() {
-            document.getElementById('pw-title').innerText = `NOVO PROJETO (${contratoGlobal.toUpperCase()})`;
-            document.getElementById('pw-body').innerHTML = `
-                <div style="display:flex;flex-direction:column;gap:12px;">
-                    <label style="font-weight:700;font-size:0.8rem;">Código da Obra / SOB / PROJETO:
-                        <input id="np-proj" class="cart-search-box" style="width:100%;margin-top:4px;" placeholder="Ex: SOB-90210">
-                    </label>
-                    <label style="font-weight:700;font-size:0.8rem;">Etapa Inicial:
-                        <select id="np-etapa" class="cart-search-box" style="width:100%;margin-top:4px;">
-                            <option>A PROGRAMAR</option>
-                            <option>VISTORIA</option>
-                            <option>LOCAÇÃO</option>
-                            <option>PROGRAMADO</option>
-                            <option>CONCLUÍDO</option>
-                        </select>
-                    </label>
-                    <label style="font-weight:700;font-size:0.8rem;">Base / Município:
-                        <input id="np-base" class="cart-search-box" style="width:100%;margin-top:4px;" value="${contratoGlobal === 'angra' ? 'Angra dos Reis' : 'Magé'}">
-                    </label>
-                    <label style="font-weight:700;font-size:0.8rem;">Tipo de Serviço:
-                        <input id="np-tipo" class="cart-search-box" style="width:100%;margin-top:4px;" placeholder="Ex: Cliente / Ampliação de Rede">
-                    </label>
-                    <label style="font-weight:700;font-size:0.8rem;">Parceira / Empreiteira:
-                        <input id="np-parc" class="cart-search-box" style="width:100%;margin-top:4px;" placeholder="Ex: Citelum / Engelmig">
-                    </label>
-                    <label style="font-weight:700;font-size:0.8rem;">Data Limite para Execução:
-                        <input id="np-limite" type="date" class="cart-search-box" style="width:100%;margin-top:4px;">
-                    </label>
-                    <label style="font-weight:700;font-size:0.8rem;">Prioridade:
-                        <select id="np-prio" class="cart-search-box" style="width:100%;margin-top:4px;">
-                            <option>ALTA</option>
-                            <option selected>MÉDIA</option>
-                            <option>BAIXA</option>
-                        </select>
-                    </label>
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-                        <label style="font-weight:700;font-size:0.8rem;">Latitude:
-                            <input id="np-lat" class="cart-search-box" style="width:100%;margin-top:4px;" placeholder="-22.9068">
-                        </label>
-                        <label style="font-weight:700;font-size:0.8rem;">Longitude:
-                            <input id="np-lng" class="cart-search-box" style="width:100%;margin-top:4px;" placeholder="-43.1729">
-                        </label>
-                    </div>
-                    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:10px;">
-                        <button class="btn-modern-subtle" onclick="fecharJanelaProjeto()">Cancelar</button>
-                        <button class="btn-modern-gradient" onclick="gravarNovoProjeto()"><i class="fa-solid fa-cloud-arrow-up"></i> Salvar na Planilha</button>
-                    </div>
-                </div>
-            `;
-            document.getElementById('proj-window').classList.add('show');
-        }
-
-        async function gravarNovoProjeto() {
-            const proj = document.getElementById('np-proj').value.trim();
-            if (!proj) { alert('Informe o código da obra.'); return; }
-
-            const novo = {
-                'PACOTE': formatarDataBR(new Date()),
-                'BASE': document.getElementById('np-base').value.trim(),
-                'TIPO': document.getElementById('np-tipo').value.trim(),
-                'PROJETO': proj,
-                'PARCEIRA': document.getElementById('np-parc').value.trim(),
-                'DATA LIMITE PARA EXECUÇÃO': formatarDataBR(document.getElementById('np-limite').value),
-                'PRIORIDADE': document.getElementById('np-prio').value,
-                'ETAPA': document.getElementById('np-etapa').value,
-                'LATITUDE': document.getElementById('np-lat').value.trim(),
-                'LONGITUDE': document.getElementById('np-lng').value.trim()
-            };
-
-            // Salva na memória e no cache local
-            const locais = JSON.parse(localStorage.getItem('obras_locais_' + contratoGlobal) || '[]');
-            locais.unshift(novo);
-            localStorage.setItem('obras_locais_' + contratoGlobal, JSON.stringify(locais));
-
-            listaDadosGlobal.unshift(novo);
-            aplicarLinhas(listaDadosGlobal);
-            fecharJanelaProjeto();
-
-            // Grava na Planilha do Google via Webhook se configurado
-            if (window.LINKS_PLANILHAS.webhook_url) {
-                try {
-                    await fetch(window.LINKS_PLANILHAS.webhook_url, {
-                        method: 'POST',
-                        mode: 'no-cors',
-                        body: JSON.stringify(novo)
-                    });
-                } catch(e) {}
-            }
-
-            mostrarToastAviso('Obra Cadastrada', `${proj} adicionada e sincronizada.`);
-            adicionarFeedChat(`Nova obra cadastrada no sistema: <b>${proj}</b> (${novo.BASE}) - Etapa: ${novo.ETAPA}.`, 'success');
-        }
-
         function abrirDetalheProjeto(idx) {
             const item = listaDadosGlobal[idx];
             if (!item) return;
-            document.getElementById('pw-title').innerText = 'OBRA: ' + (obterValorProjeto(item) || 'S/N');
+            document.getElementById('pw-title').innerText = 'PROJETO: ' + (obterValorProjeto(item) || 'S/N');
             let h = '';
             Object.keys(item).forEach(k => {
-                h += `<div class="pw-info-row"><div style="font-weight:700;color:var(--text-muted);font-size:0.7rem;text-transform:uppercase;">${esc(k)}</div><div>${esc(formatarValorGenerico(item[k]) || '—')}</div></div>`;
+                h += `<div class="pw-row"><div style="font-weight:700;color:var(--text-muted);font-size:0.7rem;text-transform:uppercase;">${esc(k)}</div><div>${esc(formatarValorGenerico(item[k]) || '—')}</div></div>`;
             });
             document.getElementById('pw-body').innerHTML = h;
             document.getElementById('proj-window').classList.add('show');
@@ -965,7 +759,7 @@ function doPost(e) {
 
         function fecharJanelaProjeto() { document.getElementById('proj-window').classList.remove('show'); }
 
-        /* MAPA */
+        /* MAPA E COORDENADAS */
         function construirCoresEtapas() {
             mapaCoresEtapas = {};
             const unicas = new Set();
@@ -976,7 +770,6 @@ function doPost(e) {
                 idx++;
             });
 
-            // Atualiza legenda flutuante
             const c = document.getElementById('etapa-legend-container');
             if (!c) return;
             c.innerHTML = '';
@@ -995,7 +788,7 @@ function doPost(e) {
         }
 
         function processarEPlotarProjetos() {
-            if (!markersGroup) return;
+            if (!markersGroup || !map) return;
             markersGroup.clearLayers();
             let cViolada = 0, c12 = 0, c20 = 0, c30 = 0, cTotal = 0;
             let bounds = [];
@@ -1003,12 +796,13 @@ function doPost(e) {
             listaDadosGlobal.forEach(item => {
                 const etapa = obterValorEtapa(item);
                 const proj = obterValorProjeto(item);
-                let latRaw = buscarCampoFlexivel(item, 'LATITUDE', 'LAT');
-                let lngRaw = buscarCampoFlexivel(item, 'LONGITUDE', 'LNG', 'LONG');
+                let latRaw = buscarCampoFlexivel(item, 'LATITUDE', 'LAT', 'LAT_COORD');
+                let lngRaw = buscarCampoFlexivel(item, 'LONGITUDE', 'LNG', 'LONG', 'LONG_COORD');
                 if (typeof latRaw === 'string') latRaw = latRaw.replace(',', '.').trim();
                 if (typeof lngRaw === 'string') lngRaw = lngRaw.replace(',', '.').trim();
                 const lat = parseFloat(latRaw), lng = parseFloat(lngRaw);
-                if (isNaN(lat) || isNaN(lng)) return;
+
+                if (isNaN(lat) || isNaN(lng) || lat === 0 || lng === 0) return;
 
                 const dataLimite = buscarCampoFlexivel(item, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE');
                 const dias = calcularDiasRestantes(dataLimite);
@@ -1027,11 +821,11 @@ function doPost(e) {
 
                 if (atende) {
                     bounds.push([lat, lng]);
-                    const corAura = dias <= 0 ? 'var(--status-danger)' : (dias <= 12 ? 'var(--status-warning)' : 'var(--status-success)');
+                    const corAura = dias <= 0 ? 'var(--status-red)' : (dias <= 12 ? 'var(--status-amber)' : 'var(--status-green)');
                     const corNucleo = mapaCoresEtapas[etapa] || 'var(--brand-accent)';
 
                     const m = L.circleMarker([lat, lng], { radius: 7, fillColor: corNucleo, color: corAura, weight: 3, fillOpacity: 0.95 }).addTo(markersGroup);
-                    m.bindPopup(`<b>${esc(proj)}</b><br>Etapa: <b>${esc(etapa)}</b><br>Prazo: <b>${dias <= 0 ? Math.abs(dias)+'d em atraso' : dias+'d'}</b>`);
+                    m.bindPopup(`<b>PROJETO: ${esc(proj)}</b><br>Etapa: <b>${esc(etapa)}</b><br>Prazo: <b>${dias <= 0 ? Math.abs(dias)+'d em atraso' : dias+'d'}</b><br><a href="https://www.google.com/maps/search/?api=1&query=${lat},${lng}" target="_blank" style="color:#2563EB;font-weight:bold;text-decoration:none;display:inline-block;margin-top:5px;">Abrir no Google Maps</a>`);
                 }
             });
 
@@ -1041,59 +835,137 @@ function doPost(e) {
             document.getElementById('count-30dias').innerText = c30;
             document.getElementById('count-total').innerText = cTotal;
 
-            if (bounds.length > 0 && map) map.fitBounds(bounds, { padding: [40, 40] });
+            if (bounds.length > 0) map.fitBounds(bounds, { padding: [40, 40], maxZoom: 15 });
         }
 
-        /* DASHBOARDS */
+        /* ========================================================
+           DASHBOARDS EXECUTIVOS COMPLETOS
+           ======================================================== */
+        let topCriticos = [];
+        const COR = { verm: '#EF4444', amar: '#F59E0B', verde: '#10B981', azul: '#1E3A8A', cinza: '#94A3B8', lar: '#EA580C' };
+        const campoTxt = (i, ...n) => formatarValorGenerico(buscarCampoFlexivel(i, ...n));
+        const ehAberto = i => (obterValorEtapa(i) || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase().trim() !== 'CONCLUIDO';
+        const dataValida = v => { const d = paraData(v); return d && d.getFullYear() > 1900 ? d : null; };
+        const chaveMes = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+        const MES_ABREV = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+        const rotuloMes = k => `${MES_ABREV[+k.slice(5) - 1]}/${k.slice(2, 4)}`;
+
+        function seqMeses(a, b) {
+            const r = []; let [y, m] = a.split('-').map(Number); const [y2, m2] = b.split('-').map(Number);
+            while (y < y2 || (y === y2 && m <= m2)) { r.push(`${y}-${String(m).padStart(2, '0')}`); if (++m > 12) { m = 1; y++; } }
+            return r;
+        }
+
+        function contar(arr, fn) { const m = new Map(); arr.forEach(i => { const k = fn(i); if (k !== null && k !== undefined) m.set(k, (m.get(k) || 0) + 1); }); return m; }
+
+        function barras(itens) {
+            if (!itens.length) return '<div style="color:var(--text-muted);font-size:.8rem;">Sem dados.</div>';
+            const tot = x => x.segs.reduce((a, s) => a + s[0], 0);
+            const max = Math.max(1, ...itens.map(tot));
+            return itens.map(x => `<div class="dbar"><span title="${esc(x.l)}">${esc(x.l)}</span><div class="dtrack">` +
+                x.segs.filter(s => s[0] > 0).map(s => `<i style="width:${s[0] / max * 100}%;background:${s[1]}" title="${esc(s[2] || x.l)}: ${s[0]}"></i>`).join('') +
+                `</div><b>${tot(x)}</b></div>`).join('');
+        }
+
+        function rosca(fatias) {
+            const tot = fatias.reduce((a, f) => a + f[1], 0);
+            if (!tot) return '<div style="color:var(--text-muted);font-size:.8rem;">Sem dados.</div>';
+            let acc = 0;
+            const grad = fatias.map(f => { const a = acc / tot * 100; acc += f[1]; return `${f[2]} ${a}% ${acc / tot * 100}%`; }).join(',');
+            return `<div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap"><div class="donut" style="background:conic-gradient(${grad})"></div><div>` +
+                fatias.map(f => `<div class="dleg"><span style="width:8px;height:8px;border-radius:50%;background:${f[2]};display:inline-block;"></span>${esc(f[0])}: <b>${f[1]}</b> (${Math.round(f[1] / tot * 100)}%)</div>`).join('') + '</div></div>';
+        }
+
         function popularFiltrosDash() {
             [['d-tipo', 'TIPO', ['TIPO', 'TIPO DE SERVICO']], ['d-parceira', 'PARCEIRA', ['PARCEIRA', 'EMPRESA']], ['d-resp', 'RESPONSÁVEL', ['RESPONSÁVEL', 'RESPONSAVEL']]].forEach(([id, t, n]) => {
-                const v = new Set(); listaDadosGlobal.forEach(i => { const x = formatarValorGenerico(buscarCampoFlexivel(i, ...n)); if (x) v.add(x); });
+                const v = new Set(); listaDadosGlobal.forEach(i => { const x = campoTxt(i, ...n); if (x) v.add(x); });
                 document.getElementById(id).innerHTML = `<option value="">${t}: Todos</option>` + Array.from(v).sort().map(x => `<option value="${esc(x)}">${esc(x)}</option>`).join('');
             });
         }
 
+        function restaurarLayoutDash() {
+            try { localStorage.removeItem('dashOrdem'); } catch (e) {}
+            renderDashboard();
+        }
+
         function renderDashboard() {
             const root = document.getElementById('dash-root');
-            if (!listaDadosGlobal.length) { root.innerHTML = '<div class="cart-empty">Nenhum projeto registrado neste contrato.</div>'; return; }
-            const concluidos = listaDadosGlobal.filter(i => obterValorEtapa(i).toUpperCase().includes('CONCLU')).length;
-            const violados = listaDadosGlobal.filter(i => calcularDiasRestantes(buscarCampoFlexivel(i, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE')) <= 0).length;
+            if (!listaDadosGlobal.length) { root.innerHTML = '<div class="cart-empty">Nenhum projeto cadastrado na carteira deste contrato.</div>'; return; }
 
-            root.innerHTML = `
-                <div class="kpis-row">
-                    <div class="kpi-card"><b>${listaDadosGlobal.length}</b><span>Total Projetos</span></div>
-                    <div class="kpi-card" style="border-left-color:var(--status-success);"><b>${concluidos}</b><span>Concluídos</span></div>
-                    <div class="kpi-card" style="border-left-color:var(--status-danger);"><b>${violados}</b><span>Violados / Vencidos</span></div>
-                    <div class="kpi-card" style="border-left-color:var(--status-warning);"><b>${listaDadosGlobal.length - concluidos}</b><span>Em Aberto</span></div>
+            const fT = document.getElementById('d-tipo').value, fP = document.getElementById('d-parceira').value, fR = document.getElementById('d-resp').value;
+            const D = listaDadosGlobal.filter(i => obterValorProjeto(i) !== '' &&
+                (!fT || campoTxt(i, 'TIPO', 'TIPO DE SERVICO') === fT) && (!fP || campoTxt(i, 'PARCEIRA', 'EMPRESA') === fP) && (!fR || campoTxt(i, 'RESPONSÁVEL', 'RESPONSAVEL') === fR));
+            const A = D.filter(ehAberto);
+            const pct = (a, b) => b ? Math.round(a / b * 100) : 0;
+            const etapas = Object.keys(mapaCoresEtapas).sort();
+            const corEtapa = e => mapaCoresEtapas[e] || COR.azul;
+
+            const sin = A.map(i => ({ i, s: obterSinal(i) })).filter(x => x.s).sort((a, b) => a.s.dias - b.s.dias);
+            const venc = sin.filter(x => x.s.dias < 0), crit = sin.filter(x => x.s.dias >= 0 && x.s.dias <= 5);
+            const aten = sin.filter(x => x.s.dias > 5 && x.s.dias <= 15), ok = sin.filter(x => x.s.dias > 15);
+            topCriticos = sin.slice(0, 10).map(x => x.i);
+
+            const resp = i => campoTxt(i, 'RESPONSÁVEL', 'RESPONSAVEL') || 'SEM RESPONSÁVEL';
+            const pendSim = D.filter(i => (campoTxt(i, 'PENDÊNCIA CONSTRUTIVA?', 'PENDENCIA CONSTRUTIVA?') || '').toUpperCase().trim() === 'SIM');
+            const pendAbertas = pendSim.filter(i => (campoTxt(i, 'STATUS PENDÊNCIA', 'STATUS PENDENCIA') || '').toUpperCase().trim() !== 'CONCLUIDO');
+            const diverg = D.filter(i => { const s = campoTxt(i, 'STATUS'); return s && s.toUpperCase().trim() !== obterValorEtapa(i).toUpperCase().trim(); });
+            const semResp = A.filter(i => !campoTxt(i, 'RESPONSÁVEL', 'RESPONSAVEL'));
+            const pacInv = D.filter(i => !dataValida(buscarCampoFlexivel(i, 'PACOTE', 'DATA PACOTE')));
+            const semLim = A.filter(i => !dataValida(buscarCampoFlexivel(i, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE')));
+            const prioNorm = i => (campoTxt(i, 'PRIORIDADE') || 'SEM PRIORIDADE').toUpperCase();
+            const prioN = new Set(D.map(prioNorm));
+
+            const kpisHtml = `
+                <div class="kpis-grid">
+                    <div class="kpi"><b>${D.length}</b><span>Projetos na Carteira</span></div>
+                    <div class="kpi" style="border-left-color:var(--brand-cyan);"><b>${A.length}</b><span>Em Aberto</span></div>
+                    <div class="kpi" style="border-left-color:var(--status-green);"><b>${D.length - A.length} <small>(${pct(D.length - A.length, D.length)}%)</small></b><span>Concluídos</span></div>
+                    <div class="kpi" style="border-left-color:var(--status-red);"><b>${venc.length}</b><span>Vencidos s/ Benefício</span></div>
+                    <div class="kpi" style="border-left-color:var(--status-red);"><b>${crit.length}</b><span>Vencem em ≤ 5 dias</span></div>
+                    <div class="kpi" style="border-left-color:var(--status-amber);"><b>${aten.length}</b><span>Atenção (6–15 dias)</span></div>
+                    <div class="kpi" style="border-left-color:var(--status-green);"><b>${pendAbertas.length}</b><span>Pendências Abertas</span></div>
                 </div>
             `;
+
+            const itens = [];
+            const card = (id, t, corpo, span) => itens.push({ id, span: span || 6, html: `<div class="dh"><h4>${t}</h4></div>${corpo}` });
+
+            card('c-etapa', 'Projetos por Etapa', barras(etapas.map(e => ({ l: e, segs: [[D.filter(i => obterValorEtapa(i) === e).length, corEtapa(e)]] })).filter(x => x.segs[0][0] > 0)));
+            card('c-semaforo', 'Semáforo de Prazos (Em Aberto)', rosca([['Vencidos', venc.length, '#991B1B'], ['0 a 5 dias', crit.length, COR.verm], ['6 a 15 dias', aten.length, COR.amar], ['Mais de 15 dias', ok.length, COR.verde]]));
+            
+            const abEt = etapas.filter(e => e.toUpperCase().trim() !== 'CONCLUÍDO');
+            const somaSegs = x => x.segs.reduce((a, g) => a + g[0], 0);
+            card('c-resp', 'Carga em Aberto por Responsável', barras([...new Set(A.map(resp))].map(r => ({ l: r, segs: abEt.map(e => [A.filter(i => resp(i) === r && obterValorEtapa(i) === e).length, corEtapa(e), e]) })).sort((a, b) => somaSegs(b) - somaSegs(a))));
+            card('c-prio', 'Prioridade / Fluxo (Aberto x Concluído)', barras([...prioN].map(p => { const ab = A.filter(i => prioNorm(i) === p).length; return { l: p, segs: [[ab, COR.lar, 'Em aberto'], [D.filter(i => prioNorm(i) === p).length - ab, COR.cinza, 'Concluído']] }; }).sort((a, b) => somaSegs(b) - somaSegs(a))));
+
+            const serieMes = (arr, fn, corFn) => {
+                const m = contar(arr, i => { const d = dataValida(fn(i)); return d ? chaveMes(d) : null; });
+                const ks = [...m.keys()].sort();
+                if (!ks.length) return [];
+                return seqMeses(ks[0], ks[ks.length - 1]).slice(-10).map(k => ({ l: rotuloMes(k), segs: [[m.get(k) || 0, corFn(k), rotuloMes(k)]] }));
+            };
+
+            const hojeM = chaveMes(new Date());
+            card('c-pacotes', 'Pacotes Recebidos por Mês (Últimos 10)', barras(serieMes(D, i => buscarCampoFlexivel(i, 'PACOTE', 'DATA PACOTE'), () => COR.azul)));
+            card('c-venc', 'Previsão de Vencimentos em Aberto por Mês', barras(serieMes(A, i => buscarCampoFlexivel(i, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE'), k => k < hojeM ? COR.verm : (k === hojeM ? COR.amar : COR.azul))));
+
+            const stPend = contar(pendSim, i => campoTxt(i, 'STATUS PENDÊNCIA', 'STATUS PENDENCIA') || 'SEM STATUS');
+            card('c-pend', 'Pendências Construtivas por Status', rosca([...stPend.entries()].map(([k, v]) => [k, v, k === 'CONCLUIDO' ? COR.verde : COR.lar])));
+
+            card('c-top', 'Top 10 Obras Mais Críticas', topCriticos.length ? '<table class="cart-table"><tbody>' + topCriticos.map((i, k) => `<tr onclick="abrirDetalheProjeto(${listaDadosGlobal.indexOf(i)})"><td><b>${esc(obterValorProjeto(i))}</b></td><td>${esc(obterValorEtapa(i))}</td><td>${esc(resp(i))}</td><td>${sinalHtml(obterSinal(i))}</td></tr>`).join('') + '</tbody></table>' : '<div style="color:var(--text-muted);font-size:0.8rem;">Sem obras críticas no momento.</div>');
+
+            const ins = [];
+            if (venc.length) ins.push(['alerta', `<b>${venc.length}</b> projetos em aberto já estão com a data limite vencida.`]);
+            if (crit.length) ins.push(['alerta', `<b>${crit.length}</b> projetos vencem nos próximos 5 dias.`]);
+            ins.push(['', `Total de <b>${D.length - A.length}</b> obras concluídas com sucesso até a presente data.`]);
+            card('c-ins', 'Leituras Automáticas & Insights Operacionais', '<ul class="insights">' + ins.map(x => `<li class="${x[0]}">${x[1]}</li>`).join('') + '</ul>', 12);
+
+            root.innerHTML = kpisHtml + '<div class="dgrid">' + itens.map(it => `<div class="ditem dcard" style="--span:${it.span};">${it.html}</div>`).join('') + '</div>';
         }
 
-        /* CONFIGURAÇÃO */
-        function carregarConfiguracaoInputs() {
-            document.getElementById('cfg-cart-ang').value = window.LINKS_PLANILHAS.carteira_angra || '';
-            document.getElementById('cfg-cart-mag').value = window.LINKS_PLANILHAS.carteira_mage || '';
-            document.getElementById('cfg-prog-ang').value = window.LINKS_PLANILHAS.prog_angra || '';
-            document.getElementById('cfg-prog-mag').value = window.LINKS_PLANILHAS.prog_mage || '';
-            document.getElementById('cfg-webhook-url').value = window.LINKS_PLANILHAS.webhook_url || '';
-        }
-
-        function salvarConfiguracaoMaster() {
-            window.LINKS_PLANILHAS.carteira_angra = extrairLinkCsvGoogle(document.getElementById('cfg-cart-ang').value);
-            window.LINKS_PLANILHAS.carteira_mage = extrairLinkCsvGoogle(document.getElementById('cfg-cart-mag').value);
-            window.LINKS_PLANILHAS.prog_angra = extrairLinkCsvGoogle(document.getElementById('cfg-prog-ang').value);
-            window.LINKS_PLANILHAS.prog_mag = extrairLinkCsvGoogle(document.getElementById('cfg-prog-mag').value);
-            window.LINKS_PLANILHAS.webhook_url = document.getElementById('cfg-webhook-url').value.trim();
-
-            localStorage.setItem('app_links_v7_clean', JSON.stringify(window.LINKS_PLANILHAS));
-            document.getElementById('cfg-msg').innerHTML = '<b style="color:var(--status-success);"><i class="fa-solid fa-check"></i> Configurações salvas e aplicadas!</b>';
-            sincronizarTudoOnline();
-        }
-
-        /* CHAT ASSISTENTE & FEED */
+        /* CHAT FLUTUANTE DE ATUALIZAÇÕES */
         function toggleChatWindow() {
-            const w = document.getElementById('chat-window');
-            w.classList.toggle('open');
-            document.getElementById('chat-dot').style.display = 'none';
+            document.getElementById('chat-window').classList.toggle('open');
         }
 
         function adicionarFeedChat(texto, tipo = '') {
@@ -1103,9 +975,6 @@ function doPost(e) {
             d.innerHTML = texto + `<small>${new Date().toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'})}</small>`;
             c.appendChild(d);
             c.scrollTop = c.scrollHeight;
-            if (!document.getElementById('chat-window').classList.contains('open')) {
-                document.getElementById('chat-dot').style.display = 'block';
-            }
         }
 
         function enviarChatMensagem() {
@@ -1116,52 +985,36 @@ function doPost(e) {
             inp.value = '';
 
             setTimeout(() => {
-                responderChat(txt.toLowerCase());
+                const total = listaDadosGlobal.length;
+                const vencidos = listaDadosGlobal.filter(i => calcularDiasRestantes(buscarCampoFlexivel(i, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE')) <= 0).length;
+                if (txt.toLowerCase().includes('venc') || txt.toLowerCase().includes('atras')) {
+                    adicionarFeedChat(`🚨 <b>Obras Vencidas:</b> Existem ${vencidos} projetos com SLA estourado em ${contratoGlobal.toUpperCase()}.`, 'alert');
+                } else {
+                    adicionarFeedChat(`📊 <b>Status Atual:</b> No contrato de <b>${contratoGlobal.toUpperCase()}</b> temos ${total} obras registradas.`, 'success');
+                }
             }, 500);
         }
 
-        function chatPrompt(tipo) {
-            if (tipo === 'resumo') responderChat('resumo');
-            else if (tipo === 'vencidos') responderChat('vencidos');
-            else if (tipo === 'programacao') responderChat('programacao');
-        }
-
-        function responderChat(q) {
-            const total = listaDadosGlobal.length;
-            const vencidos = listaDadosGlobal.filter(i => calcularDiasRestantes(buscarCampoFlexivel(i, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE')) <= 0).length;
-
-            if (q.includes('resumo') || q.includes('status')) {
-                adicionarFeedChat(`📊 <b>Resumo Executivo (${contratoGlobal.toUpperCase()}):</b><br>Total de ${total} obras na carteira ativa. Temos ${vencidos} projetos com prazo limite estourado.`, 'success');
-            } else if (q.includes('vencid') || q.includes('atras')) {
-                adicionarFeedChat(`🚨 <b>Obras Críticas:</b><br>${vencidos} obras estão com SLA violado em ${contratoGlobal.toUpperCase()}. Recomenda-se priorizar vistoria ou programação de rede.`, 'alert');
-            } else if (q.includes('prog') || q.includes('obra')) {
-                adicionarFeedChat(`📅 <b>Programação de Obras:</b><br>Consulte a aba "Programação de Obras" para visualizar a escala de equipes e o histórico detalhado.`, 'success');
-            } else {
-                adicionarFeedChat(`Entendido! Estou monitorando o contrato de <b>${contratoGlobal.toUpperCase()}</b> com ${total} projetos integrados.`, 'success');
-            }
-        }
-
-        function mostrarToastAviso(titulo, desc) {
-            const t = document.getElementById('toast-box');
-            document.getElementById('toast-title').innerText = titulo;
-            document.getElementById('toast-desc').innerText = desc;
-            t.classList.add('show');
-            setTimeout(() => t.classList.remove('show'), 3500);
-        }
-
         inicializarMapa();
-        carregarConfiguracaoInputs();
         sincronizarTudoOnline();
     </script>
 
-    <!-- PROGRAMAÇÃO DE OBRAS (CONSULTA) -->
+    <!-- PROGRAMAÇÃO DE OBRAS COMPLETA (SUB-ABAS DASHBOARD, SEMANA E HISTÓRICO) -->
     <script>
     (function(){
         const root = document.getElementById('tab-prog');
         const $ = s => root.querySelector(s);
         const U = () => window.LINKS_PLANILHAS;
         const norm = s => String(s || '').replace(/\s+/g, ' ').trim().toLowerCase();
+        const pad = n => String(n).padStart(2, '0');
+        const fmt = d => d.toLocaleDateString('pt-BR');
+        const iso = d => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+        const sun = d => { const x = new Date(d); x.setDate(x.getDate() - x.getDay()); x.setHours(0, 0, 0, 0); return x; };
+        const ST = ['CONCLUÍDO', 'PARCIAL', 'ADIADO', 'CANCELADO', 'OUTRO'];
+        const COL = { CONCLUÍDO: 'var(--status-green)', PARCIAL: 'var(--brand-cyan)', ADIADO: 'var(--status-amber)', CANCELADO: 'var(--status-red)', OUTRO: '#94A3B8' };
+
         let DB = { angra: [], mage: [] }, OK = { angra: null, mage: null };
+        let tab = 'dash', wk = null, pg = 0, F = { q: '', s: '' };
 
         function parseCSV(t) {
             const r = []; let row = [], c = '', q = false;
@@ -1180,6 +1033,29 @@ function doPost(e) {
             return r;
         }
 
+        function build(text) {
+            const rows = parseCSV(text), hi = rows.findIndex(r => norm(r[0]) == 'base');
+            if (hi < 0) return null;
+            const h = rows[hi].map(norm), out = [];
+            const g = (r, n) => { const i = h.indexOf(norm(n)); return i < 0 ? '' : (r[i] || '').trim(); };
+            for (const r of rows.slice(hi + 1)) {
+                const m = g(r, 'Data de execução').match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/), sob = g(r, 'SOB');
+                if (!m || !sob) continue;
+                const d = new Date(+m[3], m[2] - 1, +m[1]);
+                const raw = {};
+                h.forEach((k, i) => { if (k && (r[i] || '').trim()) raw[rows[hi][i].replace(/\s+/g, ' ').trim()] = r[i].trim(); });
+                out.push({
+                    d, iso: iso(d), sob, st: g(r, 'STATUS').toUpperCase(),
+                    base: g(r, 'BASE'), tipo: g(r, 'Tipo de Serviço'), etapa: g(r, 'INFO STATUS'),
+                    mun: g(r, 'Município'), bairro: g(r, 'Bairro'), desc: g(r, 'Descrição do serviço'),
+                    resp: g(r, 'Responsável Execução'), raw
+                });
+            }
+            return out;
+        }
+
+        const cls = s => s.startsWith('CONCL') ? 'CONCLUÍDO' : s.startsWith('CANCEL') ? 'CANCELADO' : s.startsWith('ADIAD') ? 'ADIADO' : s.startsWith('PARCIAL') ? 'PARCIAL' : 'OUTRO';
+
         async function sync(k) {
             const u = U()['prog_' + k];
             if (!u) {
@@ -1191,23 +1067,10 @@ function doPost(e) {
                 const r = await fetch(u + (u.includes('?') ? '&' : '?') + '_=' + Date.now(), { cache: 'no-store' });
                 if (!r.ok) throw 0;
                 const t = await r.text();
-                const rows = parseCSV(t);
-                const hi = rows.findIndex(r => norm(r[0]) == 'base');
-                if (hi < 0) throw 0;
-                const h = rows[hi].map(norm), out = [];
-                for (const r of rows.slice(hi + 1)) {
-                    const sob = r[h.indexOf('sob')];
-                    if (!sob) continue;
-                    out.push({
-                        sob,
-                        st: (r[h.indexOf('status')] || '').toUpperCase(),
-                        tipo: r[h.indexOf('tipo de serviço')] || '—',
-                        mun: r[h.indexOf('município')] || '—',
-                        resp: r[h.indexOf('responsável execução')] || '—'
-                    });
-                }
-                DB[k] = out; OK[k] = true;
-            } catch(e) {
+                const d = build(t);
+                if (!d) throw 0;
+                DB[k] = d; OK[k] = true;
+            } catch (e) {
                 OK[k] = false;
             }
             renderHead(); renderView();
@@ -1216,30 +1079,123 @@ function doPost(e) {
         function renderHead() {
             const cur = contratoGlobal;
             const n = (DB[cur] || []).length;
-            $('#st').innerHTML = `<b style="color:${OK[cur] ? 'var(--status-success)' : 'var(--status-danger)'};"><i class="fa-solid fa-circle"></i> ${OK[cur] ? 'Planilha Conectada' : 'Sem Conexão'}</b> · Programação ${cur.toUpperCase()} · <b>${n}</b> registros`;
+            $('#st').innerHTML = `<b style="color:${OK[cur] ? 'var(--status-green)' : 'var(--status-red)'}; font-weight:700;"><i class="fa-solid fa-circle"></i> ${OK[cur] ? 'Planilha Conectada' : 'Sem Conexão'}</b> · Programação ${cur.toUpperCase()} · <b>${n}</b> registros`;
         }
 
         function renderView() {
+            renderHead();
             const cur = contratoGlobal;
             if (!DB[cur] || !DB[cur].length) {
-                $('#v').innerHTML = `<div class="dash-card" style="text-align:center;padding:36px;color:var(--text-muted);">${OK[cur] === false ? 'A planilha de programação de ' + cur.toUpperCase() + ' não possui link ativo ou está inacessível.' : 'Carregando programação de obras...'}</div>`;
+                $('#v').innerHTML = `<div class="dcard" style="text-align:center;padding:36px;color:var(--text-muted);">${OK[cur] === false ? 'A planilha de programação de ' + cur.toUpperCase() + ' está inacessível.' : 'Carregando programação de obras...'}</div>`;
                 return;
             }
+            if (tab === 'dash') renderProgDash();
+            else if (tab === 'week') renderProgWeek();
+            else if (tab === 'hist') renderProgHist();
+        }
+
+        function renderProgDash() {
+            const cur = contratoGlobal;
+            const all = DB[cur] || [];
+            const conc = all.filter(x => cls(x.st) === 'CONCLUÍDO').length;
+            const parc = all.filter(x => cls(x.st) === 'PARCIAL').length;
+            const adia = all.filter(x => cls(x.st) === 'ADIADO').length;
+            const canc = all.filter(x => cls(x.st) === 'CANCELADO').length;
+
             $('#v').innerHTML = `
-                <div class="dash-card" style="max-height:65vh;overflow:auto;">
+                <div class="kpis-grid" style="grid-template-columns:repeat(5,1fr);margin-bottom:12px;">
+                    <div class="kpi"><b>${all.length}</b><span>Total Programadas</span></div>
+                    <div class="kpi" style="border-left-color:var(--status-green);"><b>${conc}</b><span>Concluídas</span></div>
+                    <div class="kpi" style="border-left-color:var(--brand-cyan);"><b>${parc}</b><span>Parciais</span></div>
+                    <div class="kpi" style="border-left-color:var(--status-amber);"><b>${adia}</b><span>Adiada</span></div>
+                    <div class="kpi" style="border-left-color:var(--status-red);"><b>${canc}</b><span>Canceladas</span></div>
+                </div>
+                <div class="dcard tw">
                     <table class="cart-table">
-                        <thead><tr><th>SOB</th><th>Status</th><th>Tipo de Obra</th><th>Município</th><th>Equipe Responsável</th></tr></thead>
+                        <thead><tr><th>Data</th><th>SOB</th><th>Status</th><th>Tipo</th><th>Município</th><th>Responsável</th></tr></thead>
                         <tbody>
-                            ${DB[cur].slice(0, 100).map(x => `<tr><td><b>${esc(x.sob)}</b></td><td><span style="font-size:11px;padding:2px 8px;border-radius:10px;background:#F1F5F9;font-weight:700;">${esc(x.st)}</span></td><td>${esc(x.tipo)}</td><td>${esc(x.mun)}</td><td>${esc(x.resp)}</td></tr>`).join('')}
+                            ${all.slice(0, 50).map(x => `<tr><td>${fmt(x.d)}</td><td><b>${esc(x.sob)}</b></td><td><span style="font-size:11px;padding:2px 8px;border-radius:10px;background:#F1F5F9;font-weight:700;">${esc(x.st)}</span></td><td>${esc(x.tipo)}</td><td>${esc(x.mun)}</td><td>${esc(x.resp)}</td></tr>`).join('')}
                         </tbody>
                     </table>
                 </div>
             `;
         }
 
+        function renderProgWeek() {
+            const cur = contratoGlobal;
+            const all = DB[cur] || [];
+            if (!wk) wk = sun(new Date());
+            const days = [...Array(7)].map((_, i) => { const d = new Date(wk); d.setDate(d.getDate() + i); return d; });
+            const td = iso(new Date());
+
+            $('#v').innerHTML = `
+                <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;">
+                    <button class="btn-modern-primary" style="padding:6px 12px;background:#64748B;" id="pv-week">◀ Anterior</button>
+                    <button class="btn-modern-primary" style="padding:6px 12px;background:#64748B;" id="tj-week">Hoje</button>
+                    <button class="btn-modern-primary" style="padding:6px 12px;background:#64748B;" id="nx-week">Próxima ▶</button>
+                    <b style="font-size:13px;color:var(--brand-navy);margin-left:8px;">${fmt(wk)} a ${fmt(days[6])}</b>
+                </div>
+                <div class="week">
+                    ${days.map(d => {
+                        const k = iso(d), it = all.filter(x => x.iso == k);
+                        return `<div class="day ${k == td ? 'today' : ''}">
+                            <h4 style="font-size:11px;color:var(--text-muted);border-bottom:1px solid #E2E8F0;padding-bottom:3px;margin-bottom:6px;">${d.toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: '2-digit' })} (${it.length})</h4>
+                            ${it.map(x => `<div class="ev" onclick="window.PROG.showDetail('${esc(x.sob)}')"><b>${esc(x.sob)}</b><br><small>${esc(x.mun)}</small></div>`).join('') || '<small style="color:#A0AEC0;">—</small>'}
+                        </div>`;
+                    }).join('')}
+                </div>
+            `;
+            $('#pv-week').onclick = () => { wk = new Date(wk); wk.setDate(wk.getDate() - 7); renderProgWeek(); };
+            $('#nx-week').onclick = () => { wk = new Date(wk); wk.setDate(wk.getDate() + 7); renderProgWeek(); };
+            $('#tj-week').onclick = () => { wk = sun(new Date()); renderProgWeek(); };
+        }
+
+        function renderProgHist() {
+            const cur = contratoGlobal;
+            const all = DB[cur] || [];
+            const f = all.filter(x => (!F.q || (x.sob + x.mun + x.resp).toLowerCase().includes(F.q)));
+            $('#v').innerHTML = `
+                <div style="margin-bottom:10px;">
+                    <input id="q-hist" placeholder="Buscar por SOB, local ou equipe..." value="${esc(F.q)}" class="cart-search-box">
+                </div>
+                <div class="dcard tw">
+                    <table class="cart-table">
+                        <thead><tr><th>Data</th><th>SOB</th><th>Status</th><th>Município</th><th>Responsável</th><th>Descrição</th></tr></thead>
+                        <tbody>
+                            ${f.slice(0, 100).map(x => `<tr onclick="window.PROG.showDetail('${esc(x.sob)}')"><td>${fmt(x.d)}</td><td><b>${esc(x.sob)}</b></td><td>${esc(x.st)}</td><td>${esc(x.mun)}</td><td>${esc(x.resp)}</td><td>${esc(x.desc.slice(0, 70))}</td></tr>`).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            $('#q-hist').oninput = e => { F.q = e.target.value.toLowerCase(); renderProgHist(); };
+        }
+
+        function detail(sob) {
+            const cur = contratoGlobal;
+            const item = (DB[cur] || []).find(x => x.sob === sob);
+            if (!item) return;
+            $('#dbody').innerHTML = `
+                <h3 style="color:var(--brand-navy);margin-bottom:10px;">SOB: ${esc(item.sob)} · ${fmt(item.d)}</h3>
+                <dl style="display:grid;grid-template-columns:130px 1fr;gap:6px;font-size:12px;">
+                    ${Object.entries(item.raw).map(([k, v]) => `<dt style="color:var(--text-muted);font-weight:600;">${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')}
+                </dl>
+            `;
+            $('#dlg').showModal();
+        }
+
+        // Listener das sub-abas da programação
+        $('#sub-prog-nav').onclick = e => {
+            if (e.target.dataset.t) {
+                tab = e.target.dataset.t;
+                root.querySelectorAll('#sub-prog-nav button').forEach(b => b.classList.toggle('on', b.dataset.t == tab));
+                renderView();
+            }
+        };
+
         window.PROG = {
             setContrato(c) { sync(c); },
-            show() { sync(contratoGlobal); }
+            show() { sync(contratoGlobal); },
+            showDetail: detail
         };
     })();
     </script>
