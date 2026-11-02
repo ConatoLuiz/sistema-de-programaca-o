@@ -13,118 +13,121 @@
 
     <style>
         /* ========================================================
-           DESIGN SYSTEM COM SUPORTE A TEMA CLARO E ESCURO (VERDE)
+           DESIGN SYSTEM - TEMA CLARO E ESCURO EM VERDE ESMERALDA
            ======================================================== */
         :root {
-            --bg-base: #F3FAF6;
+            --bg-base: #F4FBF7;
             --bg-surface: #FFFFFF;
-            --bg-glass: rgba(255, 255, 255, 0.94);
+            --bg-glass: rgba(255, 255, 255, 0.95);
             --brand-dark: #064E3B;
             --brand-primary: #065F46;
             --brand-accent: #10B981;
             --brand-light: #ECFDF5;
             --border-light: #D1FAE5;
-            --border-glass: rgba(209, 250, 229, 0.85);
+            --border-glass: rgba(209, 250, 229, 0.9);
             --text-main: #064E3B;
             --text-secondary: #374151;
             --text-muted: #6B7280;
-            --card-subtle: #F9FDFB;
+            --card-subtle: #F0FDF4;
             --status-green: #10B981;
-            --status-amber: #F59E0B;
-            --status-red: #EF4444;
+            --status-amber: #D97706;
+            --status-red: #DC2626;
             --shadow-sm: 0 1px 3px rgba(6, 78, 59, 0.08);
-            --shadow-float: 0 20px 30px -8px rgba(6, 78, 59, 0.16);
-            --radius-md: 10px;
-            --radius-lg: 14px;
+            --shadow-float: 0 14px 28px rgba(6, 78, 59, 0.15);
+            --radius-md: 8px;
+            --radius-lg: 12px;
             --radius-pill: 9999px;
             --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         body.dark-mode {
-            --bg-base: #0B1713;
-            --bg-surface: #11241E;
-            --bg-glass: rgba(17, 36, 30, 0.94);
+            --bg-base: #061812;
+            --bg-surface: #0C241C;
+            --bg-glass: rgba(12, 36, 28, 0.95);
             --brand-dark: #A7F3D0;
             --brand-primary: #10B981;
             --brand-accent: #34D399;
             --brand-light: #064E3B;
             --border-light: #1A3E33;
-            --border-glass: rgba(26, 62, 51, 0.85);
-            --text-main: #ECFDF5;
+            --border-glass: rgba(26, 62, 51, 0.9);
+            --text-main: #F0FDF4;
             --text-secondary: #D1FAE5;
             --text-muted: #9CA3AF;
-            --card-subtle: #162E27;
+            --card-subtle: #123126;
+            --status-green: #34D399;
+            --status-amber: #FBBF24;
+            --status-red: #F87171;
             --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4);
-            --shadow-float: 0 20px 35px rgba(0, 0, 0, 0.6);
+            --shadow-float: 0 16px 30px rgba(0, 0, 0, 0.6);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif; }
-        body { background-color: var(--bg-base); color: var(--text-main); padding: 14px 18px; min-height: 100vh; overflow-x: hidden; transition: var(--transition); }
+        body { background-color: var(--bg-base); color: var(--text-main); padding: 12px 16px; min-height: 100vh; overflow-x: hidden; transition: var(--transition); }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes scaleIn { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
-        @keyframes pulseGlow { 0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); } 50% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); } }
+        @keyframes pulseGlow { 0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); } 50% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); } }
 
         /* HEADER */
         header {
             display: flex; justify-content: space-between; align-items: center;
-            background: var(--bg-glass); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+            background: var(--bg-glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
             border: 1px solid var(--border-glass); border-top: 4px solid var(--brand-accent);
-            padding: 12px 22px; border-radius: var(--radius-lg); margin-bottom: 12px;
-            box-shadow: var(--shadow-sm); position: sticky; top: 10px; z-index: 2500;
-            gap: 14px; flex-wrap: wrap; transition: var(--transition);
+            padding: 10px 18px; border-radius: var(--radius-lg); margin-bottom: 12px;
+            box-shadow: var(--shadow-sm); position: sticky; top: 8px; z-index: 2500;
+            gap: 12px; flex-wrap: wrap; transition: var(--transition);
         }
 
-        .brand-container { display: flex; align-items: center; gap: 12px; }
+        .brand-container { display: flex; align-items: center; gap: 10px; }
         .brand-icon-box {
-            width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-accent) 100%);
-            display: flex; align-items: center; justify-content: center; color: #FFF; font-size: 1.2rem;
-            box-shadow: 0 6px 14px rgba(16, 185, 129, 0.3);
+            width: 36px; height: 36px; border-radius: 8px; background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-accent) 100%);
+            display: flex; align-items: center; justify-content: center; color: #FFF; font-size: 1.1rem;
+            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
         }
-        .brand-title { font-size: 1.15rem; font-weight: 800; color: var(--brand-dark); letter-spacing: -0.3px; }
+        .brand-title { font-size: 1.1rem; font-weight: 800; color: var(--brand-dark); letter-spacing: -0.3px; }
 
-        .header-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .header-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 
         .select-contract-master {
             background: var(--bg-surface); border: 2px solid var(--brand-accent); color: var(--text-main);
-            padding: 7px 14px; border-radius: var(--radius-md); font-size: 0.85rem; font-weight: 700;
+            padding: 6px 12px; border-radius: var(--radius-md); font-size: 0.83rem; font-weight: 700;
             cursor: pointer; outline: none; transition: var(--transition); box-shadow: var(--shadow-sm);
         }
 
         .btn-modern-primary {
             background: var(--brand-primary); color: #FFF; border: none;
-            padding: 8px 16px; border-radius: var(--radius-md); font-size: 0.84rem; font-weight: 600;
-            cursor: pointer; display: inline-flex; align-items: center; gap: 7px;
-            box-shadow: 0 4px 12px rgba(6, 95, 70, 0.2); transition: var(--transition);
+            padding: 7px 14px; border-radius: var(--radius-md); font-size: 0.82rem; font-weight: 600;
+            cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+            box-shadow: 0 3px 10px rgba(6, 95, 70, 0.2); transition: var(--transition);
         }
         .btn-modern-primary:hover { filter: brightness(1.1); transform: translateY(-1px); }
 
         .btn-theme-toggle {
             background: var(--bg-surface); border: 1px solid var(--border-light); color: var(--text-main);
-            padding: 8px 12px; border-radius: var(--radius-md); font-size: 0.85rem; font-weight: 600;
+            padding: 7px 12px; border-radius: var(--radius-md); font-size: 0.82rem; font-weight: 600;
             cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: var(--transition);
         }
         .btn-theme-toggle:hover { border-color: var(--brand-accent); }
 
         /* TABS NAVEGAÇÃO */
         .tabs-nav {
-            display: flex; gap: 4px; margin-bottom: 14px; border-bottom: 2px solid var(--border-light);
+            display: flex; gap: 4px; margin-bottom: 12px; border-bottom: 2px solid var(--border-light);
             padding-bottom: 2px; overflow-x: auto;
         }
         .tab-nav-item {
             background: transparent; border: none; border-bottom: 3px solid transparent;
-            color: var(--text-secondary); padding: 9px 18px; font-weight: 600; font-size: 0.86rem;
-            cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
-            transition: var(--transition); border-radius: 8px 8px 0 0;
+            color: var(--text-secondary); padding: 8px 16px; font-weight: 600; font-size: 0.85rem;
+            cursor: pointer; display: inline-flex; align-items: center; gap: 7px;
+            transition: var(--transition); border-radius: 6px 6px 0 0;
         }
-        .tab-nav-item:hover { color: var(--brand-accent); background: rgba(16, 185, 129, 0.08); }
+        .tab-nav-item:hover { color: var(--brand-primary); background: rgba(16, 185, 129, 0.08); }
         .tab-nav-item.active {
-            color: var(--brand-accent); border-bottom-color: var(--brand-accent); font-weight: 700;
-            background: rgba(16, 185, 129, 0.14);
+            color: var(--brand-primary); border-bottom-color: var(--brand-accent); font-weight: 700;
+            background: rgba(16, 185, 129, 0.12);
         }
         #tab-carteira, #tab-prog, #tab-fontes { display: none; }
 
-        /* MAPA */
+        /* MAPA E CARDS FLUTUANTES (TOTALMENTE CORRIGIDOS) */
         .map-wrapper {
             position: relative; width: 100%; height: 79vh; border-radius: var(--radius-lg);
             border: 1px solid var(--border-light); overflow: hidden; box-shadow: var(--shadow-sm);
@@ -132,73 +135,80 @@
         }
         #map { height: 100%; width: 100%; min-height: 400px; }
 
-        .floating-sla-card {
-            position: absolute; top: 14px; right: 14px; background: var(--bg-glass);
-            backdrop-filter: blur(12px); border: 1px solid var(--border-glass); border-top: 3px solid var(--brand-accent);
-            border-radius: 12px; padding: 10px 14px; z-index: 1000; display: flex; flex-direction: column; gap: 5px;
-            box-shadow: var(--shadow-float); min-width: 210px; animation: scaleIn 0.25s ease;
+        /* CORREÇÃO DO SLA: TAMANHO COMPACTO FIXADO NO CANTO SUPERIOR DIREITO */
+        .floating-sla-panel {
+            position: absolute; top: 15px; right: 15px; left: auto; width: 220px;
+            background: var(--bg-glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-glass); border-top: 3px solid var(--brand-accent);
+            border-radius: 10px; padding: 10px 12px; z-index: 1000; display: flex; flex-direction: column; gap: 5px;
+            box-shadow: var(--shadow-float); animation: scaleIn 0.25s ease;
         }
-        .floating-sla-header {
+        .floating-sla-title {
             font-size: 0.72rem; color: var(--text-muted); font-weight: 800; text-transform: uppercase;
             letter-spacing: 0.5px; border-bottom: 1px solid var(--border-light); padding-bottom: 4px;
         }
-        .sla-row-btn {
-            display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem;
-            font-weight: 600; padding: 4px 8px; border-radius: 6px; cursor: pointer; transition: var(--transition);
+        .sla-mini-card {
+            display: flex; justify-content: space-between; align-items: center; font-size: 0.79rem;
+            font-weight: 700; padding: 4px 6px; border-radius: 5px; cursor: pointer; transition: var(--transition);
         }
-        .sla-row-btn:hover { background: rgba(16, 185, 129, 0.12); }
-        .sla-row-btn.active { background: rgba(16, 185, 129, 0.25); border: 1px solid var(--brand-accent); }
+        .sla-mini-card:hover { background: rgba(16, 185, 129, 0.15); }
+        .sla-mini-card.active { background: rgba(16, 185, 129, 0.25); border: 1px solid var(--brand-accent); }
 
-        .floating-legend-card {
-            position: absolute; bottom: 20px; left: 16px; background: var(--bg-glass);
-            backdrop-filter: blur(12px); border: 1px solid var(--border-glass); border-radius: 12px;
-            padding: 10px 14px; z-index: 1000; box-shadow: var(--shadow-float); min-width: 180px;
-            max-height: 230px; overflow-y: auto; animation: scaleIn 0.25s ease;
+        /* LEGENDA NO CANTO INFERIOR ESQUERDO */
+        .floating-legend-panel {
+            position: absolute; bottom: 20px; left: 15px; width: 190px;
+            background: var(--bg-glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-glass); border-radius: 10px; padding: 10px 12px; z-index: 1000;
+            box-shadow: var(--shadow-float); max-height: 220px; overflow-y: auto; animation: scaleIn 0.25s ease;
+        }
+        .legend-title {
+            font-size: 0.72rem; color: var(--text-muted); font-weight: 800; text-transform: uppercase;
+            letter-spacing: 0.5px; border-bottom: 1px solid var(--border-light); padding-bottom: 4px; margin-bottom: 6px;
         }
 
         /* CARTEIRA TABLE */
         .cart-glass-toolbar {
             display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 10px;
-            background: var(--bg-surface); padding: 10px 14px; border-radius: var(--radius-md);
+            background: var(--bg-surface); padding: 9px 12px; border-radius: var(--radius-md);
             border: 1px solid var(--border-light); box-shadow: var(--shadow-sm);
         }
         .cart-search-box {
             background: var(--card-subtle); border: 1px solid var(--border-light); color: var(--text-main);
-            padding: 7px 12px; border-radius: var(--radius-md); font-size: 0.83rem; min-width: 240px; outline: none;
+            padding: 7px 11px; border-radius: var(--radius-md); font-size: 0.82rem; min-width: 230px; outline: none;
         }
         .cart-search-box:focus { border-color: var(--brand-accent); }
         .cart-badge-chip {
             display: inline-flex; align-items: center; gap: 6px; background: var(--bg-surface);
             border: 1px solid var(--border-light); border-radius: var(--radius-pill);
-            padding: 4px 10px; font-size: 0.76rem; font-weight: 700;
+            padding: 4px 9px; font-size: 0.75rem; font-weight: 700;
         }
         .sinal-indicator { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
 
         .etapa-chips-container { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
         .etapa-chip-btn {
             display: inline-flex; align-items: center; gap: 6px; background: var(--bg-surface); border: 1px solid var(--border-light);
-            border-radius: var(--radius-pill); padding: 5px 12px; font-size: 0.76rem; font-weight: 700; cursor: pointer;
+            border-radius: var(--radius-pill); padding: 4px 10px; font-size: 0.75rem; font-weight: 700; cursor: pointer;
             color: var(--text-secondary); transition: var(--transition);
         }
         .etapa-chip-btn:hover { border-color: var(--brand-accent); }
-        .etapa-chip-btn.active { background: rgba(16, 185, 129, 0.15); border-color: var(--brand-accent); color: var(--brand-dark); }
+        .etapa-chip-btn.active { background: rgba(16, 185, 129, 0.18); border-color: var(--brand-accent); color: var(--brand-dark); }
 
         .cart-table-panel {
             background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: var(--radius-md);
             max-height: 74vh; overflow: auto; box-shadow: var(--shadow-sm);
         }
-        table.cart-table { width: 100%; border-collapse: collapse; font-size: 0.83rem; }
+        table.cart-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
         table.cart-table th {
             position: sticky; top: 0; background: var(--card-subtle); color: var(--brand-dark);
-            font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.4px; text-align: left;
-            padding: 10px 12px; border-bottom: 2px solid var(--brand-accent); white-space: nowrap; z-index: 2;
+            font-size: 0.71rem; text-transform: uppercase; letter-spacing: 0.4px; text-align: left;
+            padding: 9px 11px; border-bottom: 2px solid var(--brand-accent); white-space: nowrap; z-index: 2;
         }
-        table.cart-table td { padding: 8px 12px; border-bottom: 1px solid var(--border-light); white-space: nowrap; color: var(--text-main); }
+        table.cart-table td { padding: 8px 11px; border-bottom: 1px solid var(--border-light); white-space: nowrap; color: var(--text-main); }
         table.cart-table tbody tr { cursor: pointer; }
         table.cart-table tbody tr:hover td { background: rgba(16, 185, 129, 0.08); }
-        .cart-empty { padding: 40px; text-align: center; color: var(--text-muted); }
+        .cart-empty { padding: 36px; text-align: center; color: var(--text-muted); }
 
-        /* TABELA CENTRALIZADA DO HISTÓRICO DE PROGRAMAÇÃO */
+        /* TABELA CENTRALIZADA DO HISTÓRICO */
         table.table-center th, table.table-center td {
             text-align: center !important;
         }
@@ -206,104 +216,124 @@
         /* MODAL FULLSCREEN DE DASHBOARD DA CARTEIRA */
         #modal-dash-fullscreen {
             display: none; position: fixed; inset: 0; z-index: 4500;
-            background: var(--bg-base); overflow-y: auto; padding: 20px; animation: fadeIn 0.25s ease;
+            background: var(--bg-base); overflow-y: auto; padding: 18px; animation: fadeIn 0.25s ease;
         }
         .dash-modal-header {
             display: flex; justify-content: space-between; align-items: center;
             background: var(--bg-surface); border: 1px solid var(--border-light); border-top: 4px solid var(--brand-accent);
-            padding: 12px 20px; border-radius: 12px; margin-bottom: 16px; box-shadow: var(--shadow-sm); position: sticky; top: 0; z-index: 100;
+            padding: 10px 18px; border-radius: 10px; margin-bottom: 14px; box-shadow: var(--shadow-sm); position: sticky; top: 0; z-index: 100;
         }
-        .dash-modal-title { font-size: 1.15rem; font-weight: 800; color: var(--brand-dark); display: flex; align-items: center; gap: 10px; }
-        
-        /* DASHBOARD KPIS & CARDS */
-        .kpis-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-bottom: 14px; }
+        .dash-modal-title { font-size: 1.1rem; font-weight: 800; color: var(--brand-dark); display: flex; align-items: center; gap: 8px; }
+
+        /* KPIS GRID */
+        .kpis-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-bottom: 12px; }
         @media (max-width: 1400px) { .kpis-grid { grid-template-columns: repeat(4, 1fr); } }
         @media (max-width: 900px) { .kpis-grid { grid-template-columns: repeat(2, 1fr); } }
 
         .kpi {
             background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: 8px;
-            padding: 12px 14px; border-left: 4px solid var(--brand-accent); box-shadow: var(--shadow-sm);
+            padding: 10px 12px; border-left: 4px solid var(--brand-accent); box-shadow: var(--shadow-sm);
             transition: var(--transition);
         }
-        .kpi b { display: block; font-size: 1.45rem; color: var(--brand-dark); font-weight: 800; }
-        .kpi span { font-size: 0.67rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.3px; }
+        .kpi b { display: block; font-size: 1.35rem; color: var(--brand-dark); font-weight: 800; }
+        .kpi span { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.3px; }
 
-        .tipo-pills-wrap { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
-        .tipo-pill { font-size: 10px; font-weight: 700; padding: 2px 6px; background: var(--brand-light); color: var(--brand-primary); border-radius: 4px; border: 1px solid var(--border-light); }
+        .tipo-pills-wrap { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 5px; }
+        .tipo-pill { font-size: 9px; font-weight: 700; padding: 2px 5px; background: var(--brand-light); color: var(--brand-primary); border-radius: 4px; border: 1px solid var(--border-light); }
 
-        .dgrid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 12px; }
+        .dgrid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 10px; }
         .ditem { grid-column: span var(--span, 6); min-width: 0; }
-        .dcard { background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: 10px; padding: 14px; box-shadow: var(--shadow-sm); }
+        .dcard { background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: 8px; padding: 12px; box-shadow: var(--shadow-sm); }
         .dh { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        .dh h4 { font-size: 0.75rem; color: var(--brand-dark); text-transform: uppercase; letter-spacing: 0.4px; margin: 0; }
-        
-        .dbar { display: grid; grid-template-columns: 120px 1fr 34px; gap: 8px; align-items: center; font-size: 0.75rem; margin-bottom: 5px; }
+        .dh h4 { font-size: 0.74rem; color: var(--brand-dark); text-transform: uppercase; letter-spacing: 0.4px; margin: 0; }
+
+        .dbar { display: grid; grid-template-columns: 120px 1fr 34px; gap: 8px; align-items: center; font-size: 0.74rem; margin-bottom: 5px; }
         .dbar > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-secondary); }
-        .dtrack { height: 13px; background: rgba(0,0,0,0.06); border-radius: 6px; display: flex; overflow: hidden; }
+        .dtrack { height: 12px; background: rgba(0,0,0,0.06); border-radius: 6px; display: flex; overflow: hidden; }
         .dtrack i { display: block; height: 100%; }
-        
-        .compact-donut-card { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
-        .donut-small { width: 100px; height: 100px; border-radius: 50%; position: relative; flex-shrink: 0; }
-        .donut-small::after { content: ''; position: absolute; inset: 22px; background: var(--bg-surface); border-radius: 50%; }
 
-        /* Leituras automáticas */
-        .insights { list-style: none; display: grid; gap: 6px; font-size: 0.82rem; line-height: 1.45; }
-        .insights li { background: var(--card-subtle); border-left: 3px solid var(--brand-accent); padding: 7px 12px; border-radius: 5px; color: var(--text-main); }
-        .insights li.alerta { border-left-color: var(--status-red); background: rgba(239, 68, 68, 0.1); }
+        .compact-donut-card { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
+        .donut-small { width: 90px; height: 90px; border-radius: 50%; position: relative; flex-shrink: 0; }
+        .donut-small::after { content: ''; position: absolute; inset: 20px; background: var(--bg-surface); border-radius: 50%; }
 
-        /* PROGRAMAÇÃO DE OBRAS */
-        #tab-prog .sub { display: flex; gap: 4px; border-bottom: 2px solid var(--border-light); margin-bottom: 12px; }
+        .insights { list-style: none; display: grid; gap: 6px; font-size: 0.8rem; line-height: 1.4; }
+        .insights li { background: var(--card-subtle); border-left: 3px solid var(--brand-accent); padding: 6px 10px; border-radius: 4px; color: var(--text-main); }
+        .insights li.alerta { border-left-color: var(--status-red); background: rgba(220, 38, 38, 0.1); }
+
+        /* GRÁFICOS EM COLUNAS DA PROGRAMAÇÃO DE OBRAS (TOTALMENTE REDESENHADOS E VISÍVEIS) */
+        .chart-columns-container {
+            display: flex; align-items: flex-end; gap: 8px; height: 170px; padding: 12px 6px 4px 6px;
+            overflow-x: auto; border-bottom: 2px solid var(--border-light);
+        }
+        .col-item-prog {
+            flex: 1; min-width: 44px; display: flex; flex-direction: column; justify-content: flex-end;
+            align-items: center; height: 100%; font-size: 10px; text-align: center;
+        }
+        .col-item-prog .bar-stack {
+            width: 22px; display: flex; flex-direction: column-reverse; border-radius: 4px 4px 0 0;
+            overflow: hidden; background: rgba(0,0,0,0.04);
+        }
+        .col-item-prog .bar-dual {
+            display: flex; gap: 3px; align-items: flex-end; height: 120px;
+        }
+        .col-item-prog .bar-single {
+            width: 10px; border-radius: 3px 3px 0 0; min-height: 2px;
+        }
+        .col-item-prog .label-date { margin-top: 6px; color: var(--text-muted); font-weight: 700; }
+
+        /* PROGRAMAÇÃO SUB-ABAS */
+        #tab-prog .sub { display: flex; gap: 4px; border-bottom: 2px solid var(--border-light); margin-bottom: 10px; }
         #tab-prog .sub button {
             border: 0; border-bottom: 3px solid transparent; background: none; color: var(--text-secondary);
-            padding: 8px 16px; font-weight: 600; cursor: pointer; font-size: 0.85rem;
+            padding: 7px 14px; font-weight: 600; cursor: pointer; font-size: 0.84rem;
         }
-        #tab-prog .sub button.on { color: var(--brand-dark); border-color: var(--brand-accent); font-weight: 700; background: rgba(16, 185, 129, 0.08); }
-        #tab-prog .week { display: grid; grid-template-columns: repeat(7, minmax(140px, 1fr)); gap: 8px; overflow-x: auto; }
-        #tab-prog .day { background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: 8px; min-height: 190px; padding: 8px; }
+        #tab-prog .sub button.on { color: var(--brand-dark); border-color: var(--brand-accent); font-weight: 700; background: rgba(16, 185, 129, 0.1); }
+        #tab-prog .week { display: grid; grid-template-columns: repeat(7, minmax(130px, 1fr)); gap: 6px; overflow-x: auto; }
+        #tab-prog .day { background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: 6px; min-height: 180px; padding: 6px; }
         #tab-prog .day.today { border-color: var(--brand-accent); }
-        #tab-prog .ev { border-left: 3px solid var(--brand-accent); background: var(--card-subtle); border-radius: 5px; padding: 5px 7px; margin-bottom: 5px; font-size: 11px; cursor: pointer; }
+        #tab-prog .ev { border-left: 3px solid var(--brand-accent); background: var(--card-subtle); border-radius: 4px; padding: 4px 6px; margin-bottom: 4px; font-size: 11px; cursor: pointer; }
         #tab-prog .tw { overflow: auto; max-height: 72vh; }
 
-        /* MODAL COMPACTO DE DETALHES DE PROJETO / SOB */
+        /* MODAL COMPACTO DE DETALHES */
         #dlg {
-            border: 1px solid var(--border-light); border-radius: 12px; padding: 18px; max-width: 780px; width: 92%;
+            border: 1px solid var(--border-light); border-radius: 10px; padding: 14px; max-width: 720px; width: 92%;
             background: var(--bg-surface); color: var(--text-main); box-shadow: var(--shadow-float);
         }
         .compact-spec-grid {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px 12px; font-size: 12px; margin: 10px 0;
-            max-height: 60vh; overflow-y: auto; padding-right: 4px;
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px 10px; font-size: 11px; margin: 8px 0;
+            max-height: 55vh; overflow-y: auto; padding-right: 4px;
         }
         @media (max-width: 680px) { .compact-spec-grid { grid-template-columns: 1fr 1fr; } }
-        .spec-item { background: var(--card-subtle); padding: 5px 8px; border-radius: 6px; border: 1px solid var(--border-light); }
-        .spec-item dt { color: var(--text-muted); font-size: 10px; font-weight: 700; text-transform: uppercase; }
+        .spec-item { background: var(--card-subtle); padding: 4px 6px; border-radius: 5px; border: 1px solid var(--border-light); }
+        .spec-item dt { color: var(--text-muted); font-size: 9px; font-weight: 700; text-transform: uppercase; }
         .spec-item dd { color: var(--text-main); font-weight: 600; margin: 0; word-break: break-word; }
 
         /* PAGINAÇÃO */
         .pagination-bar {
-            display: flex; justify-content: space-between; align-items: center; padding: 8px 12px;
+            display: flex; justify-content: space-between; align-items: center; padding: 6px 10px;
             background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: var(--radius-md);
-            margin-top: 10px; font-size: 12px; flex-wrap: wrap; gap: 8px;
+            margin-top: 8px; font-size: 11px; flex-wrap: wrap; gap: 6px;
         }
         .pagination-bar button {
-            background: var(--bg-surface); border: 1px solid var(--border-light); padding: 5px 12px;
-            border-radius: 6px; cursor: pointer; font-weight: 600; color: var(--text-main);
+            background: var(--bg-surface); border: 1px solid var(--border-light); padding: 4px 10px;
+            border-radius: 4px; cursor: pointer; font-weight: 600; color: var(--text-main);
         }
         .pagination-bar button:hover:not(:disabled) { border-color: var(--brand-accent); background: var(--brand-light); }
         .pagination-bar button:disabled { opacity: 0.4; cursor: not-allowed; }
 
         /* CHAT FLUTUANTE */
         #chat-widget-root {
-            position: fixed; bottom: 22px; right: 22px; z-index: 4000;
+            position: fixed; bottom: 20px; right: 20px; z-index: 4000;
             display: flex; flex-direction: column; align-items: flex-end;
         }
         .chat-fab-btn {
-            background: var(--brand-gradient); color: #FFF; width: 50px; height: 50px; border-radius: 50%;
+            background: var(--brand-gradient); color: #FFF; width: 48px; height: 48px; border-radius: 50%;
             border: 2px solid #FFF; box-shadow: var(--shadow-float); display: flex; align-items: center;
-            justify-content: center; font-size: 1.3rem; cursor: pointer; transition: var(--transition);
+            justify-content: center; font-size: 1.25rem; cursor: pointer; transition: var(--transition);
             animation: pulseGlow 3s infinite;
         }
         .chat-card-window {
-            display: none; width: 360px; height: 480px; background: var(--bg-surface);
+            display: none; width: 350px; height: 460px; background: var(--bg-surface);
             border: 1px solid var(--border-light); border-radius: var(--radius-lg);
             box-shadow: var(--shadow-float); margin-bottom: 10px; flex-direction: column;
             overflow: hidden; animation: scaleIn 0.2s ease;
@@ -313,12 +343,12 @@
             background: var(--brand-dark); color: #FFF; padding: 10px 14px;
             display: flex; justify-content: space-between; align-items: center; font-size: 0.88rem; font-weight: 700;
         }
-        .chat-feed-stream { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; font-size: 0.82rem; }
+        .chat-feed-stream { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; font-size: 0.8rem; }
         .chat-bubble {
             background: var(--card-subtle); padding: 8px 10px; border-radius: 8px; max-width: 92%;
             line-height: 1.4; border-left: 3px solid var(--brand-accent); animation: fadeIn 0.2s ease; color: var(--text-main);
         }
-        .chat-bubble.alert { border-left-color: var(--status-red); background: rgba(239, 68, 68, 0.1); }
+        .chat-bubble.alert { border-left-color: var(--status-red); background: rgba(220, 38, 38, 0.1); }
         .chat-bubble.success { border-left-color: var(--status-green); }
         .chat-bubble.user { align-self: flex-end; background: var(--brand-light); border-left: none; border-right: 3px solid var(--brand-accent); }
         .chat-input-row { display: flex; padding: 8px; border-top: 1px solid var(--border-light); gap: 6px; background: var(--bg-surface); }
@@ -326,9 +356,9 @@
         .chat-input-row button { background: var(--brand-primary); color: #FFF; border: none; border-radius: 6px; padding: 0 12px; cursor: pointer; }
 
         /* FONTES DE DADOS */
-        .card-fonte { background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: 10px; padding: 18px; margin-bottom: 12px; }
-        .input-link-fonte { width: 100%; border: 1px solid var(--border-light); padding: 8px 10px; border-radius: 6px; font-size: 0.8rem; margin-top: 4px; font-family: monospace; background: var(--card-subtle); color: var(--text-main); }
-        .status-badge-fonte { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 12px; }
+        .card-fonte { background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: 10px; padding: 16px; margin-bottom: 12px; }
+        .input-link-fonte { width: 100%; border: 1px solid var(--border-light); padding: 7px 10px; border-radius: 6px; font-size: 0.8rem; margin-top: 4px; font-family: monospace; background: var(--card-subtle); color: var(--text-main); }
+        .status-badge-fonte { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 10px; }
     </style>
 </head>
 <body>
@@ -342,7 +372,6 @@
             </div>
 
             <div class="header-actions">
-                <!-- SELETOR UNIFICADO MASTER DE CONTRATO -->
                 <select id="sel-contrato-global" class="select-contract-master" onchange="mudarContratoGlobal(this.value)">
                     <option value="angra">Contrato: Angra dos Reis</option>
                     <option value="mage">Contrato: Magé</option>
@@ -352,7 +381,6 @@
                     <i class="fa-solid fa-rotate"></i> Atualizar Planilhas
                 </button>
 
-                <!-- BOTÃO DE TEMA CLARO / ESCURO -->
                 <button class="btn-theme-toggle" id="btn-theme-toggle" onclick="toggleTheme()" title="Alternar entre tema Claro e Escuro">
                     <i class="fa-solid fa-moon" id="theme-icon"></i> <span id="theme-label">Escuro</span>
                 </button>
@@ -367,35 +395,37 @@
             <button class="tab-nav-item" id="tabbtn-fontes" onclick="trocarAba('fontes')"><i class="fa-solid fa-link"></i> Fontes de Dados</button>
         </div>
 
-        <!-- ABA 1: MAPA -->
+        <!-- ABA 1: MAPA (CORRIGIDO: POSICIONAMENTO E RENDERIZAÇÃO) -->
         <div id="tab-mapa">
             <div class="map-wrapper">
+                <!-- CARD SLA: COMPACTO NO CANTO SUPERIOR DIREITO -->
                 <div class="floating-sla-panel">
-                    <div class="floating-sla-header"><i class="fa-solid fa-clock"></i> SLA / Prazos de Execução</div>
-                    <div class="sla-row-btn active" id="card-sla-todos" onclick="filtrarPorFaixaSla('todos')">
+                    <div class="floating-sla-title"><i class="fa-solid fa-clock"></i> SLA / Prazos de Execução</div>
+                    <div class="sla-mini-card active" id="card-sla-todos" onclick="filtrarPorFaixaSla('todos')">
                         <span style="color:var(--status-green);">Total Mapeados</span>
                         <b id="count-total" style="color:var(--status-green);">0</b>
                     </div>
-                    <div class="sla-row-btn" id="card-sla-violada" onclick="filtrarPorFaixaSla('violada')">
+                    <div class="sla-mini-card" id="card-sla-violada" onclick="filtrarPorFaixaSla('violada')">
                         <span style="color:var(--status-red);">Violadas (≤ 0d)</span>
                         <b id="count-violada" style="color:var(--status-red);">0</b>
                     </div>
-                    <div class="sla-row-btn" id="card-sla-12dias" onclick="filtrarPorFaixaSla('12dias')">
+                    <div class="sla-mini-card" id="card-sla-12dias" onclick="filtrarPorFaixaSla('12dias')">
                         <span style="color:var(--status-amber);">Até 12 Dias</span>
                         <b id="count-12dias" style="color:var(--status-amber);">0</b>
                     </div>
-                    <div class="sla-row-btn" id="card-sla-20dias" onclick="filtrarPorFaixaSla('20dias')">
+                    <div class="sla-mini-card" id="card-sla-20dias" onclick="filtrarPorFaixaSla('20dias')">
                         <span style="color:#D97706;">Até 20 Dias</span>
                         <b id="count-20dias" style="color:#D97706;">0</b>
                     </div>
-                    <div class="sla-row-btn" id="card-sla-30dias" onclick="filtrarPorFaixaSla('30dias')">
-                        <span style="color:var(--brand-accent);">Até 30 Dias</span>
-                        <b id="count-30dias" style="color:var(--brand-accent);">0</b>
+                    <div class="sla-mini-card" id="card-sla-30dias" onclick="filtrarPorFaixaSla('30dias')">
+                        <span style="color:#0284C7;">Até 30 Dias</span>
+                        <b id="count-30dias" style="color:#0284C7;">0</b>
                     </div>
                 </div>
 
-                <div class="floating-legend-card">
-                    <div class="floating-sla-header"><i class="fa-solid fa-palette"></i> Etapas da Obra</div>
+                <!-- CARD LEGENDA: COMPACTO NO CANTO INFERIOR ESQUERDO -->
+                <div class="floating-legend-panel">
+                    <div class="legend-title"><i class="fa-solid fa-palette"></i> Etapas da Obra</div>
                     <div id="etapa-legend-container"></div>
                 </div>
 
@@ -406,7 +436,7 @@
         <!-- ABA 2: CARTEIRA DE PROJETOS -->
         <div id="tab-carteira">
             <div class="cart-glass-toolbar">
-                <button class="btn-modern-primary" onclick="abrirModalDashboard()">
+                <button class="btn-modern-primary" style="background:var(--brand-primary);" onclick="abrirModalDashboard()">
                     <i class="fa-solid fa-chart-pie"></i> Ver Dashboard da Carteira
                 </button>
                 <input type="text" class="cart-search-box" id="cart-search" placeholder="Pesquisar por projeto, SOB, parceira..." oninput="renderCarteira()">
@@ -454,7 +484,7 @@
                 <button data-t="hist">Histórico</button>
             </div>
             <div id="v"></div>
-            <!-- MODAL COMPACTO DE DETALHES -->
+            <!-- MODAL COMPACTO DE ESPECIFICAÇÕES -->
             <dialog id="dlg"><div id="dbody"></div><p style="text-align:right;margin-top:10px;"><button class="btn-modern-primary" style="padding:6px 14px;background:#475569;" onclick="this.closest('dialog').close()">Fechar</button></p></dialog>
         </div>
 
@@ -531,7 +561,7 @@
             <div class="chat-feed-stream" id="chat-messages">
                 <div class="chat-bubble success">
                     <b>Sistema Conectado</b><br>
-                    Feed ativo. As atualizações automáticas ocorrem a cada 10 minutos.
+                    Feed ativo. Sincronização automática programada a cada 10 minutos.
                     <small>Iniciado</small>
                 </div>
             </div>
@@ -545,11 +575,8 @@
         </div>
     </div>
 
-    <!-- SCRIPTS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
+    <!-- ENGINE JAVASCRIPT -->
     <script>
-        /* CONVERSOR DE LINKS DE GOOGLE PLANILHAS */
         function extrairLinkCsvGoogle(str) {
             if (!str) return '';
             str = String(str).trim();
@@ -573,7 +600,7 @@
         };
 
         try {
-            const saved = localStorage.getItem('app_links_v8_green');
+            const saved = localStorage.getItem('app_links_v9_green');
             if (saved) Object.assign(window.LINKS_PLANILHAS, JSON.parse(saved));
         } catch(e) {}
 
@@ -597,7 +624,6 @@
             document.getElementById('theme-label').innerText = isDark ? 'Claro' : 'Escuro';
         }
 
-        // Carrega preferência de tema salva
         (function initTheme() {
             if (localStorage.getItem('theme_preference') === 'dark') {
                 document.body.classList.add('dark-mode');
@@ -606,7 +632,7 @@
                     const lbl = document.getElementById('theme-label');
                     if (icon) icon.className = 'fa-solid fa-sun';
                     if (lbl) lbl.innerText = 'Claro';
-                }, 100);
+                }, 80);
             }
         })();
 
@@ -625,16 +651,16 @@
             return PRIORIDADES_CRITICAS.some(pc => n.includes(normTxt(pc)) || normTxt(pc).includes(n));
         }
 
-        /* MAPA */
+        /* INICIALIZAÇÃO ROBUSTA DO MAPA */
         function inicializarMapa() {
             if (!map) {
-                map = L.map('map', { zoomControl: true }).setView([-22.9068, -43.1729], 10);
+                map = L.map('map', { zoomControl: true }).setView([-23.0067, -44.3181], 10);
                 const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; OpenStreetMap' }).addTo(map);
                 const sat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: 19, attribution: '&copy; Esri' });
                 L.control.layers({ 'Mapa': osm, 'Satélite': sat }).addTo(map);
                 markersGroup = L.layerGroup().addTo(map);
             }
-            setTimeout(() => { if (map) map.invalidateSize(); }, 200);
+            setTimeout(() => { if (map) map.invalidateSize(); }, 250);
         }
 
         function buscarCampoFlexivel(obj, ...nomes) {
@@ -697,7 +723,7 @@
             return String(buscarCampoFlexivel(item, 'PROJETO', 'CODIGO', 'OBRA', 'SOB') || '').trim();
         }
 
-        /* TROCA GLOBAL DE CONTRATO */
+        /* CONTRATO MASTER */
         function mudarContratoGlobal(c) {
             contratoGlobal = c;
             document.getElementById('sel-contrato-global').value = c;
@@ -729,11 +755,9 @@
                 const sheet = wb.Sheets[wb.SheetNames[0]];
                 const rows = XLSX.utils.sheet_to_json(sheet, { defval: "" });
 
-                const diff = rows.length - listaDadosGlobal.length;
                 badge.innerHTML = `<span style="color:var(--status-green);"><i class="fa-solid fa-circle-check"></i> ${contratoGlobal.toUpperCase()} Conectado (${rows.length} obras)</span>`;
                 aplicarLinhas(rows);
-                
-                adicionarFeedChat(`Carteira (${contratoGlobal.toUpperCase()}): <b>${rows.length} obras</b> carregadas. ${diff > 0 ? `(<b>+${diff} novas</b> detectadas)` : ''}`, 'success');
+                adicionarFeedChat(`Planilha de Carteira (${contratoGlobal.toUpperCase()}): <b>${rows.length} obras</b> carregadas com sucesso.`, 'success');
             } catch(e) {
                 badge.innerHTML = `<span style="color:var(--status-red);"><i class="fa-solid fa-triangle-exclamation"></i> Falha ao ler planilha de ${contratoGlobal.toUpperCase()}</span>`;
                 aplicarLinhas([]);
@@ -742,6 +766,7 @@
 
         function aplicarLinhas(linhas) {
             listaDadosGlobal = linhas;
+            popularFiltrosDash();
             construirCoresEtapas();
             popularFiltrosCarteira();
             processarEPlotarProjetos();
@@ -788,7 +813,6 @@
             { titulo: 'ETAPA', nomes: ['ETAPA', 'STATUS', 'FASE', 'SITUACAO', 'INFO STATUS'] }
         ];
 
-        /* REGRA DO SINAL */
         function obterSinal(item) {
             const tipo = normTxt(buscarCampoFlexivel(item, 'TIPO', 'TIPO DE SERVICO'));
             if (!tipo.includes('CLIENTE')) return null;
@@ -932,8 +956,9 @@
 
         function filtrarPorFaixaSla(f) {
             filtroSlaAtual = f;
-            document.querySelectorAll('.sla-row-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('card-sla-' + f).classList.add('active');
+            document.querySelectorAll('.sla-mini-card').forEach(b => b.classList.remove('active'));
+            const card = document.getElementById('card-sla-' + f);
+            if (card) card.classList.add('active');
             processarEPlotarProjetos();
         }
 
@@ -975,7 +1000,7 @@
                     const corNucleo = mapaCoresEtapas[etapa] || 'var(--brand-accent)';
 
                     const m = L.circleMarker([lat, lng], { radius: 7, fillColor: corNucleo, color: corAura, weight: 3, fillOpacity: 0.95 }).addTo(markersGroup);
-                    m.bindPopup(`<b>PROJETO: ${esc(proj)}</b><br>Etapa: <b>${esc(etapa)}</b><br>Prazo: <b>${dias <= 0 ? Math.abs(dias)+'d em atraso' : dias+'d'}</b><br><a href="https://www.google.com/maps/search/?api=1&query=${lat},${lng}" target="_blank" style="color:#059669;font-weight:bold;text-decoration:none;display:inline-block;margin-top:5px;">Abrir no Google Maps</a>`);
+                    m.bindPopup(`<b>PROJETO: ${esc(proj)}</b><br>Etapa: <b>${esc(etapa)}</b><br>Prazo: <b>${dias <= 0 ? Math.abs(dias)+'d em atraso' : dias+'d'}</b><br><a href="https://www.google.com/maps/search/?api=1&query=${lat},${lng}" target="_blank" style="color:var(--brand-primary);font-weight:bold;text-decoration:none;display:inline-block;margin-top:5px;">Abrir no Google Maps</a>`);
                 }
             });
 
@@ -989,9 +1014,9 @@
         }
 
         /* ========================================================
-           DASHBOARDS DA CARTEIRA
+           DASHBOARD DA CARTEIRA
            ======================================================== */
-        const COR = { verm: '#EF4444', amar: '#F59E0B', verde: '#10B981', azul: '#065F46', cinza: '#94A3B8', lar: '#EA580C' };
+        const COR = { verm: '#EF4444', amar: '#D97706', verde: '#10B981', azul: '#065F46', cinza: '#94A3B8', lar: '#EA580C' };
         const campoTxt = (i, ...n) => formatarValorGenerico(buscarCampoFlexivel(i, ...n));
         const ehAberto = i => normTxt(obterValorEtapa(i)) !== 'CONCLUIDO';
         const dataValida = v => { const d = paraData(v); return d && d.getFullYear() > 1900 ? d : null; };
@@ -1225,13 +1250,13 @@
             window.LINKS_PLANILHAS.prog_angra = extrairLinkCsvGoogle(document.getElementById('input-prog-ang').value);
             window.LINKS_PLANILHAS.prog_mag = extrairLinkCsvGoogle(document.getElementById('input-prog-mag').value);
 
-            localStorage.setItem('app_links_v8_green', JSON.stringify(window.LINKS_PLANILHAS));
-            alert('Links das fontes de dados salvos com sucesso!');
+            localStorage.setItem('app_links_v9_green', JSON.stringify(window.LINKS_PLANILHAS));
+            alert('Links salvos e aplicados com sucesso!');
             preencherInputsFontes();
             sincronizarTudoOnline();
         }
 
-        /* CHAT FLUTUANTE COM LOG AUTOMÁTICO E PROTEÇÃO DO ADMIN */
+        /* CHAT FLUTUANTE */
         function toggleChatWindow() {
             document.getElementById('chat-window').classList.toggle('open');
         }
@@ -1245,7 +1270,6 @@
             c.scrollTop = c.scrollHeight;
         }
 
-        // Credenciais codificadas em Base64 (Login: Luiz.T1998, Senha: admin)
         const ADMIN_HASH_LOGIN = "bHVpei50MTk5OA=="; // "luiz.t1998"
         const ADMIN_HASH_PASS  = "YWRtaW4=";         // "admin"
         let adminSessaoAtiva = false;
@@ -1256,7 +1280,6 @@
             const txt = inp.value.trim();
             if (!txt) return;
 
-            // Se estiver aguardando credenciais de admin, NÃO exibe a senha em texto claro no log
             if (aguardandoCredenciais) {
                 processarAutenticacaoAdmin(txt);
                 inp.value = '';
@@ -1272,10 +1295,9 @@
         }
 
         function processarAutenticacaoAdmin(entrada) {
-            // Espera login e senha separados por espaço ou vírgula
             const partes = entrada.split(/[\s,]+/);
             if (partes.length < 2) {
-                adicionarFeedChat(`Para validar o acesso administrativo, digite o Login e a Senha separados por espaço. Exemplo: <code>usuario senha</code>.`, 'alert');
+                adicionarFeedChat(`Para validar acesso, digite Login e Senha separados por espaço.`, 'alert');
                 return;
             }
 
@@ -1285,23 +1307,22 @@
             if (login === ADMIN_HASH_LOGIN && pass === ADMIN_HASH_PASS) {
                 adminSessaoAtiva = true;
                 aguardandoCredenciais = false;
-                adicionarFeedChat(`🔐 <b>Acesso Administrativo Concedido!</b><br>Autenticação realizada com sucesso. Você tem permissão para solicitar alterações no código ou configurar integrações com o Google AI Studio.`, 'success');
+                adicionarFeedChat(`🔐 <b>Acesso Administrativo Concedido!</b><br>Você possui permissões de administrador. Chave Gemini pode ser cadastrada via: <code>gemini-key: SUA_CHAVE</code>.`, 'success');
             } else {
-                adicionarFeedChat(`❌ <b>Credenciais Inválidas.</b> Não foi possível autorizar a ação administrativa solicitada.`, 'alert');
+                adicionarFeedChat(`❌ <b>Credenciais Inválidas.</b>`, 'alert');
             }
         }
 
         function responderChat(txt) {
             const q = txt.toLowerCase();
 
-            // Detecta solicitação de edição de código ou alteração estrutural
-            if (q.includes('edit') || q.includes('alterar') || q.includes('mudar codigo') || q.includes('código') || q.includes('ia studio') || q.includes('google ia')) {
+            if (q.includes('edit') || q.includes('alterar') || q.includes('mudar codigo') || q.includes('ia studio') || q.includes('google ia')) {
                 if (!adminSessaoAtiva) {
                     aguardandoCredenciais = true;
-                    adicionarFeedChat(`🔒 <b>Ação Restrita ao Administrador:</b><br>Para realizar edições no sistema ou acionar o agente de código, informe o <b>Login e a Senha</b> (seus dados não serão gravados no log).`, 'alert');
+                    adicionarFeedChat(`🔒 <b>Ação Restrita:</b> Digite <b>Login e Senha</b> para autorizar comandos do Google AI Studio (credenciais ocultadas).`, 'alert');
                     return;
                 } else {
-                    adicionarFeedChat(`⚙️ <b>Agente de Desenvolvimento Ativo:</b><br>Administrador autenticado. Para integrar diretamente com a chave da API do Google AI Studio (Gemini), use o comando: <code>gemini-key: SUA_CHAVE</code>.`, 'success');
+                    adicionarFeedChat(`⚙️ <b>Administrador Ativo:</b> Insira instruções de alteração ou use <code>gemini-key: CHAVE</code>.`, 'success');
                     return;
                 }
             }
@@ -1310,22 +1331,20 @@
                 const key = txt.split(':')[1]?.trim();
                 if (key) {
                     localStorage.setItem('gemini_api_key', key);
-                    adicionarFeedChat(`✅ Chave do <b>Google AI Studio</b> salva com sucesso! O assistente agora usará o modelo Gemini para análises avançadas.`, 'success');
+                    adicionarFeedChat(`✅ Chave Google AI Studio configurada!`, 'success');
                     return;
                 }
             }
 
-            // Respostas operacionais rápidas
             const total = listaDadosGlobal.length;
             const vencidos = listaDadosGlobal.filter(i => calcularDiasRestantes(buscarCampoFlexivel(i, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE')) <= 0).length;
             if (q.includes('venc') || q.includes('atras')) {
-                adicionarFeedChat(`🚨 <b>Obras Vencidas:</b> Existem <b>${vencidos}</b> projetos com data limite ultrapassada no contrato de ${contratoGlobal.toUpperCase()}.`, 'alert');
+                adicionarFeedChat(`🚨 <b>Obras Vencidas:</b> Existem <b>${vencidos}</b> projetos com data limite estourada no contrato de ${contratoGlobal.toUpperCase()}.`, 'alert');
             } else {
-                adicionarFeedChat(`📊 <b>Status da Carteira:</b> O contrato <b>${contratoGlobal.toUpperCase()}</b> possui atualmente <b>${total}</b> obras monitoradas.`, 'success');
+                adicionarFeedChat(`📊 <b>Status da Carteira:</b> O contrato <b>${contratoGlobal.toUpperCase()}</b> possui atualmente <b>${total}</b> obras registradas.`, 'success');
             }
         }
 
-        // Auto-refresh a cada 10 minutos (600.000 ms)
         setInterval(() => {
             sincronizarTudoOnline();
             adicionarFeedChat(`🔄 <b>Atualização Automática (10 min):</b> Planilhas consultadas na nuvem.`, 'success');
@@ -1336,7 +1355,7 @@
         sincronizarTudoOnline();
     </script>
 
-    <!-- PROGRAMAÇÃO DE OBRAS COM FILTRO >= 2026, ESTRUTURA COM 0 E HISTÓRICO IDÊNTICO -->
+    <!-- PROGRAMAÇÃO DE OBRAS COM COLUNAS IDÊNTICAS, ESTRUTURA COM 0, ITENS CENTRALIZADOS E PAGINAÇÃO -->
     <script>
     (function(){
         const root = document.getElementById('tab-prog');
@@ -1370,7 +1389,7 @@
             return r;
         }
 
-        /* EXTRAI QUANTIDADES DA COLUNA ESTRUTURA (RETORNA 0 SE NÃO EXISTIR) */
+        /* EXTRAI QUANTIDADES DA ESTRUTURA (RETORNA 0 SE NÃO EXISTIR) */
         function extrairQuantidadesEstrutura(str) {
             const s = String(str || '').toUpperCase();
             function extrai(regex) {
@@ -1396,7 +1415,7 @@
                 if (!m || !sob) continue;
 
                 const ano = parseInt(m[3], 10);
-                // REGRA: Buscar históricos SOMENTE de 2026 para frente
+                // BUSCAR SOMENTE DE 2026 PARA FRENTE
                 if (ano < 2026) continue;
 
                 const d = new Date(ano, m[2] - 1, +m[1]);
@@ -1473,18 +1492,17 @@
             else if (tab === 'hist') renderProgHist();
         }
 
-        /* DASHBOARD DA PROGRAMAÇÃO COM OS NOVOS GRÁFICOS SOLICITADOS */
+        /* DASHBOARD REESTRUTURADO EM COLUNAS PERFEITAS */
         function renderProgDash() {
             const cur = contratoGlobal;
             const all = DB[cur] || [];
 
-            // Agrupa por dia
             const porDia = {};
             let totalCusto = 0, totalBaremo = 0, totalMK = 0, totalCesto = 0, totalLV = 0, totalPoda = 0;
 
             all.forEach(x => {
                 const k = x.iso;
-                if (!porDia[k]) porDia[k] = { data: x.d, total: 0, status: {}, mk: 0, cesto: 0, lv: 0, poda: 0, custo: 0, baremo: 0 };
+                if (!porDia[k]) porDia[k] = { total: 0, status: {}, mk: 0, cesto: 0, lv: 0, poda: 0, custo: 0, baremo: 0 };
                 porDia[k].total++;
                 const c = cls(x.st);
                 porDia[k].status[c] = (porDia[k].status[c] || 0) + 1;
@@ -1504,113 +1522,108 @@
             const diasOrdenados = Object.keys(porDia).sort();
             const ultimosDias = diasOrdenados.slice(-14);
 
-            // Gráfico 1: Quantidade por dia por status
+            // 1. Gráfico em Colunas: Qtd de Projetos Programados por Dia por Status
             const maxQtd = Math.max(1, ...ultimosDias.map(d => porDia[d].total));
-            const barStatusHtml = `<div class="bars">${ultimosDias.map(d => {
+            const colunasStatusHtml = `<div class="chart-columns-container">${ultimosDias.map(d => {
                 const o = porDia[d];
-                return `<div class="col" title="${d}: ${o.total} obras">
-                    <b style="font-size:10px;">${o.total}</b>
-                    <div class="stack" style="height:${(o.total/maxQtd)*130}px;">
+                return `<div class="col-item-prog" title="${d}: ${o.total} obras">
+                    <b style="font-size:10px;color:var(--text-main);">${o.total}</b>
+                    <div class="bar-stack" style="height:${(o.total/maxQtd)*110}px;">
                         <div style="height:${((o.status['CONCLUÍDO']||0)/o.total)*100}%;background:var(--status-green);"></div>
-                        <div style="height:${((o.status['PARCIAL']||0)/o.total)*100}%;background:#06B6D4;"></div>
+                        <div style="height:${((o.status['PARCIAL']||0)/o.total)*100}%;background:#0284C7;"></div>
                         <div style="height:${((o.status['ADIADO']||0)/o.total)*100}%;background:var(--status-amber);"></div>
                         <div style="height:${((o.status['CANCELADO']||0)/o.total)*100}%;background:var(--status-red);"></div>
                     </div>
-                    <span>${d.slice(8)}/${d.slice(5,7)}</span>
+                    <span class="label-date">${d.slice(8)}/${d.slice(5,7)}</span>
                 </div>`;
             }).join('')}</div>`;
 
-            // Gráfico 2: Quantidades por MK, CESTO, LV e PODA por dia
+            // 2. Gráfico em Colunas: Qtd por MK, CESTO, LV e PODA por Dia
             const maxRec = Math.max(1, ...ultimosDias.map(d => porDia[d].mk + porDia[d].cesto + porDia[d].lv + porDia[d].poda));
-            const barRecursosHtml = `<div class="bars">${ultimosDias.map(d => {
+            const colunasRecursosHtml = `<div class="chart-columns-container">${ultimosDias.map(d => {
                 const o = porDia[d];
                 const sum = o.mk + o.cesto + o.lv + o.poda;
-                return `<div class="col" title="${d} - MK: ${o.mk}, Cesto: ${o.cesto}, LV: ${o.lv}, Poda: ${o.poda}">
-                    <b style="font-size:10px;">${sum}</b>
-                    <div class="stack" style="height:${sum ? (sum/maxRec)*130 : 2}px;">
+                return `<div class="col-item-prog" title="${d} - MK: ${o.mk}, Cesto: ${o.cesto}, LV: ${o.lv}, Poda: ${o.poda}">
+                    <b style="font-size:10px;color:var(--text-main);">${sum}</b>
+                    <div class="bar-stack" style="height:${sum ? (sum/maxRec)*110 : 2}px;">
                         <div style="height:${sum ? (o.mk/sum)*100 : 0}%;background:#047857;" title="MK: ${o.mk}"></div>
                         <div style="height:${sum ? (o.cesto/sum)*100 : 0}%;background:#10B981;" title="Cesto: ${o.cesto}"></div>
                         <div style="height:${sum ? (o.lv/sum)*100 : 0}%;background:#3B82F6;" title="Linha Viva: ${o.lv}"></div>
                         <div style="height:${sum ? (o.poda/sum)*100 : 0}%;background:#EAB308;" title="Poda: ${o.poda}"></div>
                     </div>
-                    <span>${d.slice(8)}/${d.slice(5,7)}</span>
+                    <span class="label-date">${d.slice(8)}/${d.slice(5,7)}</span>
                 </div>`;
             }).join('')}</div>`;
 
-            // Gráfico 3: Custo Programado vs Baremo Programado preenchido com cor
+            // 3. Gráfico em Colunas Duplas: Custo Total Programado vs Baremo Programado por Dia
             const maxCusto = Math.max(1, ...ultimosDias.map(d => Math.max(porDia[d].custo, porDia[d].baremo)));
-            const barCustosHtml = `<div class="bars">${ultimosDias.map(d => {
+            const colunasCustosHtml = `<div class="chart-columns-container">${ultimosDias.map(d => {
                 const o = porDia[d];
-                const hCusto = (o.custo / maxCusto) * 120;
-                const hBaremo = (o.baremo / maxCusto) * 120;
-                return `<div class="col" style="min-width:38px;" title="${d} - Custo: ${brl(o.custo)} | Baremo: ${brl(o.baremo)}">
-                    <div style="display:flex;gap:2px;align-items:flex-end;width:100%;height:130px;justify-content:center;">
-                        <div style="width:45%;height:${Math.max(2, hCusto)}px;background:#059669;border-radius:3px 3px 0 0;" title="Custo"></div>
-                        <div style="width:45%;height:${Math.max(2, hBaremo)}px;background:#34D399;border-radius:3px 3px 0 0;" title="Baremo"></div>
+                const hCusto = (o.custo / maxCusto) * 110;
+                const hBaremo = (o.baremo / maxCusto) * 110;
+                return `<div class="col-item-prog" title="${d} - Custo: ${brl(o.custo)} | Baremo: ${brl(o.baremo)}">
+                    <div class="bar-dual">
+                        <div class="bar-single" style="height:${Math.max(2, hCusto)}px;background:#059669;" title="Custo: ${brl(o.custo)}"></div>
+                        <div class="bar-single" style="height:${Math.max(2, hBaremo)}px;background:#34D399;" title="Baremo: ${brl(o.baremo)}"></div>
                     </div>
-                    <span>${d.slice(8)}/${d.slice(5,7)}</span>
+                    <span class="label-date">${d.slice(8)}/${d.slice(5,7)}</span>
                 </div>`;
             }).join('')}</div>`;
 
-            // Análise Operacional e Leituras Automáticas da Programação
             const concluidas = all.filter(x => cls(x.st) === 'CONCLUÍDO').length;
             const canceladas = all.filter(x => cls(x.st) === 'CANCELADO').length;
             const adiadas = all.filter(x => cls(x.st) === 'ADIADO').length;
 
             $('#v').innerHTML = `
-                <!-- RESUMO CONSOLIDADO EM TEXTO (INDICADORES) -->
-                <div class="kpis-grid" style="grid-template-columns:repeat(6,1fr);margin-bottom:14px;">
-                    <div class="kpi"><b>${all.length}</b><span>Total Programações</span></div>
-                    <div class="kpi" style="border-left-color:var(--status-green);"><b>${brl(totalCusto)}</b><span>Custo Programado</span></div>
+                <!-- TOTAIS EM TEXTO NO DASHBOARD -->
+                <div class="kpis-grid" style="grid-template-columns:repeat(6,1fr);margin-bottom:12px;">
+                    <div class="kpi"><b>${all.length}</b><span>Total Programadas</span></div>
+                    <div class="kpi" style="border-left-color:var(--status-green);"><b>${brl(totalCusto)}</b><span>Custo Total Programado</span></div>
                     <div class="kpi" style="border-left-color:var(--brand-accent);"><b>${brl(totalBaremo)}</b><span>Baremo Programado</span></div>
-                    <div class="kpi" style="border-left-color:#047857;"><b>${totalMK}</b><span>Qtd. MK</span></div>
-                    <div class="kpi" style="border-left-color:#10B981;"><b>${totalCesto}</b><span>Qtd. Cesto</span></div>
-                    <div class="kpi" style="border-left-color:#3B82F6;"><b>${totalLV}</b><span>Qtd. Linha Viva</span></div>
+                    <div class="kpi" style="border-left-color:#047857;"><b>${totalMK}</b><span>Total MK</span></div>
+                    <div class="kpi" style="border-left-color:#10B981;"><b>${totalCesto}</b><span>Total Cesto</span></div>
+                    <div class="kpi" style="border-left-color:#3B82F6;"><b>${totalLV}</b><span>Total Linha Viva</span></div>
                 </div>
 
                 <div class="dgrid">
-                    <!-- GRÁFICO 1 -->
                     <div class="ditem dcard" style="--span:6;">
-                        <div class="dh"><h4><i class="fa-solid fa-chart-column"></i> Quantidade por Dia por Status (Últimos 14 Dias)</h4></div>
-                        <div style="font-size:11px;margin-bottom:6px;display:flex;gap:8px;">
+                        <div class="dh"><h4><i class="fa-solid fa-chart-column"></i> Quantidade de Projetos Programados por Dia por Status</h4></div>
+                        <div style="font-size:11px;margin-bottom:4px;display:flex;gap:8px;">
                             <span style="color:var(--status-green);">■ Concluído</span>
-                            <span style="color:#06B6D4;">■ Parcial</span>
+                            <span style="color:#0284C7;">■ Parcial</span>
                             <span style="color:var(--status-amber);">■ Adiado</span>
                             <span style="color:var(--status-red);">■ Cancelado</span>
                         </div>
-                        ${barStatusHtml}
+                        ${colunasStatusHtml}
                     </div>
 
-                    <!-- GRÁFICO 2 -->
                     <div class="ditem dcard" style="--span:6;">
-                        <div class="dh"><h4><i class="fa-solid fa-truck-pickup"></i> Recursos Diários (MK, Cesto, Linha Viva, Poda)</h4></div>
-                        <div style="font-size:11px;margin-bottom:6px;display:flex;gap:8px;">
+                        <div class="dh"><h4><i class="fa-solid fa-truck-pickup"></i> Recursos Diários (MK, Cesto, Linha Viva e Poda)</h4></div>
+                        <div style="font-size:11px;margin-bottom:4px;display:flex;gap:8px;">
                             <span style="color:#047857;">■ MK (${totalMK})</span>
                             <span style="color:#10B981;">■ Cesto (${totalCesto})</span>
                             <span style="color:#3B82F6;">■ Linha Viva (${totalLV})</span>
                             <span style="color:#EAB308;">■ Poda (${totalPoda})</span>
                         </div>
-                        ${barRecursosHtml}
+                        ${colunasRecursosHtml}
                     </div>
 
-                    <!-- GRÁFICO 3 -->
                     <div class="ditem dcard" style="--span:6;">
-                        <div class="dh"><h4><i class="fa-solid fa-money-bill-trend-up"></i> Custo Programado vs Baremo Programado por Dia</h4></div>
-                        <div style="font-size:11px;margin-bottom:6px;display:flex;gap:10px;">
+                        <div class="dh"><h4><i class="fa-solid fa-money-bill-trend-up"></i> Custo Total Programado vs Baremo Programado por Dia</h4></div>
+                        <div style="font-size:11px;margin-bottom:4px;display:flex;gap:10px;">
                             <span style="color:#059669;">■ Custo Programado</span>
                             <span style="color:#34D399;">■ Baremo Programado</span>
                         </div>
-                        ${barCustosHtml}
+                        ${colunasCustosHtml}
                     </div>
 
-                    <!-- LEITURAS AUTOMÁTICAS & ANÁLISE OPERACIONAL DA PROGRAMAÇÃO -->
                     <div class="ditem dcard" style="--span:6;">
                         <div class="dh"><h4><i class="fa-solid fa-lightbulb" style="color:var(--brand-accent);"></i> Leituras Automáticas & Análise Operacional da Programação</h4></div>
                         <ul class="insights">
-                            <li>📈 <b>Eficiência de Execução:</b> <b>${concluidas}</b> obras concluídas com sucesso (${all.length ? Math.round((concluidas/all.length)*100) : 0}% de eficácia).</li>
-                            <li class="${canceladas > 0 ? 'alerta' : ''}">⚠️ <b>Cancelamentos e Adiamentos:</b> <b>${canceladas}</b> canceladas e <b>${adiadas}</b> adiadas no período acumulado de 2026.</li>
-                            <li>💰 <b>Balanço Financeiro:</b> Custo total programado de <b>${brl(totalCusto)}</b> para um baremo previsto de <b>${brl(totalBaremo)}</b>.</li>
-                            <li>🚜 <b>Dimensionamento de Campo:</b> A estrutura de <b>MK</b> representa a maior concentração operacional, com <b>${totalMK}</b> alocações diárias.</li>
+                            <li>📈 <b>Eficiência de Campo:</b> <b>${concluidas}</b> programações concluídas no período a partir de 2026 (${all.length ? Math.round((concluidas/all.length)*100) : 0}% de taxa de entrega).</li>
+                            <li class="${canceladas > 0 ? 'alerta' : ''}">⚠️ <b>Desvios:</b> <b>${canceladas}</b> cancelamentos e <b>${adiadas}</b> adiamentos registrados na planilha.</li>
+                            <li>💰 <b>Relação Financeira:</b> O Custo total acumulado representa <b>${brl(totalCusto)}</b> em comparação com o Baremo de <b>${brl(totalBaremo)}</b>.</li>
+                            <li>🚜 <b>Demanda de Equipes:</b> A estrutura <b>MK</b> responde pelo maior volume de frentes de trabalho com <b>${totalMK}</b> alocações.</li>
                         </ul>
                     </div>
                 </div>
@@ -1646,12 +1659,11 @@
             $('#tj-week').onclick = () => { wk = sun(new Date()); renderProgWeek(); };
         }
 
-        /* HISTÓRICO COM COLUNAS EXATAS DA PLANILHA, ESTRUTURA SEPARADA, ITENS CENTRALIZADOS E PAGINAÇÃO */
+        /* HISTÓRICO CENTRALIZADO, COM ESTRUTURAS ZERADAS COMO 0, FILTROS E PAGINAÇÃO */
         function renderProgHist() {
             const cur = contratoGlobal;
             const all = DB[cur] || [];
 
-            // Popula os seletores de filtro se necessário
             const statusUnicos = [...new Set(all.map(x => x.st).filter(Boolean))].sort();
             const tiposUnicos = [...new Set(all.map(x => x.tipo).filter(Boolean))].sort();
             const prioridadesUnicas = [...new Set(all.map(x => x.prioridade).filter(Boolean))].sort();
@@ -1671,21 +1683,20 @@
             const paginados = filtrados.slice(inicio, inicio + itensPorPagina);
 
             $('#v').innerHTML = `
-                <!-- BARRA DE PESQUISA POR SOB E FILTROS -->
                 <div class="cart-glass-toolbar" style="margin-bottom:10px;">
-                    <input id="q-hist" placeholder="Pesquisar por SOB, local, responsável..." value="${esc(F.q)}" class="cart-search-box" style="min-width:240px;">
+                    <input id="q-hist" placeholder="Pesquisar por SOB, local, responsável..." value="${esc(F.q)}" class="cart-search-box" style="min-width:230px;">
                     
-                    <select id="f-hist-status" class="cart-search-box" style="min-width:140px;">
+                    <select id="f-hist-status" class="cart-search-box" style="min-width:130px;">
                         <option value="">STATUS: Todos</option>
                         ${statusUnicos.map(s => `<option value="${esc(s)}" ${F.status === s ? 'selected' : ''}>${esc(s)}</option>`).join('')}
                     </select>
 
-                    <select id="f-hist-tipo" class="cart-search-box" style="min-width:140px;">
+                    <select id="f-hist-tipo" class="cart-search-box" style="min-width:130px;">
                         <option value="">TIPO: Todos</option>
                         ${tiposUnicos.map(t => `<option value="${esc(t)}" ${F.tipo === t ? 'selected' : ''}>${esc(t)}</option>`).join('')}
                     </select>
 
-                    <select id="f-hist-prio" class="cart-search-box" style="min-width:140px;">
+                    <select id="f-hist-prio" class="cart-search-box" style="min-width:130px;">
                         <option value="">PRIORIDADE: Todas</option>
                         ${prioridadesUnicas.map(p => `<option value="${esc(p)}" ${F.prioridade === p ? 'selected' : ''}>${esc(p)}</option>`).join('')}
                     </select>
@@ -1695,7 +1706,6 @@
                     <span style="font-size:12px;font-weight:700;margin-left:auto;">${filtrados.length} registros (≥ 2026)</span>
                 </div>
 
-                <!-- TABELA DO HISTÓRICO RIGOROSAMENTE CENTRALIZADA -->
                 <div class="cart-table-panel tw">
                     <table class="cart-table table-center">
                         <thead>
@@ -1726,36 +1736,32 @@
                                 <td>${esc(x.dataExec || fmt(x.d))}</td>
                                 <td>${esc(x.diaSemana || '—')}</td>
                                 <td>${esc(x.prioridade || '—')}</td>
-                                <!-- ESTRUTURA COM 0 QUANDO ZERADA -->
-                                <td style="font-weight:700;background:rgba(16,185,129,0.05);">${x.mk}</td>
-                                <td style="font-weight:700;background:rgba(16,185,129,0.05);">${x.cesto}</td>
-                                <td style="font-weight:700;background:rgba(16,185,129,0.05);">${x.lv}</td>
-                                <td style="font-weight:700;background:rgba(16,185,129,0.05);">${x.poda}</td>
+                                <td style="font-weight:700;background:rgba(16,185,129,0.06);">${x.mk}</td>
+                                <td style="font-weight:700;background:rgba(16,185,129,0.06);">${x.cesto}</td>
+                                <td style="font-weight:700;background:rgba(16,185,129,0.06);">${x.lv}</td>
+                                <td style="font-weight:700;background:rgba(16,185,129,0.06);">${x.poda}</td>
                                 <td>${esc(x.vencimentoObras || '—')}</td>
                                 <td><span style="font-size:11px;padding:2px 8px;border-radius:10px;background:var(--card-subtle);font-weight:700;border:1px solid var(--border-light);">${esc(x.st)}</span></td>
                                 <td>${esc(x.custoProg || '0,00')}</td>
                                 <td>${esc(x.baremoProg || '0,00')}</td>
                                 <td>${esc(x.valorExec || '0,00')}</td>
                                 <td>${esc(x.complProg || '0,00')}</td>
-                            </tr>`).join('') : '<tr><td colspan="16" style="padding:30px;color:var(--text-muted);">Nenhum registro encontrado para os filtros selecionados.</td></tr>'}
+                            </tr>`).join('') : '<tr><td colspan="16" style="padding:30px;color:var(--text-muted);">Nenhum registro encontrado.</td></tr>'}
                         </tbody>
                     </table>
                 </div>
 
-                <!-- BARRA DE PAGINAÇÃO -->
                 <div class="pagination-bar">
                     <div>
-                        Mostrar: 
+                        Exibir: 
                         <select onchange="window.PROG.mudarTamanhoPagina(this.value)" style="border:1px solid var(--border-light);border-radius:4px;padding:2px 6px;background:var(--bg-surface);color:var(--text-main);">
                             <option value="25" ${itensPorPagina == 25 ? 'selected' : ''}>25</option>
                             <option value="50" ${itensPorPagina == 50 ? 'selected' : ''}>50</option>
                             <option value="100" ${itensPorPagina == 100 ? 'selected' : ''}>100</option>
                         </select>
-                        itens por página
+                        linhas por página
                     </div>
-                    <div>
-                        Página <b>${paginaAtual}</b> de <b>${totalPaginas}</b>
-                    </div>
+                    <div>Página <b>${paginaAtual}</b> de <b>${totalPaginas}</b></div>
                     <div style="display:flex;gap:6px;">
                         <button onclick="window.PROG.mudarPagina(-1)" ${paginaAtual <= 1 ? 'disabled' : ''}>◀ Anterior</button>
                         <button onclick="window.PROG.mudarPagina(1)" ${paginaAtual >= totalPaginas ? 'disabled' : ''}>Próxima ▶</button>
@@ -1769,16 +1775,16 @@
             $('#f-hist-prio').onchange = e => { F.prioridade = e.target.value; paginaAtual = 1; renderProgHist(); };
         }
 
-        /* DETALHE COMPACTO DO PROJETO EM GRADE DE 3 COLUNAS */
+        /* MODAL COMPACTO DE DETALHES */
         function detail(sob) {
             const cur = contratoGlobal;
             const item = (DB[cur] || []).find(x => x.sob === sob);
             if (!item) return;
             $('#dbody').innerHTML = `
-                <div style="border-bottom:2px solid var(--brand-accent);padding-bottom:6px;margin-bottom:8px;">
-                    <h3 style="color:var(--brand-dark);font-size:15px;display:flex;justify-content:space-between;align-items:center;">
+                <div style="border-bottom:2px solid var(--brand-accent);padding-bottom:5px;margin-bottom:6px;">
+                    <h3 style="color:var(--brand-dark);font-size:14px;display:flex;justify-content:space-between;align-items:center;">
                         <span>SOB: <b>${esc(item.sob)}</b> (${esc(item.base)})</span>
-                        <span style="font-size:12px;background:var(--brand-light);color:var(--brand-primary);padding:2px 8px;border-radius:12px;">${esc(item.st)}</span>
+                        <span style="font-size:11px;background:var(--brand-light);color:var(--brand-primary);padding:2px 8px;border-radius:10px;">${esc(item.st)}</span>
                     </h3>
                 </div>
                 <div class="compact-spec-grid">
