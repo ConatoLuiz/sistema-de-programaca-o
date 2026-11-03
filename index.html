@@ -21,7 +21,7 @@
 
     <style>
         /* ========================================================
-           DESIGN SYSTEM - ESTILO CORPORATIVO BIG TECH (ENEL / LIGHT / GOOGLE)
+           DESIGN SYSTEM - ESTILO CORPORATIVO BIG TECH
            ======================================================== */
         :root {
             --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
@@ -116,7 +116,7 @@
             transition: background-color 0.25s ease, color 0.25s ease;
         }
 
-        /* ÍCONES VETORIAIS BLINDADOS CONTRA FALHAS */
+        /* ÍCONES VETORIAIS BLINDADOS */
         .ui-icon {
             width: 15px;
             height: 15px;
@@ -232,7 +232,7 @@
         .sla-mini-val { font-family: var(--font-mono); font-weight: 700; font-size: 0.88rem; }
 
         .floating-legend-panel {
-            position: absolute; bottom: 20px; left: 16px; width: 210px;
+            position: absolute; bottom: 20px; left: 16px; width: 220px;
             background: var(--bg-glass); backdrop-filter: blur(14px);
             border: 1px solid var(--border-light); border-radius: var(--radius-md);
             padding: 10px 14px; z-index: 1000; box-shadow: var(--shadow-lg);
@@ -584,7 +584,7 @@
             </button>
         </div>
 
-        <!-- ABA 1: MAPA -->
+        <!-- ABA 1: MAPA (SOMENTE ETAPAS: A PROGRAMAR, LOCAÇÃO, PROGRAMADO, VISTORIA) -->
         <div id="tab-mapa">
             <div class="map-container">
                 <div class="floating-sla-panel">
@@ -837,6 +837,16 @@
 
         function esc(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
         function normTxt(s) { return String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase().trim(); }
+
+        /* ========================================================
+           REGRA EXCLUSIVA DO MAPA: APENAS AS 4 ETAPAS PERMITIDAS
+           ======================================================== */
+        const ETAPAS_MAPA_VALIDAS = new Set(['A PROGRAMAR', 'LOCACAO', 'PROGRAMADO', 'VISTORIA']);
+
+        function ehEtapaPermitidaMapa(etapa) {
+            if (!etapa) return false;
+            return ETAPAS_MAPA_VALIDAS.has(normTxt(etapa));
+        }
 
         function toggleTheme() {
             const isDark = document.body.classList.toggle('dark-mode');
@@ -1169,7 +1179,7 @@
             }).join('');
         }
 
-        /* MAPA */
+        /* MAPA: CONSTRUÇÃO DAS CORES E LEGENDA (FILTRADA PARA AS 4 ETAPAS) */
         function construirCoresEtapas() {
             mapaCoresEtapas = {};
             const unicas = new Set();
@@ -1183,8 +1193,16 @@
             const c = document.getElementById('etapa-legend-container');
             if (!c) return;
             c.innerHTML = '';
-            Array.from(unicas).sort().forEach(e => {
-                const cor = mapaCoresEtapas[e];
+
+            // LEGENDA DO MAPA EXIBE SOMENTE AS 4 ETAPAS PERMITIDAS
+            const etapasMapaPresentes = Array.from(unicas).filter(ehEtapaPermitidaMapa).sort();
+            if (!etapasMapaPresentes.length) {
+                c.innerHTML = '<div style="color:var(--text-muted);font-size:0.75rem;">Nenhuma das 4 etapas no contrato.</div>';
+                return;
+            }
+
+            etapasMapaPresentes.forEach(e => {
+                const cor = mapaCoresEtapas[e] || '#10B981';
                 const item = document.createElement('div');
                 item.className = 'legend-item';
                 item.innerHTML = `<span class="legend-color-dot" style="background-color: ${cor};"></span> <span>${esc(e)}</span>`;
@@ -1208,6 +1226,10 @@
 
             listaDadosGlobal.forEach(item => {
                 const etapaOriginal = obterValorEtapa(item);
+
+                // FILTRO CRÍTICO: SOMENTE AS 4 ETAPAS DEFINIDAS
+                if (!ehEtapaPermitidaMapa(etapaOriginal)) return;
+
                 const projetoOriginal = obterValorProjeto(item);
                 const pendenciaConstrutiva = String(buscarCampoFlexivel(item, 'PENDÊNCIA CONSTRUTIVA?', 'PENDENCIA CONSTRUTIVA?') || '').toUpperCase().trim();
                 
