@@ -200,7 +200,6 @@
         }
         .brand-container { display: flex; align-items: center; gap: 12px; }
 
-        /* ÍCONE CORPORATIVO MODERNO */
         .brand-icon-box {
             width: 44px; height: 44px; border-radius: 12px;
             background: linear-gradient(135deg, var(--brand-primary-dark) 0%, var(--brand-primary) 100%);
@@ -257,15 +256,33 @@
         }
         #tab-carteira, #tab-prog, #tab-fontes { display: none; }
 
-        /* MAPA */
+        /* MAPA & TOOLBAR FLUTUANTE DE FILTROS */
         .map-container {
             position: relative; width: 100%; height: calc(85vh - 70px);
             border-radius: var(--radius-lg); border: 1px solid var(--border-light);
             overflow: hidden; box-shadow: var(--shadow-md);
         }
         #map { height: 100%; width: 100%; min-height: 480px; }
+
+        /* BARRA FLUTUANTE DE BUSCA E FILTROS DO MAPA */
+        .floating-map-toolbar {
+            position: absolute; top: 14px; left: 56px; z-index: 1000;
+            background: var(--bg-glass); backdrop-filter: blur(14px);
+            border: 1px solid var(--border-light); border-radius: var(--radius-md);
+            padding: 7px 12px; display: flex; align-items: center; gap: 8px;
+            box-shadow: var(--shadow-md); max-width: calc(100% - 320px); flex-wrap: wrap;
+        }
+        .map-search-wrapper {
+            position: relative; display: flex; align-items: center;
+        }
+        .map-search-btn-icon {
+            position: absolute; right: 8px; background: none; border: none;
+            cursor: pointer; color: var(--brand-primary); display: flex; align-items: center;
+        }
+        .map-search-btn-icon:hover { color: var(--brand-neon); }
+
         .floating-sla-panel {
-            position: absolute; top: 16px; right: 16px; width: 230px;
+            position: absolute; top: 14px; right: 14px; width: 235px;
             background: var(--bg-glass); backdrop-filter: blur(14px);
             border: 1px solid var(--border-light); border-radius: var(--radius-md);
             padding: 10px 14px; z-index: 1000; display: flex; flex-direction: column; gap: 5px;
@@ -323,7 +340,7 @@
         }
         .cart-search-box {
             background: var(--bg-base); border: 1.5px solid var(--border-light); color: var(--text-main);
-            padding: 7px 11px; border-radius: var(--radius-sm); font-size: 0.8rem; min-width: 170px; outline: none; transition: var(--transition);
+            padding: 7px 11px; border-radius: var(--radius-sm); font-size: 0.8rem; min-width: 165px; outline: none; transition: var(--transition);
         }
         .cart-search-box:focus { border-color: var(--brand-accent); background: var(--bg-surface); }
         .cart-badge-chip {
@@ -698,6 +715,36 @@
                     </div>
                 </div>
 
+                <!-- BARRA FLUTUANTE DE BUSCA DE SOB, ETAPA E MÊS/ANO NO MAPA -->
+                <div class="floating-map-toolbar">
+                    <div class="map-search-wrapper">
+                        <input type="text" id="map-search-sob" class="cart-search-box" style="min-width:180px;padding-right:30px;" placeholder="Localizar SOB no mapa..." list="dl-map-sobs" onkeydown="if(event.key==='Enter')localizarSobNoMapa(this.value)">
+                        <button type="button" class="map-search-btn-icon" onclick="localizarSobNoMapa(document.getElementById('map-search-sob').value)" title="Ir até a SOB no mapa">
+                            <svg class="ui-icon"><use href="#icon-location"></use></svg>
+                        </button>
+                        <datalist id="dl-map-sobs"></datalist>
+                    </div>
+
+                    <!-- FILTRO POR ETAPA NO MAPA -->
+                    <select id="f-map-etapa" class="cart-search-box" style="min-width:150px;" onchange="processarEPlotarProjetos()">
+                        <option value="">Etapa: Todas (4)</option>
+                        <option value="A PROGRAMAR">A PROGRAMAR</option>
+                        <option value="LOCACAO">LOCAÇÃO</option>
+                        <option value="PROGRAMADO">PROGRAMADO</option>
+                        <option value="VISTORIA">VISTORIA</option>
+                    </select>
+
+                    <!-- FILTRO DE PRAZO ANO E MÊS NO MAPA (ESTILO EXCEL) -->
+                    <select id="f-map-mes-ano" class="cart-search-box" style="min-width:180px;" onchange="processarEPlotarProjetos()">
+                        <option value="">Prazo (Ano/Mês): Todos</option>
+                    </select>
+
+                    <button class="btn-modern-primary" style="padding:6px 11px;background:#475569;" onclick="limparFiltrosMapa()" title="Limpar Filtros do Mapa">
+                        <svg class="ui-icon"><use href="#icon-filter-clear"></use></svg>
+                    </button>
+                </div>
+
+                <!-- PAINEL FLUTUANTE DE SLA COM CONTADOR DE SEM COORDENADAS -->
                 <div class="floating-sla-panel">
                     <div class="floating-sla-title">
                         <svg class="ui-icon"><use href="#icon-clock"></use></svg> Prazos de SLA
@@ -722,6 +769,14 @@
                         <span style="color: var(--status-blue);">Até 30 Dias</span>
                         <span class="sla-mini-val" id="count-30dias" style="color: var(--status-blue);">0</span>
                     </div>
+                    
+                    <!-- NOVO CARD: QUANTAS SOBS NÃO ESTÃO APARECENDO POR FALTA DE COORDENADAS -->
+                    <div class="sla-mini-card" id="card-sem-coords" onclick="mostrarModalSemCoords()" title="Clique para ver a lista de SOBs sem Latitude/Longitude" style="border-top:1px dashed var(--border-light);margin-top:5px;padding-top:6px;">
+                        <span style="color: var(--status-red);display:flex;align-items:center;gap:4px;">
+                            <svg class="ui-icon" style="color:var(--status-red);"><use href="#icon-alert"></use></svg> Sem Coordenadas
+                        </span>
+                        <span class="sla-mini-val" id="count-sem-coords" style="color: var(--status-red);">0</span>
+                    </div>
                 </div>
 
                 <div class="floating-legend-panel">
@@ -745,6 +800,12 @@
                 </button>
                 <input type="text" class="cart-search-box" id="cart-search" placeholder="Pesquisar por projeto, SOB, parceira..." oninput="renderCarteira()">
                 
+                <!-- NOVO FILTRO DE PRAZO LIMITE (ANO E MÊS IGUAL EXCEL) NA CARTEIRA -->
+                <select class="cart-search-box" id="f-cart-mes-ano" onchange="renderCarteira()" style="min-width:180px;">
+                    <option value="">Prazo (Ano/Mês): Todos</option>
+                </select>
+
+                <!-- ORDENAÇÃO DE DATAS DA CARTEIRA -->
                 <select class="cart-search-box" id="f-cart-ordem-data" onchange="renderCarteira()">
                     <option value="">Ordenar Datas: Padrão</option>
                     <option value="prazo_asc">Prazo Limite: Mais próximos</option>
@@ -932,7 +993,7 @@
         };
 
         try {
-            const saved = localStorage.getItem('app_links_v16_restored');
+            const saved = localStorage.getItem('app_links_v17_restored');
             if (saved) Object.assign(window.LINKS_PLANILHAS, JSON.parse(saved));
         } catch(e) {}
 
@@ -942,11 +1003,15 @@
         let filtroSlaAtual = 'todos';
         let contratoGlobal = 'angra';
 
+        let markersBySob = {};
+        let listaSobsSemCoords = [];
+
         const paletaCores = ['#059669', '#6366F1', '#0284C7', '#D97706', '#E11D48', '#7C3AED', '#0D9488', '#EA580C', '#2563EB'];
         let mapaCoresEtapas = {};
 
         function esc(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
         function normTxt(s) { return String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase().trim(); }
+        function chaveMes(d) { return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`; }
 
         /* FEEDBACK GLOBAL DE SINCRONIZAÇÃO EM TODAS AS ABAS */
         function setCarregandoGlobal(ativo, mensagem) {
@@ -1149,10 +1214,55 @@
             }
         }
 
+        /* POPULAR FILTRO DE ANO E MÊS (EXCEL-STYLE) NO MAPA E NA CARTEIRA */
+        function popularFiltrosAnoMes() {
+            const mesesNomes = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+            const mapMeses = new Set();
+            const cartMeses = new Set();
+
+            listaDadosGlobal.forEach(i => {
+                const prazoVal = buscarCampoFlexivel(i, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE', 'LIMITE EXECUCAO');
+                const d = paraData(prazoVal);
+                if (d && d.getFullYear() > 1900) {
+                    const ym = chaveMes(d);
+                    cartMeses.add(ym);
+                    if (ehEtapaPermitidaMapa(obterValorEtapa(i))) {
+                        mapMeses.add(ym);
+                    }
+                }
+            });
+
+            function gerarOptions(setMeses, labelPadrao) {
+                const arr = Array.from(setMeses).sort();
+                let html = `<option value="">${labelPadrao}</option>`;
+                arr.forEach(ym => {
+                    const [y, m] = ym.split('-');
+                    const nomeMes = mesesNomes[parseInt(m, 10) - 1];
+                    html += `<option value="${ym}">${y} - ${nomeMes} (${m}/${y})</option>`;
+                });
+                return html;
+            }
+
+            const selMap = document.getElementById('f-map-mes-ano');
+            if (selMap) {
+                const curVal = selMap.value;
+                selMap.innerHTML = gerarOptions(mapMeses, 'Prazo (Ano/Mês): Todos');
+                if (mapMeses.has(curVal)) selMap.value = curVal;
+            }
+
+            const selCart = document.getElementById('f-cart-mes-ano');
+            if (selCart) {
+                const curVal = selCart.value;
+                selCart.innerHTML = gerarOptions(cartMeses, 'Prazo (Ano/Mês): Todos');
+                if (cartMeses.has(curVal)) selCart.value = curVal;
+            }
+        }
+
         function aplicarLinhas(linhas) {
             listaDadosGlobal = linhas;
             construirCoresEtapas();
             popularFiltrosCarteira();
+            popularFiltrosAnoMes();
             processarEPlotarProjetos();
             renderCarteira();
             renderDashboard();
@@ -1233,7 +1343,7 @@
         }
 
         function limparFiltrosCarteira() {
-            ['f-base', 'f-tipo', 'f-parceira', 'f-prioridade', 'f-sinal', 'cart-search', 'f-cart-ordem-data'].forEach(id => {
+            ['f-base', 'f-tipo', 'f-parceira', 'f-prioridade', 'f-sinal', 'cart-search', 'f-cart-ordem-data', 'f-cart-mes-ano'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.value = '';
             });
@@ -1260,6 +1370,7 @@
             const fParceira = document.getElementById('f-parceira').value;
             const fPrio = document.getElementById('f-prioridade').value;
             const fSinal = document.getElementById('f-sinal').value;
+            const fMesAno = document.getElementById('f-cart-mes-ano') ? document.getElementById('f-cart-mes-ano').value : '';
             const ordemData = document.getElementById('f-cart-ordem-data').value;
 
             let contagem = {};
@@ -1282,6 +1393,11 @@
                 if (fSinal) {
                     const s = obterSinal(i);
                     if ((s ? s.cor : 'sem') !== fSinal) return false;
+                }
+                if (fMesAno) {
+                    const prazoVal = buscarCampoFlexivel(i, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE', 'LIMITE EXECUCAO');
+                    const d = paraData(prazoVal);
+                    if (!d || chaveMes(d) !== fMesAno) return false;
                 }
                 if (q && !Object.values(i).join(' ').toLowerCase().includes(q)) return false;
                 return true;
@@ -1370,28 +1486,131 @@
             processarEPlotarProjetos();
         }
 
+        function limparFiltrosMapa() {
+            const inpSob = document.getElementById('map-search-sob');
+            const selEtapa = document.getElementById('f-map-etapa');
+            const selMesAno = document.getElementById('f-map-mes-ano');
+            if (inpSob) inpSob.value = '';
+            if (selEtapa) selEtapa.value = '';
+            if (selMesAno) selMesAno.value = '';
+            filtrarPorFaixaSla('todos');
+        }
+
+        /* LOCALIZAR SOB NO MAPA E DAR ZOOM/PAN ATÉ O LOCAL EXATO */
+        function localizarSobNoMapa(sobDigitada) {
+            if (!sobDigitada) return;
+            const key = normTxt(sobDigitada);
+            let found = markersBySob[key];
+            if (!found) {
+                const matchKey = Object.keys(markersBySob).find(k => k.includes(key) || key.includes(k));
+                if (matchKey) found = markersBySob[matchKey];
+            }
+
+            if (found) {
+                map.flyTo([found.lat, found.lng], 16, { animate: true, duration: 1.2 });
+                setTimeout(() => {
+                    found.coreMarker.openPopup();
+                }, 1250);
+                adicionarFeedChat(`📍 Localizando SOB <b>${esc(found.sob)}</b> no mapa (Etapa: ${esc(found.etapa)}).`, 'success');
+            } else {
+                // Verificar se a SOB existe mas está sem coordenadas ou em outra etapa
+                const emGeral = listaDadosGlobal.find(i => normTxt(obterValorProjeto(i)).includes(key) || key.includes(normTxt(obterValorProjeto(i))));
+                if (emGeral) {
+                    const etapa = obterValorEtapa(emGeral);
+                    let latRaw = buscarCampoFlexivel(emGeral, 'LATITUDE', 'LAT', 'LAT_OBRA', 'LATITUDE OBRA');
+                    let lngRaw = buscarCampoFlexivel(emGeral, 'LONGITUDE', 'LNG', 'LONG', 'LONG_OBRA', 'LONGITUDE OBRA');
+                    if (typeof latRaw === 'string') latRaw = latRaw.replace(',', '.').trim();
+                    if (typeof lngRaw === 'string') lngRaw = lngRaw.replace(',', '.').trim();
+                    const lat = parseFloat(latRaw), lng = parseFloat(lngRaw);
+
+                    if (isNaN(lat) || isNaN(lng) || lat === 0 || lng === 0) {
+                        alert(`Atenção: A SOB "${sobDigitada}" existe no contrato, porém NÃO possui Latitude/Longitude preenchidas na planilha!`);
+                        adicionarFeedChat(`⚠️ A SOB <b>${esc(sobDigitada)}</b> não possui coordenadas na planilha.`, 'alert');
+                    } else if (!ehEtapaPermitidaMapa(etapa)) {
+                        alert(`A SOB "${sobDigitada}" está na etapa "${etapa}", que não faz parte das 4 etapas exibidas no mapa (A PROGRAMAR, LOCAÇÃO, PROGRAMADO, VISTORIA).`);
+                    } else {
+                        alert(`A SOB "${sobDigitada}" está oculta pelos filtros atuais do mapa (Filtro de SLA, Etapa ou Mês/Ano). Limpe os filtros para visualizá-la.`);
+                    }
+                } else {
+                    alert(`SOB "${sobDigitada}" não foi encontrada no contrato de ${contratoGlobal.toUpperCase()}.`);
+                }
+            }
+        }
+
+        /* MOSTRAR MODAL COM AS SOBS SEM COORDENADAS */
+        function mostrarModalSemCoords() {
+            if (!listaSobsSemCoords || !listaSobsSemCoords.length) {
+                alert("Parabéns! Todas as obras das etapas do mapa possuem coordenadas preenchidas.");
+                return;
+            }
+            const dbody = document.getElementById('dbody');
+            dbody.innerHTML = `
+                <div style="border-bottom:2px solid var(--status-red);padding-bottom:8px;margin-bottom:10px;">
+                    <h3 style="color:var(--status-red);font-size:15px;font-weight:800;display:flex;justify-content:space-between;align-items:center;">
+                        <span>SOBs Sem Coordenadas (${listaSobsSemCoords.length})</span>
+                        <span style="font-size:11px;background:var(--status-red-bg);color:var(--status-red);padding:3px 8px;border-radius:10px;font-weight:700;">Aviso de Georreferenciamento</span>
+                    </h3>
+                </div>
+                <p style="font-size:12px;color:var(--text-muted);margin-bottom:10px;">As seguintes obras das 4 etapas permitidas do mapa não puderam ser plotadas porque <b>falta preencher a Latitude e/ou Longitude</b> na planilha:</p>
+                <div style="max-height:50vh;overflow-y:auto;">
+                    <table class="cart-table">
+                        <thead><tr><th>SOB / Projeto</th><th>Etapa</th><th>Situação</th></tr></thead>
+                        <tbody>
+                            ${listaSobsSemCoords.map(x => `<tr><td><b>${esc(x.sob)}</b></td><td>${esc(x.etapa)}</td><td style="color:var(--status-red);font-weight:700;">Sem Latitude/Longitude</td></tr>`).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            document.getElementById('dlg').showModal();
+        }
+
+        /* PROCESSAMENTO E PLOTAGEM DOS PROJETOS NO MAPA */
         function processarEPlotarProjetos() {
             if (!markersGroup || !map) return;
             markersGroup.clearLayers();
-            let cViolada = 0, c12 = 0, c20 = 0, c30 = 0, cTotal = 0;
+            markersBySob = {};
+            listaSobsSemCoords = [];
+
+            let cViolada = 0, c12 = 0, c20 = 0, c30 = 0, cTotal = 0, cSemCoords = 0;
             let bounds = [];
+
+            const fMapEtapa = document.getElementById('f-map-etapa') ? document.getElementById('f-map-etapa').value : '';
+            const fMapMesAno = document.getElementById('f-map-mes-ano') ? document.getElementById('f-map-mes-ano').value : '';
+
+            // Atualiza datalist de SOBs para o autocomplete do mapa
+            const dlSobs = document.getElementById('dl-map-sobs');
+            if (dlSobs) dlSobs.innerHTML = '';
 
             listaDadosGlobal.forEach(item => {
                 const etapaOriginal = obterValorEtapa(item);
+                const projetoOriginal = obterValorProjeto(item);
+
+                // FILTRO BÁSICO: SOMENTE AS 4 ETAPAS PERMITIDAS NO MAPA
                 if (!ehEtapaPermitidaMapa(etapaOriginal)) return;
 
-                const projetoOriginal = obterValorProjeto(item);
-                const pendenciaConstrutiva = String(buscarCampoFlexivel(item, 'PENDÊNCIA CONSTRUTIVA?', 'PENDENCIA CONSTRUTIVA?') || '').toUpperCase().trim();
-                
                 let latRaw = buscarCampoFlexivel(item, 'LATITUDE', 'LAT', 'LAT_OBRA', 'LATITUDE OBRA');
                 let lngRaw = buscarCampoFlexivel(item, 'LONGITUDE', 'LNG', 'LONG', 'LONG_OBRA', 'LONGITUDE OBRA');
                 if (typeof latRaw === 'string') latRaw = latRaw.replace(',', '.').trim();
                 if (typeof lngRaw === 'string') lngRaw = lngRaw.replace(',', '.').trim();
                 const lat = parseFloat(latRaw), lng = parseFloat(lngRaw);
 
-                if (isNaN(lat) || isNaN(lng) || lat === 0 || lng === 0) return;
+                // IDENTIFICAÇÃO DE FALTA DE COORDENADAS
+                if (isNaN(lat) || isNaN(lng) || lat === 0 || lng === 0) {
+                    cSemCoords++;
+                    listaSobsSemCoords.push({ sob: projetoOriginal || 'S/N', etapa: etapaOriginal });
+                    return;
+                }
 
+                // FILTRO DE ETAPA ESPECÍFICA NO MAPA
+                if (fMapEtapa && normTxt(etapaOriginal) !== normTxt(fMapEtapa)) return;
+
+                // FILTRO DE PRAZO (ANO E MÊS) NO MAPA
                 const dataLimiteValor = buscarCampoFlexivel(item, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE', 'LIMITE EXECUCAO');
+                if (fMapMesAno) {
+                    const d = paraData(dataLimiteValor);
+                    if (!d || chaveMes(d) !== fMapMesAno) return;
+                }
+
                 const diasRestantes = calcularDiasRestantes(dataLimiteValor);
 
                 if (diasRestantes <= 0) cViolada++;
@@ -1428,6 +1647,7 @@
 
                     const corNucleoEtapa = mapaCoresEtapas[etapaOriginal] || '#059669';
                     let observacaoFinal = buscarCampoFlexivel(item, 'OBSERVAÇÕES', 'OBSERVACOES', 'OBS') || 'Nenhuma';
+                    let pendenciaConstrutiva = String(buscarCampoFlexivel(item, 'PENDÊNCIA CONSTRUTIVA?', 'PENDENCIA CONSTRUTIVA?') || '').toUpperCase().trim();
                     let pendenciaApontada = buscarCampoFlexivel(item, 'PENDÊNCIAS APONTADAS', 'PENDENCIAS APONTADAS') || '';
                     if (pendenciaConstrutiva === 'SIM' && pendenciaApontada) observacaoFinal = pendenciaApontada;
 
@@ -1454,6 +1674,17 @@
                     `;
                     auraMarker.bindPopup(popupContent);
                     coreMarker.bindPopup(popupContent);
+
+                    // Salva referência do marcador para zoom instantâneo por SOB
+                    const keySob = normTxt(projetoOriginal);
+                    markersBySob[keySob] = { lat, lng, coreMarker, auraMarker, sob: projetoOriginal, etapa: etapaOriginal, item };
+
+                    // Alimenta datalist do input de busca do mapa
+                    if (dlSobs && dlSobs.children.length < 200) {
+                        const opt = document.createElement('option');
+                        opt.value = projetoOriginal;
+                        dlSobs.appendChild(opt);
+                    }
                 }
             });
 
@@ -1462,6 +1693,7 @@
             document.getElementById('count-20dias').innerText = c20;
             document.getElementById('count-30dias').innerText = c30;
             document.getElementById('count-total').innerText = cTotal;
+            document.getElementById('count-sem-coords').innerText = cSemCoords;
 
             if (bounds.length > 0) {
                 try { map.fitBounds(bounds, { padding: [50, 50], maxZoom: 15 }); } catch(e) {}
@@ -1473,7 +1705,6 @@
         const campoTxt = (i, ...n) => formatarValorGenerico(buscarCampoFlexivel(i, ...n));
         const ehAberto = i => normTxt(obterValorEtapa(i)) !== 'CONCLUIDO';
         const dataValida = v => { const d = paraData(v); return d && d.getFullYear() > 1900 ? d : null; };
-        const chaveMes = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
         const MES_ABREV = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
         const rotuloMes = k => `${MES_ABREV[+k.slice(5) - 1]}/${k.slice(2, 4)}`;
 
@@ -1652,7 +1883,7 @@
             window.LINKS_PLANILHAS.prog_angra = extrairLinkCsvGoogle(document.getElementById('input-prog-ang').value);
             window.LINKS_PLANILHAS.prog_mag = extrairLinkCsvGoogle(document.getElementById('input-prog-mag').value);
 
-            localStorage.setItem('app_links_v16_restored', JSON.stringify(window.LINKS_PLANILHAS));
+            localStorage.setItem('app_links_v17_restored', JSON.stringify(window.LINKS_PLANILHAS));
             alert('Links salvos e aplicados com sucesso!');
             preencherInputsFontes();
             sincronizarTudoOnline();
