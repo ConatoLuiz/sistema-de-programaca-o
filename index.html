@@ -589,7 +589,7 @@
 
         #dlg {
             border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 18px;
-            max-width: 720px; width: 92%; background: var(--bg-surface); color: var(--text-main);
+            max-width: 540px; width: 92%; background: var(--bg-surface); color: var(--text-main);
             box-shadow: var(--shadow-float); margin: auto;
         }
         #dlg::backdrop { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); }
@@ -1884,7 +1884,7 @@
             document.getElementById('status-badge-cart-ang').innerText = window.LINKS_PLANILHAS.carteira_angra ? '● Conectada' : '○ Sem Link';
             document.getElementById('status-badge-cart-mag').innerText = window.LINKS_PLANILHAS.carteira_mage ? '● Conectada' : '○ Sem Link';
             document.getElementById('status-badge-prog-ang').innerText = window.LINKS_PLANILHAS.prog_angra ? '● Conectada' : '○ Sem Link';
-            document.getElementById('status-badge-prog-mag').innerText = window.LINKS_PLANILHAS.prog_mage ? '● Conectada' : '○ Sem Link';
+            document.getElementById('status-badge-prog-mag').innerText = window.LINKS_PLANILHAS.prog_mag ? '● Conectada' : '○ Sem Link';
         }
 
         function salvarLinksFontes() {
@@ -1932,7 +1932,7 @@
         sincronizarTudoOnline();
     </script>
 
-    <!-- PROGRAMAÇÃO DE OBRAS: ENGINE OPERACIONAL COMPLETA COM COMPILADO COMPACTADO E FILTRO DE DATA -->
+    <!-- PROGRAMAÇÃO DE OBRAS: ENGINE OPERACIONAL COM FILTRO ENTRE DATAS E MODAL UNIFICADO -->
     <script>
     (function(){
         const root = document.getElementById('tab-prog');
@@ -2006,7 +2006,10 @@
         let tab = 'dash', wk = null, paginaAtual = 1, itensPorPagina = 50;
 
         let F = { q: '', base: '', parceira: '', statusGeral: '', dataDe: '', dataAte: '', ordemData: 'exec_desc' };
-        let filtroDataAdiados = '';
+        
+        /* FILTRO ENTRE DATAS DO COMPILADO DE ADIADOS */
+        let filtroAdiadosDe = '';
+        let filtroAdiadosAte = '';
 
         function parseCSV(t) {
             const r = []; let row = [], c = '', q = false;
@@ -2353,7 +2356,7 @@
             `;
         }
 
-        /* SUB-ABA 2: DASH SEMANA COM COMPILADO COMPACTADO E FILTRO DE DATA */
+        /* SUB-ABA 2: DASH SEMANA COM COMPILADO COMPACTADO E FILTRO DE DATA POR INTERVALO */
         function renderProgWeek() {
             const cur = contratoGlobal;
             const all = DB[cur] || [];
@@ -2391,19 +2394,12 @@
             });
             adiadosSemanaLista.sort((a, b) => a.d - b.d || a.sob.localeCompare(b.sob));
 
-            // Extrair datas disponíveis de adiamentos
-            const mapaDatasAdiados = new Map();
-            adiadosSemanaLista.forEach(x => {
-                mapaDatasAdiados.set(x.iso, { iso: x.iso, dataExec: x.dataExec, qtd: (mapaDatasAdiados.get(x.iso)?.qtd || 0) + 1 });
+            // Filtragem entre datas (De e Até)
+            const adiadosFiltrados = adiadosSemanaLista.filter(x => {
+                if (filtroAdiadosDe && x.iso < filtroAdiadosDe) return false;
+                if (filtroAdiadosAte && x.iso > filtroAdiadosAte) return false;
+                return true;
             });
-
-            if (filtroDataAdiados && !mapaDatasAdiados.has(filtroDataAdiados)) {
-                filtroDataAdiados = '';
-            }
-
-            const adiadosFiltrados = filtroDataAdiados 
-                ? adiadosSemanaLista.filter(x => x.iso === filtroDataAdiados) 
-                : adiadosSemanaLista;
 
             // GRADE DOS 7 DIAS
             const gradeDiasHtml = days.map(d => {
@@ -2564,34 +2560,31 @@
                 semanaInsights.push(`<li class="alerta">⚠️ <b>Desvios:</b> ${adiadasSemana} adiamento(s) e ${canceladasSemana} cancelamento(s) registrados na semana (consulte a tabela detalhada abaixo).</li>`);
             }
 
-            // TABELA COMPACTADA DO COMPILADO DE ORDENS ADIADAS (SEM SCROLL HORIZONTAL)
+            // TABELA DO COMPILADO COMPACTA: SEM ROLAGEM LATERAL E APENAS ÍCONE NO MOTIVO
             const tabelaAdiadosHtml = adiadosFiltrados.length ? `
                 <div style="max-height:290px;overflow-y:auto;overflow-x:hidden;border:1px solid var(--border-light);border-radius:var(--radius-sm);margin-top:6px;">
                     <table class="cart-table" style="font-size:0.77rem;width:100%;table-layout:fixed;">
                         <thead>
                             <tr>
-                                <th style="width:18%;">Ordem / SOB</th>
-                                <th style="width:13%;">Data</th>
-                                <th style="width:24%;">Município / Base</th>
-                                <th style="width:13%;">Status</th>
-                                <th style="width:22%;text-align:center;">Motivo / SGD</th>
-                                <th style="width:10%;text-align:center;">Ficha</th>
+                                <th style="width:20%;">Ordem / SOB</th>
+                                <th style="width:16%;">Data</th>
+                                <th style="width:30%;">Município / Base</th>
+                                <th style="width:16%;">Status</th>
+                                <th style="width:10%;text-align:center;">Motivo</th>
+                                <th style="width:8%;text-align:center;">Ficha</th>
                             </tr>
                         </thead>
                         <tbody>
                             ${adiadosFiltrados.map(x => {
                                 const stInfo = obterInfoStatus(x.st);
-                                const sgdPreview = x.statusSGD && x.statusSGD !== '—' ? x.statusSGD : '';
-                                const tooltipInfo = `STATUS SGD: ${x.statusSGD}\nOBSERVAÇÃO: ${x.obsDesvio}`;
                                 return `<tr>
                                     <td style="overflow:hidden;text-overflow:ellipsis;"><b style="color:var(--brand-primary);">${esc(x.sob)}</b></td>
                                     <td><b>${esc(x.dataExec)}</b></td>
                                     <td style="overflow:hidden;text-overflow:ellipsis;" title="${esc(x.mun || x.base)}">${esc(x.mun || x.base)}</td>
                                     <td><span style="font-size:9.5px;padding:2px 6px;border-radius:var(--radius-pill);color:${stInfo.cor};background:${stInfo.bg};border:1px solid ${stInfo.cor}40;font-weight:700;">${esc(x.st)}</span></td>
                                     <td style="text-align:center;">
-                                        <button class="btn-theme-toggle" style="padding:2.5px 7px;font-size:10px;font-weight:700;display:inline-flex;align-items:center;gap:4px;" title="${esc(tooltipInfo)}" onclick="window.PROG.mostrarMotivoAdiamento('${esc(x.sob)}')">
-                                            <svg class="ui-icon" style="color:var(--status-amber);width:13px;height:13px;"><use href="#icon-chat"></use></svg>
-                                            <span style="max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(sgdPreview || 'Ver Motivo')}</span>
+                                        <button class="btn-theme-toggle" style="width:30px;height:28px;padding:0;display:inline-flex;align-items:center;justify-content:center;border-radius:6px;border-color:var(--brand-border);background:var(--brand-soft);margin:auto;cursor:pointer;" title="Clique para ver o Motivo e Status SGD" onclick="window.PROG.mostrarMotivoAdiamento('${esc(x.sob)}')">
+                                            <svg class="ui-icon" style="color:var(--brand-primary);width:15px;height:15px;"><use href="#icon-chat"></use></svg>
                                         </button>
                                     </td>
                                     <td style="text-align:center;">
@@ -2602,13 +2595,7 @@
                         </tbody>
                     </table>
                 </div>
-            ` : `<div style="padding:18px;text-align:center;color:var(--text-muted);font-size:12px;font-weight:600;">${adiadosSemanaLista.length ? 'Nenhum adiamento para a data selecionada.' : 'Nenhuma obra adiada registrada nesta semana.'}</div>`;
-
-            // SELECT DINÂMICO DE DATAS DE ADIADOS
-            const optionsDatasAdiados = Array.from(mapaDatasAdiados.values())
-                .sort((a, b) => a.iso.localeCompare(b.iso))
-                .map(item => `<option value="${item.iso}" ${filtroDataAdiados === item.iso ? 'selected' : ''}>${item.dataExec} (${item.qtd})</option>`)
-                .join('');
+            ` : `<div style="padding:18px;text-align:center;color:var(--text-muted);font-size:12px;font-weight:600;">${adiadosSemanaLista.length ? 'Nenhum adiamento para o período selecionado.' : 'Nenhuma obra adiada registrada nesta semana.'}</div>`;
 
             $('#v').innerHTML = `
                 <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;">
@@ -2675,21 +2662,28 @@
                             </ul>
                         </div>
 
-                        <!-- COMPILADO DE ORDENS ADIADAS COMPACTADO COM FILTRO DE DATA -->
+                        <!-- COMPILADO DE ORDENS ADIADAS COM FILTRO ENTRE DATAS -->
                         <div class="ditem dcard" style="--span:12;margin-top:10px;">
                             <div class="dh" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
                                 <h4 style="margin:0;">
                                     <svg class="ui-icon" style="color:var(--status-amber);"><use href="#icon-clock"></use></svg>
-                                    Compilado de Ordens Adiadas e Desvios da Semana (${adiadosFiltrados.length}${filtroDataAdiados ? ' de ' + adiadosSemanaLista.length : ''})
+                                    Compilado de Ordens Adiadas e Desvios da Semana (${adiadosFiltrados.length}${ (filtroAdiadosDe || filtroAdiadosAte) ? ' de ' + adiadosSemanaLista.length : '' })
                                 </h4>
-                                <div style="display:flex;align-items:center;gap:6px;">
-                                    <span style="font-size:11px;font-weight:700;color:var(--text-muted);display:flex;align-items:center;gap:4px;">
-                                        <svg class="ui-icon" style="width:12px;height:12px;"><use href="#icon-calendar"></use></svg> Filtrar Data:
-                                    </span>
-                                    <select id="sel-filtro-data-adiados" class="prog-input-field" style="padding:4px 9px;font-size:11px;min-width:170px;" onchange="window.PROG.setFiltroDataAdiados(this.value)">
-                                        <option value="">Todas as datas (${adiadosSemanaLista.length})</option>
-                                        ${optionsDatasAdiados}
-                                    </select>
+                                
+                                <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                                    <div style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:var(--text-muted);">
+                                        <span>De:</span>
+                                        <input type="date" id="filtro-adiados-de" class="prog-input-field" style="padding:3px 7px;font-size:11px;height:28px;" value="${esc(filtroAdiadosDe)}" onchange="window.PROG.setFiltroDatasAdiados(this.value, document.getElementById('filtro-adiados-ate').value)">
+                                    </div>
+                                    <div style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:var(--text-muted);">
+                                        <span>Até:</span>
+                                        <input type="date" id="filtro-adiados-ate" class="prog-input-field" style="padding:3px 7px;font-size:11px;height:28px;" value="${esc(filtroAdiadosAte)}" onchange="window.PROG.setFiltroDatasAdiados(document.getElementById('filtro-adiados-de').value, this.value)">
+                                    </div>
+                                    ${(filtroAdiadosDe || filtroAdiadosAte) ? `
+                                        <button class="btn-theme-toggle" style="padding:3px 8px;font-size:10px;height:28px;" onclick="window.PROG.limparFiltroDatasAdiados()" title="Limpar filtro de datas">
+                                            <svg class="ui-icon" style="width:11px;height:11px;"><use href="#icon-close"></use></svg> Limpar
+                                        </button>
+                                    ` : ''}
                                 </div>
                             </div>
                             ${tabelaAdiadosHtml}
@@ -2698,9 +2692,9 @@
                 </div>
             `;
 
-            $('#pv-week').onclick = () => { filtroDataAdiados = ''; wk = new Date(wk); wk.setDate(wk.getDate() - 7); renderProgWeek(); };
-            $('#nx-week').onclick = () => { filtroDataAdiados = ''; wk = new Date(wk); wk.setDate(wk.getDate() + 7); renderProgWeek(); };
-            $('#tj-week').onclick = () => { filtroDataAdiados = ''; wk = sun(new Date()); renderProgWeek(); };
+            $('#pv-week').onclick = () => { filtroAdiadosDe = ''; filtroAdiadosAte = ''; wk = new Date(wk); wk.setDate(wk.getDate() - 7); renderProgWeek(); };
+            $('#nx-week').onclick = () => { filtroAdiadosDe = ''; filtroAdiadosAte = ''; wk = new Date(wk); wk.setDate(wk.getDate() + 7); renderProgWeek(); };
+            $('#tj-week').onclick = () => { filtroAdiadosDe = ''; filtroAdiadosAte = ''; wk = sun(new Date()); renderProgWeek(); };
         }
 
         /* SUB-ABA 3: HISTÓRICO COM FILTROS INTERATIVOS DINÂMICOS */
@@ -2908,6 +2902,7 @@
             $('#dlg').showModal();
         }
 
+        /* QUADRADO UNIFICADO DE MOTIVO E STATUS SGD */
         function mostrarMotivoAdiamento(sob) {
             const cur = contratoGlobal;
             const item = (DB[cur] || []).find(x => x.sob === sob);
@@ -2915,34 +2910,50 @@
 
             const stInfo = obterInfoStatus(item.st);
             $('#dbody').innerHTML = `
-                <div style="border-bottom:2px solid var(--status-amber);padding-bottom:8px;margin-bottom:14px;">
-                    <h3 style="color:var(--text-main);font-size:15px;font-weight:800;display:flex;justify-content:space-between;align-items:center;">
-                        <span style="display:flex;align-items:center;gap:6px;">
-                            <svg class="ui-icon" style="color:var(--status-amber);"><use href="#icon-chat"></use></svg>
-                            Justificativa do Desvio: <b>${esc(item.sob)}</b>
-                        </span>
-                        <span style="font-size:11px;padding:2px 8px;border-radius:var(--radius-pill);color:${stInfo.cor};background:${stInfo.bg};border:1px solid ${stInfo.cor}40;font-weight:700;">
+                <div style="background:var(--bg-surface);border-radius:var(--radius-md);font-size:12px;">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1.5px solid var(--border-light);padding-bottom:10px;margin-bottom:12px;">
+                        <div>
+                            <span style="font-size:9.5px;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.4px;">
+                                Justificativa do Desvio / Adiamento
+                            </span>
+                            <h3 style="margin:2px 0 0 0;font-size:16px;font-weight:800;color:var(--brand-primary);">
+                                SOB: ${esc(item.sob)}
+                            </h3>
+                        </div>
+                        <span style="font-size:10.5px;padding:3px 10px;border-radius:var(--radius-pill);color:${stInfo.cor};background:${stInfo.bg};border:1px solid ${stInfo.cor}40;font-weight:800;">
                             ${esc(item.st)}
                         </span>
-                    </h3>
-                    <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">
-                        <b>Data Programada:</b> ${esc(item.dataExec)} &bull; <b>Base:</b> ${esc(item.mun || item.base)} &bull; <b>Parceira:</b> ${esc(item.parceira)}
-                    </div>
-                </div>
-
-                <div style="display:flex;flex-direction:column;gap:12px;font-size:13px;">
-                    <div style="background:var(--card-subtle);padding:12px 14px;border-radius:var(--radius-md);border:1px solid var(--border-light);">
-                        <span style="font-size:10px;font-weight:800;color:var(--brand-primary);text-transform:uppercase;display:block;margin-bottom:6px;letter-spacing:0.4px;">
-                            STATUS SGD:
-                        </span>
-                        <b style="color:var(--text-main);font-family:var(--font-mono);font-size:13px;">${esc(item.statusSGD)}</b>
                     </div>
 
-                    <div style="background:var(--card-subtle);padding:12px 14px;border-radius:var(--radius-md);border:1px solid var(--border-light);">
-                        <span style="font-size:10px;font-weight:800;color:var(--status-amber);text-transform:uppercase;display:block;margin-bottom:6px;letter-spacing:0.4px;">
-                            Observação do Cancelamento / Parcial / Adiamento:
-                        </span>
-                        <p style="color:var(--text-secondary);line-height:1.55;font-size:12.5px;margin:0;white-space:pre-wrap;">${esc(item.obsDesvio)}</p>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+                        <div style="background:var(--card-subtle);padding:8px 10px;border-radius:6px;border:1px solid var(--border-subtle);">
+                            <span style="font-size:9.5px;color:var(--text-muted);display:block;font-weight:700;">DATA PROGRAMADA:</span>
+                            <b style="color:var(--text-main);font-size:12px;">${esc(item.dataExec)} (${esc(item.diaSemana || '—')})</b>
+                        </div>
+                        <div style="background:var(--card-subtle);padding:8px 10px;border-radius:6px;border:1px solid var(--border-subtle);">
+                            <span style="font-size:9.5px;color:var(--text-muted);display:block;font-weight:700;">MUNICÍPIO / BASE:</span>
+                            <b style="color:var(--text-main);font-size:12px;">${esc(item.mun || item.base)}</b>
+                        </div>
+                    </div>
+
+                    <div style="background:var(--card-subtle);padding:12px 14px;border-radius:8px;border:1.5px solid var(--border-light);display:flex;flex-direction:column;gap:10px;">
+                        <div>
+                            <span style="font-size:10px;font-weight:800;color:var(--brand-primary);text-transform:uppercase;letter-spacing:0.4px;display:block;margin-bottom:3px;">
+                                STATUS SGD:
+                            </span>
+                            <div style="font-family:var(--font-mono);font-size:12.5px;font-weight:700;color:var(--text-main);">
+                                ${esc(item.statusSGD && item.statusSGD !== '—' ? item.statusSGD : 'Sem retorno / Não informado')}
+                            </div>
+                        </div>
+
+                        <div style="border-top:1px dashed var(--border-light);padding-top:8px;">
+                            <span style="font-size:10px;font-weight:800;color:var(--status-amber);text-transform:uppercase;letter-spacing:0.4px;display:block;margin-bottom:3px;">
+                                OBSERVAÇÃO DO CANCELAMENTO / PARCIAL / ADIAMENTO:
+                            </span>
+                            <div style="font-size:12px;color:var(--text-secondary);line-height:1.55;white-space:pre-wrap;">
+                                ${esc(item.obsDesvio && item.obsDesvio !== '—' ? item.obsDesvio : 'Nenhuma observação registrada na planilha')}
+                            </div>
+                        </div>
                     </div>
                 </div>
             `;
@@ -2964,8 +2975,14 @@
             show() { sync(contratoGlobal); },
             showDetail: detail,
             mostrarMotivoAdiamento,
-            setFiltroDataAdiados(val) {
-                filtroDataAdiados = val;
+            setFiltroDatasAdiados(de, ate) {
+                filtroAdiadosDe = de || '';
+                filtroAdiadosAte = ate || '';
+                renderProgWeek();
+            },
+            limparFiltroDatasAdiados() {
+                filtroAdiadosDe = '';
+                filtroAdiadosAte = '';
                 renderProgWeek();
             },
             mudarPagina(delta) { paginaAtual += delta; renderProgHist(); },
