@@ -116,7 +116,6 @@
             transition: background-color 0.25s ease, color 0.25s ease;
         }
 
-        /* ANIMAÇÃO DE ROTAÇÃO E PULSO */
         @keyframes spin { 100% { transform: rotate(360deg); } }
         @keyframes livePulse {
             0% { transform: scale(0.95); opacity: 0.7; }
@@ -130,7 +129,6 @@
 
         .spin { animation: spin 0.8s linear infinite !important; }
 
-        /* BARRA DE PROGRESSO NO TOPO DO SITE */
         #global-top-sync-bar {
             position: fixed; top: 0; left: 0; width: 100%; height: 3.5px;
             background: rgba(0,0,0,0.1); z-index: 99999; display: none; overflow: hidden;
@@ -143,7 +141,6 @@
             animation: progressShimmer 1.2s infinite ease-in-out;
         }
 
-        /* CARD FLUTUANTE DE SINCRONIZAÇÃO EM TEMPO REAL */
         #global-sync-toast {
             position: fixed; top: 16px; left: 50%; transform: translateX(-50%) translateY(-70px);
             background: var(--bg-glass); backdrop-filter: blur(14px);
@@ -381,7 +378,7 @@
             color: var(--brand-primary); border-color: var(--brand-primary); font-weight: 700; background: var(--brand-soft);
         }
 
-        /* GRADE SEMANAL (DASH SEMANA) */
+        /* GRADE SEMANAL */
         #tab-prog .week {
             display: grid; grid-template-columns: repeat(7, minmax(160px, 1fr)); gap: 8px; overflow-x: auto;
             margin-bottom: 16px;
@@ -404,7 +401,6 @@
             font-family: var(--font-mono); font-size: 10px; font-weight: 800; color: var(--text-main);
         }
 
-        /* CARD DE META E ESTRUTURAS DO DIA */
         .day-kpi-box {
             background: var(--card-subtle); border: 1.5px solid var(--border-light);
             border-radius: var(--radius-sm); padding: 7px 8px; margin-bottom: 9px;
@@ -423,16 +419,15 @@
             color: var(--brand-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
         .day-custo-sub {
-            font-size: 9px; color: var(--text-muted); margin-top: 2px; margin-bottom: 5px;
+            font-size: 9px; color: var(--text-muted); margin-top: 2px; margin-bottom: 3px;
             display: flex; justify-content: space-between; align-items: center;
         }
         .day-custo-sub b { font-family: var(--font-mono); color: var(--text-secondary); font-weight: 700; }
 
-        /* PÍLULA DE PORCENTAGEM COM SETA */
         .meta-pill {
             display: inline-flex; align-items: center; gap: 3px;
-            padding: 2.5px 8px; border-radius: 9999px;
-            font-size: 10px; font-weight: 800; font-family: var(--font-sans);
+            padding: 2.5px 7px; border-radius: 9999px;
+            font-size: 9.5px; font-weight: 800; font-family: var(--font-sans);
             line-height: 1.2; white-space: nowrap; letter-spacing: -0.2px;
         }
         .meta-pill.pill-up {
@@ -447,7 +442,6 @@
             background: var(--border-light); color: var(--text-muted);
         }
 
-        /* GRID DE ESTRUTURAS TOTAIS DO DIA (MK, CESTO, LV, PODA) */
         .day-est-totais {
             display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px;
             padding-top: 5px; border-top: 1px dashed var(--border-light);
@@ -484,13 +478,6 @@
         }
         .est-chip b { color: var(--text-main); font-weight: 800; }
 
-        .ev-baremo-row {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-top: 5px; padding-top: 4px; border-top: 1px dashed var(--border-light);
-            font-size: 10px;
-        }
-
-        /* PAINEL INFERIOR DE ANÁLISE OPERACIONAL DO DASH SEMANA */
         .dash-semana-analytics {
             background: var(--bg-surface); border: 1.5px solid var(--border-light);
             border-radius: var(--radius-lg); padding: 16px; margin-top: 12px;
@@ -538,7 +525,6 @@
         
         .id-cell { font-family: var(--font-mono); font-weight: 800; color: var(--brand-primary); }
 
-        /* DASHBOARD PROGRAMAÇÃO */
         .chart-columns-container {
             display: flex; align-items: flex-end; gap: 8px; height: 160px;
             padding: 14px 6px 4px 6px; overflow-x: auto; border-bottom: 1.5px solid var(--border-light);
@@ -669,16 +655,13 @@
 </head>
 <body>
 
-    <!-- BARRA DE PROGRESSO GLOBAL NO TOPO -->
     <div id="global-top-sync-bar"></div>
 
-    <!-- BANNER FLUTUANTE DE SINCRONIZAÇÃO EM TEMPO REAL -->
     <div id="global-sync-toast">
         <svg class="ui-icon spin" style="color:var(--brand-neon);"><use href="#icon-refresh"></use></svg>
         <span id="global-sync-toast-text">Sincronizando planilhas em tempo real...</span>
     </div>
 
-    <!-- SPRITES VETORIAIS BLINDADOS -->
     <svg xmlns="http://www.w3.org/2000/svg" style="display:none;">
         <symbol id="icon-map" viewBox="0 0 24 24"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></symbol>
         <symbol id="icon-table" viewBox="0 0 24 24"><path d="M3 3h18v18H3z"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/><path d="M15 3v18"/></symbol>
@@ -1011,7 +994,6 @@
         </div>
     </div>
 
-    <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <!-- ENGINE JAVASCRIPT GLOBAL -->
@@ -1031,7 +1013,6 @@
             return str;
         }
 
-        /* LINKS ATIVOS DAS PLANILHAS */
         window.LINKS_PLANILHAS = {
             carteira_angra: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vToswUD-YrLiHH87aWkz3yHfpvG1tYgeXq0uiUXizDxF5RVoYrr9m4t8xSy1yfLC4zItS7Hb0bTHguK/pub?gid=1394179098&single=true&output=csv',
             carteira_mage: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ9zyjAuWo03gDKywigtrZ_iIfeUg1yLNo8WIoL75loH25OFIuaHDrBhkQQhSD4_Cf7b5rPWbZ8D7tZ/pub?gid=1394179098&single=true&output=csv',
@@ -1492,7 +1473,6 @@
             }).join('');
         }
 
-        /* MAPA: CONSTRUÇÃO DAS CORES E LEGENDA */
         function construirCoresEtapas() {
             mapaCoresEtapas = {};
             const unicas = new Set();
@@ -1952,18 +1932,18 @@
         sincronizarTudoOnline();
     </script>
 
-    <!-- PROGRAMAÇÃO DE OBRAS: ENGINE OPERACIONAL COM BAREMO TOTAL PROGRAMADO E META POR DIA -->
+    <!-- PROGRAMAÇÃO DE OBRAS: ENGINE OPERACIONAL COM DESVIO PERCENTUAL, CAMPOS EXTRAS E FILTROS DINÂMICOS -->
     <script>
     (function(){
         const root = document.getElementById('tab-prog');
         const $ = s => root.querySelector(s);
         const U = () => window.LINKS_PLANILHAS;
         const norm = s => String(s || '').replace(/\s+/g, ' ').trim().toLowerCase();
+        const normSemAcento = s => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/\s+/g, ' ').trim();
         const fmt = d => d.toLocaleDateString('pt-BR');
         const iso = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
         const sun = d => { const x = new Date(d); x.setDate(x.getDate() - x.getDay()); x.setHours(0, 0, 0, 0); return x; };
         
-        /* PARSER ROBUSTO DE MOEDA (SUPORTA CASAS BRASILEIRAS, AMERICANAS E R$) */
         const money = s => {
             s = String(s || '').trim().replace(/[^\d,.-]/g, '');
             if (!s) return 0;
@@ -1975,9 +1955,8 @@
             }
             return parseFloat(s) || 0;
         };
-        const brl = v => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        const brl = v => (v || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
-        /* REGRA: IDENTIFICAR STATUS QUE NÃO DEVEM SOMAR ESTRUTURA (ADIADO, SUSPENSO, ANTECIPADO, CANCELADO) */
         function ehStatusDesconsideradoParaSoma(status) {
             if (!status) return false;
             const s = String(status).toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
@@ -1989,32 +1968,38 @@
                    s.includes('INVIABILIZ');
         }
 
-        /* GERADOR DE BADGE PÍLULA DE META */
+        /* FÓRMULA OFICIAL DE DESVIO: (BAREMO TOTAL PROGRAMADO - CUSTO PROGRAMADO) / CUSTO PROGRAMADO */
+        function calcularDesvioPercentual(baremo, custo) {
+            if (custo <= 0 && baremo <= 0) return { pct: 0, valido: false };
+            if (custo <= 0 && baremo > 0) return { pct: 100, valido: true };
+            const pct = ((baremo - custo) / custo) * 100;
+            return { pct, valido: true };
+        }
+
         function gerarBadgeMeta(baremo, custo) {
-            if (custo <= 0 && baremo <= 0) {
+            const res = calcularDesvioPercentual(baremo, custo);
+            if (!res.valido) {
                 return `<span class="meta-pill pill-neutral" title="Sem valores de Custo ou Baremo cadastrados">—</span>`;
             }
-            if (custo <= 0 && baremo > 0) {
-                return `<span class="meta-pill pill-up" title="Baremo Total: ${brl(baremo)} | Custo: R$ 0,00 (Meta 100% atingida)">↑ 100%</span>`;
-            }
-            const pct = (baremo / custo) * 100;
-            const isUp = baremo >= custo;
-            const diff = pct - 100;
-            const diffStr = (diff >= 0 ? '+' : '') + diff.toFixed(1) + '%';
+            const pct = res.pct;
+            const isUp = pct >= 0;
             const arrow = isUp ? '↑' : '↓';
-            const title = `Baremo Total: ${brl(baremo)} | Custo Prog.: ${brl(custo)} | Desempenho: ${pct.toFixed(1)}% (${diffStr} s/ custo)`;
-            return `<span class="meta-pill ${isUp ? 'pill-up' : 'pill-down'}" title="${esc(title)}">${arrow} ${pct.toFixed(1)}%</span>`;
+            const sinal = pct > 0 ? '+' : '';
+            const txt = `${arrow} ${sinal}${pct.toFixed(1)}%`;
+            const title = `Desvio: (Baremo ${brl(baremo)} - Custo ${brl(custo)}) / Custo ${brl(custo)} = ${sinal}${pct.toFixed(2)}%`;
+            return `<span class="meta-pill ${isUp ? 'pill-up' : 'pill-down'}" title="${esc(title)}">${txt}</span>`;
         }
 
         function gerarBadgeMetaCard(baremo, custo) {
-            if (custo <= 0 && baremo <= 0) return '';
-            if (custo <= 0 && baremo > 0) {
-                return `<span class="meta-pill pill-up" style="font-size:8.5px;padding:1px 5px;" title="Baremo Total: ${brl(baremo)} | Custo: R$ 0,00">↑ 100%</span>`;
-            }
-            const pct = (baremo / custo) * 100;
-            const isUp = baremo >= custo;
+            const res = calcularDesvioPercentual(baremo, custo);
+            if (!res.valido) return '';
+            const pct = res.pct;
+            const isUp = pct >= 0;
             const arrow = isUp ? '↑' : '↓';
-            return `<span class="meta-pill ${isUp ? 'pill-up' : 'pill-down'}" style="font-size:8.5px;padding:1px 5px;" title="Baremo Total: ${brl(baremo)} | Custo Prog.: ${brl(custo)} (${pct.toFixed(1)}% do custo)">${arrow} ${pct.toFixed(0)}%</span>`;
+            const sinal = pct > 0 ? '+' : '';
+            const txt = `${arrow} ${sinal}${Math.round(pct)}%`;
+            const title = `Desvio: (Baremo ${brl(baremo)} - Custo ${brl(custo)}) / Custo ${brl(custo)} = ${sinal}${pct.toFixed(1)}%`;
+            return `<span class="meta-pill ${isUp ? 'pill-up' : 'pill-down'}" style="font-size:8.5px;padding:1px 5px;" title="${esc(title)}">${txt}</span>`;
         }
 
         let DB = { angra: [], mage: [] }, OK = { angra: null, mage: null };
@@ -2039,23 +2024,19 @@
             return r;
         }
 
-        /* PARSER EXATO DE ESTRUTURAS: SUPORTA "MK-01|CESTO-00|LV-00" E RETORNA 0 SE AUSENTE */
         function extrairQuantidadesEstrutura(str) {
             const s = String(str || '').toUpperCase();
 
             function extrair(padroes) {
                 for (const p of padroes) {
-                    // 1) Sigla seguida do número: ex "MK-01", "CESTO-00", "LV-00", "PODA: 0", "MK 01"
                     const mDepois = s.match(new RegExp(`(?:^|[^A-Z0-9])${p}\\s*[-:=/]?\\s*(\\d+)`, 'i'));
                     if (mDepois && mDepois[1] !== undefined) {
                         return parseInt(mDepois[1], 10);
                     }
-                    // 2) Número antes da sigla: ex "01 MK", "0 CESTO", "00-LV"
                     const mAntes = s.match(new RegExp(`(\\d+)\\s*[-:=/]?\\s*${p}(?:[^A-Z0-9]|$)`, 'i'));
                     if (mAntes && mAntes[1] !== undefined) {
                         return parseInt(mAntes[1], 10);
                     }
-                    // 3) Nome isolado sem números associados (ex: "...|MK|...") -> conta 1
                     if (new RegExp(`(?:^|[^A-Z0-9])${p}(?:[^A-Z0-9]|$)`, 'i').test(s)) {
                         return 1;
                     }
@@ -2107,8 +2088,11 @@
                 for (const n of nomes) {
                     const val = g(r, n);
                     if (val) return val;
-                    const normN = norm(n);
-                    const idx = h.findIndex(col => col === normN || col.includes(normN) || normN.includes(col));
+                    const normN = normSemAcento(n);
+                    const idx = h.findIndex(col => {
+                        const nc = normSemAcento(col);
+                        return nc === normN || nc.includes(normN) || normN.includes(nc);
+                    });
                     if (idx >= 0 && (r[idx] || '').trim()) return r[idx].trim();
                 }
                 return '';
@@ -2133,6 +2117,28 @@
                 const statusExec = (g(r, 'STATUS') || 'NÃO DEFINIDO').toUpperCase();
                 const prazoCart = cruzarPrazoCarteira(sob);
 
+                const statusSGD = gFlex(r, 
+                    'STATUS SGD', 
+                    'Status SGD', 
+                    'SITUAÇÃO SGD', 
+                    'SITUACAO SGD'
+                );
+
+                const obsDesvio = gFlex(r,
+                    'Observação do Cancelamento / Parcial / Adiamento',
+                    'Observacao do Cancelamento / Parcial / Adiamento',
+                    'Observação do Cancelamento/Parcial/Adiamento',
+                    'Observacao do Cancelamento/Parcial/Adiamento',
+                    'Observação do Cancelamento',
+                    'Observação do Adiamento',
+                    'Motivo do Adiamento',
+                    'Motivo Cancelamento',
+                    'Observação',
+                    'Observações',
+                    'OBSERVAÇÕES',
+                    'OBS'
+                );
+
                 out.push({
                     id: 'PI' + (idCounter--),
                     sob,
@@ -2153,10 +2159,12 @@
                     prazoLimiteObj: prazoCart.objData,
                     prazoLimiteDias: prazoCart.dias,
                     st: statusExec,
+                    statusSGD: statusSGD || '—',
+                    obsDesvio: obsDesvio || '—',
                     custoProg: gFlex(r, 'Custo Programado', 'CUSTO PROGRAMADO', 'Custo Total Programado', 'Custo Total', 'Custo'),
                     baremoProg: gFlex(r, 'BAREMO TOTAL PROGRAMADO', 'Baremo Total Programado', 'BAREMO TOTAL', 'Baremo Total', 'BAREMO PROGRAMADO', 'Baremo Programado', 'Baremo'),
                     valorExec: g(r, 'Valor Executado'),
-                    complProg: g(r, 'Complemento Programado'),
+                    complProg: gFlex(r, 'Complemento Programado', 'COMPLEMENTO PROGRAMADO', 'Complemento', 'COMPLEMENTO'),
                     mun: g(r, 'Município'),
                     bairro: g(r, 'Bairro'),
                     desc: g(r, 'Descrição do serviço'),
@@ -2344,7 +2352,7 @@
             `;
         }
 
-        /* SUB-ABA 2: DASH SEMANA COM BAREMO TOTAL PROGRAMADO, META POR DIA E ESTRUTURAS SEM ADIADOS */
+        /* SUB-ABA 2: DASH SEMANA COM CUSTO, COMPLEMENTO, BAREMO TOTAL E DESVIO */
         function renderProgWeek() {
             const cur = contratoGlobal;
             const all = DB[cur] || [];
@@ -2366,6 +2374,7 @@
             const weekActiveProjects = weekAllProjects.filter(x => !ehStatusDesconsideradoParaSoma(x.st));
             const totalBaremoSemanaAtivo = weekActiveProjects.reduce((acc, x) => acc + money(x.baremoProg), 0);
             const totalCustoSemanaAtivo = weekActiveProjects.reduce((acc, x) => acc + money(x.custoProg), 0);
+            const totalComplSemanaAtivo = weekActiveProjects.reduce((acc, x) => acc + money(x.complProg), 0);
 
             const totalMkSemanaAtivo = weekActiveProjects.reduce((acc, x) => acc + (x.mk || 0), 0);
             const totalCestoSemanaAtivo = weekActiveProjects.reduce((acc, x) => acc + (x.cesto || 0), 0);
@@ -2374,7 +2383,12 @@
 
             const obrasOcultasNaGrade = weekAllProjects.filter(x => x.iso >= td && !norm(x.st).includes('prog'));
 
-            // GRADE DOS 7 DIAS
+            const adiadosSemanaLista = weekAllProjects.filter(x => {
+                const s = norm(x.st);
+                return s.includes('adiad') || s.includes('canc') || s.includes('suspens');
+            });
+            adiadosSemanaLista.sort((a, b) => a.d - b.d || a.sob.localeCompare(b.sob));
+
             const gradeDiasHtml = days.map(d => {
                 const k = iso(d);
                 
@@ -2387,9 +2401,8 @@
                     return true;
                 });
 
-                // CÁLCULO DOS TOTAIS DO DIA (EXCLUINDO ADIADO, SUSPENSO, ANTECIPADO, CANCELADO)
                 let diaMK = 0, diaCesto = 0, diaLV = 0, diaPoda = 0;
-                let diaBaremoTotal = 0, diaCustoTotal = 0;
+                let diaBaremoTotal = 0, diaCustoTotal = 0, diaComplTotal = 0;
 
                 it.forEach(x => {
                     if (!ehStatusDesconsideradoParaSoma(x.st)) {
@@ -2399,20 +2412,20 @@
                         diaPoda += (x.poda || 0);
                         diaBaremoTotal += money(x.baremoProg);
                         diaCustoTotal += money(x.custoProg);
+                        diaComplTotal += money(x.complProg);
                     }
                 });
 
                 const baremoDiaFmt = diaBaremoTotal > 0 ? brl(diaBaremoTotal) : 'R$ 0,00';
                 const custoDiaFmt = diaCustoTotal > 0 ? brl(diaCustoTotal) : 'R$ 0,00';
+                const complDiaFmt = diaComplTotal > 0 ? brl(diaComplTotal) : 'R$ 0,00';
 
                 return `<div class="day ${k === td ? 'today' : ''}">
-                    <!-- CABEÇALHO DO DIA -->
                     <div class="day-header-top">
                         <span>${d.toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: '2-digit' })}</span>
                         <span class="day-count-badge" title="${it.length} obras no dia">${it.length}</span>
                     </div>
 
-                    <!-- CARD DE META (BAREMO TOTAL vs CUSTO) + TOTAL DE ESTRUTURAS DO DIA -->
                     <div class="day-kpi-box">
                         <div class="day-meta-row">
                             <div class="day-meta-info">
@@ -2429,8 +2442,12 @@
                             <b title="${esc(custoDiaFmt)}">${esc(custoDiaFmt)}</b>
                         </div>
 
-                        <!-- TOTAL DE ESTRUTURAS DIÁRIAS (EXCLUI ADIADO, SUSPENSO, ANTECIPADO E CANCELADO) -->
-                        <div class="day-est-totais" title="Estruturas ativas do dia (exclui Adiado, Suspenso, Antecipado e Cancelado): MK: ${diaMK}, Cesto: ${diaCesto}, LV: ${diaLV}, Poda: ${diaPoda}">
+                        <div class="day-custo-sub">
+                            <span>Compl. Prog.:</span>
+                            <b title="${esc(complDiaFmt)}">${esc(complDiaFmt)}</b>
+                        </div>
+
+                        <div class="day-est-totais" title="Estruturas ativas do dia: MK: ${diaMK}, Cesto: ${diaCesto}, LV: ${diaLV}, Poda: ${diaPoda}">
                             <span class="day-est-pill">MK: <b>${String(diaMK).padStart(2, '0')}</b></span>
                             <span class="day-est-pill">CEST: <b>${String(diaCesto).padStart(2, '0')}</b></span>
                             <span class="day-est-pill">LV: <b>${String(diaLV).padStart(2, '0')}</b></span>
@@ -2438,12 +2455,15 @@
                         </div>
                     </div>
 
-                    <!-- LISTA DE CARDS DE OBRAS -->
                     ${it.length ? it.map(x => {
                         const stInfo = obterInfoStatus(x.st);
                         const cardBaremo = money(x.baremoProg);
                         const cardCusto = money(x.custoProg);
-                        const baremoFmt = cardBaremo > 0 ? brl(cardBaremo) : (x.baremoProg ? 'R$ ' + x.baremoProg : 'R$ 0,00');
+                        const cardCompl = money(x.complProg);
+
+                        const baremoFmt = cardBaremo > 0 ? brl(cardBaremo) : 'R$ 0,00';
+                        const custoFmt = cardCusto > 0 ? brl(cardCusto) : 'R$ 0,00';
+                        const complFmt = cardCompl > 0 ? brl(cardCompl) : 'R$ 0,00';
 
                         return `<div class="ev" style="border-left: 3.5px solid ${stInfo.cor};" onclick="window.PROG.showDetail('${esc(x.sob)}')">
                             <div style="display:flex; justify-content:space-between; align-items:center; gap:4px;">
@@ -2452,7 +2472,6 @@
                             </div>
                             <div style="font-size:10px; color:var(--text-muted); margin-top:2px; font-weight:600;">${esc(x.mun || x.base)}</div>
                             
-                            <!-- ESTRUTURA VISÍVEL EM COLUNAS: MK, CESTO, LV, PODA -->
                             <div class="ev-est-grid">
                                 <span class="est-chip">MK: <b>${String(x.mk || 0).padStart(2, '0')}</b></span>
                                 <span class="est-chip">CESTO: <b>${String(x.cesto || 0).padStart(2, '0')}</b></span>
@@ -2460,12 +2479,21 @@
                                 <span class="est-chip">PODA: <b>${String(x.poda || 0).padStart(2, '0')}</b></span>
                             </div>
 
-                            <!-- BAREMO TOTAL PROGRAMADO COM INDICADOR SOBRE O CUSTO -->
-                            <div class="ev-baremo-row">
-                                <span style="color:var(--text-muted);font-size:9.5px;">Baremo Total:</span>
-                                <div style="display:flex;align-items:center;gap:4px;">
-                                    <b style="font-size:10.5px;color:var(--brand-primary);font-family:var(--font-mono);">${esc(baremoFmt)}</b>
-                                    ${gerarBadgeMetaCard(cardBaremo, cardCusto)}
+                            <div style="margin-top:6px;padding-top:5px;border-top:1px dashed var(--border-light);display:flex;flex-direction:column;gap:3px;font-size:10px;">
+                                <div style="display:flex;justify-content:space-between;align-items:center;">
+                                    <span style="color:var(--text-muted);font-size:9.5px;">Custo Prog.:</span>
+                                    <b style="font-family:var(--font-mono);color:var(--text-secondary);font-size:10px;">${esc(custoFmt)}</b>
+                                </div>
+                                <div style="display:flex;justify-content:space-between;align-items:center;">
+                                    <span style="color:var(--text-muted);font-size:9.5px;">Compl. Prog.:</span>
+                                    <b style="font-family:var(--font-mono);color:var(--text-secondary);font-size:10px;">${esc(complFmt)}</b>
+                                </div>
+                                <div style="display:flex;justify-content:space-between;align-items:center;margin-top:1px;padding-top:3px;border-top:1px dotted var(--border-subtle);">
+                                    <span style="color:var(--text-muted);font-size:9.5px;">Baremo Total:</span>
+                                    <div style="display:flex;align-items:center;gap:4px;">
+                                        <b style="font-size:10.5px;color:var(--brand-primary);font-family:var(--font-mono);">${esc(baremoFmt)}</b>
+                                        ${gerarBadgeMetaCard(cardBaremo, cardCusto)}
+                                    </div>
                                 </div>
                             </div>
                         </div>`;
@@ -2473,7 +2501,6 @@
                 </div>`;
             }).join('');
 
-            // MINI GRÁFICO DIÁRIO
             const diasBarrasConsolidadas = days.map(d => {
                 const k = iso(d);
                 const doDia = weekAllProjects.filter(x => x.iso === k);
@@ -2481,36 +2508,78 @@
                 const conc = doDia.filter(x => cls(x.st) === 'CONCLUÍDO').length;
                 const prog = doDia.filter(x => norm(x.st).includes('prog')).length;
                 const outr = tot - conc - prog;
-                return { label: d.toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit' }), tot, conc, prog, outr };
+                return { 
+                    label: d.toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit' }), 
+                    tot, conc, prog, outr 
+                };
             });
             const maxDiaSemana = Math.max(1, ...diasBarrasConsolidadas.map(x => x.tot));
 
-            const miniGraficoSemanaHtml = `<div class="chart-columns-container" style="height:140px;border-bottom:none;">
+            const miniGraficoSemanaHtml = `<div class="chart-columns-container" style="height:175px;border-bottom:none;padding-top:10px;">
                 ${diasBarrasConsolidadas.map(o => `
-                    <div class="col-item-prog" title="${o.label}: ${o.tot} obras no total">
-                        <b style="font-size:10px;color:var(--text-main);font-family:var(--font-mono);">${o.tot}</b>
-                        <div class="bar-stack" style="height:${(o.tot / maxDiaSemana) * 90}px;width:24px;">
-                            <div style="height:${o.tot ? (o.conc / o.tot) * 100 : 0}%;background:var(--status-green);" title="Concluídas: ${o.conc}"></div>
-                            <div style="height:${o.tot ? (o.prog / o.tot) * 100 : 0}%;background:var(--status-blue);" title="Programadas: ${o.prog}"></div>
-                            <div style="height:${o.tot ? (o.outr / o.tot) * 100 : 0}%;background:var(--status-amber);" title="Desvios/Outros: ${o.outr}"></div>
+                    <div class="col-item-prog" style="min-width:58px;" title="${o.label}: Total ${o.tot} obras (Concluídas: ${o.conc}, Programadas: ${o.prog}, Desvios: ${o.outr})">
+                        <b style="font-size:11px;color:var(--text-main);font-family:var(--font-mono);margin-bottom:2px;">${o.tot}</b>
+                        <div class="bar-stack" style="height:${Math.max(12, (o.tot / maxDiaSemana) * 95)}px;width:34px;position:relative;">
+                            ${o.conc > 0 ? `<div style="height:${(o.conc / o.tot) * 100}%;background:var(--status-green);display:flex;align-items:center;justify-content:center;color:#FFFFFF;font-size:9.5px;font-weight:800;" title="Concluídas: ${o.conc}">${o.conc}</div>` : ''}
+                            ${o.prog > 0 ? `<div style="height:${(o.prog / o.tot) * 100}%;background:var(--status-blue);display:flex;align-items:center;justify-content:center;color:#FFFFFF;font-size:9.5px;font-weight:800;" title="Programadas: ${o.prog}">${o.prog}</div>` : ''}
+                            ${o.outr > 0 ? `<div style="height:${(o.outr / o.tot) * 100}%;background:var(--status-amber);display:flex;align-items:center;justify-content:center;color:#FFFFFF;font-size:9.5px;font-weight:800;" title="Desvios/Adiados: ${o.outr}">${o.outr}</div>` : ''}
                         </div>
-                        <span class="label-date">${o.label}</span>
+                        <span class="label-date" style="margin-top:4px;font-size:10px;font-weight:700;">${o.label}</span>
+                        
+                        <div style="display:flex;gap:3px;align-items:center;margin-top:3px;font-size:9px;font-family:var(--font-mono);font-weight:700;">
+                            <span style="color:var(--status-green);" title="Concluídas">${o.conc}</span>&bull;
+                            <span style="color:var(--status-blue);" title="Programadas">${o.prog}</span>&bull;
+                            <span style="color:var(--status-amber);" title="Desvios">${o.outr}</span>
+                        </div>
                     </div>
                 `).join('')}
             </div>`;
 
-            // INSIGHTS OPERACIONAIS DA SEMANA
             const semanaInsights = [];
             semanaInsights.push(`📌 <b>Total no Período:</b> Foram registradas <b>${totalSemana}</b> obras para esta semana (${concluidasSemana} concluídas, ${programadasSemana} programadas e ${adiadasSemana + canceladasSemana} desvios).`);
-            semanaInsights.push(`💰 <b>Finanças Ativas da Semana:</b> Baremo Total previsto de <b>${brl(totalBaremoSemanaAtivo)}</b> contra Custo de <b>${brl(totalCustoSemanaAtivo)}</b>.`);
+            semanaInsights.push(`💰 <b>Finanças Ativas da Semana:</b> Baremo Total previsto de <b>${brl(totalBaremoSemanaAtivo)}</b> | Custo: <b>${brl(totalCustoSemanaAtivo)}</b> | Compl.: <b>${brl(totalComplSemanaAtivo)}</b>.`);
             semanaInsights.push(`🚜 <b>Estruturas Totais Alocadas (Ativas):</b> ${totalMkSemanaAtivo} MK &bull; ${totalCestoSemanaAtivo} Cesto &bull; ${totalLvSemanaAtivo} Linha Viva &bull; ${totalPodaSemanaAtivo} Poda.`);
             
             if (obrasOcultasNaGrade.length > 0) {
                 semanaInsights.push(`<li class="alerta">🔍 <b>Atenção Operacional:</b> Existem <b>${obrasOcultasNaGrade.length}</b> obra(s) nesta semana a partir de hoje que não aparecem na grade porque seu status não é 'PROGRAMADO' (${obrasOcultasNaGrade.map(o => `${esc(o.sob)} [${esc(o.st)}]`).slice(0, 5).join(', ')}${obrasOcultasNaGrade.length > 5 ? '...' : ''}).</li>`);
             }
             if (adiadasSemana > 0 || canceladasSemana > 0) {
-                semanaInsights.push(`<li class="alerta">⚠️ <b>Desvios:</b> ${adiadasSemana} adiamento(s) e ${canceladasSemana} cancelamento(s) registrados na semana.</li>`);
+                semanaInsights.push(`<li class="alerta">⚠️ <b>Desvios:</b> ${adiadasSemana} adiamento(s) e ${canceladasSemana} cancelamento(s) registrados na semana (consulte a tabela detalhada abaixo).</li>`);
             }
+
+            const tabelaAdiadosHtml = adiadosSemanaLista.length ? `
+                <div style="max-height:280px;overflow:auto;border:1px solid var(--border-light);border-radius:var(--radius-sm);margin-top:8px;">
+                    <table class="cart-table" style="font-size:0.77rem;width:100%;">
+                        <thead>
+                            <tr>
+                                <th style="min-width:110px;">Ordem / SOB</th>
+                                <th style="min-width:90px;">Data Prog.</th>
+                                <th style="min-width:130px;">Município / Base</th>
+                                <th style="min-width:90px;">Status</th>
+                                <th style="min-width:120px;background:var(--brand-soft);color:var(--brand-primary);">STATUS SGD</th>
+                                <th style="min-width:260px;background:var(--card-subtle);">Observação do Cancelamento / Parcial / Adiamento</th>
+                                <th style="min-width:60px;text-align:center;">Detalhes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${adiadosSemanaLista.map(x => {
+                                const stInfo = obterInfoStatus(x.st);
+                                return `<tr>
+                                    <td><b style="color:var(--brand-primary);">${esc(x.sob)}</b></td>
+                                    <td><b>${esc(x.dataExec)}</b></td>
+                                    <td>${esc(x.mun || x.base)}</td>
+                                    <td><span style="font-size:10px;padding:2px 7px;border-radius:var(--radius-pill);color:${stInfo.cor};background:${stInfo.bg};border:1px solid ${stInfo.cor}40;font-weight:700;">${esc(x.st)}</span></td>
+                                    <td><b style="font-family:var(--font-mono);color:var(--brand-dark);">${esc(x.statusSGD)}</b></td>
+                                    <td style="white-space:normal;line-height:1.35;color:var(--text-secondary);">${esc(x.obsDesvio)}</td>
+                                    <td style="text-align:center;">
+                                        <button class="btn-modern-primary" style="padding:3px 8px;font-size:10px;" onclick="window.PROG.showDetail('${esc(x.sob)}')">Ver</button>
+                                    </td>
+                                </tr>`;
+                            }).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            ` : '<div style="padding:16px;text-align:center;color:var(--text-muted);font-size:12px;font-weight:600;">Nenhuma obra adiada registrada nesta semana.</div>';
 
             $('#v').innerHTML = `
                 <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;">
@@ -2527,12 +2596,10 @@
                     <span style="font-size:11px;color:var(--text-muted);margin-left:auto;font-weight:600;">(Dias futuros exibem apenas status PROGRAMADO)</span>
                 </div>
 
-                <!-- GRADE SEMANAL (7 DIAS) -->
                 <div class="week">
                     ${gradeDiasHtml}
                 </div>
 
-                <!-- PAINEL INFERIOR CONSOLIDADO -->
                 <div class="dash-semana-analytics">
                     <div class="analytics-header-bar">
                         <div class="analytics-header-title">
@@ -2544,7 +2611,6 @@
                         </span>
                     </div>
 
-                    <!-- KPIS CONSOLIDADOS DA SEMANA -->
                     <div class="kpis-grid" style="grid-template-columns:repeat(6,1fr);margin-bottom:12px;">
                         <div class="kpi"><b>${totalSemana}</b><span>Obras na Semana</span></div>
                         <div class="kpi" style="border-left-color:var(--status-green);"><b>${concluidasSemana} <small style="font-size:11px;">(${taxaEntregaSemana}%)</small></b><span>Concluídas</span></div>
@@ -2559,10 +2625,10 @@
                             <div class="dh">
                                 <h4><svg class="ui-icon"><use href="#icon-calendar"></use></svg> Balanço Diário da Semana (Todos os Projetos)</h4>
                             </div>
-                            <div style="font-size:11px;margin-bottom:6px;display:flex;gap:12px;font-weight:600;">
-                                <span style="color:var(--status-green);">■ Concluídas</span>
-                                <span style="color:var(--status-blue);">■ Programadas</span>
-                                <span style="color:var(--status-amber);">■ Desvios</span>
+                            <div style="font-size:11px;margin-bottom:6px;display:flex;gap:12px;font-weight:600;flex-wrap:wrap;">
+                                <span style="color:var(--status-green);">■ Concluídas (${concluidasSemana})</span>
+                                <span style="color:var(--status-blue);">■ Programadas (${programadasSemana})</span>
+                                <span style="color:var(--status-amber);">■ Desvios (${adiadasSemana + canceladasSemana})</span>
                             </div>
                             ${miniGraficoSemanaHtml}
                             <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border-subtle);display:flex;justify-content:space-between;font-size:11px;font-family:var(--font-mono);font-weight:700;">
@@ -2579,6 +2645,13 @@
                                 ${semanaInsights.map(txt => typeof txt === 'string' && !txt.startsWith('<li') ? `<li>${txt}</li>` : txt).join('')}
                             </ul>
                         </div>
+
+                        <div class="ditem dcard" style="--span:12;margin-top:10px;">
+                            <div class="dh">
+                                <h4><svg class="ui-icon" style="color:var(--status-amber);"><use href="#icon-clock"></use></svg> Compilado de Ordens Adiadas e Desvios da Semana (${adiadosSemanaLista.length})</h4>
+                            </div>
+                            ${tabelaAdiadosHtml}
+                        </div>
                     </div>
                 </div>
             `;
@@ -2588,25 +2661,43 @@
             $('#tj-week').onclick = () => { wk = sun(new Date()); renderProgWeek(); };
         }
 
-        /* SUB-ABA 3: HISTÓRICO COM PRAZO LIMITE DA CARTEIRA */
+        /* SUB-ABA 3: HISTÓRICO COM FILTROS INTERATIVOS DINÂMICOS */
         function renderProgHist() {
             const cur = contratoGlobal;
             const all = DB[cur] || [];
 
-            const bases = [...new Set(all.map(x => x.base).filter(Boolean))].sort();
-            const parceiras = [...new Set(all.map(x => x.parceira).filter(Boolean))].sort();
-            const statusGerais = [...new Set(all.map(x => x.st).filter(Boolean))].sort();
-
-            let filtrados = all.filter(x => {
+            // 1) Escopo primário (Data e Busca textual)
+            const escopoBase = all.filter(x => {
                 if (F.q) {
-                    const matchQ = (x.id + x.sob + x.sgd + x.alimentador + x.tipo).toLowerCase().includes(F.q.toLowerCase());
+                    const matchQ = (x.id + ' ' + x.sob + ' ' + x.sgd + ' ' + x.alimentador + ' ' + x.tipo + ' ' + (x.mun || '')).toLowerCase().includes(F.q.toLowerCase());
                     if (!matchQ) return false;
                 }
+                if (F.dataDe && x.iso < F.dataDe) return false;
+                if (F.dataAte && x.iso > F.dataAte) return false;
+                return true;
+            });
+
+            // 2) Mapear opções reais existentes com contagem
+            const basesMap = new Map();
+            const parceirasMap = new Map();
+            const statusMap = new Map();
+
+            escopoBase.forEach(x => {
+                if (x.base) basesMap.set(x.base, (basesMap.get(x.base) || 0) + 1);
+                if (x.parceira) parceirasMap.set(x.parceira, (parceirasMap.get(x.parceira) || 0) + 1);
+                if (x.st) statusMap.set(x.st, (statusMap.get(x.st) || 0) + 1);
+            });
+
+            // Se o filtro selecionado deixou de existir na nova data, reseta
+            if (F.base && !basesMap.has(F.base)) F.base = '';
+            if (F.parceira && !parceirasMap.has(F.parceira)) F.parceira = '';
+            if (F.statusGeral && !statusMap.has(F.statusGeral)) F.statusGeral = '';
+
+            // 3) Filtragem completa
+            let filtrados = escopoBase.filter(x => {
                 if (F.base && x.base !== F.base) return false;
                 if (F.parceira && x.parceira !== F.parceira) return false;
                 if (F.statusGeral && x.st !== F.statusGeral) return false;
-                if (F.dataDe && x.iso < F.dataDe) return false;
-                if (F.dataAte && x.iso > F.dataAte) return false;
                 return true;
             });
 
@@ -2615,17 +2706,9 @@
             } else if (F.ordemData === 'exec_desc') {
                 filtrados.sort((a, b) => b.d - a.d);
             } else if (F.ordemData === 'prazo_asc') {
-                filtrados.sort((a, b) => {
-                    const da = a.prazoLimiteObj || new Date(2099, 0, 1);
-                    const db = b.prazoLimiteObj || new Date(2099, 0, 1);
-                    return da - db;
-                });
+                filtrados.sort((a, b) => (a.prazoLimiteObj || new Date(2099, 0, 1)) - (b.prazoLimiteObj || new Date(2099, 0, 1)));
             } else if (F.ordemData === 'prazo_desc') {
-                filtrados.sort((a, b) => {
-                    const da = a.prazoLimiteObj || new Date(1970, 0, 1);
-                    const db = b.prazoLimiteObj || new Date(1970, 0, 1);
-                    return db - da;
-                });
+                filtrados.sort((a, b) => (b.prazoLimiteObj || new Date(1970, 0, 1)) - (a.prazoLimiteObj || new Date(1970, 0, 1)));
             }
 
             const totalPaginas = Math.ceil(filtrados.length / itensPorPagina) || 1;
@@ -2641,26 +2724,32 @@
                 return `<span style="color:var(--status-green);font-weight:700;"><span class="sinal-indicator" style="background:var(--status-green);"></span>${esc(dataStr)} (${dias}d)</span>`;
             }
 
+            const basesArr = Array.from(basesMap.keys()).sort();
+            const parceirasArr = Array.from(parceirasMap.keys()).sort();
+            const statusArr = Array.from(statusMap.keys()).sort();
+
             $('#v').innerHTML = `
                 <div class="prog-filter-panel">
-                    <div style="font-size:0.75rem;color:var(--text-muted);font-weight:700;">${filtrados.length} registro(s) encontrados na programação.</div>
+                    <div style="font-size:0.75rem;color:var(--text-muted);font-weight:700;">
+                        <b>${filtrados.length}</b> registro(s) encontrados na programação para os filtros ativos.
+                    </div>
                     
                     <div class="prog-filter-row">
                         <input type="text" id="prog-filter-q" class="prog-input-field" placeholder="Pesquisar ID, ordem, SGD, tipo..." value="${esc(F.q)}" style="min-width:240px;flex:1;">
                         
-                        <select id="prog-filter-base" class="prog-input-field" style="min-width:130px;">
-                            <option value="">Base: todas</option>
-                            ${bases.map(b => `<option value="${esc(b)}" ${F.base === b ? 'selected' : ''}>${esc(b)}</option>`).join('')}
+                        <select id="prog-filter-base" class="prog-input-field" style="min-width:140px;">
+                            <option value="">Base: todas (${escopoBase.length})</option>
+                            ${basesArr.map(b => `<option value="${esc(b)}" ${F.base === b ? 'selected' : ''}>${esc(b)} (${basesMap.get(b)})</option>`).join('')}
                         </select>
 
-                        <select id="prog-filter-parceira" class="prog-input-field" style="min-width:130px;">
-                            <option value="">Parceira: todas</option>
-                            ${parceiras.map(p => `<option value="${esc(p)}" ${F.parceira === p ? 'selected' : ''}>${esc(p)}</option>`).join('')}
+                        <select id="prog-filter-parceira" class="prog-input-field" style="min-width:140px;">
+                            <option value="">Parceira: todas (${escopoBase.length})</option>
+                            ${parceirasArr.map(p => `<option value="${esc(p)}" ${F.parceira === p ? 'selected' : ''}>${esc(p)} (${parceirasMap.get(p)})</option>`).join('')}
                         </select>
 
-                        <select id="prog-filter-status" class="prog-input-field" style="min-width:140px;">
-                            <option value="">Status Geral: todos</option>
-                            ${statusGerais.map(s => `<option value="${esc(s)}" ${F.statusGeral === s ? 'selected' : ''}>${esc(s)}</option>`).join('')}
+                        <select id="prog-filter-status" class="prog-input-field" style="min-width:160px;">
+                            <option value="">Status Geral: todos (${escopoBase.length})</option>
+                            ${statusArr.map(s => `<option value="${esc(s)}" ${F.statusGeral === s ? 'selected' : ''}>${esc(s)} (${statusMap.get(s)})</option>`).join('')}
                         </select>
 
                         <select id="prog-filter-ordem-data" class="prog-input-field" style="min-width:190px;">
