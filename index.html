@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal de Gestão Operacional & Obras</title>
     
-    <!-- FAVICON DA ABA DO NAVEGADOR (ENERGIA / BOLT CORPORATIVO) -->
+    <!-- FAVICON DA ABA DO NAVEGADOR -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300ff66' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolygon points='13 2 3 14 12 14 11 22 21 10 12 10 13 2'/%3E%3C/svg%3E" />
 
     <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
@@ -153,18 +153,14 @@
             display: flex; align-items: center; gap: 10px; transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
             pointer-events: none; opacity: 0;
         }
-        #global-sync-toast.active {
-            transform: translateX(-50%) translateY(0); opacity: 1; pointer-events: auto;
-        }
+        #global-sync-toast.active { transform: translateX(-50%) translateY(0); opacity: 1; pointer-events: auto; }
 
-        /* PONTO DE PULSO NAS ABAS DURANTE A ATUALIZAÇÃO */
         .tab-sync-dot {
             width: 7px; height: 7px; border-radius: 50%; background: var(--brand-neon);
             display: none; animation: livePulse 1.2s infinite ease-in-out;
         }
         .is-syncing .tab-sync-dot { display: inline-block; }
 
-        /* OVERLAY NO MAPA */
         #map-sync-overlay {
             position: absolute; inset: 0; background: rgba(0, 0, 0, 0.35);
             backdrop-filter: blur(4px); z-index: 1001; display: none;
@@ -177,7 +173,6 @@
             display: flex; align-items: center; gap: 12px; font-size: 0.84rem; font-weight: 700;
         }
 
-        /* ÍCONES VETORIAIS BLINDADOS */
         .ui-icon {
             width: 15px; height: 15px; display: inline-block; vertical-align: -2px;
             stroke: currentColor; stroke-width: 2.2; stroke-linecap: round;
@@ -256,7 +251,7 @@
         }
         #tab-carteira, #tab-prog, #tab-fontes { display: none; }
 
-        /* MAPA & TOOLBAR FLUTUANTE DE FILTROS */
+        /* MAPA */
         .map-container {
             position: relative; width: 100%; height: calc(85vh - 70px);
             border-radius: var(--radius-lg); border: 1px solid var(--border-light);
@@ -264,7 +259,6 @@
         }
         #map { height: 100%; width: 100%; min-height: 480px; }
 
-        /* BARRA FLUTUANTE DE BUSCA E FILTROS DO MAPA */
         .floating-map-toolbar {
             position: absolute; top: 14px; left: 56px; z-index: 1000;
             background: var(--bg-glass); backdrop-filter: blur(14px);
@@ -272,9 +266,7 @@
             padding: 7px 12px; display: flex; align-items: center; gap: 8px;
             box-shadow: var(--shadow-md); max-width: calc(100% - 320px); flex-wrap: wrap;
         }
-        .map-search-wrapper {
-            position: relative; display: flex; align-items: center;
-        }
+        .map-search-wrapper { position: relative; display: flex; align-items: center; }
         .map-search-btn-icon {
             position: absolute; right: 8px; background: none; border: none;
             cursor: pointer; color: var(--brand-primary); display: flex; align-items: center;
@@ -332,7 +324,7 @@
         .badge-violada { background: var(--status-red-bg); color: var(--status-red); border: 1px solid var(--status-red); padding: 4px; border-radius: 4px; font-weight: 700; margin-top: 6px; display: block; font-size: 0.74rem; text-align: center; }
         .badge-alerta { background: var(--status-amber-bg); color: var(--status-amber); border: 1px solid var(--status-amber); padding: 4px; border-radius: 4px; font-weight: 700; margin-top: 6px; display: block; font-size: 0.74rem; text-align: center; }
 
-        /* CARTEIRA & TOOLBAR */
+        /* CARTEIRA */
         .cart-glass-toolbar {
             display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 10px;
             background: var(--bg-surface); padding: 9px 12px; border-radius: var(--radius-md);
@@ -389,9 +381,9 @@
             color: var(--brand-primary); border-color: var(--brand-primary); font-weight: 700; background: var(--brand-soft);
         }
 
-        /* GRADE SEMANAL (DASH SEMANA) COM ESTRUTURA E BAREMO VISÍVEIS */
+        /* GRADE SEMANAL (DASH SEMANA) */
         #tab-prog .week {
-            display: grid; grid-template-columns: repeat(7, minmax(150px, 1fr)); gap: 8px; overflow-x: auto;
+            display: grid; grid-template-columns: repeat(7, minmax(160px, 1fr)); gap: 8px; overflow-x: auto;
             margin-bottom: 16px;
         }
         #tab-prog .day {
@@ -401,6 +393,72 @@
         #tab-prog .day.today {
             border-color: var(--brand-neon); box-shadow: 0 0 10px rgba(0, 255, 102, 0.25);
         }
+
+        .day-header-top {
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 11px; font-weight: 800; color: var(--text-muted);
+            border-bottom: 1.5px solid var(--border-light); padding-bottom: 4px; margin-bottom: 6px;
+        }
+        .day-count-badge {
+            background: var(--card-subtle); padding: 1px 6px; border-radius: 10px;
+            font-family: var(--font-mono); font-size: 10px; font-weight: 800; color: var(--text-main);
+        }
+
+        /* CARD DE META E ESTRUTURAS DO DIA (ESTILO IMAGEM 2) */
+        .day-kpi-box {
+            background: var(--card-subtle); border: 1.5px solid var(--border-light);
+            border-radius: var(--radius-sm); padding: 7px 8px; margin-bottom: 9px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03); transition: var(--transition);
+        }
+        .day-meta-row {
+            display: flex; justify-content: space-between; align-items: flex-start; gap: 4px;
+        }
+        .day-meta-info { display: flex; flex-direction: column; min-width: 0; }
+        .day-meta-title {
+            font-size: 8.5px; font-weight: 800; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 0.3px;
+        }
+        .day-meta-val {
+            font-size: 11.5px; font-weight: 800; font-family: var(--font-mono);
+            color: var(--brand-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .day-custo-sub {
+            font-size: 9px; color: var(--text-muted); margin-top: 2px; margin-bottom: 5px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .day-custo-sub b { font-family: var(--font-mono); color: var(--text-secondary); font-weight: 700; }
+
+        /* PÍLULA DE PORCENTAGEM COM SETA (INSPIRADA NA IMAGEM 2) */
+        .meta-pill {
+            display: inline-flex; align-items: center; gap: 3px;
+            padding: 2.5px 8px; border-radius: 9999px;
+            font-size: 10px; font-weight: 800; font-family: var(--font-sans);
+            line-height: 1.2; white-space: nowrap; letter-spacing: -0.2px;
+        }
+        .meta-pill.pill-up {
+            background: #10B981; color: #FFFFFF;
+            box-shadow: 0 1px 5px rgba(16, 185, 129, 0.4);
+        }
+        .meta-pill.pill-down {
+            background: #EF4444; color: #FFFFFF;
+            box-shadow: 0 1px 5px rgba(239, 68, 68, 0.4);
+        }
+        .meta-pill.pill-neutral {
+            background: var(--border-light); color: var(--text-muted);
+        }
+
+        /* GRID DE ESTRUTURAS TOTAIS DO DIA (MK, CESTO, LV, PODA) */
+        .day-est-totais {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px;
+            padding-top: 5px; border-top: 1px dashed var(--border-light);
+        }
+        .day-est-pill {
+            background: var(--bg-surface); border: 1px solid var(--border-light);
+            border-radius: 4px; padding: 2px 1px; text-align: center;
+            font-size: 9px; font-family: var(--font-mono); color: var(--text-secondary);
+        }
+        .day-est-pill b { font-weight: 800; color: var(--text-main); }
+
         #tab-prog .ev {
             background: var(--card-subtle); border-radius: var(--radius-sm);
             padding: 8px 9px; margin-bottom: 7px; font-size: 11px; cursor: pointer;
@@ -414,7 +472,6 @@
             text-transform: uppercase; letter-spacing: 0.3px;
         }
 
-        /* GRID DE ESTRUTURA EM COLUNAS COMPACTAS (MK, CESTO, LV, PODA) */
         .ev-est-grid {
             display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px;
             margin-top: 6px; font-size: 9.5px;
@@ -449,7 +506,6 @@
             display: flex; align-items: center; gap: 8px;
         }
 
-        /* FILTROS DA PROGRAMAÇÃO COM FILTROS DE DATAS */
         .prog-filter-panel {
             background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: var(--radius-md);
             padding: 12px 14px; margin-bottom: 12px; box-shadow: var(--shadow-xs); display: flex; flex-direction: column; gap: 10px;
@@ -466,9 +522,7 @@
             background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: var(--radius-md);
             overflow: auto; max-height: 65vh; box-shadow: var(--shadow-sm);
         }
-        table.table-prog-operacional {
-            width: 100%; border-collapse: separate; border-spacing: 0; font-size: 0.78rem;
-        }
+        table.table-prog-operacional { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 0.78rem; }
         table.table-prog-operacional th {
             position: sticky; top: 0; background: var(--bg-surface-elevated); color: var(--text-secondary);
             font-size: 0.69rem; font-weight: 800; text-transform: uppercase; padding: 10px 11px;
@@ -657,7 +711,7 @@
     </svg>
 
     <div id="app-container">
-        <!-- HEADER COM ÍCONE DE ENERGIA MODERNO -->
+        <!-- HEADER -->
         <header>
             <div class="brand-container">
                 <div class="brand-icon-box">
@@ -715,7 +769,6 @@
                     </div>
                 </div>
 
-                <!-- BARRA FLUTUANTE DE BUSCA DE SOB, ETAPA E MÊS/ANO NO MAPA -->
                 <div class="floating-map-toolbar">
                     <div class="map-search-wrapper">
                         <input type="text" id="map-search-sob" class="cart-search-box" style="min-width:180px;padding-right:30px;" placeholder="Localizar SOB no mapa..." list="dl-map-sobs" onkeydown="if(event.key==='Enter')localizarSobNoMapa(this.value)">
@@ -725,7 +778,6 @@
                         <datalist id="dl-map-sobs"></datalist>
                     </div>
 
-                    <!-- FILTRO POR ETAPA NO MAPA -->
                     <select id="f-map-etapa" class="cart-search-box" style="min-width:150px;" onchange="processarEPlotarProjetos()">
                         <option value="">Etapa: Todas (4)</option>
                         <option value="A PROGRAMAR">A PROGRAMAR</option>
@@ -734,7 +786,6 @@
                         <option value="VISTORIA">VISTORIA</option>
                     </select>
 
-                    <!-- FILTRO DE PRAZO ANO E MÊS NO MAPA (ESTILO EXCEL) -->
                     <select id="f-map-mes-ano" class="cart-search-box" style="min-width:180px;" onchange="processarEPlotarProjetos()">
                         <option value="">Prazo (Ano/Mês): Todos</option>
                     </select>
@@ -744,7 +795,6 @@
                     </button>
                 </div>
 
-                <!-- PAINEL FLUTUANTE DE SLA COM CONTADOR DE SEM COORDENADAS -->
                 <div class="floating-sla-panel">
                     <div class="floating-sla-title">
                         <svg class="ui-icon"><use href="#icon-clock"></use></svg> Prazos de SLA
@@ -770,7 +820,6 @@
                         <span class="sla-mini-val" id="count-30dias" style="color: var(--status-blue);">0</span>
                     </div>
                     
-                    <!-- NOVO CARD: QUANTAS SOBS NÃO ESTÃO APARECENDO POR FALTA DE COORDENADAS -->
                     <div class="sla-mini-card" id="card-sem-coords" onclick="mostrarModalSemCoords()" title="Clique para ver a lista de SOBs sem Latitude/Longitude" style="border-top:1px dashed var(--border-light);margin-top:5px;padding-top:6px;">
                         <span style="color: var(--status-red);display:flex;align-items:center;gap:4px;">
                             <svg class="ui-icon" style="color:var(--status-red);"><use href="#icon-alert"></use></svg> Sem Coordenadas
@@ -800,12 +849,10 @@
                 </button>
                 <input type="text" class="cart-search-box" id="cart-search" placeholder="Pesquisar por projeto, SOB, parceira..." oninput="renderCarteira()">
                 
-                <!-- NOVO FILTRO DE PRAZO LIMITE (ANO E MÊS IGUAL EXCEL) NA CARTEIRA -->
                 <select class="cart-search-box" id="f-cart-mes-ano" onchange="renderCarteira()" style="min-width:180px;">
                     <option value="">Prazo (Ano/Mês): Todos</option>
                 </select>
 
-                <!-- ORDENAÇÃO DE DATAS DA CARTEIRA -->
                 <select class="cart-search-box" id="f-cart-ordem-data" onchange="renderCarteira()">
                     <option value="">Ordenar Datas: Padrão</option>
                     <option value="prazo_asc">Prazo Limite: Mais próximos</option>
@@ -851,7 +898,7 @@
             </div>
         </div>
 
-        <!-- ABA 3: PROGRAMAÇÃO DE OBRAS (DASHBOARD, DASH SEMANA COM ESTRUTURA/BAREMO E HISTÓRICO LIMPO) -->
+        <!-- ABA 3: PROGRAMAÇÃO DE OBRAS -->
         <div id="tab-prog">
             <div class="cart-glass-toolbar" style="justify-content:space-between;">
                 <span id="st" style="font-size:0.85rem; font-weight:700;"></span>
@@ -1013,7 +1060,6 @@
         function normTxt(s) { return String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase().trim(); }
         function chaveMes(d) { return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`; }
 
-        /* FEEDBACK GLOBAL DE SINCRONIZAÇÃO EM TODAS AS ABAS */
         function setCarregandoGlobal(ativo, mensagem) {
             const topBar = document.getElementById('global-top-sync-bar');
             const toast = document.getElementById('global-sync-toast');
@@ -1052,7 +1098,6 @@
             }
         }
 
-        /* REGRA EXCLUSIVA DO MAPA: APENAS AS 4 ETAPAS PERMITIDAS */
         const ETAPAS_MAPA_VALIDAS = new Set(['A PROGRAMAR', 'LOCACAO', 'PROGRAMADO', 'VISTORIA']);
 
         function ehEtapaPermitidaMapa(etapa) {
@@ -1214,7 +1259,6 @@
             }
         }
 
-        /* POPULAR FILTRO DE ANO E MÊS (EXCEL-STYLE) NO MAPA E NA CARTEIRA */
         function popularFiltrosAnoMes() {
             const mesesNomes = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
             const mapMeses = new Set();
@@ -1496,7 +1540,6 @@
             filtrarPorFaixaSla('todos');
         }
 
-        /* LOCALIZAR SOB NO MAPA E DAR ZOOM/PAN ATÉ O LOCAL EXATO */
         function localizarSobNoMapa(sobDigitada) {
             if (!sobDigitada) return;
             const key = normTxt(sobDigitada);
@@ -1508,12 +1551,9 @@
 
             if (found) {
                 map.flyTo([found.lat, found.lng], 16, { animate: true, duration: 1.2 });
-                setTimeout(() => {
-                    found.coreMarker.openPopup();
-                }, 1250);
+                setTimeout(() => { found.coreMarker.openPopup(); }, 1250);
                 adicionarFeedChat(`📍 Localizando SOB <b>${esc(found.sob)}</b> no mapa (Etapa: ${esc(found.etapa)}).`, 'success');
             } else {
-                // Verificar se a SOB existe mas está sem coordenadas ou em outra etapa
                 const emGeral = listaDadosGlobal.find(i => normTxt(obterValorProjeto(i)).includes(key) || key.includes(normTxt(obterValorProjeto(i))));
                 if (emGeral) {
                     const etapa = obterValorEtapa(emGeral);
@@ -1529,7 +1569,7 @@
                     } else if (!ehEtapaPermitidaMapa(etapa)) {
                         alert(`A SOB "${sobDigitada}" está na etapa "${etapa}", que não faz parte das 4 etapas exibidas no mapa (A PROGRAMAR, LOCAÇÃO, PROGRAMADO, VISTORIA).`);
                     } else {
-                        alert(`A SOB "${sobDigitada}" está oculta pelos filtros atuais do mapa (Filtro de SLA, Etapa ou Mês/Ano). Limpe os filtros para visualizá-la.`);
+                        alert(`A SOB "${sobDigitada}" está oculta pelos filtros atuais do mapa. Limpe os filtros para visualizá-la.`);
                     }
                 } else {
                     alert(`SOB "${sobDigitada}" não foi encontrada no contrato de ${contratoGlobal.toUpperCase()}.`);
@@ -1537,7 +1577,6 @@
             }
         }
 
-        /* MOSTRAR MODAL COM AS SOBS SEM COORDENADAS */
         function mostrarModalSemCoords() {
             if (!listaSobsSemCoords || !listaSobsSemCoords.length) {
                 alert("Parabéns! Todas as obras das etapas do mapa possuem coordenadas preenchidas.");
@@ -1564,7 +1603,6 @@
             document.getElementById('dlg').showModal();
         }
 
-        /* PROCESSAMENTO E PLOTAGEM DOS PROJETOS NO MAPA */
         function processarEPlotarProjetos() {
             if (!markersGroup || !map) return;
             markersGroup.clearLayers();
@@ -1576,8 +1614,6 @@
 
             const fMapEtapa = document.getElementById('f-map-etapa') ? document.getElementById('f-map-etapa').value : '';
             const fMapMesAno = document.getElementById('f-map-mes-ano') ? document.getElementById('f-map-mes-ano').value : '';
-
-            // Atualiza datalist de SOBs para o autocomplete do mapa
             const dlSobs = document.getElementById('dl-map-sobs');
             if (dlSobs) dlSobs.innerHTML = '';
 
@@ -1585,7 +1621,6 @@
                 const etapaOriginal = obterValorEtapa(item);
                 const projetoOriginal = obterValorProjeto(item);
 
-                // FILTRO BÁSICO: SOMENTE AS 4 ETAPAS PERMITIDAS NO MAPA
                 if (!ehEtapaPermitidaMapa(etapaOriginal)) return;
 
                 let latRaw = buscarCampoFlexivel(item, 'LATITUDE', 'LAT', 'LAT_OBRA', 'LATITUDE OBRA');
@@ -1594,17 +1629,14 @@
                 if (typeof lngRaw === 'string') lngRaw = lngRaw.replace(',', '.').trim();
                 const lat = parseFloat(latRaw), lng = parseFloat(lngRaw);
 
-                // IDENTIFICAÇÃO DE FALTA DE COORDENADAS
                 if (isNaN(lat) || isNaN(lng) || lat === 0 || lng === 0) {
                     cSemCoords++;
                     listaSobsSemCoords.push({ sob: projetoOriginal || 'S/N', etapa: etapaOriginal });
                     return;
                 }
 
-                // FILTRO DE ETAPA ESPECÍFICA NO MAPA
                 if (fMapEtapa && normTxt(etapaOriginal) !== normTxt(fMapEtapa)) return;
 
-                // FILTRO DE PRAZO (ANO E MÊS) NO MAPA
                 const dataLimiteValor = buscarCampoFlexivel(item, 'DATA LIMITE PARA EXECUÇÃO', 'DATA LIMITE', 'LIMITE EXECUCAO');
                 if (fMapMesAno) {
                     const d = paraData(dataLimiteValor);
@@ -1675,11 +1707,9 @@
                     auraMarker.bindPopup(popupContent);
                     coreMarker.bindPopup(popupContent);
 
-                    // Salva referência do marcador para zoom instantâneo por SOB
                     const keySob = normTxt(projetoOriginal);
                     markersBySob[keySob] = { lat, lng, coreMarker, auraMarker, sob: projetoOriginal, etapa: etapaOriginal, item };
 
-                    // Alimenta datalist do input de busca do mapa
                     if (dlSobs && dlSobs.children.length < 200) {
                         const opt = document.createElement('option');
                         opt.value = projetoOriginal;
@@ -1922,7 +1952,7 @@
         sincronizarTudoOnline();
     </script>
 
-    <!-- PROGRAMAÇÃO DE OBRAS: DASH SEMANA COM ESTRUTURA, BAREMO E PAINEL ANALÍTICO INFERIOR -->
+    <!-- PROGRAMAÇÃO DE OBRAS: ENGINE OPERACIONAL COM BAREMO TOTAL PROGRAMADO E META POR DIA -->
     <script>
     (function(){
         const root = document.getElementById('tab-prog');
@@ -1932,15 +1962,65 @@
         const fmt = d => d.toLocaleDateString('pt-BR');
         const iso = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
         const sun = d => { const x = new Date(d); x.setDate(x.getDate() - x.getDay()); x.setHours(0, 0, 0, 0); return x; };
-        const money = s => { s = String(s || '').replace(/[^\d,.-]/g, ''); if (!s) return 0; if (s.includes(',')) s = s.replace(/\./g, '').replace(',', '.'); return parseFloat(s) || 0; };
+        
+        /* PARSER ROBUSTO DE MOEDA (SUPORTA CASAS BRASILEIRAS, AMERICANAS E R$) */
+        const money = s => {
+            s = String(s || '').trim().replace(/[^\d,.-]/g, '');
+            if (!s) return 0;
+            if (s.includes(',') && s.includes('.')) {
+                if (s.lastIndexOf(',') > s.lastIndexOf('.')) s = s.replace(/\./g, '').replace(',', '.');
+                else s = s.replace(/,/g, '');
+            } else if (s.includes(',')) {
+                s = s.replace(',', '.');
+            }
+            return parseFloat(s) || 0;
+        };
         const brl = v => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+        /* REGRA: IDENTIFICAR STATUS QUE NÃO DEVEM SOMAR ESTRUTURA (ADIADO, SUSPENSO, ANTECIPADO, CANCELADO) */
+        function ehStatusDesconsideradoParaSoma(status) {
+            if (!status) return false;
+            const s = String(status).toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+            return s.includes('ADIAD') || 
+                   s.includes('SUSPENS') || 
+                   s.includes('ANTECIP') || 
+                   s.includes('CANCEL') ||
+                   s.includes('NAO EXEC') ||
+                   s.includes('INVIABILIZ');
+        }
+
+        /* GERADOR DE BADGE PÍLULA DE META (ESTILO IMAGEM 2) */
+        function gerarBadgeMeta(baremo, custo) {
+            if (custo <= 0 && baremo <= 0) {
+                return `<span class="meta-pill pill-neutral" title="Sem valores de Custo ou Baremo cadastrados">—</span>`;
+            }
+            if (custo <= 0 && baremo > 0) {
+                return `<span class="meta-pill pill-up" title="Baremo Total: ${brl(baremo)} | Custo: R$ 0,00 (Meta 100% atingida)">↑ 100%</span>`;
+            }
+            const pct = (baremo / custo) * 100;
+            const isUp = baremo >= custo;
+            const diff = pct - 100;
+            const diffStr = (diff >= 0 ? '+' : '') + diff.toFixed(1) + '%';
+            const arrow = isUp ? '↑' : '↓';
+            const title = `Baremo Total: ${brl(baremo)} | Custo Prog.: ${brl(custo)} | Desempenho: ${pct.toFixed(1)}% (${diffStr} s/ custo)`;
+            return `<span class="meta-pill ${isUp ? 'pill-up' : 'pill-down'}" title="${esc(title)}">${arrow} ${pct.toFixed(1)}%</span>`;
+        }
+
+        function gerarBadgeMetaCard(baremo, custo) {
+            if (custo <= 0 && baremo <= 0) return '';
+            if (custo <= 0 && baremo > 0) {
+                return `<span class="meta-pill pill-up" style="font-size:8.5px;padding:1px 5px;" title="Baremo Total: ${brl(baremo)} | Custo: R$ 0,00">↑ 100%</span>`;
+            }
+            const pct = (baremo / custo) * 100;
+            const isUp = baremo >= custo;
+            const arrow = isUp ? '↑' : '↓';
+            return `<span class="meta-pill ${isUp ? 'pill-up' : 'pill-down'}" style="font-size:8.5px;padding:1px 5px;" title="Baremo Total: ${brl(baremo)} | Custo Prog.: ${brl(custo)} (${pct.toFixed(1)}% do custo)">${arrow} ${pct.toFixed(0)}%</span>`;
+        }
 
         let DB = { angra: [], mage: [] }, OK = { angra: null, mage: null };
         let tab = 'dash', wk = null, paginaAtual = 1, itensPorPagina = 50;
 
-        let F = {
-            q: '', base: '', parceira: '', statusGeral: '', dataDe: '', dataAte: '', ordemData: 'exec_desc'
-        };
+        let F = { q: '', base: '', parceira: '', statusGeral: '', dataDe: '', dataAte: '', ordemData: 'exec_desc' };
 
         function parseCSV(t) {
             const r = []; let row = [], c = '', q = false;
@@ -1987,12 +2067,7 @@
             const d = paraData(prazoVal);
             if (!d) return { dataStr: '—', dias: 999, objData: null };
 
-            const dias = calcularDiasRestantes(d);
-            return {
-                dataStr: formatarDataBR(d),
-                dias,
-                objData: d
-            };
+            return { dataStr: formatarDataBR(d), dias: calcularDiasRestantes(d), objData: d };
         }
 
         function obterInfoStatus(statusStr) {
@@ -2011,6 +2086,17 @@
             const h = rows[hi].map(norm), out = [];
             const g = (r, n) => { const i = h.indexOf(norm(n)); return i < 0 ? '' : (r[i] || '').trim(); };
             
+            const gFlex = (r, ...nomes) => {
+                for (const n of nomes) {
+                    const val = g(r, n);
+                    if (val) return val;
+                    const normN = norm(n);
+                    const idx = h.findIndex(col => col === normN || col.includes(normN) || normN.includes(col));
+                    if (idx >= 0 && (r[idx] || '').trim()) return r[idx].trim();
+                }
+                return '';
+            };
+
             let idCounter = 840;
 
             for (const r of rows.slice(hi + 1)) {
@@ -2050,8 +2136,8 @@
                     prazoLimiteObj: prazoCart.objData,
                     prazoLimiteDias: prazoCart.dias,
                     st: statusExec,
-                    custoProg: g(r, 'Custo Programado'),
-                    baremoProg: g(r, 'Baremo Programado'),
+                    custoProg: gFlex(r, 'Custo Programado', 'CUSTO PROGRAMADO', 'Custo Total Programado', 'Custo Total', 'Custo'),
+                    baremoProg: gFlex(r, 'BAREMO TOTAL PROGRAMADO', 'Baremo Total Programado', 'BAREMO TOTAL', 'Baremo Total', 'BAREMO PROGRAMADO', 'Baremo Programado', 'Baremo'),
                     valorExec: g(r, 'Valor Executado'),
                     complProg: g(r, 'Complemento Programado'),
                     mun: g(r, 'Município'),
@@ -2173,10 +2259,10 @@
                 const o = porDia[d];
                 const hCusto = (o.custo / maxCusto) * 110;
                 const hBaremo = (o.baremo / maxCusto) * 110;
-                return `<div class="col-item-prog" title="${d} - Custo: ${brl(o.custo)} | Baremo: ${brl(o.baremo)}">
+                return `<div class="col-item-prog" title="${d} - Custo: ${brl(o.custo)} | Baremo Total: ${brl(o.baremo)}">
                     <div class="bar-dual">
                         <div class="bar-single" style="height:${Math.max(2, hCusto)}px;background:#059669;" title="Custo: ${brl(o.custo)}"></div>
-                        <div class="bar-single" style="height:${Math.max(2, hBaremo)}px;background:#34D399;" title="Baremo: ${brl(o.baremo)}"></div>
+                        <div class="bar-single" style="height:${Math.max(2, hBaremo)}px;background:#34D399;" title="Baremo Total: ${brl(o.baremo)}"></div>
                     </div>
                     <span class="label-date">${d.slice(8)}/${d.slice(5,7)}</span>
                 </div>`;
@@ -2190,7 +2276,7 @@
                 <div class="kpis-grid" style="grid-template-columns:repeat(6,1fr);margin-bottom:14px;">
                     <div class="kpi"><b>${all.length}</b><span>Total Programadas</span></div>
                     <div class="kpi" style="border-left-color:var(--status-green);"><b>${brl(totalCusto)}</b><span>Custo Total Prog.</span></div>
-                    <div class="kpi" style="border-left-color:var(--brand-accent);"><b>${brl(totalBaremo)}</b><span>Baremo Programado</span></div>
+                    <div class="kpi" style="border-left-color:var(--brand-accent);"><b>${brl(totalBaremo)}</b><span>Baremo Total Prog.</span></div>
                     <div class="kpi" style="border-left-color:#047857;"><b>${totalMK}</b><span>Total MK</span></div>
                     <div class="kpi" style="border-left-color:#10B981;"><b>${totalCesto}</b><span>Total Cesto</span></div>
                     <div class="kpi" style="border-left-color:#3B82F6;"><b>${totalLV}</b><span>Total Linha Viva</span></div>
@@ -2220,10 +2306,10 @@
                     </div>
 
                     <div class="ditem dcard" style="--span:6;">
-                        <div class="dh"><h4><svg class="ui-icon"><use href="#icon-money"></use></svg> Custo Programado vs Baremo por Dia</h4></div>
+                        <div class="dh"><h4><svg class="ui-icon"><use href="#icon-money"></use></svg> Custo Programado vs Baremo Total</h4></div>
                         <div style="font-size:11px;margin-bottom:6px;display:flex;gap:10px;font-weight:600;">
                             <span style="color:#059669;">■ Custo Programado</span>
-                            <span style="color:#34D399;">■ Baremo Programado</span>
+                            <span style="color:#34D399;">■ Baremo Total</span>
                         </div>
                         ${colunasCustosHtml}
                     </div>
@@ -2231,9 +2317,9 @@
                     <div class="ditem dcard" style="--span:6;">
                         <div class="dh"><h4><svg class="ui-icon"><use href="#icon-lightbulb"></use></svg> Análise Operacional da Programação</h4></div>
                         <ul class="insights">
-                            <li>📈 <b>Eficiência de Campo:</b> <b>${concluidas}</b> programações concluídas no período a partir de 2026 (${all.length ? Math.round((concluidas/all.length)*100) : 0}% de taxa de entrega).</li>
+                            <li>📈 <b>Eficiência de Campo:</b> <b>${concluidas}</b> programações concluídas no período (${all.length ? Math.round((concluidas/all.length)*100) : 0}% de taxa de entrega).</li>
                             <li class="${canceladas > 0 ? 'alerta' : ''}">⚠️ <b>Desvios:</b> <b>${canceladas}</b> cancelamentos e <b>${adiadas}</b> adiamentos registrados na planilha.</li>
-                            <li>💰 <b>Relação Financeira:</b> O Custo total acumulado representa <b>${brl(totalCusto)}</b> em comparação com o Baremo de <b>${brl(totalBaremo)}</b>.</li>
+                            <li>💰 <b>Relação Financeira:</b> O Custo total acumulado representa <b>${brl(totalCusto)}</b> em comparação com o Baremo Total de <b>${brl(totalBaremo)}</b>.</li>
                             <li>🚜 <b>Demanda de Equipes:</b> A estrutura <b>MK</b> responde pelo maior volume de frentes de trabalho com <b>${totalMK}</b> alocações.</li>
                         </ul>
                     </div>
@@ -2241,7 +2327,7 @@
             `;
         }
 
-        /* SUB-ABA 2: DASH SEMANA COM ESTRUTURA, BAREMO E PAINEL ANALÍTICO INFERIOR */
+        /* SUB-ABA 2: DASH SEMANA COM BAREMO TOTAL PROGRAMADO, META POR DIA E ESTRUTURAS SEM ADIADOS */
         function renderProgWeek() {
             const cur = contratoGlobal;
             const all = DB[cur] || [];
@@ -2249,7 +2335,6 @@
             const days = [...Array(7)].map((_, i) => { const d = new Date(wk); d.setDate(d.getDate() + i); return d; });
             const td = iso(new Date());
 
-            // 1. DADOS DE TODAS AS OBRAS DA SEMANA (INCLUSIVE OCULTAS DA GRADE) PARA A ANÁLISE INFERIOR
             const inicioSemanaIso = iso(days[0]);
             const fimSemanaIso = iso(days[6]);
             const weekAllProjects = all.filter(x => x.iso >= inicioSemanaIso && x.iso <= fimSemanaIso);
@@ -2259,25 +2344,23 @@
             const programadasSemana = weekAllProjects.filter(x => norm(x.st).includes('prog')).length;
             const adiadasSemana = weekAllProjects.filter(x => cls(x.st) === 'ADIADO').length;
             const canceladasSemana = weekAllProjects.filter(x => cls(x.st) === 'CANCELADO').length;
-            const parciaisSemana = weekAllProjects.filter(x => cls(x.st) === 'PARCIAL').length;
             const taxaEntregaSemana = totalSemana ? Math.round((concluidasSemana / totalSemana) * 100) : 0;
 
-            const totalBaremoSemana = weekAllProjects.reduce((acc, x) => acc + money(x.baremoProg), 0);
-            const totalCustoSemana = weekAllProjects.reduce((acc, x) => acc + money(x.custoProg), 0);
+            const weekActiveProjects = weekAllProjects.filter(x => !ehStatusDesconsideradoParaSoma(x.st));
+            const totalBaremoSemanaAtivo = weekActiveProjects.reduce((acc, x) => acc + money(x.baremoProg), 0);
+            const totalCustoSemanaAtivo = weekActiveProjects.reduce((acc, x) => acc + money(x.custoProg), 0);
 
-            const totalMkSemana = weekAllProjects.reduce((acc, x) => acc + (x.mk || 0), 0);
-            const totalCestoSemana = weekAllProjects.reduce((acc, x) => acc + (x.cesto || 0), 0);
-            const totalLvSemana = weekAllProjects.reduce((acc, x) => acc + (x.lv || 0), 0);
-            const totalPodaSemana = weekAllProjects.reduce((acc, x) => acc + (x.poda || 0), 0);
+            const totalMkSemanaAtivo = weekActiveProjects.reduce((acc, x) => acc + (x.mk || 0), 0);
+            const totalCestoSemanaAtivo = weekActiveProjects.reduce((acc, x) => acc + (x.cesto || 0), 0);
+            const totalLvSemanaAtivo = weekActiveProjects.reduce((acc, x) => acc + (x.lv || 0), 0);
+            const totalPodaSemanaAtivo = weekActiveProjects.reduce((acc, x) => acc + (x.poda || 0), 0);
 
-            // Obras ocultadas na grade porque a data >= hoje e o status não é "PROGRAMADO"
             const obrasOcultasNaGrade = weekAllProjects.filter(x => x.iso >= td && !norm(x.st).includes('prog'));
 
-            // 2. GRADE DOS 7 DIAS
+            // GRADE DOS 7 DIAS
             const gradeDiasHtml = days.map(d => {
                 const k = iso(d);
                 
-                // REGRA: SE k >= td SÓ APARECE PROGRAMADO; SE k < td APARECEM TODOS
                 const it = all.filter(x => {
                     if (x.iso !== k) return false;
                     if (k >= td) {
@@ -2287,14 +2370,63 @@
                     return true;
                 });
 
+                // CÁLCULO DOS TOTAIS DO DIA (EXCLUINDO ADIADO, SUSPENSO, ANTECIPADO, CANCELADO)
+                let diaMK = 0, diaCesto = 0, diaLV = 0, diaPoda = 0;
+                let diaBaremoTotal = 0, diaCustoTotal = 0;
+
+                it.forEach(x => {
+                    if (!ehStatusDesconsideradoParaSoma(x.st)) {
+                        diaMK += (x.mk || 0);
+                        diaCesto += (x.cesto || 0);
+                        diaLV += (x.lv || 0);
+                        diaPoda += (x.poda || 0);
+                        diaBaremoTotal += money(x.baremoProg);
+                        diaCustoTotal += money(x.custoProg);
+                    }
+                });
+
+                const baremoDiaFmt = diaBaremoTotal > 0 ? brl(diaBaremoTotal) : 'R$ 0,00';
+                const custoDiaFmt = diaCustoTotal > 0 ? brl(diaCustoTotal) : 'R$ 0,00';
+
                 return `<div class="day ${k === td ? 'today' : ''}">
-                    <h4 style="font-size:11px;color:var(--text-muted);border-bottom:1.5px solid var(--border-light);padding-bottom:5px;margin-bottom:8px;font-weight:700;display:flex;justify-content:space-between;align-items:center;">
+                    <!-- CABEÇALHO DO DIA -->
+                    <div class="day-header-top">
                         <span>${d.toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: '2-digit' })}</span>
-                        <span style="background:var(--card-subtle);padding:1px 6px;border-radius:10px;font-family:var(--font-mono);font-size:10px;font-weight:800;">${it.length}</span>
-                    </h4>
+                        <span class="day-count-badge" title="${it.length} obras no dia">${it.length}</span>
+                    </div>
+
+                    <!-- CARD DE META (BAREMO TOTAL vs CUSTO) + TOTAL DE ESTRUTURAS DO DIA -->
+                    <div class="day-kpi-box">
+                        <div class="day-meta-row">
+                            <div class="day-meta-info">
+                                <span class="day-meta-title">Baremo Total</span>
+                                <span class="day-meta-val" title="${esc(baremoDiaFmt)}">${esc(baremoDiaFmt)}</span>
+                            </div>
+                            <div class="day-meta-badge-wrap">
+                                ${gerarBadgeMeta(diaBaremoTotal, diaCustoTotal)}
+                            </div>
+                        </div>
+
+                        <div class="day-custo-sub">
+                            <span>Custo Prog.:</span>
+                            <b title="${esc(custoDiaFmt)}">${esc(custoDiaFmt)}</b>
+                        </div>
+
+                        <!-- TOTAL DE ESTRUTURAS DIÁRIAS (EXCLUI ADIADO, SUSPENSO, ANTECIPADO E CANCELADO) -->
+                        <div class="day-est-totais" title="Estruturas ativas do dia (exclui Adiado, Suspenso, Antecipado e Cancelado): MK: ${diaMK}, Cesto: ${diaCesto}, LV: ${diaLV}, Poda: ${diaPoda}">
+                            <span class="day-est-pill">MK: <b>${String(diaMK).padStart(2, '0')}</b></span>
+                            <span class="day-est-pill">CEST: <b>${String(diaCesto).padStart(2, '0')}</b></span>
+                            <span class="day-est-pill">LV: <b>${String(diaLV).padStart(2, '0')}</b></span>
+                            <span class="day-est-pill">PODA: <b>${String(diaPoda).padStart(2, '0')}</b></span>
+                        </div>
+                    </div>
+
+                    <!-- LISTA DE CARDS DE OBRAS -->
                     ${it.length ? it.map(x => {
                         const stInfo = obterInfoStatus(x.st);
-                        const baremoFmt = money(x.baremoProg) > 0 ? brl(money(x.baremoProg)) : (x.baremoProg ? 'R$ ' + x.baremoProg : 'R$ 0,00');
+                        const cardBaremo = money(x.baremoProg);
+                        const cardCusto = money(x.custoProg);
+                        const baremoFmt = cardBaremo > 0 ? brl(cardBaremo) : (x.baremoProg ? 'R$ ' + x.baremoProg : 'R$ 0,00');
 
                         return `<div class="ev" style="border-left: 3.5px solid ${stInfo.cor};" onclick="window.PROG.showDetail('${esc(x.sob)}')">
                             <div style="display:flex; justify-content:space-between; align-items:center; gap:4px;">
@@ -2311,17 +2443,20 @@
                                 <span class="est-chip">PODA: <b>${String(x.poda || 0).padStart(2, '0')}</b></span>
                             </div>
 
-                            <!-- BAREMO PROGRAMADO VISÍVEL -->
+                            <!-- BAREMO TOTAL PROGRAMADO COM INDICADOR SOBRE O CUSTO -->
                             <div class="ev-baremo-row">
-                                <span style="color:var(--text-muted);font-size:9.5px;">Baremo Prog.:</span>
-                                <b style="font-size:10.5px;color:var(--brand-primary);font-family:var(--font-mono);">${esc(baremoFmt)}</b>
+                                <span style="color:var(--text-muted);font-size:9.5px;">Baremo Total:</span>
+                                <div style="display:flex;align-items:center;gap:4px;">
+                                    <b style="font-size:10.5px;color:var(--brand-primary);font-family:var(--font-mono);">${esc(baremoFmt)}</b>
+                                    ${gerarBadgeMetaCard(cardBaremo, cardCusto)}
+                                </div>
                             </div>
                         </div>`;
                     }).join('') : '<small style="color:var(--text-muted);display:block;text-align:center;padding:18px 0;font-weight:600;">— Sem obras —</small>'}
                 </div>`;
             }).join('');
 
-            // 3. MINI GRÁFICO DIÁRIO CONSOLIDADO DA SEMANA
+            // MINI GRÁFICO DIÁRIO
             const diasBarrasConsolidadas = days.map(d => {
                 const k = iso(d);
                 const doDia = weekAllProjects.filter(x => x.iso === k);
@@ -2329,10 +2464,7 @@
                 const conc = doDia.filter(x => cls(x.st) === 'CONCLUÍDO').length;
                 const prog = doDia.filter(x => norm(x.st).includes('prog')).length;
                 const outr = tot - conc - prog;
-                return {
-                    label: d.toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit' }),
-                    tot, conc, prog, outr
-                };
+                return { label: d.toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit' }), tot, conc, prog, outr };
             });
             const maxDiaSemana = Math.max(1, ...diasBarrasConsolidadas.map(x => x.tot));
 
@@ -2350,17 +2482,17 @@
                 `).join('')}
             </div>`;
 
-            // 4. INSIGHTS OPERACIONAIS DA SEMANA (INCLUINDO AS OBRAS OCULTADAS)
+            // INSIGHTS OPERACIONAIS DA SEMANA
             const semanaInsights = [];
             semanaInsights.push(`📌 <b>Total no Período:</b> Foram registradas <b>${totalSemana}</b> obras para esta semana (${concluidasSemana} concluídas, ${programadasSemana} programadas e ${adiadasSemana + canceladasSemana} desvios).`);
-            semanaInsights.push(`💰 <b>Finanças da Semana:</b> Baremo previsto de <b>${brl(totalBaremoSemana)}</b> contra Custo de <b>${brl(totalCustoSemana)}</b>.`);
-            semanaInsights.push(`🚜 <b>Estruturas Totais Alocadas:</b> ${totalMkSemana} MK &bull; ${totalCestoSemana} Cesto &bull; ${totalLvSemana} Linha Viva &bull; ${totalPodaSemana} Poda.`);
+            semanaInsights.push(`💰 <b>Finanças Ativas da Semana:</b> Baremo Total previsto de <b>${brl(totalBaremoSemanaAtivo)}</b> contra Custo de <b>${brl(totalCustoSemanaAtivo)}</b>.`);
+            semanaInsights.push(`🚜 <b>Estruturas Totais Alocadas (Ativas):</b> ${totalMkSemanaAtivo} MK &bull; ${totalCestoSemanaAtivo} Cesto &bull; ${totalLvSemanaAtivo} Linha Viva &bull; ${totalPodaSemanaAtivo} Poda.`);
             
             if (obrasOcultasNaGrade.length > 0) {
-                semanaInsights.push(`<li class="alerta">🔍 <b>Atenção Operacional:</b> Existem <b>${obrasOcultasNaGrade.length}</b> obra(s) nesta semana com data a partir de hoje que <b>não aparecem na grade diária acima</b> porque seu status não é 'PROGRAMADO' (${obrasOcultasNaGrade.map(o => `${esc(o.sob)} [${esc(o.st)}]`).slice(0, 5).join(', ')}${obrasOcultasNaGrade.length > 5 ? '...' : ''}).</li>`);
+                semanaInsights.push(`<li class="alerta">🔍 <b>Atenção Operacional:</b> Existem <b>${obrasOcultasNaGrade.length}</b> obra(s) nesta semana a partir de hoje que não aparecem na grade porque seu status não é 'PROGRAMADO' (${obrasOcultasNaGrade.map(o => `${esc(o.sob)} [${esc(o.st)}]`).slice(0, 5).join(', ')}${obrasOcultasNaGrade.length > 5 ? '...' : ''}).</li>`);
             }
             if (adiadasSemana > 0 || canceladasSemana > 0) {
-                semanaInsights.push(`<li class="alerta">⚠️ <b>Desvios Identificados:</b> Ocorrência de ${adiadasSemana} adiamento(s) e ${canceladasSemana} cancelamento(s) na semana.</li>`);
+                semanaInsights.push(`<li class="alerta">⚠️ <b>Desvios:</b> ${adiadasSemana} adiamento(s) e ${canceladasSemana} cancelamento(s) registrados na semana.</li>`);
             }
 
             $('#v').innerHTML = `
@@ -2383,7 +2515,7 @@
                     ${gradeDiasHtml}
                 </div>
 
-                <!-- PAINEL COMPLETO DE ANÁLISE OPERACIONAL DO DASH SEMANA (PREENCHIMENTO DO ESPAÇO) -->
+                <!-- PAINEL INFERIOR CONSOLIDADO -->
                 <div class="dash-semana-analytics">
                     <div class="analytics-header-bar">
                         <div class="analytics-header-title">
@@ -2401,11 +2533,10 @@
                         <div class="kpi" style="border-left-color:var(--status-green);"><b>${concluidasSemana} <small style="font-size:11px;">(${taxaEntregaSemana}%)</small></b><span>Concluídas</span></div>
                         <div class="kpi" style="border-left-color:var(--status-blue);"><b>${programadasSemana}</b><span>Programadas</span></div>
                         <div class="kpi" style="border-left-color:var(--status-amber);"><b>${adiadasSemana + canceladasSemana}</b><span>Desvios (Adiad/Canc)</span></div>
-                        <div class="kpi" style="border-left-color:var(--brand-primary);"><b>${brl(totalBaremoSemana)}</b><span>Baremo da Semana</span></div>
-                        <div class="kpi" style="border-left-color:#047857;"><b>${brl(totalCustoSemana)}</b><span>Custo da Semana</span></div>
+                        <div class="kpi" style="border-left-color:var(--brand-primary);"><b>${brl(totalBaremoSemanaAtivo)}</b><span>Baremo Total Ativo</span></div>
+                        <div class="kpi" style="border-left-color:#047857;"><b>${brl(totalCustoSemanaAtivo)}</b><span>Custo Ativo</span></div>
                     </div>
 
-                    <!-- 2 CARDS ANALÍTICOS DE SUPORTE -->
                     <div class="dgrid">
                         <div class="ditem dcard" style="--span:6;">
                             <div class="dh">
@@ -2418,14 +2549,14 @@
                             </div>
                             ${miniGraficoSemanaHtml}
                             <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border-subtle);display:flex;justify-content:space-between;font-size:11px;font-family:var(--font-mono);font-weight:700;">
-                                <span>Alocação Total da Semana:</span>
-                                <span>MK: <b>${totalMkSemana}</b> | CESTO: <b>${totalCestoSemana}</b> | LV: <b>${totalLvSemana}</b> | PODA: <b>${totalPodaSemana}</b></span>
+                                <span>Alocação Ativa da Semana:</span>
+                                <span>MK: <b>${totalMkSemanaAtivo}</b> | CESTO: <b>${totalCestoSemanaAtivo}</b> | LV: <b>${totalLvSemanaAtivo}</b> | PODA: <b>${totalPodaSemanaAtivo}</b></span>
                             </div>
                         </div>
 
                         <div class="ditem dcard" style="--span:6;">
                             <div class="dh">
-                                <h4><svg class="ui-icon"><use href="#icon-lightbulb"></use></svg> Relatório Operacional da Semana (Inclusive Ocultos)</h4>
+                                <h4><svg class="ui-icon"><use href="#icon-lightbulb"></use></svg> Relatório Operacional da Semana</h4>
                             </div>
                             <ul class="insights">
                                 ${semanaInsights.map(txt => typeof txt === 'string' && !txt.startsWith('<li') ? `<li>${txt}</li>` : txt).join('')}
@@ -2440,7 +2571,7 @@
             $('#tj-week').onclick = () => { wk = sun(new Date()); renderProgWeek(); };
         }
 
-        /* SUB-ABA 3: HISTÓRICO LIMPO COM PRAZO LIMITE DA CARTEIRA E ORDENAÇÃO */
+        /* SUB-ABA 3: HISTÓRICO COM PRAZO LIMITE DA CARTEIRA */
         function renderProgHist() {
             const cur = contratoGlobal;
             const all = DB[cur] || [];
