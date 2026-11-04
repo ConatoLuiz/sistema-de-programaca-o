@@ -901,7 +901,7 @@
             
             <div id="v"></div>
 
-            <dialog id="dlg"><div id="dbody"></div><p style="text-align:right;margin-top:14px;"><button class="btn-modern-primary" style="padding:7px 16px;background:#475569;" onclick="this.closest('dialog').close()"><svg class="ui-icon"><use href="#icon-close"></use></svg> Fechar Detalhes</button></p></dialog>
+            <dialog id="dlg"><div id="dbody"></div><p style="text-align:right;margin-top:14px;"><button class="btn-modern-primary" style="padding:7px 16px;background:#475569;" onclick="this.closest('dialog').close()"><svg class="ui-icon"><use href="#icon-close"></use></svg> Fechar</button></p></dialog>
         </div>
 
         <!-- ABA 4: FONTES DE DADOS -->
@@ -1932,7 +1932,7 @@
         sincronizarTudoOnline();
     </script>
 
-    <!-- PROGRAMAÇÃO DE OBRAS: ENGINE OPERACIONAL COM DESVIO PERCENTUAL, CAMPOS EXTRAS E FILTROS DINÂMICOS -->
+    <!-- PROGRAMAÇÃO DE OBRAS: ENGINE OPERACIONAL COMPLETA COM COMPILADO COMPACTADO E FILTRO DE DATA -->
     <script>
     (function(){
         const root = document.getElementById('tab-prog');
@@ -2006,6 +2006,7 @@
         let tab = 'dash', wk = null, paginaAtual = 1, itensPorPagina = 50;
 
         let F = { q: '', base: '', parceira: '', statusGeral: '', dataDe: '', dataAte: '', ordemData: 'exec_desc' };
+        let filtroDataAdiados = '';
 
         function parseCSV(t) {
             const r = []; let row = [], c = '', q = false;
@@ -2352,7 +2353,7 @@
             `;
         }
 
-        /* SUB-ABA 2: DASH SEMANA COM CUSTO, COMPLEMENTO, BAREMO TOTAL E DESVIO */
+        /* SUB-ABA 2: DASH SEMANA COM COMPILADO COMPACTADO E FILTRO DE DATA */
         function renderProgWeek() {
             const cur = contratoGlobal;
             const all = DB[cur] || [];
@@ -2383,12 +2384,28 @@
 
             const obrasOcultasNaGrade = weekAllProjects.filter(x => x.iso >= td && !norm(x.st).includes('prog'));
 
+            // COMPILADO DE ORDENS ADIADAS / DESVIOS DA SEMANA
             const adiadosSemanaLista = weekAllProjects.filter(x => {
                 const s = norm(x.st);
                 return s.includes('adiad') || s.includes('canc') || s.includes('suspens');
             });
             adiadosSemanaLista.sort((a, b) => a.d - b.d || a.sob.localeCompare(b.sob));
 
+            // Extrair datas disponíveis de adiamentos
+            const mapaDatasAdiados = new Map();
+            adiadosSemanaLista.forEach(x => {
+                mapaDatasAdiados.set(x.iso, { iso: x.iso, dataExec: x.dataExec, qtd: (mapaDatasAdiados.get(x.iso)?.qtd || 0) + 1 });
+            });
+
+            if (filtroDataAdiados && !mapaDatasAdiados.has(filtroDataAdiados)) {
+                filtroDataAdiados = '';
+            }
+
+            const adiadosFiltrados = filtroDataAdiados 
+                ? adiadosSemanaLista.filter(x => x.iso === filtroDataAdiados) 
+                : adiadosSemanaLista;
+
+            // GRADE DOS 7 DIAS
             const gradeDiasHtml = days.map(d => {
                 const k = iso(d);
                 
@@ -2547,30 +2564,36 @@
                 semanaInsights.push(`<li class="alerta">⚠️ <b>Desvios:</b> ${adiadasSemana} adiamento(s) e ${canceladasSemana} cancelamento(s) registrados na semana (consulte a tabela detalhada abaixo).</li>`);
             }
 
-            const tabelaAdiadosHtml = adiadosSemanaLista.length ? `
-                <div style="max-height:280px;overflow:auto;border:1px solid var(--border-light);border-radius:var(--radius-sm);margin-top:8px;">
-                    <table class="cart-table" style="font-size:0.77rem;width:100%;">
+            // TABELA COMPACTADA DO COMPILADO DE ORDENS ADIADAS (SEM SCROLL HORIZONTAL)
+            const tabelaAdiadosHtml = adiadosFiltrados.length ? `
+                <div style="max-height:290px;overflow-y:auto;overflow-x:hidden;border:1px solid var(--border-light);border-radius:var(--radius-sm);margin-top:6px;">
+                    <table class="cart-table" style="font-size:0.77rem;width:100%;table-layout:fixed;">
                         <thead>
                             <tr>
-                                <th style="min-width:110px;">Ordem / SOB</th>
-                                <th style="min-width:90px;">Data Prog.</th>
-                                <th style="min-width:130px;">Município / Base</th>
-                                <th style="min-width:90px;">Status</th>
-                                <th style="min-width:120px;background:var(--brand-soft);color:var(--brand-primary);">STATUS SGD</th>
-                                <th style="min-width:260px;background:var(--card-subtle);">Observação do Cancelamento / Parcial / Adiamento</th>
-                                <th style="min-width:60px;text-align:center;">Detalhes</th>
+                                <th style="width:18%;">Ordem / SOB</th>
+                                <th style="width:13%;">Data</th>
+                                <th style="width:24%;">Município / Base</th>
+                                <th style="width:13%;">Status</th>
+                                <th style="width:22%;text-align:center;">Motivo / SGD</th>
+                                <th style="width:10%;text-align:center;">Ficha</th>
                             </tr>
                         </thead>
                         <tbody>
-                            ${adiadosSemanaLista.map(x => {
+                            ${adiadosFiltrados.map(x => {
                                 const stInfo = obterInfoStatus(x.st);
+                                const sgdPreview = x.statusSGD && x.statusSGD !== '—' ? x.statusSGD : '';
+                                const tooltipInfo = `STATUS SGD: ${x.statusSGD}\nOBSERVAÇÃO: ${x.obsDesvio}`;
                                 return `<tr>
-                                    <td><b style="color:var(--brand-primary);">${esc(x.sob)}</b></td>
+                                    <td style="overflow:hidden;text-overflow:ellipsis;"><b style="color:var(--brand-primary);">${esc(x.sob)}</b></td>
                                     <td><b>${esc(x.dataExec)}</b></td>
-                                    <td>${esc(x.mun || x.base)}</td>
-                                    <td><span style="font-size:10px;padding:2px 7px;border-radius:var(--radius-pill);color:${stInfo.cor};background:${stInfo.bg};border:1px solid ${stInfo.cor}40;font-weight:700;">${esc(x.st)}</span></td>
-                                    <td><b style="font-family:var(--font-mono);color:var(--brand-dark);">${esc(x.statusSGD)}</b></td>
-                                    <td style="white-space:normal;line-height:1.35;color:var(--text-secondary);">${esc(x.obsDesvio)}</td>
+                                    <td style="overflow:hidden;text-overflow:ellipsis;" title="${esc(x.mun || x.base)}">${esc(x.mun || x.base)}</td>
+                                    <td><span style="font-size:9.5px;padding:2px 6px;border-radius:var(--radius-pill);color:${stInfo.cor};background:${stInfo.bg};border:1px solid ${stInfo.cor}40;font-weight:700;">${esc(x.st)}</span></td>
+                                    <td style="text-align:center;">
+                                        <button class="btn-theme-toggle" style="padding:2.5px 7px;font-size:10px;font-weight:700;display:inline-flex;align-items:center;gap:4px;" title="${esc(tooltipInfo)}" onclick="window.PROG.mostrarMotivoAdiamento('${esc(x.sob)}')">
+                                            <svg class="ui-icon" style="color:var(--status-amber);width:13px;height:13px;"><use href="#icon-chat"></use></svg>
+                                            <span style="max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(sgdPreview || 'Ver Motivo')}</span>
+                                        </button>
+                                    </td>
                                     <td style="text-align:center;">
                                         <button class="btn-modern-primary" style="padding:3px 8px;font-size:10px;" onclick="window.PROG.showDetail('${esc(x.sob)}')">Ver</button>
                                     </td>
@@ -2579,7 +2602,13 @@
                         </tbody>
                     </table>
                 </div>
-            ` : '<div style="padding:16px;text-align:center;color:var(--text-muted);font-size:12px;font-weight:600;">Nenhuma obra adiada registrada nesta semana.</div>';
+            ` : `<div style="padding:18px;text-align:center;color:var(--text-muted);font-size:12px;font-weight:600;">${adiadosSemanaLista.length ? 'Nenhum adiamento para a data selecionada.' : 'Nenhuma obra adiada registrada nesta semana.'}</div>`;
+
+            // SELECT DINÂMICO DE DATAS DE ADIADOS
+            const optionsDatasAdiados = Array.from(mapaDatasAdiados.values())
+                .sort((a, b) => a.iso.localeCompare(b.iso))
+                .map(item => `<option value="${item.iso}" ${filtroDataAdiados === item.iso ? 'selected' : ''}>${item.dataExec} (${item.qtd})</option>`)
+                .join('');
 
             $('#v').innerHTML = `
                 <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;">
@@ -2646,9 +2675,22 @@
                             </ul>
                         </div>
 
+                        <!-- COMPILADO DE ORDENS ADIADAS COMPACTADO COM FILTRO DE DATA -->
                         <div class="ditem dcard" style="--span:12;margin-top:10px;">
-                            <div class="dh">
-                                <h4><svg class="ui-icon" style="color:var(--status-amber);"><use href="#icon-clock"></use></svg> Compilado de Ordens Adiadas e Desvios da Semana (${adiadosSemanaLista.length})</h4>
+                            <div class="dh" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+                                <h4 style="margin:0;">
+                                    <svg class="ui-icon" style="color:var(--status-amber);"><use href="#icon-clock"></use></svg>
+                                    Compilado de Ordens Adiadas e Desvios da Semana (${adiadosFiltrados.length}${filtroDataAdiados ? ' de ' + adiadosSemanaLista.length : ''})
+                                </h4>
+                                <div style="display:flex;align-items:center;gap:6px;">
+                                    <span style="font-size:11px;font-weight:700;color:var(--text-muted);display:flex;align-items:center;gap:4px;">
+                                        <svg class="ui-icon" style="width:12px;height:12px;"><use href="#icon-calendar"></use></svg> Filtrar Data:
+                                    </span>
+                                    <select id="sel-filtro-data-adiados" class="prog-input-field" style="padding:4px 9px;font-size:11px;min-width:170px;" onchange="window.PROG.setFiltroDataAdiados(this.value)">
+                                        <option value="">Todas as datas (${adiadosSemanaLista.length})</option>
+                                        ${optionsDatasAdiados}
+                                    </select>
+                                </div>
                             </div>
                             ${tabelaAdiadosHtml}
                         </div>
@@ -2656,9 +2698,9 @@
                 </div>
             `;
 
-            $('#pv-week').onclick = () => { wk = new Date(wk); wk.setDate(wk.getDate() - 7); renderProgWeek(); };
-            $('#nx-week').onclick = () => { wk = new Date(wk); wk.setDate(wk.getDate() + 7); renderProgWeek(); };
-            $('#tj-week').onclick = () => { wk = sun(new Date()); renderProgWeek(); };
+            $('#pv-week').onclick = () => { filtroDataAdiados = ''; wk = new Date(wk); wk.setDate(wk.getDate() - 7); renderProgWeek(); };
+            $('#nx-week').onclick = () => { filtroDataAdiados = ''; wk = new Date(wk); wk.setDate(wk.getDate() + 7); renderProgWeek(); };
+            $('#tj-week').onclick = () => { filtroDataAdiados = ''; wk = sun(new Date()); renderProgWeek(); };
         }
 
         /* SUB-ABA 3: HISTÓRICO COM FILTROS INTERATIVOS DINÂMICOS */
@@ -2666,7 +2708,6 @@
             const cur = contratoGlobal;
             const all = DB[cur] || [];
 
-            // 1) Escopo primário (Data e Busca textual)
             const escopoBase = all.filter(x => {
                 if (F.q) {
                     const matchQ = (x.id + ' ' + x.sob + ' ' + x.sgd + ' ' + x.alimentador + ' ' + x.tipo + ' ' + (x.mun || '')).toLowerCase().includes(F.q.toLowerCase());
@@ -2677,7 +2718,6 @@
                 return true;
             });
 
-            // 2) Mapear opções reais existentes com contagem
             const basesMap = new Map();
             const parceirasMap = new Map();
             const statusMap = new Map();
@@ -2688,12 +2728,10 @@
                 if (x.st) statusMap.set(x.st, (statusMap.get(x.st) || 0) + 1);
             });
 
-            // Se o filtro selecionado deixou de existir na nova data, reseta
             if (F.base && !basesMap.has(F.base)) F.base = '';
             if (F.parceira && !parceirasMap.has(F.parceira)) F.parceira = '';
             if (F.statusGeral && !statusMap.has(F.statusGeral)) F.statusGeral = '';
 
-            // 3) Filtragem completa
             let filtrados = escopoBase.filter(x => {
                 if (F.base && x.base !== F.base) return false;
                 if (F.parceira && x.parceira !== F.parceira) return false;
@@ -2870,6 +2908,47 @@
             $('#dlg').showModal();
         }
 
+        function mostrarMotivoAdiamento(sob) {
+            const cur = contratoGlobal;
+            const item = (DB[cur] || []).find(x => x.sob === sob);
+            if (!item) return;
+
+            const stInfo = obterInfoStatus(item.st);
+            $('#dbody').innerHTML = `
+                <div style="border-bottom:2px solid var(--status-amber);padding-bottom:8px;margin-bottom:14px;">
+                    <h3 style="color:var(--text-main);font-size:15px;font-weight:800;display:flex;justify-content:space-between;align-items:center;">
+                        <span style="display:flex;align-items:center;gap:6px;">
+                            <svg class="ui-icon" style="color:var(--status-amber);"><use href="#icon-chat"></use></svg>
+                            Justificativa do Desvio: <b>${esc(item.sob)}</b>
+                        </span>
+                        <span style="font-size:11px;padding:2px 8px;border-radius:var(--radius-pill);color:${stInfo.cor};background:${stInfo.bg};border:1px solid ${stInfo.cor}40;font-weight:700;">
+                            ${esc(item.st)}
+                        </span>
+                    </h3>
+                    <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">
+                        <b>Data Programada:</b> ${esc(item.dataExec)} &bull; <b>Base:</b> ${esc(item.mun || item.base)} &bull; <b>Parceira:</b> ${esc(item.parceira)}
+                    </div>
+                </div>
+
+                <div style="display:flex;flex-direction:column;gap:12px;font-size:13px;">
+                    <div style="background:var(--card-subtle);padding:12px 14px;border-radius:var(--radius-md);border:1px solid var(--border-light);">
+                        <span style="font-size:10px;font-weight:800;color:var(--brand-primary);text-transform:uppercase;display:block;margin-bottom:6px;letter-spacing:0.4px;">
+                            STATUS SGD:
+                        </span>
+                        <b style="color:var(--text-main);font-family:var(--font-mono);font-size:13px;">${esc(item.statusSGD)}</b>
+                    </div>
+
+                    <div style="background:var(--card-subtle);padding:12px 14px;border-radius:var(--radius-md);border:1px solid var(--border-light);">
+                        <span style="font-size:10px;font-weight:800;color:var(--status-amber);text-transform:uppercase;display:block;margin-bottom:6px;letter-spacing:0.4px;">
+                            Observação do Cancelamento / Parcial / Adiamento:
+                        </span>
+                        <p style="color:var(--text-secondary);line-height:1.55;font-size:12.5px;margin:0;white-space:pre-wrap;">${esc(item.obsDesvio)}</p>
+                    </div>
+                </div>
+            `;
+            $('#dlg').showModal();
+        }
+
         $('#sub-prog-nav').onclick = e => {
             const btn = e.target.closest('button');
             if (btn && btn.dataset.t) {
@@ -2884,6 +2963,11 @@
             sync,
             show() { sync(contratoGlobal); },
             showDetail: detail,
+            mostrarMotivoAdiamento,
+            setFiltroDataAdiados(val) {
+                filtroDataAdiados = val;
+                renderProgWeek();
+            },
             mudarPagina(delta) { paginaAtual += delta; renderProgHist(); },
             mudarTamanhoPagina(val) { itensPorPagina = parseInt(val, 10); paginaAtual = 1; renderProgHist(); },
             limparFiltrosHist() {
